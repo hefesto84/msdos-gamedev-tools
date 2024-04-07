@@ -63,5 +63,11 @@ For C++
 
 ```gxx -static -g -o filename.exe filename.cc -lalleg -lmesa```
 
-# For DIV2
+# Building using DIV2.EXE (it executes the full Div Games Studio Environment)
+
 ```D.EXE```
+
+# Building for Assembly
+
+All the binaries are ready to be use: LD, TC...
+
