@@ -1,2 +1,1 @@
-# msdos-gamedev-tools
-MSDOS Game Development Tools
+# MSDOS Game Development Tools
