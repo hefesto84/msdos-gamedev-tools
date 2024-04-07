@@ -1,0 +1,46 @@
+
+
+
+The routines contained in the file 'sound.c' were published in the book
+'BLUEBOOK of ASSEMBLY LANGUAGE ROUTINES for the IBM PC & XT'
+published by the Waite group. The play lists contained in the file
+'music.c' are from the same source. Following is an explanation of the
+commands and instructions contained in the play lists.
+
+    Tempo command:
+
+       first byte:  =   ASCII 'T'
+
+      second byte:  =   Tempo in whole notes per minute
+
+
+    Note command :
+
+       first byte:  =   ASCII 'N'
+
+      second byte:  =   Pitch number ( integer 0 - 95 )
+
+       third byte:  =   Length ( 8 bit binary fixed point - scale 1 )
+
+      fourth byte:  =   Style ( 8 bit binary fixed point - scale 0 )
+
+
+    Rest command :
+
+       first byte:  =   ASCII 'R'
+
+      second byte:  =   Length ( 8 bit binary fixed point - scale 1 )
+
+
+    End  command :
+
+       first byte:  =   ASCII 'X'
+
+
+    The scaling is as follows: scale 0 has the binary point to the left of the
+    leftmost digit and scale 1 has the binary point to the right of the left-
+    most bit.
+
+I'm not a musician so the only tunes I can offer are those in the book. If
+anyone knows where I can find more or if you develop other tunes, please
+leave me a message. Thanks. Ken Moore.

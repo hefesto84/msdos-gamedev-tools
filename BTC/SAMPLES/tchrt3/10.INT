@@ -1,0 +1,33 @@
+! BIOS interrupt 10h function list.
+! Reference: IBM ROM BIOS Quick Reference Guide by Ray Duncan
+! Microsoft Press  ISBN #1-55615-135-7
+!
+! Note: All functions are in hexidecimal!
+!
+10 Video Services
+!
+00 set video mode
+01 set cursor type
+02 set cursor pos
+03 get cursor pos
+04 get light pen pos
+05 set display page
+06 scroll up window
+07 scroll down window
+08 read char & attr
+09 write char & attr
+0A write char
+0B set colors
+0C write graphic pixel
+0D read graphic pixel
+0E write char TTY mode
+0F get video mode
+10 color utilities
+11 font utilities
+12 controller utilities
+13 write string TTY 
+1A get/set display code
+1B get state info
+!
+! end of int 10h function list
+

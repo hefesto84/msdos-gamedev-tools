@@ -1,0 +1,237 @@
+               INTEGRATED DEVELOPMENT ENVIRONMENT.
+               ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+The Turbo C integrated development environment (IDE) includes not only a
+fast compiler, but also an editor, debugger, linker and Make utility.  The
+compiler converts source code (a file with a .C extension) to an object file
+(a machine code file with an .OBJ extension).  The editor is used to create
+and edit the source file, and includes the use of 'Wordstar-like' key
+commands.  The debugger is used to locate semantic and logic errors in the
+program (after compilation) with trace and watch facilities, which allow the
+programmer to trace through the program one line at a time whilst certain
+critical values are checked in a 'watch' window.  The linker copies into the
+object file certain functions from the standard run-time library files to
+convert the object file to an executable file with a .EXE extension.  The
+Make utility combines both compilation and linking to create an executable
+(.EXE) file directly.
+
+The integrated development environment is described in detail in chapter 5
+of the User's Guide to which reference should be made.  This note highlights
+some of the more frequently used facilities of the IDE.  When turbo C is
+initiated from the DOS prompt by typing tc and pressing the Enter key, the
+main TC screen appears.  At the top of this TC screen the Main Menu line
+appears:
+
+     File  Edit  Run  Compile  Project  Options  Debug  Break/watch
+
+Below this is the edit window, which has a status line at the top:
+
+     Line 1   Col 1   Insert  Indent  Tab  Fill  Unindent   C:NONAME.C
+
+Below the edit window there is a smaller Message window and below that is a
+Quick-Ref line:
+
+     F1-Help  F5-Zoom  F6-Switch  F7-Trace  F8-Step  F9-Make  F10-Menu
+
+This line can be changed by holding the ALT key down for a few seconds to
+display the action of various keys when the ALT key is held down, as shown 
+below:
+
+  Alt: F1-Last help  F3-Pick  F6-Swap  F7/F8-Prev/Next error  F9-Compile
+
+These two Quick-Ref lines define the function of some of the Turbo C Hot
+Keys.  Further details are given on pages 84-5 of the User's Guide.  As
+illustrations, pressing the function key F1 will create a Help window on the
+screen with context sensitive information, whilst F10 toggles between the
+menus and the active window.
+
+The various choices on the Main Menu can also be selected by means of Hot
+Keys.  Pressing the ALT key with the initial letter of the main menu item
+will pull down a sub-menu window.  For example, ALT-F will produce the
+options:
+
+          Load         F3
+          Pick     Alt-F3
+          New
+          Save         F2
+          Write to
+          Directory
+          Change dir
+          OS shell
+          Quit      Alt-X
+
+
+
+
+These sub-menu options are mostly self explanatory, as are the four hot key
+options shown.  Each option can also be selected by simply pressing the key
+for the initial letter of that option.  For example, L will select the Load
+option and a window then appears for entry of the name of the file to be
+loaded.  Alternatively a mask using wildcards (* and ?) can be used to
+display all files to the mask specification and selection made by use of the
+arrow keys.  In either case the file is then loaded as soon as the Enter key
+is pressed.
+
+Pressing S from the file sub-menu or F2 from anywhere in the system will
+save the current file in the editor with the existing name, which is shown
+at the right of the status line.  Alternatively, if a new name is required,
+then W for 'Write to' will display a New Name prompt box, which allows the
+entry of the new pathname.
+
+Pressing O for the OS Shell temporarily returns to DOS for any necessary
+operations before returning from DOS by typing EXIT and pressing ENTER.
+
+These and the other file menu options are fully described on pages 100-102
+of the User's Guide.
+
+The Edit option of the Main Menu is automatically selected when a file is
+loaded and this option has no sub-menu.  Any edit is facilitated by use of
+the Wordstar-like keys, such as CTRL-K B and CTRL-K K to mark the beginning
+and end of a block respectively and CTRL-K V to move the block to the
+cursor.
+
+The Run sub-menu is selected by Alt-R and is shown on page 103 of the User's
+Guide, together with a description of the options on pages 103-106.  The
+most important option is:
+
+  Run Ctrl-F9  - this runs the program with any arguments passed via
+                 Options/Arguments. If the source code has been modified
+                 the program is recompiled and linked, otherwise the
+                 program runs directly.
+
+Other options include:
+
+  Program reset  Ctrl-F2  - cancels current debugging session, releases
+                            memory and closes files.
+
+  Trace into F7   - this runs the next statement in the current function.
+
+  User screen Alt-F5 - This option switches to the User Screen, which
+                       contains any output, from the main TC screen, which
+                       is displayed after the program is run.
+
+The Compile sub-menu is selected by pressing Alt-C and is shown on page 107
+of the User's Guide.  The options include Compile to an .OBJ file, Make an
+.EXE file, Link an .EXE file and each can be selected by means of the
+initial letter shown in capitals.
+
+When compile is selected, a window displays the results, including the
+number of errors and warnings.  On 'pressing any key', the IDE moves to the
+message window and highlights the first error, if there are any errros.
+Otherwise the compilation window, which indicates success, is removed.
+
+Make invokes Project-Make to make an .EXE file (see below for an
+explanation of the project sub-menu).
+
+Link takes the current .OBJ and .LIB files and links them to produce a new
+.EXE file.
+
+
+
+
+The other compile options are:
+
+Build all - rebuilds all files in the Project regardless of whether they are
+            out of date.
+
+Primary C file - when errors occur in compilation, the file containing the
+                 error (.C or .H) is automatically loaded into the editor.
+
+Get Info - provides information about the name and size of the current file
+           and size of available memory.
+
+The Project sub-menu is shown on page 110 of the User's Guide and is
+selected by Alt-P.  The first option is Project name, which chooses a
+project file containing the names of the files to be compiled and/or linked.
+
+The project name is given to the .EXE and .MAP files when they are created.
+A typical project file has the extension .PRJ.
+
+For many programs which consist of one .C file, which may have associated .H
+files included, this Project option is not used.  Pages 109-112 of the
+User's Guide should be consulted when necessary.
+
+The Options sub-menu, selected by Alt-O, is shown on page 112 of the User's
+Guide and has several further sub-menus as can be seen from page 87 of the
+Guide.  These options contain settings that determine how the integrated
+development environment works.  All the necessary details are given on pages
+112- 130 of the User's guide. The 7 sub-menu options produce a set of 95
+options, some of which are 3 sub-menus removed from this first sub-menu.
+Generally the default settings will be satisfactory.
+
+A few of the options are briefly mentioned for illustration:
+
+The 'Compiler/Model' option selects the memory model and hence the method of
+memory addressing.  The default is 'Small'.  The option 'Compiler/Code
+generation/Instruction set' toggles between 8088/8086 and 80x86 code. the
+option 'Compiler/Optimization/Optimize for' toggles between size and speed.
+The option 'Compiler/Errors/Errors : stop after 25' (default) can be reset
+to any value between 0 and 255.
+
+The option 'Linker/Graphics library', when toggled 'on', will allow
+automatic search of the BGI graphics library.
+
+The 'Environment/Tab size' option allows tab sizes between 2 and 16, with a
+default of 8.
+
+The option 'Directories/Include directories:' allows the user to specify
+the directories that contain the standard include files.
+
+The 'Arguments' option allows the inclusion of command line arguments
+exactly as if they had been typed on the DOS command line.
+
+The 'Save' option saves all the other chosen options in a configuration
+file, with a default name TCCONFIG.TC
+
+The 'Retrieve' option loads a configuration file previously saved as above.
+
+The Debug sub-menu, selected by Alt-D, contains the commands which control
+the features of the integrated debugger, other than breakpoints and watch
+expressions, which are on the Break/Watch menu.  The options are shown on
+page 130 of the User's Guide and described on pages 130-135.
+
+The 'Evaluate' option evaluates a variable or expression, displays its value
+and, if appropriate, allows modification of the value.  A pop-up window
+contains three fields: Evaluate, Result and New Value.
+
+The other options are: Call stack, Find function, Refresh display, Display
+swapping, Source debugging.
+
+
+The Break/Watch sub-menu, selected by Alt-B, offers options to control
+breakpoints and watch expressions.  A 'breakpoint' is a location in a
+program where execution should halt, to allow examination of the value of
+critical variables and expressions. It is shown by a breakpoint highlight.
+
+A 'watch' expression is one whose value is displayed in the Watch window and
+is evaluated whenever the program halts. The various options are:
+
+Add watch - prompts for the entry of a watch expression in a pop-up window.
+
+Delete watch  -  deletes the current expression from the Watch window.
+
+Edit watch  -  permits an edit of the current watch expression.
+
+Remove all watches  -  deletes all expressions from the Watch window.
+
+Toggle breakpoint  -  sets or clears a breakpoint at the cursor position.
+
+Clear all breakpoints  -  removes all breakpoints from the program.
+
+View next breakpoint - moves the cursor to the next breakpoint, in the order
+                       in which they were set (not program order).
+
+Those programmers, familiar with the integrated development environment in
+Turbo Pascal, will find that the only difference in the Main Menu is the
+inclusion of the Project sub-menu.  Most of the other sub-menus are very
+similar, except for the Options sub-menu, which is significantly different.
+
+The integrated development environment can be used intuitively and because
+of the multiplicity of options available, is probably best understood after
+'trial and error' experimentation, with reference to the User's Guide for
+the finer details.
+
+
+IDE.TXT
+20.1.91
+

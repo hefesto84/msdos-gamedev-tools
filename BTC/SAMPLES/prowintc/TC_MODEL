@@ -1,0 +1,25 @@
+ 
+
+                       ProWindows *LITE* - Version 2.00TC
+                      Copyright 1988  Daniel P. Stasinski
+
+
+                       For Borland's Turbo C Users Only
+
+         You have just obtained a copy of ProWindows *LITE*.  This
+         version is intended for use with Borland's 'Turbo C' only.
+         Other versions are available for Borland's 'Turbo Pascal' and
+         Microsoft's 'QuickBASIC'.
+
+         The 'Turbo C' version will compile under the SMALL memory
+         model only.  These routines access memory in the far heap so
+         you should never attempt to compile in the TINY model.
+
+         To compile a stand alone program, you need to create a 'Turbo
+         C' project file.  A project file is a ASCII files that
+         contains the names of all files that need to compiled and
+         linked into your program.
+
+         Your "Turbo C Reference Guide' describes in detail, methods
+         of creating project files.
+ 

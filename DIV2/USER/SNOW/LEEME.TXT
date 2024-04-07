@@ -1,0 +1,21 @@
+Este archivo auto-extraíble se distribuye con los siguientes ficheros:
+
+	SNOWCORR.EXE -> Ejecutable de la demo
+	DIV32RUN.DLL -> Librería de DIV
+	CONSELLE.FPG -> Fichero necesario para la demo
+	SNAPSNOW.PCX -> Imagen capturada de la demo
+	LEEME.TXT    -> El fichero que estás leyendo
+
+La distribución de SNOW.EXE debe ser libre y gratuita y ninguno de los
+ficheros debe ser borrado ni modificado. Así mismo, tanto si se diera
+uno de los casos antes mencionado como si no, no me hago responsable de
+los posibles daños que se pudieran causar con la ejecución de la demo.
+Creedme, yo lo he probado, me funciona y no tengo virus en mi ordenador
+de verdad.
+
+Para cualquier consulta, enviad un e-mail a nombre de HECK con asunto
+"DEMO NIEVE" a:
+
+jmmartinezt@dsic.upv.es
+
+OS ESTOY ESPERANDO!!!!

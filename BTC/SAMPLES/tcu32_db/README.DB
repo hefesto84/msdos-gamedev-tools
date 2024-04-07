@@ -1,0 +1,77 @@
+
+TCU Database Option
+===================
+
+
+The TCU database option to TCU version 3.2 is designed to extend the
+TCU form services by providing a means of creating databases of form
+records.  Records may be quickly located, added, deleted, updated,
+etc.
+
+This option installs itself into the existing TCU 3.2 installation.
+If you do not currently have TCU 3.2, this option should not be
+installed.
+
+The database option contains a installation program very like that
+supplied with TCU 3.2.  In order to install the database option the
+following simple steps should be taken.
+
+  1.  Copy all files from the distribution archive, TCU_DB.ZIP,
+      into a temporary directory.
+
+  2.  Move into the temporary directory now containing the files
+      from the archive and execute the program TCUDBINS.
+
+  3.  Complete the installation using the installation program.
+
+  4.  You may now delete the files in the temporary directory and
+      the directory itself.  The TCU database option will now be
+      installed.
+
+
+
+dBASE III+ Databases
+--------------------
+
+A utility program is provided to convert dBASE III+ databases into
+TCU database format.  Note that dBASE indices are not used, but may
+be specified new with the import program, DB3TOTCU.  In order to
+perform the import, a TCU form file must be created which contains
+AT LEAST the fields from the dBASE database.  The dBASE field names
+must be the same as the names given to the fields in the TCU form
+file.  dBASE field names which are longer than 8 characters are
+truncated to 8 characters during the import, e.g. a dBASE field with
+the name FIRST_NAME must match a TCU form field with the name FIRST_NA.
+
+When the form has been created, it should be compiled using the TCU
+forms compiler, FCOMP to a .CFO file.  Execute the DB3TOTCU utility
+with the parameters:
+
+  db3totcu <dBASE file name> <TCU form name> <TCU DB name>
+
+An example database and form is provided to go with the example
+program.  To compile the form and generate the TCU database required
+by the example, perform the following:
+
+  \> fcomp dbform
+  \> db3totcu demo_db dbform demo_db
+
+You may then execute the DBDEMO example program which you must first
+compile.
+
+----------------------------------------------------------------------
+
+Any questions and/or problem reports should be addressed to:
+
+        Karl Keyte
+        TCU Users Group
+        Gross-Gerauer Strasse 10
+        6108 Weiterstadt
+        Germany
+
+If possible, send your problem in program form on a diskette so that
+it can be examined more quickly, reliably and easily.  The disk will
+be returned to you with the answer, a patch if necessary and the
+latest version of TCU (if a 1.44 MB disk is sent).
+
+----------------------------------------------------------------------

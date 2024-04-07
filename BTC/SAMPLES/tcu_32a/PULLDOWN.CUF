@@ -1,0 +1,14 @@
+
+COLOUR = White/Blue                            ! White text on blue background
+INPUT  = Yellow/Cyan                           ! Input field colours
+
+TYPE   = DOUBLE                                ! Double lined outer box
+SIZE   = 80,24                                 ! 80 x 24 (columns/rows)
+
+TEXT   = @20,10; "Menu         :"
+TEXT   = @20,11; "Option       :"
+TEXT   = @20,13; "Last Message :"
+
+FIELD  = @35,10; Name=Menu;    Numeric(2); Range (1,6);  Value=1; NoEnter
+FIELD  = @35,11; Name=Option;  Numeric(2); Range (0,10); Value=1; NoEnter
+FIELD  = @35,13; Name=Message; String(25); Value="Start-Up"; NoEnter

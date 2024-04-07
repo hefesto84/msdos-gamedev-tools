@@ -1,0 +1,14 @@
+     TCHRT V3 Shareware Evaluation Software License Terms & Conditions
+     -----------------------------------------------------------------
+
+This is a shareware evaluation copy of TCHRT V3.  Usage is allowed on
+an evaluation basis only.  Usage beyond an initial evaluation period
+requires registration with and a fee paid to the program's author which
+is Ryle Design (P.O. Box 22, Mt. Pleasant, MI 48804  517-773-0587).
+
+Ryle Design is not responsible for any use or misuse of this software 
+product, and any consequences thereof.  There are no warranties expressed
+or implied on the product.  
+
+Your use of TCHRT implies acceptance of these terms and conditions.
+

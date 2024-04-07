@@ -1,0 +1,34 @@
+
+COLOUR     = White/Blue                        ! White text on blue background
+INPUT      = Yellow/Cyan                       ! Input field colours
+TCOLOUR    = Yellow/Blue                       ! Title text
+EditColour = White/Magenta                     ! Default edit field colour
+
+TITLE   = "Installation Configuration"
+
+TYPE   = DOUBLE                                ! Double lined outer box
+SIZE   = 74,18
+
+TEXT = @3,2; "TCU Directory :"
+TEXT = @7,3; "Libraries :"
+TEXT = @7,4; "Examples  :"
+TEXT = @7,5; "Utilities :"
+TEXT = @7,6; "Documents :"
+TEXT = @49,3; "Merge Libraries?"
+TEXT = @49,4; "Install Examples?"
+TEXT = @3,9; "Turbo C Directory :"
+TEXT = @3,12; "Complete the above information and press:"
+TEXT = @18,14; Colour=LightRed/Blue; "F9"
+TEXT = @24,14; "To abort the installation"
+TEXT = @18,15; Colour=LightRed/Blue; "F10"
+TEXT = @24,15; "To procede with the installation"
+
+REPEAT = 5
+   FIELD = @19,2; Name=DIR_##; String(25)
+ENDREPEAT
+
+FIELD = @67,3;  Name=MERGE;    Logical(YesNo,Full); Value=Yes
+FIELD = @67,4;  Name=EXAMPLES; Logical(YesNo,Full); Value=Yes
+FIELD = @23,9;  Name=TC_DIR;   String(20)
+FIELD = @23,10; Name=TC_CPP;   Choice(8)="TC 2.0|TC/BC ++"
+FIELD = @46,9;  Name=MMODELS;  Button="> Select Memory Models <"

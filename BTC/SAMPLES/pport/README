@@ -1,0 +1,37 @@
+This package contains routines for communication between two computers 
+via the parallel printer ports. Routines are written in Turbo-C, with 
+inline assembler. Data transfer requires a cable with the same pinout as 
+the DOS 6 Interlink program. Specifications for this are given in the 
+comments at the top of PPORT.C
+
+List of files:
+    PPORT.C             Turbo-C routines for port initialization and                         
+                        4-bit transfers via the printer port.
+    PPORT.H             Header file for above
+
+    CLIENT.C            A simple file transfer system, illustrating use
+    SERVER.C            of the above routines.
+    CLIENT.EXE          Compiled versions of the above. These may be     
+    SERVER.EXE          useful if you don't have DOS 6. If you do, 
+                        Interlink will do more for you more easily.
+
+
+
+DISCLAIMER:
+    The author accepts no liability for any damages to users or to third 
+parties, arising in any way out of the use of these routines. USE AT YOUR
+OWN RISK.
+    Do not expect support if you are using an unlicensed version. I am 
+always interested in bug reports, however, and any major ones will
+probably get fixed.
+
+
+
+CLAIMER:
+    (C) Copyright Ian D. Gay, 1994. The code in this package may be freely
+used for personal and non-profit purposes. Incorporation of any part of this
+package into a product which is sold for profit requires a license. Contact
+me for licensing information.
+
+Ian Gay
+gay@sfu.ca

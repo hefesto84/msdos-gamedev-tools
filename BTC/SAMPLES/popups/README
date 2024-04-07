@@ -1,0 +1,11 @@
+
+POPTEST  C      Source file for demo program.
+POPTEST  PRJ    Project file for demo program.
+POPTEST  EXE    Compiled demo program.
+POPUPS   C      Source file for the popup window library.
+POPUPS   LIB    The popup window library (compiled for small memory model).
+POPUPS   DOC    Document file for the popup library functions.
+POPUPS   H      Header file for use with popup library, (used in POPTEST)
+POPUPS   OBJ    The popup library object file (small memory model).
+README          This file.
+

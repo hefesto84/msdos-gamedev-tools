@@ -1,0 +1,109 @@
+          Introduction
+          ------------
+
+          This .ARC file contains an UNOFFICIAL fix for the strstr() function
+          supplied as part of the Turbo C  "standard library."   Included are
+          the source file and .OBJ files for each of the memory models.  Also
+          included is a DOS BATCH file to  make  updating  Borland's standard
+          libraries  as  painless  as  possible  (provided you own a copy  of
+          Microsoft LIB or some other full-featured librarian utility).
+
+
+          The Problem
+          -----------
+
+          The  strstr()  function  distributed  by  Borland  as  part of  the
+          standard  C  libraries  for   Turbo  C   contains  a  reported  and
+          acknowledged bug that results in the function  returning  erroneous
+          results when the 'key' string matches a _terminating_ sub-string of
+          the target string.  For example:
+
+                    chptr = strstr ("efg","abcdefg");
+
+          yields chptr  ==  NULL.    It should yield a valid pointer  to  the
+          character 'e' in "abcdefg".   Microsoft  C  4.0's strstr() function
+          exhibits this same strange behavior.    In addition,  Microsoft C's
+          strstr() does  _NOT_  fail when str2 (the string being searched for
+          an occurence of str1) is a NULL string and  str1 (the 'key' string)
+          is a non-NULL string!  This, in my humble opinion, is also a bug in
+          the Microsoft implementation of the function.  For example:
+
+                    chptr = strstr ("efg","");
+
+          will return a valid pointer  (to the single NULL in str2)  when one
+          would expect it  to return a  NULL  pointer  (i.e.,  'no match'  or
+          failure).  I don't know whether the original strstr() function also
+          exhibits this behavior.    In any event,  the fix provided herewith
+          returns a NULL pointer in this case.
+
+
+          The Fix
+          -------
+
+          The  UNOFFICIAL  strstr() fix in this .ARChive employs an iterative
+          design approach for speed;  the routine employs _no_ calls to other
+          standard library functions,  and it  is smaller  than  the original
+          Borland version.
+
+          Descriptions of the files included in this .ARChive are as follows:
+
+                    STRSTR.C    - source
+                    STRSTRS.OBJ - SMALL
+                    STRSTRC.OBJ - COMPACT
+                    STRSTRM.OBJ - MEDIUM
+                    STRSTRL.OBJ - LARGE
+                    STRSTRH.OBJ - HUGE
+
+          In addition,  as mentioned above,  a DOS BATCH file (STRLIB.BAT) is
+          provided to fully automate updating the Turbo C libraries (provided
+          you use  Microsoft's LIB  as  the  librarian -- you can use another
+          librarian that has delete and add -- update -- capabilities, you'll
+          just have to change that line in  STRLIB.BAT).   All you need to do
+          to update the  library  is  de-ARC  the  appropriate  memory  model
+          version(s) of STRSTR.OBJ and type:
+
+                    strlib x
+
+          at the DOS command prompt,  where x is the letter corresponding  to
+          the memory model, to wit:
+
+                    s - SMALL
+                    c - COMPACT
+                    m - MEDIUM
+                    l - LARGE (ell)
+                    h - HUGE
+
+          Both the source .OBJ file(s) and the target .LIB file(s) must be in
+          the same  directory and  STRLIB.BAT  must  be  launched  from  that
+          directory.
+
+          Of course, you don't have to modify your Borland libraries  (and if
+          you do,  please modify a _copy_ of the original distribution file).
+          You can just put the object version in any project or make  file or
+          include it by name on the TCC command line.    The standard library
+          version  will  not  be  used  (the  first  reference  resolves  the
+          link and the standard library is always linked in last).
+
+
+          And, Finally ...
+          ----------------
+
+          I have tested this fix under all memory models.  The  NULL  pointer
+          and NULL-string cases behave as you'd expect.  If a NULL pointer is
+          passed for either argument  to  the  function,  a  NULL  pointer is
+          returned.      If   either   string   contains    ONLY   the   '\0'
+          string-terminating  character  (i.e., is a  NULL  string),  a  NULL
+          pointer is returned.  Thus, a NULL string is not considered to be a
+          'valid'  string  for  the  purposes  of  this   function   by  this
+          implementation  (this was a conscious  design decision which seemed
+          intuitive to me and for which I could find no guidance  at  all  in
+          K&R).    A  NULL pointer return from this function is equivalent to
+          "no match" or "fail."
+
+
+
+          Brad Paulsen
+          76703,1005
+          CompuServe Programmers' SIG
+          GO PROGSIG
+

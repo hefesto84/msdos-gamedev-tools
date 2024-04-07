@@ -1,0 +1,70 @@
+           CALLING CHILD PROGRAMS FROM A TURBO C PARENT PROGRAM.
+           ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+It is sometimes desirable to call and run another program from the
+current Turbo C program, as for example a DOS program like DEBUG.COM
+There are basically three functions available for this purpose:
+
+   exec...  which leaves the parent program to run a child program.
+   spawn... which runs the child program and then returns to the parent.
+   system   which runs the DOS COMMAND.COM file from inside the C program.
+
+The ... after the first two function names indicates that the suffices
+l,v,p and e can be added to the family name of the function.
+
+The suffix p indicates that the function will search the DOS PATH for the
+child program, otherwise only the current directory is searched.
+
+The suffix l is used when the number of arguments, described below, is
+known in advance, whilst v indicates a variable number of arguments.
+
+The suffix e indicates that the argument 'env' may be passed to the child
+process, to permit a different environment for the child process.
+
+exec...  has a number of parameters or arguments starting with the 'path',
+         which is the file name of the child process, followed by arg0 to
+         argn and concluding with a mandatory NULL parameter.
+
+spawn... has the same parameters but preceded by the parameter 'mode',
+         which determines whether the parent process is put on hold using
+         P_WAIT as the parameter or overlayed by the child program by
+         using the parameter P_OVERLAY
+
+system   has only one parameter, the DOS command to be executed.
+
+
+There are example programs for exec... and spawn... in the Reference Guide.
+Specific examples of the use of the function execlp can be found in the
+programs FILEWRIT.C, LINKLIST.C and TWOLINKS.C, whilst STRUCTUR.C uses
+the function spawnlp and the program DOSOPS.C uses the function system.
+
+
+On error, the exec... function returns -1, so it is wise to check for this
+as shown in LINKLIST.C below:
+
+  stat = execlp("DEBUG.COM","DEBUG.COM",NULL);
+  if (stat == -1) printf("Execlp error = %d\n",stat);
+
+
+On error, the system function returns -1, so in the program DOSOPS.C a
+function status() is created which receives the value returned by the
+function system() and reports the failure, as shown below:
+
+   status(int val)
+   {
+     if (val == -1)
+	printf("Error in system function call to COMMAND.COM\n");
+   }
+
+   main()
+   {
+   ....
+   ....
+   status(system("DIR *.SYS"));
+   ....
+   }
+
+
+CHILDPRG.TXT
+25.5.93
+

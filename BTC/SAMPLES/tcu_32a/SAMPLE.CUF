@@ -1,0 +1,86 @@
+!=============================================================================
+!
+!   Sample Screen Form
+!
+!=============================================================================
+!
+!   Should look like:
+!
+!          ----------------------------------------
+!          |                                      |
+!          | Name: ______________________________ |
+!          |                                      |     Colour = White on Blue
+!          | Address1: __________________________ |
+!          | Address2: __________________________ |     Overall size, 40x15
+!          | Address3: __________________________ |
+!          | Phone No: __________________________ |
+!          |                                      |
+!          | Age: __   Date of birth: __.__.__    |
+!          | Sex: _    Height (m):    _.__        |
+!          |           Married?:      ___         |
+!          | Time:_____                           |
+!          |                                      |
+!          |    PLEASE ENTER THE ABOVE DETAILS    |
+!          ----------------------------------------
+!
+!=============================================================================
+
+COLOUR     = White/Blue                        ! White text on blue background
+INPUT      = Yellow/Cyan                       ! Input field colours
+TCOLOUR    = Yellow/Blue
+EDITCOLOUR = White/Cyan
+
+TITLE   = "Sample Form"
+
+TYPE   = DOUBLE                                ! Double lined outer box
+SIZE   = 40,16                                 ! 40 x 15 (columns/rows)
+
+TEXT   = @2,2; "Name:"                         ! Constant text field
+TEXT   = @2,4; "Address1:"
+TEXT   = @2,5; "Address2:"
+TEXT   = @2,6; "Address3:"
+TEXT   = @2,7; "Phone No"
+TEXT   = @2,9; "Age:"
+TEXT   = @2,10; "Sex:"
+TEXT   = @15,9; "Date of birth:"
+TEXT   = @15,10; "Height (m):"
+TEXT   = @15,11; "Married?:"
+TEXT   = @2,12; "Time:"
+TEXT   = @5,14; "PLEASE ENTER THE ABOVE DETAILS"
+
+!--------------------------------------------------------------------
+
+FIELD  = @8,2;   Name=Name; &
+                 String (30)
+
+REPEAT=3
+   FIELD  = @12,4;  Name=Addr##; String (26)
+ENDREPEAT
+
+FIELD  = @12,7;  Name=PhoneNum; &
+                 String(12); &
+                 Template="###-###-####"
+
+FIELD  = @7,9;   Name=Age; &
+                 Numeric (3); &
+		 Range (0,120); &
+                 Value=18
+
+FIELD  = @7,10;  Name=Sex; &
+                 Choice (6) = "Male|Female"
+
+FIELD  = @30,9;  Name=DOB; &
+                 Date (DayFirst); &
+		 Range (,Today)
+
+FIELD  = @30,10; Name=Height; &
+                 Numeric (4,2); &
+		 Range (0.5, 2.5)
+
+FIELD  = @30,11; Name=MStatus; &
+                 Logical (YesNo, Full)
+
+FIELD  = @8,12;  Name=Time; &
+                 String (5); &
+                 Colour = White/Cyan; &
+                 NoEnter

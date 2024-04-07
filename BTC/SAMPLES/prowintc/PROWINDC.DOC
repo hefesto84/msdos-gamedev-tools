@@ -1,0 +1,990 @@
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+         General Requirements:
+
+              Hardware - IBM PC, PC/XT, AT, or Compatible Computer
+                         Mono, CGA, and EGA (in CGA mode)
+                         1 Disk Drive
+                         512K RAM minimum
+                         DOS 2.1 or higher
+
+
+              Pro. Version   Required Software        Version
+
+              2.00TC         Borland Turbo C          1.5 or higher
+              2.00TP         Borland Turbo Pascal     4.0 or higher
+              2.00QB         Microsoft QuickBASIC     4.0 or higher
+
+
+
+                              ***** LEGAL NOTICE *****
+
+              This documentation, it's accompanying source code, header
+         files, and executable code is copyrighted by Daniel P. Stasinski.
+         You are hereby granted a 30 day trial period to evaluate this
+         package, after which you are required to pay a registration fee to
+         obtain a license to use this package.
+
+              If after 30 days you decide that this package does not
+         fulfill your present needs, you are required, by law, to remove it
+         from your possession.
+
+              You are permitted to distribute this package by any means you
+         deem fit, to any persons you deem fit.  But you are specifically
+         prohibited from charging any type of fee, implied or actual, for
+         this distribution without written consent from this author.
+
+              You are prohibited from making any modifications, to the
+         ProWindows *LITE* library, object code, header files, or
+         documentation.  All copyright notices must remain intact in each
+         of these files.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+                                SUPPORTING THE AUTHOR
+                                ---------------------
+
+                        The 'User Supported Software' Concept
+
+              'User Supported Software' means exactly that.  If you like
+         this product, and use it, then you should pay for it.  If you do
+         not like it, then you are to delete it from your files, or pass it
+         along to a friend.  By supporting the efforts of this author, he
+         is allowed to spend his time enhancing this product to make it
+         better for you, the end user.
+
+              This product is no different.  If you keep it and/or use it,
+         you must send in the registration and license fee of $7.50
+         (American dollars) to:
+
+                                 Daniel P. Stasinski
+                                   30 North Street
+                                  Willits, CA 95490
+
+              An obtained license grants you full permission to use
+         ProWindows *LITE* in any public domain, ShareWare, commercial, or
+         user software, that you develop.  THERE ARE NO ADDITIONAL
+         ROYALTIES.
+
+              For $15.00 (American dollars) you can obtain the same
+         license, plus ProWindows *LITE* - Version 3.00.
+
+              Version 3.00 has 30 additional window styles, is faster, and
+         can produce considerably smaller executable files.  It also comes
+         with a certificate for a $10.00 discount on ProWindows *PLUS*, the
+         most advanced "Software Development System" that is currently
+         available.
+
+                                THE AUTHOR SUPPORTING YOU
+                                -------------------------
+
+              Registered users are offered almost unlimited support.  If
+         you need assistance, just mail a letter to the above address and I
+         will respond as fast as humanly possible.
+
+              If you are not a registered user, please write and tell me
+         why.  It is possible I can enhance this product so that you will
+         want to register.  Send me your suggestions.
+
+              If you discover a bug (I hope there are none), report it
+         immediately and it will be corrected immediately.
+
+                                    PHONE SUPPORT
+                                    -------------
+
+              As demand grows, I will be adding a telephone support line
+              for all of my software products.  When this becomes
+              available, all registered users will receive a notice.
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+            ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+            ³  F O R    T H E   S E R I O U S    P R O G R A M M E R S  ³
+            ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+                  >>>>>>>>>> AVAILABLE OCTOBER 15, 1988 <<<<<<<<<<
+
+                         ProWindows *PLUS* and 'ProDesigner'
+                          only $34.95 for the dual package
+
+
+              ProWindows *PLUS* is the ultimate professional "Software
+         Development System".  It adds dozens of new, and many enhancements
+         to the existing ProWindows *LITE* routines.
+
+         NEW *PLUS* routines include:
+
+              PopHelp - Instant Full Color Help Screens.
+              PopMenu - vertical or horizontal menus.
+              PopList  - vertical or horizontal scrolling menus.
+              PullMenu - pull down (QB style) menus.
+              GridMenu - X-Y grid list with scrolling.
+              PopCalander - instant calanders with date highlight.
+              PopCalc - pop up calculator with tape and paste.
+              PopAdd - pop up adding machine with tape and paste.
+              StopWatch - up to 255 separate event timers.
+              FillScreen - fills the screen with pattern and color.
+              Validate - multi-answer validator.
+              Query - Single line entry editor.
+              GetColor - Custom color coordinator.
+
+              and much much more...........
+
+              When using "ProDesigner", creating all type of menu's, entry
+         screens, and help screens is a snap.  You use the "ProDesigner"
+         easy to use "Menu Editor" to create or modify each of your menus.
+         Then you use the "Help Editor" to create FULL COLOR, single or
+         multi page, help screens which can correspond to ANY menu
+         selections, or can be made to appear instantly anywhere in your
+         program.
+
+              "ProDesigner" can also generate most of the support source
+         code for each of these functions.
+
+                 **********  I M P O R T A N T   N O T E  **********
+                 **********  I M P O R T A N T   N O T E  **********
+
+              "ProDesigner" IS NOT A SIMPLE SOURCE CODE GENERATOR, unlike
+         all other screen design programs.  This software uses very
+         advanced techniques that grab entire screens and compress them up
+         to 90%.  These routines are so fast that you can display 25 (yes
+         25) full page screens in less than 1 second.
+
+                 **********  I M P O R T A N T   N O T E  **********
+                 **********  I M P O R T A N T   N O T E  **********
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+                           ***** Method of Operation *****
+
+         ProWindows *LITE* & *PLUS* is more than just a windowing module,
+         in a way, it is more like a special operating system.  Both of
+         these packages are based upon the "PRO-WLS" (Professional Window
+         Logic System) unit.  The "PRO-WLS" unit manages every function
+         used to create, print to, clear, and finally, remove a window.
+
+         When you call the 'popwindow' function, many important procedures
+         take place.  First, "PRO-WLS" saves the portion of the current
+         screen you are about to place the window over.  Then, using a
+         proprietary compression algorithm, the old screen is squeezed to
+         sometimes less that 80% it's original size.  This is intended to
+         save you plenty of memory space.  Also, your compressed screen is
+         stored in 'far' memory so you will save that valuable 'string
+         space' too.
+
+         After compression, every parameter you gave 'popwindow' is placed
+         onto the window stack.  The window stack is used to tell the other
+         ProWindows functions where and how they can place text within the
+         intended screen.  In addition, it also holds vital information as
+         to how your old screen is to be decompressed and redisplayed when
+         you call the 'removewindow' function.  This version comes with a
+         default stack that can hold up to 25 simultaneous windows.  The
+         registered version can display 100 simultaneous windows.
+
+         All this happens in about 1/20th of a second.
+
+         When you call the 'removewindow' function, the exact opposite
+         happens.  The "PRO-WLS" unit locates your old screen, decompresses
+         it, and places it back on your current screen, and at the correct
+         location too.  Cleanup procedures automaticly free the memory
+         where your window was stored.  Never is a byte wasted.
+
+         Nothing could be easier.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+                             ***** Data Structures *****
+
+         There is only one data structure in use by ProWindows *LITE*.
+
+              struct {
+                   int  row;
+                   int  col;
+                   int  rows;
+                   int  cols;
+                   int  attribute;
+                   int  border;
+                   int  shadow;
+                   int  zoom;
+                   char far *data;
+                   int  abytes;
+                   int  cbytes;
+              } wcb;
+
+         The wcb structure is used by every ProWindows *LITE* function to
+         coordinate saving, printing to, and removing windows.
+
+         The first eight elements contain the information just as you
+         called 'popwindow'.
+
+         'data' is a far pointer to the memory location where your old
+         window is stored.  'abytes' and 'cbytes' contain specific
+         information as to the proper methods of decompressing your old
+         screen.
+
+         Your routines must not modify the contents of any variable in this
+         structure.  Doing so will cause unexpected results.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+                            ***** GLOBAL VARIABLES *****
+
+         -----------------------------------------------------------------
+         CREATEMODE
+         -----------------------------------------------------------------
+
+         Name:          CREATEMODE - display window reference number flag
+
+         Usage:         extern int CREATEMODE = 1;
+
+         Declared in:   prowindc.h
+
+         Desc:          'CREATEMODE' controls whether ProWindows will
+                        display the current window reference number at the
+                        lower right portion of the screen.
+
+                        The default CREATEMODE = 1 to display reference
+                        numbers.
+
+         -----------------------------------------------------------------
+         WI
+         -----------------------------------------------------------------
+
+         Name:          WI - index to current window
+
+         Usage:         extern int WI;
+
+         Declared in:   prowindc.h
+
+         Desc:          'WI' contains an integer value corresponding to the
+                        current window number being displayed.
+
+                        The program must never modify the contents of this
+                        variable.
+
+         -----------------------------------------------------------------
+         SCREEN_MODE
+         -----------------------------------------------------------------
+
+         Name:          SCREEN_MODE - current video adapter mode
+
+         Usage:         extern int SCREEN_MODE;
+
+         Declared in:   prowindc.h
+
+         Desc:          'SCREEN_MODE' contains the value to the current
+                        video mode.
+
+                        0x02   V_BW80       80 * 25 b/w text
+                        0x03   V_CO80       80 * 25 color text
+                        0x07   V_MONO       80 * 25 mono text
+                        0xff   V_INVALID    Not a supported video mode
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+                             ***** ERROR HANDLING *****
+
+         ProWindows *LITE*, by design, is a very delicate system.  It's
+         error handling procedures were designed so that in the event of a
+         major error, the program terminates.  As you may realize, this
+         forces you to write programs with special attention to accuracy.
+
+         When a fatal occurs, an error message is displayed, and the Turbo
+         C 'exit(int error)' function is called, with the ProWindows *LITE*
+         'error number as the argument.
+
+         Possible errors are:
+
+              1 - ProWindows *LITE* not initialized.
+              2 - Memory allocation error.
+              3 - Not enough memory in far heap.
+              4 - No window to remove.
+              5 - Too many windows.
+              6 - Not a supported video mode.
+              9 - Invalid copyright.
+
+         Error 1 is a result of the failure to call 'initpro' prior to
+         creating a pop up window.  Simply stated, if you do not call this
+         feature, you can not create windows.
+
+         Error 2 will probably result if there is not enough memory while
+         the ProWindows WLS (Window Logic System) is storing or restoring
+         a screen.
+
+         Error 3 is invoked when you do not have enough memory in the far
+         heap.  As a rule, ProWindows requests an average 400 bytes per
+         window.
+
+         Error 4 means that you have tried to delete more windows than you
+         have displayed.
+
+         Error 5 occurs if you attempt to create more windows than is
+         permitted for your version.
+
+         Error 5 occurs if you attempt to display or remove a window while
+         in a graphics mode.
+
+         Error 9 is important.  If this ever occurs, you have committed a
+         very serious crime.  Intentionally altering or removing a
+         copyright from a product is a federal crime and is punishable with
+         a $10,000 fine and 5 years in prison.  Please do not ever degrade
+         yourself by modifying the copyright.
+
+
+
+
+
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+         -----------------------------------------------------------------
+         initpro
+         -----------------------------------------------------------------
+
+         Name:          initpro - initialize ProWindows *LITE*
+
+         Usage:         #include <prowindc.h>
+                        void pascal initpro(int row, int col,
+                                            void pascal (*userscreen)(),
+                                            int snowcheck);
+
+         Desc:          This function initializes the ProWindows *LITE*
+                        package, sets up global variables, and displays the
+                        default copyright window.  ProWindows specific
+                        functions can not be used until initialized.
+
+                        You may not create popup windows before
+                        initializing but you may create a type void pascal
+                        function that contains the code you need to create
+                        your startup screen.  Upon exiting this function,
+                        the default ProWindows copyright message is
+                        displayed at the coordinates 'row' and 'col', and
+                        execution is paused for 3 seconds.  You may then
+                        remove the copyright message and/or your startup
+                        screens.  (Note: Version 3.00 users are not
+                        required to display the ProWindows copyright
+                        message, and have the option to disable it along
+                        with the 3 second delay).
+
+                        The final parameter, snowcheck, determines whether
+                        the windows will suppress snow on old or sloppy CGA
+                        cards.  You might want to make this an option in
+                        your end program since most new CGA cards
+                        automatically suppress snow.  Snow checking
+                        minutely decreases window speed.
+
+         Example:
+
+         #include <prowindc.h>
+
+         void pascal userscreen()
+         {
+              popwindow(5, 5, 15, 70, attr(15, 1), 1, 0, 1);
+              titlewindow(2, "[ My fantastic program ]");
+         }
+
+         void main()
+         {
+              initpro(8, 20, userscreen, 0);
+              removewindow();          /* first the copyright */
+              removewindow();          /* then your screen    */
+         }
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+         -----------------------------------------------------------------
+         attr
+         -----------------------------------------------------------------
+
+         Name:     attr - video attribute calculator
+
+         Usage:    #include <prowindc.h>
+                   int pascal(int foreground, int background);
+
+         Desc:     Returns an integer as a video attributes.  Valid
+                   foreground ranges are 0 to 31.  Valid background ranges
+                   are 0 to 7.
+
+                   This function is used with most ProWindows *LITE* &
+                   *PLUS* routines.
+
+         Example:
+
+         #include <prowindc.h>
+         #include <stdio.h>
+
+         void main()
+         {
+              int color;
+
+              color = attr( 15, 1);    /* Highlight White on Blue */
+
+              printf("The attribute is : %3d\n", color);
+         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+         -----------------------------------------------------------------
+         popwindow
+         -----------------------------------------------------------------
+
+         Name:          popwindow - create a user defined window
+
+         Usage:         #include <prowindc.h>
+                        void pascal popwindow(int row, int col,
+                                              int rows, int cols,
+                                              int attribute,
+                                              int border, int shadow,
+                                              int zoom);
+
+         Desc:          Each displayed window begins at coordinates 'row',
+                        'col', and is 'rows' deep and 'cols' wide.
+                        'attribute' determines the window's color.
+
+                             5 'border' styles,
+
+                                  0 - No Border
+                                  1 - Single line box
+                                  2 - Double line box
+                                  3 - Single Horizontal - Double Vertical
+                                  4 - Double Horizontal - Single Vertical
+                                  5 to 15 - Version 3.00 only
+
+                             2 'Shadow%' styles,
+
+                                  0 - No Shadow
+                                  1 - Bottom Left
+                                  2 to 4 - Version 3.00 only
+
+                             2 'Zoom%' styles,
+
+                                  0 - No Zoom (Instant)
+                                  1 - Grow from Center
+                                  2 to 9 - Version 2.5 only
+
+                        Prior to displaying each window, the current
+                        portion of screen which the window will occupy is
+                        automatically stored.
+
+         Warning:       DO NOT EVER USE 'attr(8, 0)'.  This particular
+                        attribute generates a code that will completely
+                        corrupt the screen compression routine and will
+                        cause your computer to lock up.  Since those two in
+                        combination create black on black, you should never
+                        have a reason to use them.
+
+         See Also:      attr, initpro, removewindow
+
+
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+         Example:
+
+         #include <prowindc.h>
+
+         void pascal userscreen()
+         {
+              popwindow(5, 5, 15, 70, attr(15, 1), 1, 0, 1);
+              titlewindow(2, "[ My fantastic program ]");
+         }
+
+         void main()
+         {
+              int x;
+
+              initpro(8, 20, userscreen, 0);
+              removewindow();          /* the copyright */
+
+              for(x = 1; x <= 15; x++)
+                   popwindow(x, x * 4, 5, 10, attr(x, 4), 1, 1, 1);
+
+              delay(1500);
+
+              for(x = 1; x <= 15; x++)
+                   removewindow();
+         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+         -----------------------------------------------------------------
+         titlewindow
+         -----------------------------------------------------------------
+
+         Name:          titlewindow - titles the current window
+
+         Usage:         #include <prowindc.h>
+                        void pascal titlewindow(int location, char *text);
+
+         Desc:          Places specified text at any of six border
+                        locations in the current window.  Foreground and
+                        background colors are set to the default for that
+                        particular window.  Multiple calls are allowed, so
+                        you may places text at all six locations if you
+                        desire.
+
+                             Border positions permitted:
+
+                                  1 - Top Left.
+                                  2 - Top Center.
+                                  3 - Top Right
+                                  4 - Bottom Left.
+                                  5 - Bottom Center.
+                                  6 - Bottom Right.
+                                  7 - Vertical Left - Version 3.00 only
+                                  8 - Vertical Right - Version 3.00 only
+
+         Example:
+
+         #include <prowindc.h>
+
+         void pascal userscreen()
+         {
+              int location;
+
+              popwindow(5, 5, 15, 70, attr(15, 1), 1, 0, 1);
+
+              for(location = 1; location <= 6; location++)
+                   titlewindow(location, "[ Title ]");
+         }
+
+         void main()
+         {
+              initpro(8, 20, userscreen, 0);
+              removewindow();          /* the copyright */
+              removewindow();          /* your screen */
+         }
+
+
+
+
+
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+         -----------------------------------------------------------------
+         clearwindow
+         -----------------------------------------------------------------
+
+         Name:          clearwindow - clears contents of current window
+
+         Usage:         #include <prowindc.h>
+                        void pascal clearwindow();
+
+         Desc:          Clears out entire contents of the current window.
+                        Does not remove the border or any titles or text
+                        on window borders.
+
+         See Also:      RemoveWindow
+
+         Example:
+
+         #include <prowindc.h>
+
+         void pascal userscreen()
+         {
+              int location;
+
+              popwindow(5, 5, 15, 70, attr(15, 1), 1, 0, 1);
+
+              for(location = 1; location <= 6; location++)
+                   titlewindow(location, "[ Title ]");
+
+              wprint(3, 3, "Some Text");
+              wprint(7, 5, "More Text");
+         }
+
+         void main()
+         {
+              initpro(8, 20, userscreen, 0);
+              removewindow();          /* the copyright only */
+
+              clearwindow();           /* window from userscreen() */
+
+              delay(1000);
+
+              wprint( 4, 2, "This Text");
+              wprint( 8, 9, "That Text");
+
+              delay(1000);
+
+              removewindow();
+         }
+
+
+
+
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+         -----------------------------------------------------------------
+         removewindow
+         -----------------------------------------------------------------
+
+         Name:          removewindow - removes the current window
+
+         Usage:         #include <prowindc.h>
+                        void pascal removewindow();
+
+         Desc:          Removes current window being displayed and restores
+                        the screen back to its original contents.
+
+                        Displays an error message and exits with exit code
+                        4 if no windows are none on the stack.
+
+         See Also:      PopWindow
+
+         Example:
+
+         #include <prowindc.h>
+
+         void pascal userscreen()
+         {
+              /* Does nothing but needs to be here */
+         }
+
+         void main()
+         {
+              initpro(8, 20, userscreen, 0);
+              removewindow();          /* the copyright only */
+
+              popwindow(5, 30, 10, 30, attr(14 ,4), 1, 1, 1);
+              titlewindow 5, "[ One moment please... ]");
+
+              delay(1000);
+
+              removewindow();
+         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+
+
+
+                         ProWindows *LITE* - Version 2.00TC
+                                    Documentation
+
+
+         -----------------------------------------------------------------
+         wprint
+         cwprint
+         wcprint
+         cwcprint
+         -----------------------------------------------------------------
+
+         Name:          wprint - default color text in window
+                        cwprint - custom color text in window
+                        wcprint - default color text in window center
+                        cwcprint - custom color text in window
+
+         Usage:         #include <prowindc.h>
+                        wprint(int row, int col, char *text);
+                        cwprint(int row, int col, int attr, char *text);
+                        wcprint(int row, char *text);
+                        cwcprint(int row, int attr, char *text);
+
+         Desc:          Places text at the specified position relative to
+                        the inner coordinates of the current window.
+
+                        'wprint' assumes that the text is to be displayed
+                        in the default colors for that window.  'cwprint'
+                        allows you to specify exact colors.  These routines
+                        are meant to be your first choice option of
+                        printing text to your window, the following two are
+                        supplied as supplementary routines only.
+
+                        'wcprint' and 'cwcprint' are the same except that
+                        the text is automatically centered within the
+                        current window so you need not specify a column.
+
+         Example:
+
+         #include <prowindc.h>
+
+         void pascal userscreen()
+         { /* Does nothing but needs to be here */ }
+
+         void main()
+         {
+              initpro(8, 20, userscreen, 0);
+              removewindow();          /* the copyright only */
+
+              popwindow(5, 30, 10, 30, attr(14 ,4), 1, 1, 1);
+              titlewindow 2, "[ Here is a title ]");
+              wprint(3, 5, "Default Color Text");
+              cwprint(4, 5, attr(15, 1), "Different Color Text");
+              wcprint(5, "Default Color Centered Text");
+              cwcprint(6, attr(15, 5), "Different Color Centered Text");
+
+              delay(5000);
+              removewindow();
+         }
+
+
+                       (c) Copyright 1988  Daniel P. Stasinski
+
+
+

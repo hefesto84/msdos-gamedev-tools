@@ -1,0 +1,159 @@
+Communication library v1.2
+
+
+After unzipping you should have the following:
+
+com.doc ............ This file
+com.h .............. include file  
+com_m.lib .......... library for medium memory model
+terminal.exe ....... sample terminal program 
+terminal.c ......... source code for the sample program
+
+This is a 8250 UART communications library for com port 1 thru 4.
+The input buffer for each port is about 1k. As far as I can tell from testing 
+you should be able to use com ports 1 and 2 at the same time and com port 3 
+and 4 at the same time. You can not use ports 1 and 3 together or ports 2 and 
+4 together because they share the same IRQ's (1 and 3 use IRQ 11 and 2 and 4 
+use IRQ 12). This holds true for most systems but not all. These functions 
+were compiled under Turbo C.
+
+I must give credit where credit is due. These were my main sources  
+of information:
+
+1.  C User's Journal, April 1991
+    serial port routines from CUJ April 91  page 63
+    by Greg Chursenoff
+
+2.  asynclib2 - Public Domain communcation routines
+    David Kessner's (david@kessner.denver.co.us)            
+    Roy M. Silvernail (roy%cybrspc@cs.umn.edu - OR-  cybrspc!roy@cs.umn.edu)
+    Steve Miller  (uunet!pictel!miller)
+
+
+
+================================================================================================
+THE FUNCTIONS  
+
+
+int  ComStart( int Port)
+void ComStop( int Port)
+These functions start and stop the interrupt handlers.  No characters can be
+recieved from a port if that port hasn't been started, and the computer will 
+crash if they are not stopped. ComStart() returns one of two values: FAILURE 
+(if the port does not exist) or SUCCESS.
+
+
+void ComClrBuff(int port)
+Clears the internal input buffer for the given port.
+
+
+void ComPutChar(int port, int ch)
+Sends a character to the specified port.
+
+
+void ComPutStr(int port, char *string)
+Sends a string to the specified port.
+
+
+void ComPutCrLf(int port)
+Sends a carrier return and a linefeed to the specified port.
+
+
+int ComPutFile(int port, char *filename)
+Sends the contents of a file to the specified port. This functions 
+returns FAILURE (if the file could not be opened) or SUCCESS.
+
+
+int ComGetChar(int port)
+Returns the next character in the buffer of the given port
+or S_EOF upon an empty buffer.
+
+
+int WComGetChar(int port, int n)
+This function waits a max of n milliseconds for a character in the input 
+buffer. If a character is placed in the buffer within n milliseconds it is 
+returned otherwise S_EOF is returned.
+
+
+int WComGetStr(int port, char *string, int maxchars, int n)
+This function waits for the user to enter a string of maxchars characters 
+followed by a carriage return. If there is a n milliseconds delay between 
+keystrokes, FAILURE is returned. If the RETURN key is hit, the string is
+terminated with a NULL and SUCCESS is returned. 
+
+NOTE: Because there are many different functions to output data to 
+      the screen, The data entered by the remote user will not be seen 
+      on the host's screen.
+
+
+int ComWaitStr(int port,char *string, int n)
+This function searches, a max of n milliseconds, for a string in the input buffer.
+If the string is found in the buffer within n milliseconds SUCCESS is returned
+otherwise FAILURE is returned.
+
+
+void ComHandShake(int port,int handshake)
+Sets the status of the handshaking lines for the specified port.  
+The values are defined in the header file and can be or'd together.  
+A common call would be:
+	     ComHandShake(1, DTR | RTS);
+ComHandShake(1, RTS) will drop DTR and the above call will raise it again
+
+
+void ComSetParms(int port, int baud, int control)
+This sets the baud rate, parity, etc, for the specified port.  The paramater 
+'baud' is the baud rate (ie 1200, 2400, 9600, etc), and 'control' is a 
+number that represents parity, length and stop bits.  There are defines for 
+this in COM.H, but here are commonly used examples:
+
+	ComSetParms(1, 2400, BITS_8 | STOP_1 | NO_PARITY )   for 2400 baud 8N1.
+	ComSetParms(1, 9600, BITS_7 | STOP_1 | EVEN_PARITY)  for 9600 baud 7E1.
+
+
+int ComChkCnt(int port)
+This function returns the number of characters in the input buffer of the
+specified port.
+
+
+int ComChkCd(int port)
+int ComChkDsr(int port)
+int ComChkRi(int port)
+int ComChkCts(int port)
+These functions return the status of the CD(carrier detect), DSR(data set 
+ready), RI(ring indicator), and CTS(Cleat to send) for the given port. They 
+return HIGH or LOW depending upon the status of CD, DSR, RI, and CTS.
+
+=================================================================================================
+THE SAMPLE PROGRAM
+
+The sample program is a no frills terminal program. The default settings are
+9600 baud, even parity, 7 data bits, and 1 stop bit. you may change these 
+settings by hitting F2 and choosing one of the settings listed. Everything 
+else is pretty easy to understand. Just remember that it is no frills and 
+it is just to show you how some of the functions work.
+
+
+=================================================================================================
+OTHER IMPORTANT STUFF
+
+I developed this communications library because the commerical libraries cost
+alot more then I was willing to spend on them and the shareware communications
+libraries either didn't work or didn't have the functions I was looking for.
+
+If you decide that you like this sample and would like a copy of the library, 
+send $20 to the address below and you will receive libraries for the small, 
+medium, compact, and large memory models. You will also receive future version  
+of this library FREE OF CHARGE. Future versions will support vt100 emulation
+and other valuable features.
+
+
+Ron Collins
+5714 Cedonia Ave
+Baltimore, Maryland 21206
+
+
+
+Note: If you have any problems using these functions please send e-mail
+      explaining your problem to Ron Collins - rbcollin@aec.apgea.army.mil
+
+

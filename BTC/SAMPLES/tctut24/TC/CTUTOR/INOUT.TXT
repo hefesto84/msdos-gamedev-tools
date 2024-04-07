@@ -1,0 +1,206 @@
+                    INPUT and OUTPUT.
+                    ßßßßßßßßßßßßßßßßß
+
+Input is usually from the keyboard or from a file saved on disk.  Output is
+usually to the screen or disk file, but may also be to a range of external
+devices including printers.
+
+In the C language, input and output facilities are not part of the language
+itself, but there is a standard library of functions for input and output
+in the header file <stdio.h>.  Each source file that refers to these input
+and output functions must contain the line:
+
+     #include <stdio.h>
+
+before the first reference.
+
+The wide range of input and output functions are listed in appendix B of
+'The C Programming Language' by Kernighan and Ritchie (Prentice Hall).
+They are subdivided into File Operations, Formatted Output, Formatted Input,
+Character Input and Output Functions and Direct Input and Output Functions.
+For full details refer to pages 241 to 247 of that text.  The formatted
+input and output funtions are most used and will be described in some
+detail along with a few of the other functions.
+
+First terminology must be explained.  A 'stream' is a source or destination
+of data, which may include a disk or other peripheral device.  A stream is
+connected to a file or device by 'opening' it.  The connection is broken by
+'closing' the stream.  Opening a file returns a pointer to an object of type
+FILE.  When a program begins execution, three streams are already open -
+stdin, stdout and stderr.
+
+The printf function.  (see page 157 of the User's Guide)
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+The printf function writes information to the screen.  The format is simple
+and flexible:
+
+     printf(<format string>,<item>,<item>,....);
+
+where the format string is a string beginning and ending in quotes and the
+function substitutes in the string certain 'items' listed after the string,
+according to the format commands found in the string itself.  A typical
+example is:
+
+     printf("The sum is %d \n",sum);
+
+where the %d in the format string is one kind of format command called a
+'format specification'.  All format specifications start with the percent
+sign (%) and are usually followed by a single letter, indicating the type of
+data to be inserted and how the data is to be formatted.
+
+There should be exactly one item for each format specification and the data
+type must correspond to that in the specification.  The items themselves can
+be variables, constants, expressions and function calls.  The output is
+written to the standard output (stdout).
+
+The commonly used format specifications are:
+
+     %d          decimal integer
+     %u          unsigned integer
+     %ld         long integer
+     %p          pointer value
+     %f          floating-point
+     %e          floating-point in exponential format
+     %c          character
+     %s          string
+     %x or %X    integer in hexadecimal format (lower case or upper case)
+
+The width of the output field can be defined by placing a number between the
+% sign and the letter, as for example %4d.
+
+The \n is known as an escape sequence and inserts a newline character.  Some
+other escape sequences are:
+
+     \f          formfeed          /* Others are listed on page 307 */
+     \t          tab               /* of the User's Guide.  */
+     \b          backspace
+
+
+The scanf function.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+For interactive input 'scanf' is used most of the time.  Its format is:
+
+     scanf(<format string>,<addr>,<addr>,...);
+
+where the same %<letter> formats are used as above, but now the items
+following the format string must be addresses and not values.  A typical
+example is:
+
+   scanf("%d %d",&a,&b);     /* two decimal integers separated by space */
+or
+   scanf("%d,%d",&a,&b);     /* two decimal integers separated by comma */
+
+The first decimal integer value will be stored at the address associated
+with a and the second at the address associated with b. The address-of
+operator is used to pass the addresses of a and b to scanf.  However, if the
+variable name refers to an array, there is no need for the &, as the value
+of the array name is the start address of the array itself.  This is
+illustrated in the simple program below:
+
+#include <stdio.h>
+main()
+{
+   char name[20];
+   printf("What is your name: ");
+   scanf("%s",name);
+   printf("Hello, %s\n",name);
+}
+
+Because the first 'whitespace' encountered when entering a string under the
+command 'scanf' will terminate the string, it may be necessary for strings
+with spaces to use another function - 'gets' - which reads everything typed
+until ENTER is pressed.  ENTER itself is not stored, but a null character
+(\0) is placed at the end of the string.
+
+This and other input functions are listed briefly below.  The Reference
+Guide should be consulted for further details.
+
+Function syntax            Function                    Return value
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ            ÄÄÄÄÄÄÄÄ                    ÄÄÄÄÄÄÄÄÄÄÄÄ
+
+int getc(FILE *stream);   Gets character from stream   Value read or EOF
+
+int getch(void);          Gets char. from keyboard     Character read
+
+int getchar(void);        Gets char. from stdin        Char. read or EOF
+
+int getche(void);         Gets char. from console      Char. read
+
+char *gets(char*s);       Gets string from stdin       Str arg. s or NULL
+
+int getw(FILE *stream);   Gets integer from stream     Next int. or EOF
+
+There is also the 'read' function, which reads from a file a number of bytes
+specified by the third function argument.
+
+There are a number of corresponding output functions as below:
+
+Function syntax               Function                 Return value
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ               ÄÄÄÄÄÄÄÄ                 ÄÄÄÄÄÄÄÄÄÄÄÄ
+
+int putc(int c,FILE*stream);  Output char. to stream   Char. printed or EOF
+
+int putch(int c);             Output char, to screen   Char. printed or EOF
+
+int putchar(int c);           Output char. on stdout   Character c or EOF
+
+int puts(const char *s);      Output string to stdout  Nonneg. value or EOF
+
+int putw(int w,FILE*stream);  Puts an int. on stream   Integer w or EOF
+
+There are similar functions to all the above, except that the function name
+is preceeded by a letter f, such as 'fputs'.  The Reference Guide should be
+consulted for further details.
+
+In particular there are two such functions of importance:
+
+fprintf writes formatted output to a stream (compared to printf to stdout).
+
+The syntax is    int fprintf(FILE*stream,const char*format[,argument,...]);
+
+fscanf scans and formats input from a stream (compared to scanf from stdin).
+
+The syntax is    int fscanf(FILE*stream,const char*format[,address,...]);
+
+As mentioned earlier, it is necessary to 'open' and 'close' files, using the
+functions 'fopen' and 'fclose'. On successful completion, 'fopen' returns a
+pointer to the newly opened stream, otherwise a NULL is returned. It is
+therefore wise to embed this function call within an 'if' statement to
+provide a suitable warning if a NULL is returned.
+
+The syntax is   FILE*fopen(const char*filename,const char*mode);
+
+'filename' can be any DOS filename of 8 characters and 3 extension
+characters. 'mode' indicates whether the file is open for reading "r",
+writing "w", appending "a", etc. The full details are given in the
+Reference Guide (version 2.0) on page 132.
+
+'fclose' closes a stream and on success returns 0, otherwise EOF.
+
+The syntax is    int fclose(FILE*stream);
+
+See page 114 of the Reference Guide (version 2.0) for details.
+
+An example of writing to a file, appending data and then reading the file is
+given in the program FILEWRIT.C and this includes the following functions:
+
+fopen, fprintf, gets, fclose, getc, putch, getch and rewind.
+
+'rewind' repositions a file pointer to the beginning of a stream, as is
+necessary when reading from the start of a file.
+
+The syntax is    void rewind(FILE*stream);
+
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+A suitable exercise on input and output would be to modify the program
+FILEWRIT.C to use another function 'fread', which reads data from a stream,
+or to place an EOF character at the end of the file, or to use a different
+set of functions than those used. Additional checks on the values returned
+by the various functions could also be included.
+
+
+INOUT.TXT
+30.12.90

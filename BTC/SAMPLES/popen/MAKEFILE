@@ -1,0 +1,15 @@
+popen.exe: popen.obj getswitch.obj
+	cc -epopen popen.obj getswitch.obj
+
+popen.obj: popen.c
+	cc -c -DDEMO popen.c
+
+clean:
+	rm -f *.obj core *.map
+
+clobber: clean
+	rm -f *.exe install
+	
+install:
+	cc -c popen.c
+	@echo What next?

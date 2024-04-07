@@ -1,0 +1,96 @@
+               KSLIB version 1.1, release date 13-Nov-91
+
+            Copyright 1991 Kevin Spencer, Digital Services.
+-------------------------------------------------------------------------------
+I retain full copyright on the software contained in this archive.
+
+Permission is hereby granted to copy and/or distribute this software, as long
+as no charge is made for such copying or distribution excepting any reasonable
+amount for media, mailing, and evaluation. This software may be embedded in
+a compiled application program sold for profit, as long as the libraries
+themselves are not part of the sale. The source code (if you have it) may
+not be distributed.
+
+You may use this software for a reasonable period for evaluation, but if you
+find it useful, the registration fee is $20AUS, payable to :
+
+Kevin Spencer
+17 Winchelsea Rd
+NOLLAMARA
+WESTERN AUSTRALIA  6061
+
+If you are using foreign currency, and can't get it converted, figure it out
+pretty close. I'm not worried about a couple of dollars either way. I'll
+accept anything except cash (Anything I can convert to cash at the local
+bank anyway). I'll even accept cash if you want to risk it not getting to me.
+
+Registered users will receive a free copy of new versions for 12 months,
+through either E-mail or Snail-mail, as well as preference on any improvement
+suggestions. How long it takes for the next release depends mainly on how many
+people register.
+
+The source to this software is available for $50AUS. Same conditions as above
+regarding foreign currency and acceptable payment methods. Source won't be
+released to non-registered users.
+
+This software is provided as-is, and no claim, expressed or implied, is made
+as to it's suitability for any given purpose. Use it at your own risk. I'm
+not responsible for any damages (I can't think of a good legalese way of
+saying that).
+
+-------------------------------------------------------------------------------
+Edit History :
+---------------
+01-Sep-91	Version 1.0 released
+			-	Yecch. Full of warnings. Ok for a first attempt I suppose.
+13-Nov-91	Version 1.1 released
+			-	Now compiles with no warnings, with Turbo-C being as strict
+				as I can make it.
+			-	Database library radically modified to improve speed -
+				Unfortunately, its not backward compatible, although the
+				differences are minor unless you're using multiple indexes
+				per file. If you are, be patient. They'll be put back in for
+				version 1.2 in a month or two.
+			-	More functions added, plus another library.
+			-	Various improvements made to many functions.
+			-	Documentation improved.
+-------------------------------------------------------------------------------
+To compile :
+-------------
+Make sure Turbo-C is in your path, then type 'make demo1' or 'make demo2'
+to compile either of the two demos, or 'make all' to compile both.
+
+For normal use, place the header files in your include directory, the library
+files in your library directory, and compile your programs as per normal,
+making sure you include the appropriate files in your source, and link the
+libraries at link-time.
+
+Note that all the library names end in 'L'. This is because they were all
+built using the Large memory model. I'd like to make them usable with all
+memory models, but I haven't figured out how yet. The first stage will be
+for me to build them successfully using the Tiny memory model, then go from
+there. If this occurs in a future release, the tiny model libraries will all
+end in 'T'. Eventually (when I make them model-independent), the suffix will
+be removed completely.
+
+-------------------------------------------------------------------------------
+Header files :
+---------------
+All functions must have the appropriate header files included. You could
+get away without it on some, but it is advised against. In view of this,
+I'm not going to tell you which ones are safe :-)
+
+In general, functions beginning with capital letters use the header file
+consisting of those letters. ie, WNback() uses wn.h. The rest of the functions
+you'll need to look up. These are generally the miscellaneous functions.
+
+Also, most (if not all) the functions refer to values defined in stdinc.h,
+such as TRUE, FALSE, etc. Therefore, you should include this file if you are
+using *any* of these functions.
+
+One other header file is scancode.h. This contains #defines for the scan codes
+returned by the keyboard. It was originally part of kk.h, but I found I was
+using it in other modules, so I gave the defines their own file.
+
+-------------------------------------------------------------------------------
+

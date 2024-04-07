@@ -1,0 +1,563 @@
++-------------------------------------------ƒƒƒƒƒƒƒƒ-----ƒƒƒƒƒƒƒƒ----+
+| This VENDINFO Product Information File contains both readable text |
+| and tools-accessible data about a product.  See the last text      |
+| section, below, for more information about VENDINFO and its tools. |
++--------------------------------------------------------------------+
+VENDINFO standard v1.04, produced by VendEdit v1.30, 25-Jun-1998
+
+===== Product Information ==============================
+   Product:             Simple Window I/O management system for DOS C/C++
+   Version:             1.8
+   Version Date:        24-Jun-1998
+   Product Type:        Software
+   Basic Distribution Policy (see License, below, for details):
+      Shareware, freely distributable by all channels
+
+   Product Description: Simple Windows 1.8 <ASP> an I/O management 
+                        system for DOS Turbo C/C++. !000's of 
+                        window,menus, screens, songs, forms with 40k 
+                        of static ram use. Disk and print management 
+                        with simple calls. File are built on an 
+                        editor without programing then are called. 
+                        Utlities for Conversion of older versions and
+                        to ASCCI text for spell checking. Simply Soft
+                        part of Simpsoft Inc. Pauls Valley,OK 73075
+   Reason for version:  Doc Upgrade
+
+   Category:            Utilities; Menu systems & file managers; 
+                        MS/FMs for developers
+   Keywords:            I/O management C/C++ turbo DOS file
+   Required Packages:   SIMPWN18
+   This Package:        SIMPWN18
+   Registration Fee:    50.00 (USA)
+
+   Required Configuration
+      Processor Family: Intel 80x86 (minimum 80286 (AT))
+        Clock Speed: 10 MHz
+      Minimum OS:       MS-DOS 4.0
+      Standard RAM:     640K
+      Hard Drive Space: 500K
+      Required:
+         Enhanced Graphic Adapter (EGA)
+         Color monitor
+         Keyboard
+      Won't Work With:
+         Hercules Graphics Card
+         Color Graphic Adapter (CGA)
+         Plotter
+      Req'd Software:   Turbo C 2.0 or Turbo C++ 1.0
+
+   Orders:
+      Address:          Simply Soft
+                        RT 1 Box 148A
+                        Pauls Valley,OK 73075
+      Phone:            405-665-4047
+      Internet:         simplyst@telepath.com
+
+   Support:
+      Address:          Simply Soft
+                        RT 1 Box 148A
+                        Pauls Valley,OK 73075
+      Phone:            405-665-4047
+      Internet:         simplyst@telepath.com
+
+
+===== Information for Users ("READ-ME") ================
+
+    The Simpsoft Inc. product line has been three years in the
+  making. We were tired of of stack overflow, out of memory 
+  errors, and that madding search for that lost open file or 
+  hidden overstrike. So we decided to write a small static 
+  utility library in C/C++ that would take care of all that. Three 
+  years later, Simply Soft gave birth to Simple Windows and the 
+  rest of the Simply Soft family.
+    Simply Soft is a DOS development and utility company aimed 
+  at the shareware developer. It is economical and user friendly. 
+  We have Five shareware and one free product at this time. All 
+  products are under $51 ,most are under $26 if not free 
+  (free, that's cheap), and a discount of 25% on Full Pack 1.1,  
+  all four utilities (Simply Windows 1.8, Font Edit 1.6, 
+  VGA Edit 1.4, and Simple Mouse 2.4). A $125 value for $100.
+  Registration gets phone support (24 hour answering machine), 
+  email, and Discounts on upgrades are also offered. So check out 
+  your stuff and drop us a line.
+
+                                      Sincerely,
+                                      Bruce R. O'Banion
+                                      Pres. Simpsoft Inc.
+
+Email:   simplyst@telepath.com
+
+Post:    RT 1 Box 148A
+         Pauls Valley,OK 73075
+
+Phone:   405-665-4042
+         405-665-4047
+
+Web:     http://www.telepath.com/simplyst/homepage.htm
+                                      
+   
+   Installation is easy just unzip SIMPWN18.ZIP and from that 
+directory or disk type install at the prompt. Then follow the
+instructions. Simple Windows can be deinstalled just as easy. 
+Again use install.exe from the distribution disk or if zipped 
+unzip to a temp directory and run from there. Simpwin.doc can be 
+read or printed with readocs.exe. It is a text file reader/printer 
+and will read or print a text file.
+
+  This program and utility were compiled on a 386 clonewith the 
+286 instruction set. It requires a 286 PC or compatible DOS 4.1
+or higher, and MS mouse, and EGA or higher (VGA for some 
+functions). And a 9 pin dot matrix is needed to print the docs. 
+
+
+
+===== Packing List =====================================
+
+As released by the author or publisher, this package contained the
+following files in addition to this VENDINFO.DIZ:
+
+        Filename      Size     Date       Time     CRC32
+       README.1ST     2137  25-Jun-1998  03:20p   0208A166
+      FILE_ID.DIZ      405  24-Jun-1998  01:59a   EB06F928
+      LICENSE.DOC    20274  25-Jun-1998  04:39p   E20CFBF1
+      INSTALL.EXE    35792  29-Aug-1997  07:03a   7FC828E6
+      RUNEXEC.EXE    17280  25-Aug-1997  02:25a   D5AAE6D7
+        UNZIP.EXE    88488   1-May-1996  10:30p   E20D74D1
+      PACKING.LST     3608  25-Jun-1998  05:12p   93A8C85A
+      INSTALL.SCR     2000  11-Mar-1997  07:01p   1E015351
+      INSTALL.SYS     4735  25-Jun-1998  03:21p   EB6F351F
+      SIMPWIN.ZIP   246908  25-Jun-1998  03:31p   8F0DF5B1
+         SS31.ZIP   233305  11-Aug-1997  10:43p   DD836041
+          SWH.ZIP     2682  11-Aug-1997  10:41p   88058BCF
+         SWTC.ZIP    81855  18-Sep-1997  07:42p   438DEF1E
+       SWTCPP.ZIP    84079  18-Sep-1997  07:20p   C03A1238
+     SWTCPPRJ.ZIP     1608  11-Aug-1997  10:42p   43EC9D14
+      SWTCPRJ.ZIP      157  27-Aug-1997  11:27p   55E8828E
+
+
+===== License for Use and Distribution =================
+
+                      DEFINITION OF SHAREWARE
+
+      Shareware distribution gives users a chance to try software
+   before buying it. If you try a Shareware program and continue
+   using it, you are expected to register. Individual programs
+   differ on details -- some request registration while others
+   require it, some specify a maximum trial period. With
+   registration, you get anything from the simple right to 
+   continue using the software to an updated program with printed 
+   manual.
+
+      Copyright laws apply to both Shareware and commercial 
+   software, and the copyright holder retains all rights, with a 
+   few specific exceptions as stated below. Shareware authors are 
+   accomplished programmers, just like commercial authors, and the 
+   programs are of comparable quality. (In both cases, there are 
+   good programs and bad ones!) The main difference is in the 
+   method of distribution. The author specifically grants the
+   right to copy and distribute the software, either to all and 
+   sundry or to a specific group. For example, some authors 
+   require written permission before a commercial disk vendor may 
+   copy their Shareware.
+
+      Shareware is a distribution method, not a type of software. 
+   You should find software that suits your needs and pocketbook,
+   whether it's commercial or Shareware. The Shareware system 
+   makes fitting your needs easier, because you can try before you 
+   buy. And because the overhead is low, prices are low also. 
+   Shareware has the ultimate money-back guarantee -- if you don't 
+   use the product, you don't pay for it.
+
+     PLEASE!  Show your support for Shareware by registering the
+     programs you actually use.  Simpsoft Inc. depends upon and
+     needs your support.  Thank you!
+
+
+   This file contains important license information regarding the
+   use of Simple Windows, Version 1.8.  This information applies 
+   to individual users who wish to pass copies out to friends and
+   associates.
+
+    Trial Use License:
+    ~~~~~~~~~~~~~~~~~~
+    Simple Windowsis NOT a public domain program.  It is Copyright
+    (c) 1994-97 by Bruce O'Banion.  All rights reserved.
+    This software and accompanying documentation are protected by
+    United States Copyright law and also by International Treaty
+    provisions.  Any use of this software in violation of Copyright
+    law or the terms of this limited license will be prosecuted to
+    the best of our ability.  The conditions under which you may 
+    copy this software and documentation are clearly outlined below 
+    under "Distribution Restrictions".
+
+    Bruce O'Banion hereby grants you a limited license to use this
+    software for evaluation purposes for a period not to exceed 
+    Thirty (30) days.  If you intend to continue using this 
+    software (and/or it's documentation) after the Thirty (30) day 
+    evaluation period, you MUST make a registration payment to 
+    Bruce R. O'Banion.
+
+           - Simple Windows, Version 1.8 - LICENSE.DOC -
+
+
+    Using this software after the thirty (30) day evaluation period
+    without registering the software is a violation of the terms of
+    this limited license.
+
+    Licensee shall not use, copy, rent, lease, sell, modify,
+    decompile, disassemble, otherwise reverse engineer, or transfer
+    the licensed program except as provided in this agreement.  Any
+    such unauthorized use shall result in immediate and automatic
+    termination of this license.
+
+    All rights not expressly granted here are reserved to Simply
+    Soft.
+
+
+    Limited Distribution License:
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    As the copyright holder for Simple Windows, Bruce R. O'Banion
+    authorizes distribution by individuals only in accordance with
+    the following restrictions.
+
+    Individuals are hereby granted permission by Bruce R. O'Banion 
+    to copy the Simple Windows diskette for their own use (for
+    evaluation purposes) or for other individuals to evaluate, ONLY
+    when the following conditions are met.
+
+    The Simple Windows package is defined as containing all the
+    material listed in the PACKING.LST text file.  If any files
+    listed in the PACKING.LST text file, or the PACKING.LST file
+    itself, are missing, then the package is not complete and
+    distribution is forbidden.  Please contact us to obtain a
+    complete package suitable for distribution.
+
+    o  The Simple Windows package - including all related program
+       files and documentation files - CANNOT be modified in any
+       way and must be distributed as a complete package, without
+       exception.  The PACKING.LST text file contains a list of
+       all files that are part of the Simple Windows package.
+
+    o  No price or other compensation may be charged for the
+       Simple Windows package.  A distribution cost may be
+       charged for the cost of the diskette, shipping and
+       handling, as long as the total (per disk) does not exceed
+       US$15.00 in the U.S. and Canada, or US$20.00
+       internationally.
+
+    o  The Simple Windows package CANNOT be sold as part of some
+       other inclusive package.  Nor can it be included in any
+       commercial software packaging offer, without a written
+       agreement from Bruce R. O'Banion.
+
+    o  The User's Guide may not be reproduced in whole or
+       in part, using any means, without the written permission
+       of Bruce R. O'Banion.  In other words, the disk-based
+       documentation may not be distributed in PRINTED (hardcopy)
+       form.
+
+    o  The Simple Windows package cannot be "rented" or "leased"
+       to others.
+
+    o  Licensee shall not use, copy, rent, lease, sell, modify,
+       decompile, disassemble, otherwise reverse engineer, or
+       transfer the licensed program except as provided in this
+       agreement.  Any such unauthorized use shall result in
+       immediate and automatic termination of this license.
+
+    All rights not expressly granted here are reserved to Bruce R.
+    O'Banion
+
+                Distribution Requirements VENDORS
+
+    Computer Clubs and User Groups wishing to add the Simple 
+    Windows package to their disk library may do so in accordance 
+    with the Distribution Restrictions listed below.
+
+    Limited Distribution License:
+    -----------------------------
+
+    As the exclusive copyright holder for Simple Windows, Bruce R. 
+    O'Banion authorizes distribution only in accordance with the 
+    following restrictions. 
+
+    ASP Approved Vendors in good standing are hereby given 
+    permission to distribute Simple Windows package.  Non-ASP 
+    member vendors are requested to ask permission prior to 
+    distributing this package.
+    
+    The Simple Windows package is defined as containing all the 
+    material listed in the PACKING.LST text file.  If any files 
+    listed in the PACKING.LST text file, or the PACKING.LST file 
+    itself, are missing, then the package is not complete and 
+    distribution is forbidden.  Please contact us to obtain a
+    complete package suitable for distribution.
+
+    The Simple Windows package - including all related program 
+    files and documentation files - CANNOT be modified in any way 
+    and must be distributed as a complete package, without 
+    exception.  The PACKING.LST text file contains a list of all 
+    files that are part of the Simple Windows package.
+
+    Small additions to the package, such as the introductory used 
+    by many shareware disk vendors, are acceptable.
+
+    No price or other compensation may be charged for the Simple 
+    Windows package.  A distribution fee may be charged for the 
+    cost of the diskette, shipping and handling, as long as the 
+    total (per disk) does not exceed US$15.00 in the U.S. and 
+    Canada, or US$20.00 internationally.
+
+    Disk Sets & CD-ROMs:
+    ~~~~~~~~~~~~~~~~~~~~
+    The Simple Windows package CANNOT be sold as part of some other 
+    inclusive package.  Nor can it be included in any commercial 
+    software packaging offer, without a written agreement from 
+    Bruce R. O'Banion.
+
+    ASP Approved Vendors who wish to distribute the Simple Windows
+    package as part of a collection (such as PsL's MegaDisk set, or 
+    a CD-ROM package) may do so provided that all the other 
+    restrictions are met.
+
+    Vendors (non-ASP Vendor Members) who wish to distribute the
+    Simple Windows package as part of a collection (such as PsL's 
+    MegaDisk set, or a CD-ROM package) are ask to obtain 
+    permission from Bruce R. O'Banion prior to beginning such a 
+    distribution.
+
+    If you wish to add any of our programs to a CD-ROM or other 
+    collection, please check the release date of the version you 
+    have.  If the version is over twelve (12) months old then 
+    please contact us to ensure that you have the most current 
+    version.  This version was released in July. 1998.
+
+    Disk-of-the-Month (or Subscription) Distribution:
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    If you would like to distribute the Simple Windows package as 
+    a Disk-of-the-Month, or as part of a subscription or monthly 
+    service, then the following restrictions apply:
+
+    ASP Associate (Disk Vendor) Members in good standing are hereby 
+    given permission to distribute the Simple Windows package under 
+    the Disk-of-the-Month style of distribution.
+
+    Others (non-ASP Members) are asked to contact us in advance to 
+    ensure that you have the most current version of the software.
+
+    You cannot use a Disk-of-the-Month distribution to use up your 
+    inventory of old (out of date) disks.  Only current versions 
+    may be shipped as Disk-of-the-Month disks.
+
+    The User's Guide may not be reproduced in whole or in part, 
+    using any means, without the written permission of Bruce R. 
+    O'Banion.  In other words, the disk-based documentation may 
+    not be distributed in PRINTED (hardcopy) form.
+
+    The Simple Windows package cannot be "rented" or "leased" to 
+    others.
+
+    You may not list any of our products in advertisements, 
+    catalogs, or other literature which describes our products as
+    "FREE SOFTWARE".  Shareware is "Try-Before-You-Buy" software, 
+    it is not free.
+
+    Bruce R. O'Banion prohibits the distribution of outdated 
+    versions of the Simple Windows package, without written 
+    permission from Bruce R. O'Banion. If the version you have is 
+    over twelve (12) months old, please contact us to ensure that 
+    you have the most current version.  This version was released 
+    in July, 1998.
+
+    Licensee shall not use, copy, rent, lease, sell, modify, 
+    decompile, disassemble, otherwise reverse engineer, or transfer 
+    the licensed program except as provided in this agreement.  Any 
+    such unauthorized use shall result in immediate and automatic 
+    termination of this license.
+
+    All rights not expressly granted here are reserved to Bruce R.
+    O'Banion. 
+
+                Distribution Requirements: SYSOPS
+
+    Limited Distribution License:
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    As the exclusive copyright holder for Simple Windows, Bruce R.
+    O'Banion authorizes on-line distribution only in accordance 
+    with the following restrictions.  
+
+    The Simple Windows package is defined as containing all the
+    material listed in the PACKING.LST text file.  If any files
+    listed in the PACKING.LST text file, or the PACKING.LST file
+    itself, are missing, then the package is not complete and
+    distribution is forbidden.  Please contact us to obtain a
+    complete package suitable for distribution.
+
+    o  The Simple Windows package - including all related program
+       files and documentation files - CANNOT be modified in any
+       way (other than that mentioned in the following paragraph)
+       and must be distributed as a complete package, without
+       exception.  The PACKING.LST text file contains a list of
+       all files that are part of the Simple Windows package.
+
+    o  Many BBSs customarily add a small text file
+       (advertisement) to each archived file.  This text file
+       describes the BBS and tells people that the file was
+       downloaded from that particular BBS.  Other BBSs add a
+       small one-line message with their BBS name and phone
+       number into the compressed file, which will display when
+       the file is uncompressed.  Either of these methods of
+       mentioning your BBS are acceptable and may be used,
+       provided the program and documentation is otherwise
+       unmodified and complete.
+
+    o  Bruce R. O'Banion prohibits the distribution of outdated
+       versions of the Simple Windows package, without written
+       permission from Bruce R. O'Banion.  If the version you
+       have obtained is over twelve (12) months old, please
+       contact us to ensure that you have the most current
+       version.
+
+    o  Licensee shall not use, copy, rent, lease, sell, modify,
+       decompile, disassemble, otherwise reverse engineer, or
+       transfer the licensed program except as provided in this
+       agreement.  Any such unauthorized use shall result in
+       immediate and automatic termination of this license.
+
+
+    All rights not expressly granted here are reserved to Bruce R.
+    O'Banion
+
+              ***** IMPORTANT WARRANTY INFORMATION *****
+
+                     Simple Windows, Version 1.8
+
+          *** PLEASE READ THIS INFORMATION CAREFULLY ***
+
+          TRIAL USE (SHAREWARE EVALUATION VERSION) WARRANTY
+
+   The Shareware evaluation (trial use) version is provided AS IS.
+   Bruce R. O'Banion MAKES NO WARRANTY OF ANY KIND, EXPRESSED OR
+   IMPLIED, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF
+   MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+
+
+                REGISTERED VERSION ONLY WARRANTY:
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Bruce R. O'Banion warrants the physical diskette(s) and physical
+   documentation provided with registered versions to be free of
+   defects in materials and workmanship for a period of ninety days
+   from the date of registration.  If Bruce R. O'Banion receives
+   notification within the warranty period of defects in materials
+   or workmanship, and such notification is determined by Simpsoft
+   Inc. to be correct, Bruce R. O'Banion will replace the
+   defective diskette(s) or documentation.
+
+   The entire and exclusive liability and remedy for breach of this
+   Limited Warranty shall be limited to replacement of defective
+   diskette(s) or documentation and shall not include or extend to
+   any claim for or right to recover any other damages, including
+   but not limited to, loss of profit, data, or use of the software
+   or special, incidental, or consequential damages or other 
+   similar claims, even if Bruce R. O'Banion has been specifically
+   advised of the possibility of such damages. In no event will
+   Bruce R. O'Banion's liability for any damages to you or any 
+   other person ever exceed the lower of suggested list price or 
+   actual price paid for the license to use the software, 
+   regardless of any form of the claim.
+
+   Bruce R. O'Banion SPECIFICALLY DISCLAIMS ALL OTHER WARRANTIES,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO, ANY IMPLIED
+   WARRANTY OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
+   PURPOSE.
+******************************************************************
+                  ASP OMBUDSMAN STATEMENT
+
+    "This program is produced by a member of the Association
+    of Shareware Professionals (ASP).  ASP wants to make sure
+    that the shareware principle works for you. If you are
+    unable to resolve a shareware-related problem with an ASP
+    member by contacting the member directly, ASP may be able
+    to help. The ASP Ombudsman can help you resolve a dispute
+    or problem with an ASP member, but does not provide
+    technical support for members' products. Please write to
+    the ASP Ombudsman at 157-F Love Ave., Greenwood, IN 46142
+    UAS, FAX 317-888-2195, or email to omb@asp-shareware.org.
+-----------------------------------------------------------------
+         NOTE:  simpwm18.zip is packaged on this disk using 
+         Info-ZIP's compression utility.  The installation program 
+         uses UnZip to read zip files from the disk.  Info-ZIP's 
+         software (Zip, UnZip and related utilities) is free and 
+         can be obtained as source code or executables from 
+         various bulletin board services and anonymous-ftp sites, 
+         including CompuServe's IBMPRO forum and ftp.uu.net:/pub/
+         archiving/zip/*. 
+------------------------------------------------------------------
+  U.S. Government Information:  Use, duplication, or
+  disclosure by the U.S. Government of the computer software
+  and documentation in this package shall be subject to the
+  restricted rights applicable to commercial computer
+  software as set forth in subdivision (b)(3)(ii) of the
+  Rights in Technical Data and Computer Software clause at
+  252.227-7013 (DFARS 52.227-7013).  The
+  Contractor/manufacturer is Simpsoft Inc., RT 1 Box 148A
+  Pauls Valley,OK 73075
+
+Please Help Us Serve You Better
+
+  We would appreciate copies of anything you print regarding 
+  Simple Windows. Please send us a copy of any reviews, 
+  articles, catalog descriptions, or other information you print 
+  or distribute regarding the Simple Windows package.  Thank you 
+  for your time and assistance and for supporting the shareware 
+  marketing concept.
+
+  Please refer to SIMPWIN.DOC for our mailing address and phone 
+  number.
+
+  Thank you for your support!
+-----------------------------------------------------------------
+TURBO C++ 1.0 copyright 1990 Borland International
+TURBO C 2.0 copyright 1987,1988 Borland International
+MS_DOS 5.0 copyright 1987-1991 Microsoft Corp.
+Thanks to Dave Kirsch for the map access code and pixel
+set from MOU105 Copyright (C) 1990, 1991 by Dave Kirsch.
+INFO-ZIP Copyright (C) 1990-1996  Mark  Adler,  
+Richard  B. Wales, Jean-loup  Gailly, Onno  van  der Linden, 
+Kai Uwe Rommel, Igor Mandrichenko, John Bush and Paul Kienitz.  
+Permission is  granted to any individual or institution to use, 
+copy, or redistribute this software so long as all of the 
+original  files  are  included, that it is not sold for profit,
+and that this copyright notice is retained.
+Sharespell v3.1 copyright 1989-96 by Acropolis Software.
+
+  The attached VENDINFO data record is hereby incorporated by 
+  reference. Any distribution satisfying all the distribution 
+  requirements expressed in that data record is hereby authorized.
+
+
+
+===== About VENDINFO Files =============================
+
+Each VENDINFO.DIZ file contains extensive information about a product.
+This "human-readable" section is followed by a compressed data record
+useable by automated tools.  The data record allows BBSes and other
+distributors to automate package handling, and provides users with a
+wealth of product information.  VENDINFO tools (free viewer for users,
+free or inexpensive processors for distributors, editors for authors)
+are available from many sources, including the originators of VENDINFO:
+  Rams' Island Software    Voice: 303-841-2848  CompuServe: 76244,324
+  7644 E. Lakecliff Way      BBS: 303-841-6269     FidoNet: 1:104/333
+  Parker, CO 80134-5904 USA  FAX: 303-841-6269        RIME: 1235
+
+
+===== Compressed Data Record Follows ===================
+
+PK
+   ¬âŸ$)¸÷  ú#  	   VENDDATA.+-7M=- w˜˜≠uJ4©S£O$Xê,¿ÄŸIn-Cyı≤S&Â<‚öø˜fw¿··Ø¸€∂|˚—øNM€.€≤ Ø¶uKˆÌk∏I_>Ÿ6¨€∞gÀ∂-Îñ.»πyÁ“I<H≥oÂÇ$˙t*»°/áÆ\Å «tâÉÿI};dU∏gÂÜ%[ÊƒØÍúº˚]∑1X˛ÄSì6Öz’I¢!bÃ 4ßÛ"ﬁç)°œ ‘4uBmƒ‘Ÿ'UPòsAµÉ‰t*Tü Í/5/ªÖ◊ªÇ∏›/Ûd*§ZWÆÿ7 ºﬁ√Ñ	Ûƒﬂöyg·<ã[ØS¯πcÂñA‹°øu{vÆK5«·#)_>âyzöÈÍ9zD=ÑΩd—´€Œ…∏”Eí&Ã5≠3πU?,›4iõŸ∂ΩÿóY>—¥s◊\]ÉÑ+7‹M‡∑rŒÃ˘±aŸ≤9:VÅ–{AM≥Ëa»RlùƒµÆ|∫Ü˙2Bu:'∑W˝∂.ùd‰yÁü˘≤n^≈Ø2Ωã’W•À∆ÙiÀŒ…∫|ªeÂàÔÿ4ÓoŸ‘yõ$;Á¨∏ÎÉÒ?thí‰ó≈KgVŒÖ[Fyœ√˛ÿ5·mUæÃrJÙm˝tî’§û©ì∫#ÍP√÷È˘AZ∏ŒÀÚÈRê7g¬ºYSÉP˜O®≥ 0unÎ`∑ıœm˝ò Å˘òTüxÇêê2K? ˙’–)‡C©& ú. Ò,Ω@â,–¯ Ñ/8`û¡|@èJsÃó)”%L:sd6‹Mπ„*+¥*Ö˛ÿ” ŸœÃêº˜á €Zäà‘¶xÓ∂|1‡h3|a‰`Ö ≠;f/.ÂFÛß'Ö\Ø*,√Ü5\4L©Tƒ˙ Öæ≈Sxö8Éx"BüTê ·y
+≥_≥•MÉ;<>@ìÑS™åó*ÕÅJLXAΩ-fˆ∞‘w9ˆm[ ]ô™çÈ;JñZ«Ã≤9ÔNÀ8Œp; £ú‘iä9 ‹–“ñV ÅÑæÅK[ˇˆ—átõÉV@]ƒ#
+ÜmÙñÃó11]éè¯1¸®«aaÆÅÚR	ÒÑ¡{,nxÙÅïÅ;èUßÄxDñ—(‡ˆÎ.£3ñ˝ÿQ∑e¸òw&â˝ñs—D9VÂhJŒœ‡HÅ»1ï!ﬁ K-∆x∂a¨$&†7iKâ¬£xˇ¿˚ﬁ? PK
+ 
+   ¬âŸ$)¸÷  ú#  	                 VENDDATA.PK      *   ˝    

@@ -1,0 +1,11 @@
+;
+; File name: P2TL2.DIF
+; Product  : Turbo C
+; Version  : TLIB.EXE 2.0
+;
+; Patch for TLIB; fixes a problem where line number information is lost
+; when creating a library.
+;
+    1067:  14
+           0A
+

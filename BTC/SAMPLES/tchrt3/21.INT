@@ -1,0 +1,116 @@
+! BIOS interrupt 21h function list.
+! Reference: MSDOS Functions Quick Reference Guide by Ray Duncan
+! Microsoft Press  ISBN #1-55615-128-4
+!
+! Note - all function numbers are in hexidecimal!
+!
+21 MSDOS System Services
+!
+00 terminate process
+01 char input with echo
+02 char output
+03 aux input
+04 aux output
+05 printer output
+06 direct console i/o
+07 unfilt input no echo
+08 char input no echo
+09 display string
+0A buffered keybd input
+0B check input status
+0C flush buffer & input
+0D disk reset
+0E select disk
+0F open file
+10 close file
+11 find first file
+12 find next file
+13 delete file
+14 sequential read
+15 sequential write
+16 create file
+17 rename file
+18 reserved
+19 get current disk
+1A set DTA address
+1B get def drive data
+1C get drive data
+1D reserved
+1E reserved
+1F reserved
+20 reserved
+21 random read
+22 random write
+23 get file size
+24 set rel record #
+25 set int vector
+26 create new PSP
+27 random block read
+28 random block write
+29 parse filename
+2A get date
+2B set date
+2C get time
+2D set time
+2E set verify flag
+2F get DTA address
+30 get MSDOS version
+31 term & stay res
+32 reserved
+33 get/set break flag
+34 reserved
+35 get int vector
+36 get drv alloc info
+37 reserved
+38 get/set country info
+39 create directory
+3A delete directory
+3B set current dir
+3C create file
+3D open file
+3E close file
+3F read file/device
+40 write file/device
+41 delete file
+42 set file pointer
+43 get/set file attr
+44 IOCTL functions
+45 dup handle
+46 redirect handle
+47 get current dir
+48 alloc mem block
+49 release mem block
+4A resize mem block
+4B execute program
+4C term proc w/code
+4D get return code
+4E find first file
+4F find next file
+50 reserved
+51 reserved
+52 reserved
+53 reserved
+54 get verify flag
+55 reserved
+56 rename file
+57 get/set file date
+58 get/set alloc strat
+59 get ext error info
+5A create temp file
+5B create new file
+5C lock/unlock file reg
+5D reserved
+5E get machine name
+5F misc 3.1 functions
+60 reserved
+61 reserved
+62 get PSP address
+63 get lead byte table
+64 reserved
+65 get ext country info
+66 get/set code page
+67 set handle count
+68 commit file
+!
+! end int 21h MSDOS System Services
+

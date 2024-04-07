@@ -1,0 +1,106 @@
+Publics by module
+
+BISECT  	size = 787
+	_bisect                         
+
+CTESTS  	size = 319
+	_ctestroot                      
+
+DET     	size = 806
+	_determinant                    
+
+EIGNHHGS	size = 2987
+	_householder_givens             
+
+EIGNJCBI	size = 2384
+	_jacobi                         
+
+EIGNPOWR	size = 1514
+	_eigen_power                    
+
+EIGNVECT	size = 1167
+	_eigen_vect                     
+
+EQDFMISC	size = 16398
+	_RKF                              _adams
+	_initcond                         _initcond1storder
+	_initcond2ndorder                 _initcondsystem1
+	_initcondsystem2                  _linear_shooting
+	_shooting                       
+
+FCOMPLEX	size = 1054
+	_cadd                             _carg
+	_cdiv                             _cmult
+	_conjugue                         _cpow
+	_csqrt                            _csub
+	_modulus                          _rassign
+	_rmult                          
+
+GSSELIM 	size = 1065
+	_backwardsubst                    _gauss_elimination
+
+GSSSDL  	size = 1833
+	_gauss_seidel                   
+
+INVERSE 	size = 979
+	_inverse                        
+
+LAGUERRE	size = 3107
+	_cpoly                            _cpoly_one_root
+	_cpoly_reduce                     _laguerre
+
+LSQ     	size = 6172
+	_lsq                              _lsqname
+
+LU      	size = 2789
+	_lu_decompose                     _lu_solve
+
+LVERRIER	size = 1316
+	_le_verrier                     
+
+MATMISC 	size = 1285
+	_ismatsym                         _mult_mat_vect
+	_mult_vect_vect                   _rdiv_vect
+	_row_mat_div                      _rowmultadd
+	_slargest_vect                    _swap_rows
+	_trans_size_system              
+
+MULLER  	size = 2770
+	_cpoly2_solve                     _muller
+
+NEWTHORN	size = 3199
+	_newton_horner                    _rpoly2_solve
+	_rpoly_one_root                   _rpoly_reduce
+	_rpoly_value_deriv              
+
+NEWTRAPH	size = 594
+	_newton_raphson                 
+
+PRTPIVOT	size = 1298
+	_partial_pivot                  
+
+RACMISC 	size = 38
+	_checkslope                     
+
+ROMBERG 	size = 1050
+	_romberg                        
+
+RTESTS  	size = 351
+	_isinfinite                       _isnear0
+	_rtestroot                      
+
+SECANT  	size = 643
+	_secant                         
+
+SIMPSON 	size = 372
+	_simpson                        
+
+STEFNSEN	size = 491
+	_steffensen                     
+
+SYSIO   	size = 2886
+	_beep                             _disa_err
+	_disa_m_beep                      _disa_wrn
+	_ena_err                          _ena_m_beep
+	_ena_wrn                          _errmsg
+	_werrmsg                          _wrnmsg

@@ -1,0 +1,33 @@
+                   History of PLATFORMTRON game library
+
+version 0.1  August 1995    (never released)
+  The first try to develop a game library. It was coded
+  in Turbo Pascal, but it was buggy and could not do many 
+  things. Only a simple layer was supported and very simple sprite
+  manipulations. The programmer's interface was bad. 
+  I abandoded the project.
+
+version 0.3  December 1995  (never released)
+  PLATFOMRTON was redesigned and ported to C++. This 
+  version could do as much as version 0.1
+
+version 0.5  March 1996   (never released)
+  Support for one more layer was added. A very simple keyboard handler
+  and timer handler was coded too. I also started coding the object lists
+  support routines and got the idea of priority lists.
+
+version 0.8  August 1996  (never released)
+  The first good version. sprintfdescr() and many other miscellaneous 
+  functions were added. Also that was the first version that could cooperate
+  with a music library. It ran well under dos.
+   
+version 1.00 January 1997 (this version)
+  I discovered that version 0.8 din't run under windows 95. The keyboard
+  handler could hang the system. Also there were problems with the screen 
+  refreshing when the program was again in foreground. One other problem was
+  that the animation speed was not the same under dos and windows.
+  I corrected all of these problems in this version and added EMS support for
+  the bitmaps. Now it is your turn to find bugs :-). 
+
+next version.
+  I will try to port PLATFORMTRON to Watcom C++.

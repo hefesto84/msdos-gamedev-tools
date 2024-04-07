@@ -1,0 +1,432 @@
+The following material consists of three patches for Borland's Turbo C
+version 1.0.  It was taken from the notes newsgroup comp.sys.ibm.pc and
+was originally posted as a reply to a message reporting a bug in the
+handling of floating division of two constants.  Part of the original
+message is preserved below (the lines prefixed with >).
+
+The bug is reported to have been only in the earliest copies of Turbo
+C shipped.  It is easy enough to see if your copy has it, just do the
+test outlined below.  If you get 0.8 as the answer, your copy has the
+bug.
+
+The other two patches claim to fix other problems.  These are outlined
+below.
+
+Though I do not know the original source of the patches, I believe them
+to be authoritative.
+
+                                   -------- Paul J. Gans
+
+
+========================================================================
+
+
+
+Article 4860 of comp.sys.ibm.pc:
+Path: cmcl2!yale!husc6!panda!teddy!jpn
+From: jpn@teddy.UUCP (John P. Nelson)
+Newsgroups: comp.sys.ibm.pc
+Subject: Re: Turbo C division bug
+Message-ID: <4130@teddy.UUCP>
+Date: 22 Jun 87 22:29:10 GMT
+References: <105@flnexus.ATT.COM>
+Reply-To: jpn@teddy.UUCP (John P. Nelson)
+Organization: GenRad, Inc., Concord, Mass.
+Lines: 115
+
+>It [Turbo C] does, however, seem to have a serious bug with the floating
+>point division routines. If your program does division on two constants:
+>
+>float x;
+>
+>x = 5.0/4.0;
+>
+>The result will be as if the division was inverted (i.e x = 4.0/5.0)
+
+And here is the patch.  Apparently only the earliest copies are afflicted
+with the bug.  Enjoy.
+
+PRODUCT : TURBO C
+VERSION : 1.0
+     OS : PC-DOS
+   DATE : MAY 20, 1987                                       PAGE : 1/2
+
+  TITLE : FLOATING POINT EVALUATION - PATCH
+
+
+
+
+     The following patch solves a problem with dividing floating point
+     evaluation.
+
+     To apply this patch, you will need to use the DOS utility DEBUG.COM.
+     You may obtain a copy of DEBUG.COM from one of your original PC-DOS
+     or  MS-DOS diskettes.
+
+     NOTE:   1. Do not patch your original Turbo C disk, use a working or
+                backup copy of TCC.EXE and TC.EXE for this patch.
+
+             2. DEBUG is not sensitive to upper and lower case.  All ad-
+                dresses are listed in upper case for ease of readibility.
+
+             3. XXXX,YYYY,ZZZZ are hexidecimal digits returned by DEBUG.
+                You must  replace these  digits accordingly when  typing
+                in your commands.
+
+             4. While in DEBUG, the prompt will appear as a dash (-).
+
+             5. If you do not receive the appropriate response,press "q"
+                followed by  <Enter>,  to exit  from DEBUG.   Check your
+                version number and, if correct, try again.
+
+             6. TCC.EXE and TC.EXE will not fit together onto a 360K disk.
+                To patch both  programs on a floppy disk,  you may need to
+                copy  TCC.EXE and DEBUG.COM  onto one disk and perform the
+                patch.  Save the patched version of TCC.EXE to another
+                disk.  Repeat the same steps using TC.EXE.
+
+     At the  DOS prompt,  type the  following  information exactly as it
+     appears (Conclude each line by pressing <Enter>).
+
+PRODUCT : TURBO C
+VERSION : 1.0
+     OS : PC-DOS
+   DATE : MAY 20, 1987                                       PAGE : 2/2
+  TITLE : DIVISION OF CONSTANTS - PATCH
+
+                         Patch for TCC.EXE
+
+     Type the following:                      You will see:
+
+     ren tcc.exe tcc.xex<Enter>               A>
+
+     debug tcc.xex<Enter>                     -
+
+     r<Enter>                                 ... CS=XXXX ...
+                                              -
+
+     h XXXX 2420<Enter>                       YYYY  ZZZZ
+                                              -
+
+     e YYYY:369<Enter>                        YYYY:0369   0A.
+
+     6<Enter>                                 -
+
+     e YYYY:36F<Enter>                        YYYY:036F   06.
+
+     A<Enter>                                 -
+
+     w<Enter>                                 Writing 2948A bytes
+
+     q<Enter>                                 A>
+
+     ren tcc.xex tcc.exe<Enter>
+
+                             Patch for TC.EXE
+
+     Type the following:                      You will see:
+
+     ren tc.exe tc.xex<Enter>                 A>
+
+     debug tc.xex<Enter>                      -
+
+     r<Enter>                                 ... CS=XXXX ...
+                                              -
+
+     h XXXX 2D01<Enter>                       YYYY  ZZZZ
+                                              -
+
+     e YYYY:35E<Enter>                        YYYY:035E   0A.
+
+     6<Enter>                                 -
+
+     e YYYY:364<Enter>                        YYYY:0364   06.
+
+     A<Enter>                                 -
+
+     w<Enter>                                 Writing 38759 bytes
+
+     q<Enter>                                 A>
+
+     ren tc.xex tc.exe<Enter>
+
+=============================================================================
+
+Relay-Version: version nyu B notes v1.5 12/10/84; site acf4.UUCP
+From: jpn@teddy.UUCP (John P. Nelson)
+Date: 22-Jun-87 18:54 EDT
+Date-Received: 22-Jun-87 21:15 EDT
+Subject: Turbo C structure bug (+Fix)
+Message-ID: <4133@teddy.UUCP>
+Path: acf4!cmcl2!yale!husc6!panda!teddy!jpn
+Newsgroups: comp.sys.ibm.pc
+Organization: GenRad, Inc., Concord, Mass.
+Lines: 152
+
+
+PRODUCT : TURBO C                                               NUMBER : 355
+VERSION : 1.0                                           
+     OS : PC-DOS
+   DATE : May 28, 1987                                          PAGE : 1/1
+
+ TITLE  : STRUCTURE PUSH FLOATING POINT PATCH
+
+______________________________________________________________________________
+
+
+     The following patch solves a problem with pushing structures
+     with floating point elements onto the stack in Turbo C.
+
+     To apply this patch, you will need to use the DOS utility DEBUG.COM.
+     You may obtain a copy of DEBUG.COM from one of your original PC-DOS
+     or  MS-DOS diskettes.
+
+     NOTE:   1. Do not patch your original Turbo C disk, use a working or
+                backup copy of TCC.EXE and TC.EXE for this patch.
+
+             2. DEBUG is not sensitive to upper and lower case.  All ad-
+                dresses are listed in upper case for ease of readibility.
+
+             3. XXXX,YYYY,ZZZZ are hexidecimal digits returned by DEBUG.
+                You must  replace these  digits accordingly when  typing
+                in your commands.
+
+             4. While in DEBUG, the prompt will appear as a dash (-).
+
+             5. If you do not receive the appropriate response,press "q"
+                followed by  <Enter>,  to exit  from DEBUG.   Check your
+                version number and, if correct, try again.
+
+             6. TCC.EXE and TC.EXE will not fit together onto a 360K disk.
+                To patch both  programs on a floppy disk,  you may need to
+                copy  TCC.EXE and DEBUG.COM  onto one disk and perform the
+                patch.  Save the patched version of TCC.EXE to another
+                disk.  Repeat the same steps using TC.EXE.
+
+     At the  DOS prompt,  type the  following  information exactly as it
+     appears (Conclude each line by pressing <Enter>).
+
+
+                             Patch for TCC.EXE
+
+     Type the following:          You will see:
+
+     ren tcc.exe tcc.xex<Enter>   A>
+
+     debug tcc.xex<Enter>         -
+
+     r<Enter>                     ... CS=XXXX ...
+                                  -
+
+     h XXXX 1C0C<Enter>           YYYY  ZZZZ
+                                  -
+
+     e YYYY:2FAD<Enter>           YYYY:2FAD   25.
+
+     A9<Space>                    YYYY:2FAD   25.A9   01.
+     <Space>                      YYYY:2FAD   25.A9   01.     00.
+     <Space>                      YYYY:2FB0   81.
+     74<Space>                    YYYY:2FB0   81.74   E2.
+     0B<Space>                    YYYY:2FB0   81.74   E2.0B   00.
+     40<Space>                    YYYY:2FB0   81.74   E2.0B   00.40   00.
+     26<Space>                    YYYY:2FB0   81.74   E2.0B   00.40   00.26
+                                              0B.
+     83<Space>                    YYYY:2FB0   81.74   E2.0B   00.40   00.26
+                                              0B.83   D0.
+     47<Space>                    YYYY:2FB0   81.74   E2.0B   00.40   00.26
+                                              0B.83   D0.47   74.
+     6<Space>                     YYYY:2FB0   81.74   E2.0B   00.40   00.26
+                                              0B.83   D0.47   74.6    0A.
+     1<Space>                     YYYY:2FB8   26.
+     <Space>                      YYYY:2FB8   26.     83.
+     <Space>                      YYYY:2FB8   26.     83.     47.
+     57<Space>                    YYYY:2FB8   26.     83.     47.57   06.
+     8<Space>                     YYYY:2FB8   26.     83.     47.57   06.8
+                                              01.
+     0<Space>                     YYYY:2FB8   26.     83.     47.57   06.8
+                                              01.00   26.
+     29<Space>                    YYYY:2FB8   26.     83.     47.57   06.8
+                                              01.00   26.29   83.
+     6<Space>                     YYYY:2FB8   26.     83.     47.57   06.8
+                                              01.00   26.29   83.6    57.
+     54<Space>                    YYYY:2FC0   08.
+     74<Space>                    YYYY:2FC0   08.74   00.
+     90<Enter>                    YYYY:2FC0   08.74   00.90
+                                  -
+
+     w<Enter>                     Writing 2948A bytes
+                                  -
+
+     q<Enter>                     A>
+
+     ren tcc.xex tcc.exe<Enter>   A>
+
+
+                             Patch for TC.EXE
+
+     Type the following:          You will see:
+
+     ren tc.exe tc.xex<Enter>     A>
+
+     debug tc.xex<Enter>          -
+
+     r<Enter>                     ... CS=XXXX ...
+                                  -
+
+     h XXXX 2557<Enter>           YYYY  ZZZZ
+                                  -
+
+     e YYYY:2FA4<Enter>           YYYY:2FA4   25.
+
+     A9<Space>                    YYYY:2FA4   25.A9   01.
+     <Space>                      YYYY:2FA4   25.A9   01.     00.
+     <Space>                      YYYY:2FA4   25.A9   01.     00.     81.
+     74<Space>                    YYYY:2FA8   E2.
+     0B<Space>                    YYYY:2FA8   E2.0B   00.
+     40<Space>                    YYYY:2FA8   E2.0B   00.40   00.
+     26<Space>                    YYYY:2FA8   E2.0B   00.40   00.26   0B.
+     83<Space>                    YYYY:2FA8   E2.0B   00.40   00.26   0B.83
+                                              D0.
+     47<Space>                    YYYY:2FA8   E2.0B   00.40   00.26   0B.83
+                                              D0.47   74.
+     6<Space>                     YYYY:2FA8   E2.0B   00.40   00.26   0B.83
+                                              D0.47   74.6    0A.
+     1<Space>                     YYYY:2FA8   E2.0B   00.40   00.26   0B.83
+                                              D0.47   74.6    0A.1    26.
+     <Space>                      YYYY:2FB0   83.
+     <Space>                      YYYY:2FB0   83.     47.
+     57<Space>                    YYYY:2FB0   83.     47.57   06.8    26.
+     8<Space>                     YYYY:2FB0   83.     47.57   06.8    01.
+     0<Space>                     YYYY:2FB0   83.     47.57   06.8    01.00
+                                              26.
+     29<Space>                    YYYY:2FB0   83.     47.57   06.8    01.00
+                                              26.29   83.
+     6<Space>                     YYYY:2FB0   83.     47.57   06.8    01.00
+                                              26.29   83.6    57.6    08.
+     C<Space>                     YYYY:2FB0   83.     47.57   06.8    01.00
+                                              26.29   83.6    57.C    08.
+     A3<Space>                    YYYY:2FB8   00.
+     90<Enter>                    YYYY:2FB8   00.90
+                                  -
+
+     w<Enter>                     Writing 38759 bytes
+                                  -
+
+     q<Enter>                     A>
+
+     ren tc.xex tc.exe<Enter>     A>
+
+
+===========================================================================
+
+
+Relay-Version: version nyu B notes v1.5 12/10/84; site acf4.UUCP
+From: jpn@teddy.UUCP (John P. Nelson)
+Date: 22-Jun-87 18:52 EDT
+Date-Received: 22-Jun-87 21:15 EDT
+Subject: Turbo C -G bug (FIX!)
+Message-ID: <4132@teddy.UUCP>
+Path: acf4!cmcl2!yale!husc6!panda!teddy!jpn
+Newsgroups: comp.sys.ibm.pc
+Organization: GenRad, Inc., Concord, Mass.
+Lines: 97
+
+
+PRODUCT : TURBO C                                               NUMBER : 356
+VERSION : 1.0                                           
+     OS : PC-DOS
+   DATE : May 28, 1987                                          PAGE : 1/1
+
+ TITLE  : -G PATCH
+
+______________________________________________________________________________
+
+
+     The following patch solves a problem in Turbo C where the
+     compiler can run out of memory compiling a large switch
+     statement if the -G option is used.
+
+     To apply this patch, you will need to use the DOS utility DEBUG.COM.
+     You may obtain a copy of DEBUG.COM from one of your original PC-DOS
+     or  MS-DOS diskettes.
+
+     NOTE:   1. Do not patch your original Turbo C disk, use a working or
+                backup copy of TCC.EXE and TC.EXE for this patch.
+
+             2. DEBUG is not sensitive to upper and lower case.  All ad-
+                dresses are listed in upper case for ease of readibility.
+
+             3. XXXX,YYYY,ZZZZ are hexidecimal digits returned by DEBUG.
+                You must  replace these  digits accordingly when  typing
+                in your commands.
+
+             4. While in DEBUG, the prompt will appear as a dash (-).
+
+             5. If you do not receive the appropriate response,press "q"
+                followed by  <Enter>,  to exit  from DEBUG.   Check your
+                version number and, if correct, try again.
+
+             6. TCC.EXE and TC.EXE will not fit together onto a 360K disk.
+                To patch both  programs on a floppy disk,  you may need to
+                copy  TCC.EXE and DEBUG.COM  onto one disk and perform the
+                patch.  Save the patched version of TCC.EXE to another
+                disk.  Repeat the same steps using TC.EXE.
+
+     At the  DOS prompt,  type the  following  information exactly as it
+     appears (Conclude each line by pressing <Enter>).
+
+
+                             Patch for TCC.EXE
+
+     Type the following:          You will see:
+
+     ren tcc.exe tcc.xex<Enter>   A>
+
+     debug tcc.xex<Enter>         -
+
+     r<Enter>                     ... CS=XXXX ...
+                                  -
+
+     h XXXX 1635<Enter>           YYYY  ZZZZ
+                                  -
+
+     e YYYY:7E0<Enter>            YYYY:07E0   7C.
+
+     72<Enter>                    YYYY:07E0   7C.72
+                                  -
+
+     w<Enter>                     Writing 2948A bytes
+                                  -
+
+     q<Enter>                     A>
+
+     ren tcc.xex tcc.exe<Enter>   A>
+
+
+                             Patch for TC.EXE
+
+     Type the following:          You will see:
+
+     ren tc.exe tc.xex<Enter>     A>
+
+     debug tc.xex<Enter>          -
+
+     r<Enter>                     ... CS=XXXX ...
+                                  -
+
+     h XXXX 1F84<Enter>           YYYY  ZZZZ
+                                  -
+
+     e YYYY:7E1<Enter>            YYYY:07E1   7C.
+
+     72<Enter>                    YYYY:07E1   7C.72
+                                  -
+
+     w<Enter>                     Writing 38759 bytes
+                                  -
+
+     q<Enter>                     A>
+
+     ren tc.xex tc.exe<Enter>     A>
+
+

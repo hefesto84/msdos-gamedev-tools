@@ -1,0 +1,147 @@
+
+                           What's New in TCU V3.2?
+                           =======================
+
+
+Karl Keyte                             Phone:  +(49) 6150 2499
+Gross-Gerauer Strasse 10
+D-6108 Weiterstadt                     e-Mail: Network  KKEYTE@ESOC.BITNET
+Germany                                        Bix      kkeyte
+
+------------------------------------------------------------------------------
+
+History:  TCU 1.0   Limited release with basic menu functions. No windows
+                    or forms.  Had the name C_MENUS.
+          TCU 2.0   Added pop-up menus and form entry.
+	  TCU 2.1   New functions to forms including new forms compiler,
+                    also included pull-down menus. Only links with the new
+                    Turbo-C++ compiler.
+          TCU 2.2   Re-introduced support for Turbo-C compiler after missing
+                    modules were located which caused v2.1 to fail with TC2.0.
+                    Added continuation line facility in form source files,
+                    and corrected a number of minor bugs.
+          TCU 2.3   Field selection and function key support in forms. New
+                    functions to get information on forms and fields.
+		    All memory models (except TINY) supported. The initial
+                    release of version 2.3 was missing an internal function
+		    which was required for SMALL and COMPACT memory models.
+          TCU 3.0   Added window support functions. Modified the form field
+                    verification and function key hander interface to allow
+		    full manipulation of the form under edit from the handler
+		    function. Forms Compiler changed to generate relocatable
+                    object modules which may be linked with applications
+                    directly. Forms linked in this way are loaded with the
+                    new 'load_image_form' function.
+          TCU 3.01  Include file TCU.H was amended to allow compilation under
+                    C++ prototype rules. No functional changes whatsoever.
+          TCU 3.1   Bug fixes. Added titles for forms and notices. User mouse
+                    mode toggling. New form field type, BUTTON, plus support
+                    for button handlers. Confirmation prompt windows added to
+                    notices subsystem. Enhanced error checking in the forms
+                    compiler, plus support for repeated form blocks for
+                    table-like forms.
+          TCU 3.2   Bug fixes. New function names for all services with the
+                    facility to use the old ones if required. Idle loops added
+                    for background processing. Functions added to support full
+                    form record manipulation. New form mode and support for
+                    blinking foreground colours. Improved string field input
+                    templates. Keypress handler functions.
+
+
+
+IMPORTANT:  If you use the RTL library supplied with Turbo-C V2.0 rather than
+            Turbo-C++ V1.0x, you MUST also link to the supplied library
+            TCU_CPP.LIB which provides functions referenced in TCU.LIB but
+            unavailable in Turbo-C V2.0. In addition, all compilation and
+            linking with the Turbo-C Utilities must be performed with the
+            WORD ALIGN option set ON. Failure to do so will result in
+            incorrect operation of the program.
+
+
+
+The following changes have been made since TCU Version 3.1
+
+
+Bug Fixes
+---------
+
+  o  Range checking in 'put_field' was not blocking illegal limit values
+     with floating point type fields.
+
+  o  Pop-up menus with more than 16 options would not allow the selection
+     of options > 16 either by keyboard or mouse.
+
+  o  Large data memory models did not force the confirmation of pulldown
+     menus selected with hot-keys.
+
+  o  Cancelling form entry with ESC or CNTL/C, Fn-Keys, etc. was not
+     preventing the update for the form in version 3.1.
+
+  o  If the field under edit in a form is updated in a function handler, the
+     value is lost when the field pointer is moved to another field.  This
+     has been corrected by offering an additional function key handler
+     return code which requests the update-in-place of the current field.
+
+  o  Calls to 'put_field' inside a field verification function could cause the
+     system to lock-up because of recursive verification. Verification is now
+     disabled for calls from within a verification handler.
+
+  o  Selection of a button field in a form did not verify the previous field
+     before executing the button handler function.
+
+
+
+Changes & new features
+----------------------
+
+  o  An installation program has been provided which will install TCU in a
+     user specified configuration. The source for the installation program is
+     provided with the delivery to serve as an additional example of TCU
+     application programming.
+
+  o  All functions now provided use the 'tcu_' prefix. In addition, all upper-
+     case constants defined in TCU.H a prefixed with 'TCU_'. The old naming
+     convention may be optionally used, though it will be discontinued in the
+     future.
+
+  o  Idle processing has been added to enable the application to perform
+     activities while a keypress or mouse click is pending. Three new
+     functions, 'tcu_set_idle_loop', 'tcu_save_environment' and
+     'tcu_restore_environment' have been added to support this new feature.
+
+  o  Functions 'tcu_form_record_size', 'tcu_write_formrec' and
+     'tcu_read_formrec' have been added to support easy manipulation of whole
+     form records.
+
+  o  A new form mode has been added to allow escape keys (ESC, CNTL/C, PgUp
+     and PgDn) to be enabled and disabled for a given form.
+
+  o  The form object is now passed to help functions together with the field
+     ID so that the function is able to use the 'tcu_get_field_id' function in
+     order to check the field ID against a named field.
+
+  o  Added support for blinking foreground colours.
+
+  o  Added string hashing function for rapid table look-ups.
+
+  o  Enhanced string field input templates by allowing user-specified fixed
+     format templates to be used.
+
+  o  Changed the button selection strategy so that a single click on a button
+     with the mouse selects the button regardless of whether the cursor is
+     already in that field. Selection with the keyboard remains unchanged.
+
+  o  Three new field modes added to the form source definition in line with
+     the options available in 'tcu_set_field_mode'. The modes are 'Confirm',
+     'NoEcho' and 'NoEdit'.
+
+  o  Pulldown menu selection has been modified so that a pulldown may be
+     selected without clearing the previously selected menu.
+
+  o  Added the EDITFIELD facility to the forms (& forms compiler) to allow
+     specification of colour attributes during actual field edit.
+
+  o  Added user defined key handler functions with the two new services
+     'tcu_set_user_key_handler' and 'tcu_get_user_keypress'.
+
+  o  The current TCU version number is described by the constant _TCU_version.

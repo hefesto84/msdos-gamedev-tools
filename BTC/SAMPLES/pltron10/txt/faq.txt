@@ -1,0 +1,122 @@
+                           PLATFORMTRON FAQ
+------------------------------------------------------------------------------
+
+Q000: The compiler says that it cannot find PLATFORMTRON include files
+      and pltron.lib. What should i do ?
+Q001: I get "Undefined symbol 'symbolname' in module 'modulename' " error
+      messages when i try to link PLATFORMTRON with my program. pltron.lib
+      is in my project file. What's wrong ?
+Q002: The view window is too big for my game. How can i reduce its size ?
+Q003: How can i have a sprite that is always displayed on a fixed position
+      on the screen ?
+Q004: 640K is not enough memory to do something good. What about EMS,XMS,
+      protected mode ?
+Q005: Can i use only one layer ? I dont need the other one.
+Q006: I have written a simple program that uses PLATFORMTRON and it
+      crashes. What can be wrong ?
+Q007: I like to reduce the frame rate of PLATFORTMTRON. What should i do ?
+Q008: I want to display a menu in the middle of my game.
+      Is it possible to write directly at video ram under PLATFORMTRON ?
+Q009: I think i have found a bug in PLATFORMTRON. What should i do ?
+Q010: What about parallax scrolling ?
+
+
+
+Q000: The compiler says that it cannot find PLATFORMTRON include files
+      and pltron.lib. What should i do ?
+A:    Go to Options|Directories and add the directories that contain
+      PLATFORMTRON include files and pltron.lib, into the appropriate text
+      fields. Then go to Options|Save to save the changes.
+
+
+Q001: I get "Undefined symbol 'symbolname' in module 'modulename' " error
+      messages when i try to link PLATFORMTRON to my program. pltron.lib
+      is in my project file. What's wrong ?
+A:    Make sure that "case-sensitive link" is off.
+      Look at Options|Linker|Settings
+
+
+Q002: The view window is too big for my game. How can i reduce its size ?
+A:    You cant. The view window is always 320x200.
+
+
+Q003: How can i have a sprite that is always displayed on a fixed position
+      on the screen ?
+A:    That's really very simple:
+      Your sprite must use the following action function:
+
+       void  fixedaction(TOobject *obj)
+        {
+          obj->x=obj->owner->x + (screen x coordinate);
+          obj->y=obj->owner->y + (screen y coordinate);
+        }
+      Be sure that you assign, a priority number greater than the priority
+      number of any object that does the scrolling, to your sprite,
+      so fixedaction() is called after the scrolling has been done.
+
+
+
+Q004: 640K is not enough memory to do something good. What about EMS,XMS,
+      protected mode ?
+A:    EMS memory is already supported by PLATFORMTRON, but only for bitmaps
+      see TOworld::storebitmap() , TOworld::getbitmapdataptr(), and
+      TOworld::freeemsbitmaps() fore more details.
+      XMS memory is not supported and will never be.
+      I am currently porting PLATFORMTRON to protected mode for WATCOM C/C++
+      So there will be a protected mode version of PLATFORMTRON soon or late.
+
+
+
+Q005: Can i use only one layer ? I dont need the other one.
+A:    You cannot use only one layer. You must always have background AND
+      foreground layers. Background attributes layer is optional.
+
+
+
+Q006: I have written a simple program that uses PLATFORMTRON and it
+      crashes. What can be wrong ?
+A:    If your program crashes the first thing you have to do is to
+      check what every function ,you call, returns. If you find a
+      function that returns an error code then you can correct this
+      error.
+        The most of the times you will propably have forgotten
+      to call some other function.
+      For example:
+      You tried to call TOworld::makelayer() without first calling
+      TOworld::setdimensions();
+        There is also an other common type of error:
+      For example:
+      TOworld::makeframesdescrs(1);
+      TOworld::makebitmaps(12);
+      TOworld::make1bitmapdescr(0,12, 0);
+      The last function call makes a frame descriptor of a single bitmap,
+      the bitmap number 12. That's a serious mistake because bitmap numbers
+      go from 0 to 11 (you have made only 12 pointers to bitmaps) and so
+      the bitmap number 12 doesnot exist. make1bitmapdescr() will return
+      ERR_OUTOFRANGE, but if you ignore this and try to call, later,
+      TOworld::animate() then your program will propably crash.
+
+
+
+Q007: I like to reduce the frame rate of PLATFORTMTRON. What should i do ?
+A:    You must change PLATFORMTRON kernel. See PLATFORMTRON kernel in the
+      manual for more details.
+
+
+
+Q008: I want to display a menu in the middle of my game.
+      Is it possible to write directly at video ram under PLATFORMTRON ?
+A:    The only functions that allow you to do that are TOworld::M2Vsolid()
+      and TOworld::M2Vthru(). See their descriptions in the manual for more
+      details.
+
+
+
+Q009: I think i have found a bug in PLATFORMTRON. What should i do ?
+A:    First make sure that it is a real bug. It may be your fault.
+      Then fill in the BUG.FRM and send it to me.
+
+
+
+Q010: What about parallax scrolling ?
+      It is not supported and propably will never be.

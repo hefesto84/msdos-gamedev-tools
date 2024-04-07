@@ -1,0 +1,4 @@
+winddemo.c (include\window.h)
+lib\windm.lib
+lib\mcmvsmem.obj
+

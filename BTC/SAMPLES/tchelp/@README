@@ -1,0 +1,20 @@
+08 June 1987
+
+Included here is a quick-and-dirty reference guide to the library functions
+in Turbo C version 1.0.  Some functions, such as string functions, are 
+collected under one heading, such as "str..." or "exec...".
+
+TCHELP.EXE is a Turbo C program to search the reference guide (TC.DAT)
+for the function, and display the information about it to the console.
+TCHELP.C is a Turbo C version of R.E.Sawyer's ABOUT.C routine, revised
+for Turbo C.
+
+Contributions are always welcome.  Please send any revisions to TC.DAT as
+well to:
+
+Edward V Dong
+DragonWare
+12205 Alexandria Place
+Chino, CA 91710
+
+================================================> money is always nice!

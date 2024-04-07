@@ -1,0 +1,46 @@
+                  C LANGUAGE REFERENCES.
+                  ßßßßßßßßßßßßßßßßßßßßßß
+
+'The C Programming Language'  by Brian W. Kernighan and Dennis M. Ritchie.
+                              Second Edition.  14.95
+                              Prentice Hall Software Series (1988).
+
+'Turbo C User's Guide'        by Borland International.
+                              Version 2.0 (1988).
+
+'Turbo C Reference Guide'     by Borland International.
+                              Version 2.0  (1988).
+
+'New C Primer Plus'           by Mitchell Waite and Stephen Prata.
+                              Howard W. Sams & Company  (1990).
+
+'Turbo C Programming for      by Robert Lafore of the Waite Group.
+                    the PC'   Howard W. Sams & Company  (1989).
+
+'Supercharged C Graphics'     by Lee Adams.
+                              Windcrest  (1990).
+
+'C Language'                  by Friedman Wagner-Dobler.
+                              Computer Language Handbooks. Pitman (1985).
+
+'The Big Red Book of C'       by Kevin Sullivan.
+                              Sigma Press.  (1983).  7.50
+
+'Graphics Programming in C'   by Roger T. Stevens.
+                              M & T Books.  24.95
+
+'Using Turbo C++'             by Herbert Schildt.
+                              Borland*Osborne/McGraw-Hill  (1990).  22.95
+
+'Teach Yourself C'            by Herbert Schildt.
+                              Borland*Osborne/McGraw-Hill.
+
+'C: The Complete Reference'   by Herbert Schildt.
+                              2nd. Ed.  Borland*Osborne/McGraw-Hill.
+
+
+Many other books are published by Osborne/McGraw-Hill.
+
+
+REF.TXT
+3.1.91

@@ -1,0 +1,17 @@
+PLATFORMTRON game library was compiled with BC++ 3.1
+for the large memory model. It requires at least 386
+with a VGA card. Recommended 486 with VLB VGA card.
+
+To install it enter IDE and go to Option|Directories.
+Add the path to PLATFORMTRON include files in the
+"include directories" textfield. Also add the path to
+pltron.lib in the "library directories" textfield.
+Then save the options and you are finished.
+
+To see a demo program go to examples\demo and run ex4.exe
+
+Important: Be sure you unzipped the file with -d parameter
+
+           
+
+

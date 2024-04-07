@@ -1,0 +1,7 @@
+VGA Edit is a complete color editor for DOS 
+with Turbo C/C++ libs. Single palette and DAC
+regs can be used or full palette and DAC regs
+sets can be edited and loaded. Reg $25 + $3 
+s/h gets full support, extra executes and all
+monies go toward upgrades. Simply Soft Pauls 
+Valley,OK 73075

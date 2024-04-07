@@ -1,0 +1,93 @@
+          FUNCTIONS, PROTOTYPES, PARAMETERS and RETURN VALUES.
+          ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+A function in the C language is equivalent to a subroutine or function in
+Fortran, or a procedure or function in Pascal.  In C, a function may
+return a value to the calling statement, as a function does in Pascal, or
+it may not, as with a procedure in Pascal.
+
+These notes refer to the ANSI C standard, which has been developed since
+1983 and the style of the function declaration is referred to as the
+modern format.  Pre-ANSI compilers may not conform and certainly do not
+include function prototypes.  The pre-ANSI format is called classical.
+
+There are many standard functions, like printf(), but a user may
+incorporate functions of his own. A function definition has the form:
+
+     return-type function-name(parameter declarations, if any)
+     {
+          declarations
+          statements
+     }
+
+A typical example illustrates this for the raising of a base value to
+the power n:
+
+     int power(int base, int n)     /* ANSI C function prototyping */
+     {
+          int i, p;
+
+          p = 1;
+          for (i = 1; i <= n; ++i)
+               p = p * base;
+          return p;                 /* Value returned by function   */
+     }
+
+The above example is taken from Kernighan and Ritchie.  Another example
+is given on pages 177 and 178 of the User's Guide (version 2.0).
+A function is used in the simple program EXAMPLE.C which is included in
+the tutorial menu.
+
+In ANSI C, the function declaration or prototype specifies the type of
+the return value from the function as well as the type and number of
+parameters. This allows error-checking of type and number of parameters.
+
+Turbo C supports both the classical and modern styles, but the modern
+style using function prototypes and prototype-style function definitions
+is recommended.  Problems can then be prevented, especially when
+compiling libraries of C routines.  It is recommended that a separate
+file, called a 'header' file (with a .h extension) is used and is
+included with the user program with the directive '#include'. Error
+checking can then take place at compile time.
+
+If a function does not return a value then the term 'void' is used in the
+function declaration or prototype and similarly if there are no
+parameters, again 'void' is used.  In this context void means empty, not
+invalid.
+
+From the example in the User's Guide, it is observed that the variable
+named as a parameter in the parenthesized list in a function definition
+is different from the value used in a call to that function.  This is
+natural, as the parameter name is fixed and local to the function, but
+may need to represent a variety of different variables for each call to
+that function.  The terminology attempts to highlight this point by
+referring to the parenthesized list in a function definition as either a
+'parameter' or a 'formal argument', whilst the value used in the call of
+the function is referred to as either an 'argument' or 'actual argument'.
+
+An example from the User's Guide is:
+
+/* Function declarations */
+...
+float get_ratio(float dividend, float divisor);     /* parameters */
+...
+...
+/* Main function */
+main()
+{
+   float  a,b,ratio;
+...
+   ratio = get_ratio(a,b);                          /* arguments */ ...
+}
+
+
+Many standard functions are contained in library files with extension
+names '.lib' and the appropriate header files (with extension names '.h')
+provide the function prototype declarations for these library functions.
+
+The Turbo C Reference Guide (version 2.0) lists these header files on
+pages 8 and 9, and the library routines are listed on pages 10-16.
+
+
+FUNCTION.TXT
+19.12.90

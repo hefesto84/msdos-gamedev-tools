@@ -1,0 +1,14 @@
+! BIOS interrupt 17h function list.
+! Reference: IBM ROM BIOS Quick Reference Guide by Ray Duncan
+! Microsoft Press  ISBN #1-55615-135-7
+!
+! Note - all function numbers are in hexidecimal!
+!
+17 Parallel Port Services
+!
+00 write char
+01 init port
+02 get printer status
+!
+! end of int 17h function list
+

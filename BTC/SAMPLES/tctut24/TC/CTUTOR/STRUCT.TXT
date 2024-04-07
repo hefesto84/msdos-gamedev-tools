@@ -1,0 +1,95 @@
+                         STRUCTURES AND UNIONS.
+                         ßßßßßßßßßßßßßßßßßßßßßß
+
+A STRUCTURE is a collection of one or more variables, frequently of
+different types, grouped together under a single name for convenience of
+handling.  In Turbo Pascal and many other languages structures are called
+'records', with each individual variable in the record located in a
+'field'. In C, each individual variable is called a member or element
+of the structure.
+
+A typical simple example of a structure could relate to the stores of
+components or products in a factory. STRUCTUR.C is a program to
+initialize a file, named 'product.dat', of structures, or records, of
+5 products and to update and read the structures.
+
+     typedef struct {        /* Opening the declaration of a structure*/
+          int itemno;        /*                                       */
+          char name[20];     /* The members of the structure          */
+          int instock;       /* Variables of different types          */
+          char supplier[24]; /*                                       */
+     } product ;             /* Closing the declaration and defining  */
+                             /* the struct type 'product'             */
+
+This declaration and definition of a structure type 'product' is placed
+at the start of the program and can subsequently be used to declare
+specific structure variables of type 'product' as follows:
+
+     product stock[5]      /* An array of 5 structures of type product */
+
+Each variable within the array of structures could then be initialized as
+follows:
+     product stock[5] = {0,"",0,"",     /* itemno,name,instock,supplier */
+                         1,"",0,"",
+                         2,"",0,"",
+                         3,"",0,"",
+                         4,"",0,""
+                         };
+
+The dot notation can be used to refer to a specific member of a structure
+and combined with the reference to a particular member of the array of
+structures typical program instructions would be:
+
+   printf("\nEnter stock name ( <20 char )  ");
+   scanf("%20s",stock[i].name);
+
+If i = 2, then this would change the name of itemno.  2 in the array of
+structures.
+
+Clearly for such a database to be usefully applied it must be stored in a
+disk file.  This can be achieved by opening a file (see notes on Input
+and Output) and then using an instruction such as:
+
+   fwrite(&stock[i],sizeof(product),1,fstock);
+
+where &stock[i] is the starting address for the i th item of the structure
+      sizeof(product) is the size of the structure
+      1 indicates that there is only one item of data - the structure
+      fstock is a pointer to type FILE
+
+This use of an array of structures is fully illustrated in the program
+STRUCTUR.C which can also be run as an executable file.
+
+
+It is possible to declare pointers to structure, just as pointers can be
+declared for other data types and there is a special symbol -> for
+referrring to the member of a structure pointed to by a pointer. This
+symbol is formed from the minus sign - and the greater than sign > and
+is illustrated in the program LINKLIST.C where a pointer 'this' points
+to a structure containing the members 'name' and 'job'. Thus these two
+members are referenced by 'this->name' and 'this->job' respectively.
+Note that the single inverted comma is used here in the text for clarity
+and is not included in the actual program.
+
+When using pointers to structures, dynamic variables are generally used,
+involving a call to a memory allocation function such as malloc(). This
+is illustrated in the program LINKLIST.C and the note on dynamic memory
+management ALLOCMEM.TXT should also be consulted.
+
+
+A UNION is a variable that can hold, at different times, values of
+different types and sizes, with the compiler ensuring that size and
+alignment are maintained.  Different kinds of data can therefore be
+accommodated in a single area of storage, in a way analogous to variant
+records in Turbo Pascal.
+
+Unions use the same syntax as structures, but whereas a structure might
+hold an int, a double and a char, a union can hold an int or a double or a
+char.
+
+
+
+STRUCT.TXT
+15.12.90
+Revised 8.5.93
+

@@ -1,0 +1,3 @@
+To compile the example programs open a project file from
+inside IDE and put there the example program, you want to
+compile , and pltron.lib.

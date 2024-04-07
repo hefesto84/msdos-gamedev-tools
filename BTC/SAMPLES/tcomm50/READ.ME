@@ -1,0 +1,132 @@
+-  Notes for Revision 5.0
+
+If you have just acquired the shareware version of the LiteComm(tm)
+Toolbox, try the QBTTL sample program and look over its code, feel free
+to experiment with the functions and, if you like what you see, please
+register and join our list of satisfied users from all over the world.
+
+If you've registered LiteComm, thank you.  Your registration helps make 
+it possible for us to continue supporting and enhancing the product.
+
+REGISTERED USERS PLEASE NOTE:
+The serial number of your copy is found on the diskette label, not in 
+the lserial.num file as mentioned in the documentation.
+
+With Revision 5.0, the most critical portion of the kernel, we have 
+further reduced the code in the interrupt handler which not only reduced 
+the size of this critical section, but allowed further savings in other 
+areas.  See the documentation section "New in Version 4.0" for
+additional details.
+
+NOTE CAREFUULY!!!
+If you have used LiteComm before, it will be necessry for you to
+re-compile and relink your applications, primarily do to changes that
+we instituted in the Communications Control Block (CCB).
+
+You should not have to modify the any of the source code to compile it 
+on any of the supported compilers.  Extensive use of C preprocessor 
+statments has been made to insure that all modules will compile under 
+any of the supported compilers with no additional effort.
+
+With version 5.0, we have dropped the library-only registration class, 
+largely due to the fact that more than 97 per cent of all registrants 
+obtain the source code.  All library-only registrants will be 
+automatically eligible for a no-charge upgrade to the full source 
+version on payment of the $10 upgrade fee which all registrants must 
+pay to upgrade to the latest version of LiteComm.
+
+We have also provided a complete set of "make" files to assist you in
+rebuilding the libraries, should it become necessary, or should you
+wish to modify the supplied routines.  Be cautious...the make files, at
+a minimum, assume that you have both ARC and LIB available in either
+your current working directory or somewhere in the current path.  Note
+also that you MUST have available either MASM 5.X or Turbo Assembler
+version 1.0 or greater.
+
+LiteComm is an advanced product for advanced users.  Due to the various 
+conditions under which LiteComm might be used, we have not attempted to 
+provide you with specific instructions on linking the LiteComm libraries 
+with your application programs.  We assume that you are familiar with 
+the methods needed to link third-party libraries, such as LiteComm, with 
+your applications.  Answering specific questions regarding linking of 
+LiteComm to any given application is not practical, since it requires 
+specific knowledge of how your system is organized, and of your 
+application that cannot generally be obtained by telephone.
+ 
+DOCUMENTATION CHANGES
+---------------------
+
+In the process of developing the documentation for the new 
+BBS(so-called) functions a few pieces of information were inadvertantly 
+omitted.  We provide this additional information below as an assist to 
+your use of the new functions.
+
+Note that to use the lcbbs functions, you must include as a part of 
+your link the xmodem library, since the lcbbs functions use one of that 
+library's component function to purge the receive buffer.  The purge 
+function is a 1 second, timed wait for input that returns when 1 second 
+has elapsed with no input received during that period.  Any input that 
+is received is discarded.  In addition, it will be necessary for you to 
+use the lc_insclock function (see the documentation) to properly install 
+a clock handler.  If you do not install a clock handler, the purge 
+function will either behave erratically or will, at worst, cause your 
+system to hang.  Alternatively, if you wish, you may write your own 
+purge function using the event timers included in the new functions.  
+For shareware users, this will be mandatory, since we do not intend to 
+alter our distribution policy.  As an aid, we have include a sample 
+purge function below that you might want to use.
+
+/*
+** sample purge function
+*/
+#include "litecomm.h"
+#include "lcbbs.h"
+
+void purge(port)
+{
+	long purge_ev;
+
+	purge_ev = new_event(1);		/* 1 second timer */
+	while (1)
+	{
+		if (lc_get(port) == -1)		/* got a character? */
+			if (! check_event(purge_ev)) /* ZERO if expired */
+				return;
+			else
+				continue;			/* timer did not expire */
+/*
+** we got a character, reset the timer so
+** that there is another 1 second timeout
+*/
+		purge_ev = new_event(1);		/* 1 second timer */i
+	}
+}		
+
+
+/*
+** These are sample strings to be sent for
+** modem initialization.  They must be customized
+** to suit the inividual modem
+
+char MODEMSET0[] = "ATZ\r";
+char MODEMSET1[] = "ATT E0\r";
+char MODEMSET2[] = "ATC1 V0 X1 S0=1 M1\r";
+
+** corresponds to
+**	Reset
+**	Touch Tone Dialing, Command Echo off *
+**	Carrier off/detect carrier
+**	Numeric codes *
+**	Hayes extended set
+**	answer on first ring
+** 	enable the speaker
+**
+** starred items are needed at a minimum
+*/
+
+
+Information Technology
+
+LiteComm is a trademark of Information Technology.
+Microsoft is a registered trademark of Microsoft Corp.
+

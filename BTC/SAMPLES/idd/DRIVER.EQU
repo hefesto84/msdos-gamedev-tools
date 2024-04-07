@@ -1,0 +1,120 @@
+;-----------------------------------------------------------------------|
+;	CONSTANTS HEADER FILE						|
+;		for Installable Device Driver Library			|
+;-----------------------------------------------------------------------|
+	.XLIST
+
+	;
+	;	Request Header
+	;
+RH	Struc
+	Len	DB	(?)
+	Unit	DB	(?)
+	Cmd	DB	(?)
+	Status	DW	(?)
+		DB	8 Dup (?)
+		DB	(?)
+	EndAdr	DD	(?)
+RH	EndS
+
+	;
+	;	Attribute Field Bits
+	;
+CharacterDevice	EQU	8000H
+SupportsIOCTL	EQU	4000H
+NonIBMFormat	EQU	2000H
+RemoveableMedia	EQU	0800H
+CurrentClock	EQU	0008H
+CurrentNUL	EQU	0004H
+StandardOutput	EQU	0002H
+StandardInput	EQU	0001H
+
+	;
+	;	Status Word Bits
+	;
+Done		EQU	0100H
+Error		EQU	8000H
+Busy		EQU	0200H
+
+	;
+	;	Error Return Codes
+	;
+WriteProtect	EQU	0
+UnknownUnit	EQU	1
+DeviceNotReady	EQU	2
+UnknownCommand	EQU	3
+crcError	EQU	4
+BadLength	EQU	5
+SeekError	EQU	6
+UnknownMedia	EQU	7
+SectorNotFound	EQU	8
+NoPaper		EQU	9
+WriteFault	EQU	10
+ReadFault	EQU	11
+GeneralFailure	EQU	12
+
+	;
+	;	Segment/Group definitions
+	;
+PGroup	Group	_TEXT, PTail
+_TEXT	Segment Byte Public 'CODE'
+	Assume	CS:PGroup
+_TEXT	EndS
+PTail	Segment Public 'CODE'
+PTail	EndS
+DGroup	Group	_DATA, _BSS, DTail
+_DATA	Segment Para Public 'DATA'
+	Assume	DS:DGroup
+_DATA	EndS
+_BSS	Segment Public 'BSS'
+_BSS	EndS
+DTail	Segment Byte Public 'BSS'
+DTail	EndS
+
+	;
+	;	Macros
+	;
+Cseg	MACRO				;; begin code segment
+_TEXT	Segment
+	ENDM
+
+EndCS	MACRO				;; end code segment
+_TEXT	EndS
+	ENDM
+
+Dseg	MACRO				;; begin data segment
+_DATA	Segment
+	ENDM
+
+EndDS	MACRO				;; end data segment
+_DATA	EndS
+	ENDM
+
+Useg	MACRO				;; begin uninit segment
+_BSS	Segment
+	ENDM
+
+EndUS	MACRO				;; end data segment
+_BSS	EndS
+	ENDM
+
+Func	MACRO	who			;; function entry
+	Public	_&who
+_&who	Proc	Near
+	ENDM
+
+EndF	MACRO	who			;; function exit
+_&who	EndP
+	ENDM
+
+Import	MACRO	who			;; import data item
+_DATA	Segment
+	Extrn	_&who:Byte
+_DATA	EndS
+	ENDM
+
+SetHdr	MACRO	item,value		;; set value in Request Header
+	MOV	_ReqHdr.&item,value
+	ENDM
+
+	.LIST

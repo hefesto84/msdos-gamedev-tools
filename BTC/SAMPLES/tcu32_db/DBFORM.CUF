@@ -1,0 +1,76 @@
+!===========================================================================
+!
+!  Demonstration form for use with DBDEMO database demo program.
+!
+!===========================================================================
+
+Size = 73,20
+Type = Double
+
+Colour =     Black/Cyan
+Input  =     Black/LightGray
+EditColour = White/Magenta
+TColour =    Red/Cyan
+
+Title = "Customer Record Sheet"
+
+
+! Fixed text definitions
+! ----------------------
+
+Text = @3,2; "Surname:"
+Text = @34,2; "Christian Name:"
+Text = @3,3; "Address:"
+Text = @47,3; "Date of birth:"
+Text = @47,4; "Sex:           Age:"
+Text = @3,8; "Date first registered:"
+Text = @42,8; "Date of last order:"
+Text = @3,9; "Priority Code:"
+Text = @42,9; "Preferred Shipping:"
+Text = @3,11; "Credit Rating:       Credit Card #:"
+Text = @59,11; "Type:"
+Text = @3,13; "Comments:"
+
+
+! Field Definitions
+! -----------------
+
+Field = @12,2; Name=LName; String(20)
+Field = @50,2; Name=FName; String(20)
+
+Repeat=4
+  Field = @12,3; Name=Addr_##; String(30)
+EndRepeat
+
+Field = @62,3; Name=DOB; Date(MonthFirst)
+Field = @52,4; Name=Sex; Choice(6)="MALE|FEMALE"
+Field = @67,4; Name=Age; Numeric(3); Range(21,120)
+
+Field = @26,8; Name=Date_Reg; Date(MonthFirst)
+Field = @62,8; Name=Date_Ord; Date(MonthFirst)
+
+Field = @18,9; Name=Priority; String(2); Template="A#"
+Field = @62,9; Name=Shipping; Choice(8)="POST|UPS|COA|FREIGHT|COURIER"
+
+Field = @18,11; Name=Cr_Rate; String(2); Template="A#"
+Field = @39,11; Name=Cr_Num; String(16); Template="################"
+Field = @65,11; Name=Cr_Type; Choice(5)="AmEx|MstCd|Visa|Diner"
+
+Repeat=3
+  Field = @13,13; Name=Cmt_##; String(57)
+EndRepeat
+
+
+! Define the Buttons for database functions
+! -----------------------------------------
+
+Field = @3,17; Name=B_First; Button="FIRST"; Colour=White/Blue
+Field = @10,17; Name=B_Last; Button="LAST"; Colour=White/Blue
+Field = @16,17; Name=B_Next; Button="NEXT"; Colour=White/Blue
+Field = @22,17; Name=B_Prev; Button="PREVIOUS"; Colour=White/Blue
+Field = @32,17; Name=B_Search; Button="SEARCH"; Colour=White/Blue
+Field = @40,17; Name=B_Add; Button="ADD"; Colour=White/Blue
+Field = @45,17; Name=B_Delete; Button="DELETE"; Colour=White/Blue
+Field = @53,17; Name=B_Update; Button="UPDATE"; Colour=White/Blue
+Field = @66,17; Name=B_Quit; Button="QUIT"; Colour=LightMagenta/Blue; &
+                                            EditColour=LightRed/Magenta

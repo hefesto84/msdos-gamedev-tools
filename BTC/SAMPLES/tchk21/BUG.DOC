@@ -1,0 +1,136 @@
+
+Bug Report for TCHK Version 2.1                             TCHK210/BBS
+-----------------------------------------------------------------------
+
+ Please use the following form to report any bugs or discrepancies
+ you find with TCHK 2.1.
+
+ Please take the time to fill out as much information in the following
+ form as possible. I know it's a lot, but it helps if I know what the
+ system looked like when the error occurred. At the minimum, make sure
+ you fill in your name, address, TCHK serial number, operating system
+ (with version!), compiler, and the list of any TSRs, device drivers,
+ or anything else in memory when the error occurred.
+
+ Return this form, and any necessary additional papers to:
+
+                        Howard Kapustein
+                        1695 Barbara Lane
+                        East Meadow, NY 11554
+                        Phone: (516) 481-9612
+
+
+ Name ____________________________________  TCHK Serial # ______________
+
+ Address _______________________________________________________________
+
+         _______________________________________________________________
+
+         _______________________________________________________________
+
+         _______________________________________________________________
+
+ Phone (_____)_____-______
+
+ Please describe the system you found the error on in as much detail as
+ possible. This will help me to determine the exact nature of the error:
+
+ Computer Model ________________________________________________________
+
+ Cpu (circle):  8086/8088  V20/V30  80186  80286  80386  Other _________
+
+ Cpu speed: __________MHz
+
+ Math Coprocessor (circle):  None  8087  80287  80387  Other ___________
+
+ Memory: Conventional _____K   EMS/EEMS _____K   Extended (>640K) _____K
+
+ If EMS/EEMS:  Product _________________________________________________
+
+               Product manufacturer ____________________________________
+
+               Which (circle):  EMS  EEMS   Version: _______________
+
+
+ Video Adapter (circle):  MDA  Hercules  CGA  EGA  VGA  8514  Other_____
+
+ Drive letter _____    Size __________   Brand/Model ___________________
+
+ Type (circle):  5.25" Floppy   3.5" Floppy   Hard drive   Other _______
+
+ Drive letter _____    Size __________   Brand/Model ___________________
+
+ Type (circle):  5.25" Floppy   3.5" Floppy   Hard drive   Other _______
+
+ Drive letter _____    Size __________   Brand/Model ___________________
+
+ Type (circle):  5.25" Floppy   3.5" Floppy   Hard drive   Other _______
+
+ # Serial ports ____  # Parallel ports ____   Joystick (circle): Yes  No
+
+ Operating System (circle):  DOS  DESQview  Windows  OS/2  Unix  Other
+
+ Operating System version ______    DOS version (if OpSys not DOS) _____
+
+ Compiler (circle):  Turbo C 1.5   Turbo C 2.0   Other _________________
+
+ TSRs, device drivers, or any other memory resident software:
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+--------------------------- Bug report ---------------------------------
+
+ Please list the steps necessary for me to discover and duplicate
+ the error. Try to be as explicit as possible when detailing the
+ steps leading to the problem. Include any screen dumps, file lists,
+ source code, or other information necessary. Use additional pages
+ if necessary:
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+    ____________________________________________________________________
+
+
+         -------------------------------------------------------
+               THANK YOU for supporting Shareware and TCHK
+

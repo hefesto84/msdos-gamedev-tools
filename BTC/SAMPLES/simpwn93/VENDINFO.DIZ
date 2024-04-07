@@ -1,0 +1,214 @@
++-------------------------------------------ƒƒƒƒƒƒƒƒ-----ƒƒƒƒƒƒƒƒ----+
+| This VENDINFO Product Information File contains both readable text |
+| and tools-accessible data about a product.  See the last text      |
+| section, below, for more information about VENDINFO and its tools. |
++--------------------------------------------------------------------+
+VENDINFO standard v1.04, produced by VendEdit v1.30, 23-Jun-1998
+
+===== Product Information ==============================
+   Product:             Simpwin menu management system
+   Version:             9.30
+   Version Date:        23-Jun-1998
+   Product Type:        Software
+   Basic Distribution Policy (see License, below, for details):
+      Freeware, copyrighted but freely distributable and useable
+
+   Product Description: Simpwin menu management system v9.30 <ASP> A 
+                        menu management system for Turbo C/C++. 
+                        1000's of popups,menus,help screens all with 
+                        less tha 20k of memory. Full mouse control 
+                        libs and online docs. Auto Install and 
+                        deinstall and documentation reader/printer. 
+                        Freeware from Simpsoft Inc. Pauls Valley,OK 
+                        73075
+   Reason for version:  Doc Upgrade
+
+   Category:            Utilities; Menu systems & file managers; Menu
+                        systems
+   Keywords:            menu management install C/C++ turbo
+   Required Packages:   SIMPWN93
+   This Package:        SIMPWN93
+
+   Required Configuration
+      Processor Family: Intel 80x86 (minimum 80286 (AT))
+        Clock Speed: 10 MHz
+      Minimum OS:       MS-DOS 4.0
+      Standard RAM:     64K
+      Hard Drive Space: 300K
+      Required:
+         Enhanced Graphic Adapter (EGA)
+         Color monitor
+         Keyboard
+      Won't Work With:
+         Hercules Graphics Card
+         Color Graphic Adapter (CGA)
+         Plotter
+      Req'd Software:   Turbo C 2.0 or Turbo C++ 1.0
+
+   Orders:
+      Address:          Simply Soft
+                        RT 1 Box 148A
+                        Pauls Valley,OK 73075
+      Phone:            405-665-4947
+      Internet:         simplyst@telepath.com
+
+   Support:
+      Address:          Simply Soft
+                        RT 1 Box 148A
+                        Pauls Valley,OK 73075
+      Phone:            405-665-4047
+      Internet:         simplyst@telepath.com
+
+
+===== Information for Users ("READ-ME") ================
+
+    The Simpsoft Inc. product line has been three years in the
+  making. We were tired of of stack overflow, out of memory 
+  errors, and that madding search for that lost open file or 
+  hidden overstrike. So we decided to write a small static 
+  utility library in C/C++ that would take care of all that. Three 
+  years later, Simply Soft gave birth to Simple Windows and the 
+  rest of the Simply Soft family.
+    Simply Soft is a DOS development and utility company aimed 
+  at the shareware developer. It is economical and user friendly. 
+  We have Five shareware and one free product at this time. All 
+  products are under $51 ,most are under $26 if not free 
+  (free, that's cheap), and a discount of 25% on Full Pack 1.0,  
+  all four utilities (Simply Windows 1.8, Font Edit 1.6, 
+  VGA Edit 1.4, and Simple Mouse 2.4). A $125 value for $100.
+  Registration gets phone support (24 hour answering machine), 
+  email, and Discounts on upgrades are also offered. So check out 
+  your stuff and drop us a line.
+
+                                      Sincerely,
+                                      Bruce R. O'Banion
+                                      Pres. Simpsoft Inc.
+
+Email:   simplyst@telepath.com
+
+Post:    RT 1 Box 148A
+         Pauls Valley,OK 73075
+
+Phone:   405-665-4042
+         405-665-4047
+
+Web:     http://www.telepath.com/simplyst/homepage.htm
+                                      
+   
+   Installation is easy just unzip SIMPWN93.ZIP and from that 
+directory or disk type install at the prompt. Then follow the
+instructions. Simpwin can be deinstalled just as easy. 
+Again use install.exe from the distribution disk or if zipped 
+unzip to a temp directory and run from there. SIMPWN92.doc can be 
+read or printed with readoc92.exe. It is a text file reader/printer 
+and will read or print a text file.
+
+  This program and utility were compiled on a 386 clonewith the 
+286 instruction set. It requires a 286 PC or compatible DOS 4.1
+or higher, and MS mouse, and EGA or higher (VGA for some 
+functions). And a 9 pin dot matrix is needed to print the docs. 
+
+
+
+===== Packing List =====================================
+
+As released by the author or publisher, this package contained the
+following files in addition to this VENDINFO.DIZ:
+
+        Filename      Size     Date       Time     CRC32
+       README.1ST     2132  23-Jun-1998  07:42p   D8507FC0
+      FILE_ID.DIZ      321  23-Jun-1998  09:30a   6B728700
+      LICENSE.DOC     2587  23-Jun-1998  07:39p   4FE511A0
+      INSTALL.EXE    35792  29-Aug-1997  07:03a   7FC828E6
+      RUNEXEC.EXE    55280   3-Aug-1997  07:34p   EB1F5178
+        UNZIP.EXE    88488   1-May-1996  10:30p   E20D74D1
+      PACKING.LST     4609  23-Jun-1998  07:59p   88F1C937
+      INSTALL.SCR     2000  11-Mar-1997  07:01p   1E015351
+      INSTALL.SYS     3628  23-Jun-1998  07:42p   E884F45E
+      SIMPWIN.ZIP   129130  23-Jun-1998  07:44p   FAE6FCA0
+          SWH.ZIP     1697  17-Sep-1997  05:55p   3328B535
+         SWTC.ZIP    15491  17-Sep-1997  06:00p   EAE1F71A
+       SWTCPP.ZIP    15814  17-Sep-1997  05:54p   2DB61D9E
+     SWTCPPRJ.ZIP     4865  17-Sep-1997  06:18p   4D230DD1
+      SWTCPRJ.ZIP      416  18-Aug-1997  01:17a   F12B845D
+
+
+===== License for Use and Distribution =================
+
+                           DISCLAIMER - AGREEMENT
+
+      Users of Simpwin v9.3 must accept this disclaimer of warranty:
+   Simpwin v9.3 is supplied as is.  The author disclaims all
+   warranties, expressed or implied, including, without 
+   limitation, the warranties of merchantability and of fitness 
+   for any purpose. The author assumes no liability for damages, 
+   direct or consequential, which may result from the use of 
+   Simpwin v9.3.
+ 
+      Simpwin v9.3 is a "freeware program" and is provided at no 
+   charge to the user.  Feel free to share it with your friends, 
+   but please do not give it away altered in any way. You may 
+   use any of the souce code but please give proper credit in
+   your docs.
+ 
+      Anyone distributing Simpwin v9.3 for any kind of remuneration 
+   must first contact Bruce O'Banion for authorization.
+
+                        Ombudsman Statement
+
+    "This program is produced by a member of the Association
+    of Shareware Professionals (ASP).  ASP wants to make sure
+    that the shareware principle works for you. If you are
+    unable to resolve a shareware-related problem with an ASP
+    member by contacting the member directly, ASP may be able
+    to help. The ASP Ombudsman can help you resolve a dispute
+    or problem with an ASP member, but does not provide
+    technical support for members' products. Please write to
+    the ASP Ombudsman at 157-F Love Ave., Greenwood, IN 46142
+    USA, FAX 317-888-2195, or send email to omb@asp-shareware.org
+
+****************************************************************
+
+         NOTE:  simpwn93.zip is packaged on this disk using
+         Info-ZIP's compression utility.  The installation program 
+         uses UnZip to read zip files from the disk.  Info-ZIP's 
+         software (Zip, UnZip and related utilities) is free and 
+         can be obtained as source code or executables from various 
+         bulletin board services and anonymous-ftp sites, including 
+         CompuServe's IBMPRO forum and ftp.uu.net:/pub/archiving/
+         zip/*. 
+****************************************************************
+
+TURBO C++ 1.0 copyright 1990 Borland International
+TURBO C 2.0 copyright 1987,1988 Borland International
+MS-DOS 5.0 copyright 1987-1991 Microsoft Corp.
+****************************************************************  
+  The attached VENDINFO data record is hereby incorporated by 
+  reference. Any distribution satisfying all the distribution 
+  requirements expressed in that data record is hereby authorized.
+
+
+
+===== About VENDINFO Files =============================
+
+Each VENDINFO.DIZ file contains extensive information about a product.
+This "human-readable" section is followed by a compressed data record
+useable by automated tools.  The data record allows BBSes and other
+distributors to automate package handling, and provides users with a
+wealth of product information.  VENDINFO tools (free viewer for users,
+free or inexpensive processors for distributors, editors for authors)
+are available from many sources, including the originators of VENDINFO:
+  Rams' Island Software    Voice: 303-841-2848  CompuServe: 76244,324
+  7644 E. Lakecliff Way      BBS: 303-841-6269     FidoNet: 1:104/333
+  Parker, CO 80134-5904 USA  FAX: 303-841-6269        RIME: 1235
+
+
+===== Compressed Data Record Follows ===================
+
+PK
+   †◊$ Môìb  ú#  	   VENDDATA.*
+;'+K[+ ˜7˜ó≠uJ4©S£O$Xê,¿Ä◊If%AyΩéÁ<‚∑?b<w¿·ªØ◊nyKÉîNM€Ó›¥n¨1€ñu[d€∞n√û-£ËtAŒÕ;óN‚P˘ú.g¬P¢o«Ç¨
+˜¨‹∞dÀú¨™sÚÆ›Êú!≤OM⁄ÍU'âÜ(Ã ¥§Û.¬Å»åÅHóqr∏_Añ∏ ÌLÂeŒπ5ËT®]x ¸É‰¡Î>]ÇR n®¿ﬂÏ[π ©÷ï+ˆ-»°/áÆ\	“®‹≤eÔÜ!ºK5'·”Ó'o•8˜]†>&Lò0OŒ˘÷,H∏o·÷Ö;óEÆ*<⁄≤l·–~å≈›Á√≤eBˇt—¥ûmŸ9éC|Xê2aÆôU¨o˝º.~.Ä_Ó€6¶[πû„9˚'u;ÜÛP√÷eS{+≈^6/ÀßKAﬁ@˘o÷‘ ì1–{;Îàö‚p«˜è}„æøüÕ™ß£În…úﬁç‚›`ûåá˜9æ◊•˚&b÷Q´N;]ã˜4éD•∫NÃuX∫in‚LûÀ}	WéË|~9.∑±ÇÁ∆@ Åu ˛Ãü[˚Á÷˛Ã?Ä¿¸Ã?Ä@™ÄO‡
+ »!ìe@»™ÅR¿«(:e“8Ñ” ^Ä•(ú‡¿ÇÄ@ï0«øG•9f¿aÈÔ∆ŸÉC$#ıêk1Tû"Uà °	ê˝ÃÃ €:¿Áôæx‡®t¥ëLáläY®‹∫cŒtó"zRàı¬2¥†ŸÊaà!ÑEÉîJE,RË[<Ößâ3à'ûOÄ˘§ÇàÂ	MfÕñ6mÓ4o¿ì‹)U∆ã_⁄9!…zÑH≥≠éñÊh]î®ﬂ@óõ™ç*ÀOÂhÊ<wZ∆qÜRÂ‘†NS4»·Êäï÷¥‰™*ÊË+7	)≠˝ò Å˘+‡DËŒ≠Nòç2Êˆ@`î¨ﬂ9≤v.‹ñs—DŸ&Üe)Ÿ?É#%»1mÄïU@`œ•¿òœ6åïƒ2ƒäÑ∫-ö·P6¯9\ü≥•Ñ·Qº‡˝Ôxâ PK
+ 
+   †◊$ Môìb  ú#  	                 VENDDATA.PK      *   â    

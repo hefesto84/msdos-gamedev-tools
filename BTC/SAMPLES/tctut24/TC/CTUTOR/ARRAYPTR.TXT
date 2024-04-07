@@ -1,0 +1,91 @@
+                         ARRAYS and POINTERS.
+                         ßßßßßßßßßßßßßßßßßßßß
+
+An ARRAY is composed of a series of elements of one data type, such as
+the number of points scored by a set of football teams, which might be
+described in mathematical notation as p1,p2,p3......, where the variable
+p represents 'points' and the different subscripts 1,2,3... refer to the
+different teams.  Thus p1 defines the number of points scored by team 1,
+etc.
+
+Most high-level languages, including C, allow arrays to be defined.  The
+array is declared at the start of the program or function so that the
+compiler is aware of the number of elements in the array and the data
+type of those elements. Typical array declarations are:
+
+          int    points[20];       /* array of 20 integers   */
+          char   letter[26];       /* array of 26 characters */
+          float  weight[10];       /* array of 10 floating point types*/
+
+The brackets [] identify the variable as an array variable and the
+number in the brackets indicates the number of elements in the array.
+
+The data type indicates to the compiler the memory space required per
+element (8 bits for char, 16 bits for int, 32 bits for float, etc. as
+shown on page 309 of the User's Guide).  Each element of the array is
+stored in contiguous memory space, so the size of the memory block for
+each particular array can be allocated by the compiler.
+
+The first element of the array is given the 'subscript' or 'index' 0,
+thus for the 20 football teams the variables are points[0], points[1],
+....points[19].
+
+Within the computer, variable names are used to locate the memory
+address at which that variable is stored, and so it follows that Address
+Operators are important. There are two such operators, the 'address-of'
+operator (&) and the 'indirection operator' (*), also called the
+'dereferencing operator'.
+
+The & operator returns the address of a given variable. Thus for the
+array, declared above as
+
+           char letters[26];      then letters == &letters[0]
+
+so that both 'letters' and '&letters[0]' represent the memory address of
+the first element of the array letters[26].
+
+The * operator is used with a POINTER variable to give the value at the
+address pointed to.  A POINTER is a variable that holds the address of
+some data, rather than the data itself.  It might relate to a single
+variable or to an array variable, such as that declared above as
+   float    weight[10];
+thus if the array is initialized as folows:
+   float    weight[10] = {76.5,82.4,67.9,.......};
+and ptr is declared as a pointer to type float as follows:
+   float    *ptr;
+and is assigned to point to the array 'weight' as below:
+   ptr = weight;
+
+then 'ptr' is the address of 'weight[0]' which contains the value 76.5
+and so *ptr provides that value.
+
+
+There are five illustrative programs on pointers available:
+
+PEEK.C This program compares memory 'peeking' with the use of pointers,
+address-of operators and indirection operators.  The peek function needs
+the address of memory as segment and offset values.  The segment value
+can be found by using the pseudo-variable _DS (see page 368 of the User's
+Guide), whilst the offset value can be set equal to the pointer value.
+
+ORDERPTR.C The unary operators * and & have the same precedence, but
+associate from right to left.  This program illustrates the meaning of
+*++ptr, (*ptr)++, etc.
+
+LINKLIST.C illustrates the use of Pointers and Structures.
+In this example a linked list is formed by including in the structure a
+member which points to the next structure.
+
+TWOLINKS.C displays on the screen the creation of a double-linked list
+on the Heap and shows the action as the structures of the list are
+traversed both forward and backward under the control of the right and
+left arrow keys.
+
+BINTREE.C is a program to show how a binary tree can be used to order
+a set of integers. In this case each integer value is stored as a member of
+a structure, which also has two pointer members, which are left- and right-
+pointing.
+
+
+ARRAYPTR.TXT
+12.12.90

@@ -1,0 +1,666 @@
+
+
+			  H C   S V G A
+
+			   Version 1.3b
+			   Dec. 6, 1993
+
+	 A Library for Tseng(tm) and VESA HiColor(tm) Graphics
+		     and Turbo/Borland(tm) C
+Copyright 1990,1991,1993 Synergrafix Consulting.  All Rights Reserved
+ 
+     HCSVGA is produced by:
+
+           Steve Enns            Synergrafix Consulting 
+        44 Macdermid Cres.        - Custom Programming
+          Saskatoon, Sk.          - Graphical and Numerical Software
+          Canada S7J 2R2          - Hardware and Software Consultation
+ 
+
+ACKNOWLEDGEMENTS
+
+     Thanks to all the contributors to the absolutely superb graphics
+     books:
+
+	Graphics Gems	Academic Press, Edited by Andrew S. Glassner, 1990,
+			ISBN 0-12-286165-5
+
+	Graphics Gems II  Academic Press, Edited by James Arvo, 1991,
+			  ISBN 0-12-064480-0
+
+     Thanks as well to some greatly inspirational and explicit code
+     by Michael Abrash in the November 1991 Doctor Dobbs Journal.
+
+     Finally, great thanks to Daniel Lee Crocker and the Stone Soup
+     Group for numerous tremendous contributions to the public good
+     through PICLAB, and FRACTINT (the best program ever written) both
+     containing very enlightening Targa(tm) file code.
+
+     Trademarks like GIF(tm) and PC(tm) are held by
+     their respective companies. 
+
+
+DISCLAIMER
+
+     The HCSVGA library and associated files (the "package") is provided
+     without warranty of any kind.  The user of the HCSVGA package assumes
+     complete responsibility for any and all incidental or consequential
+     damages which may occur during normal or abnormal use of the
+     HCSVGA package.  Use the HCSVGA package at your own risk.
+
+
+LICENSE
+
+     The entire HCSVGA package, including the HCSVGA library,
+     documentation, and sample files are Copyright 1990,1991,1992,1993
+     Synergrafix Consulting.  All rights reserved.  The HCSVGA
+     package may be freely distributed to others by any means, as
+     long the following (three) conditions are met:
+
+	  1) HCSVGA is distributed in a "package" containing
+	  all the files listed in the HCREAD.ME file.
+
+	  2) HCSVGA is not distributed as part of any other
+	  product, except with specific written permission from
+	  the authors.
+
+	  3) NO fee of any kind is charged for the HCSVGA
+	  package or for the service of providing the package,
+	  except Computer Bulletin Board Systems or Services,
+	  which may distribute the HCSVGA package even though they
+	  may charge a membership or service fee.
+
+
+     If you are seriously interested in the source code for this 
+     library, then write me a letter with your proposed uses for
+     the code, and I'll return a quote for the price.  (Probably
+     $50.00-$100.00 with no royalties.)
+ 
+
+REQUIREMENTS
+
+	  HCSVGA requires the following:
+
+	       -    PC(tm)/XT(tm)/AT(tm)/386(tm) computer
+	       -    TSENG 4000 based Video Card equipped with
+		    at least 1 Megabyte of display memory, and
+		    a Sierra HiColor(tm) DAC chip, or an ATI XL
+		    HiColor equipped card, or a VESA compliant
+		    driver for you HiColor capable card.
+	       -    A compatible C compiler (currently 
+			probably only works with Borland(tm))
+	
+
+EXAMPLES
+
+     See the following files for exmaple code using the library:
+
+
+	- HCTGAV.C	View TGA(tm) files on your HiColor card.
+        - HCGIFV.C	View GIF(tm) files...
+        - HCMOUSE.C	Interactive mouse demo.
+        - HCART.C	Draw HiColor patterns.
+	- MAKEDEMO.BAT  Compile the demo programs.
+
+
+HISTORY
+
+     - Version 1.0b Completed December 20 1991
+	Just a Beta version!  Lots more to be done...
+
+     - Version 1.2b Completed May 20, 1993
+	Added support for other hardware - ATI XL (untested)
+	and VESA compliant boards, (like S3 based boards with
+	a HiColor DAC and a (bug free!) VESA bios.
+
+     - Version 1.3b Completed Dec. 6, 1993
+	Small fixes to bring the demos programs up to date with
+	the library, and small additions to the hctgasize and 
+	hctgaview functions.
+
+PROPOSED FUTURE ENHANCHMENTS
+
+       I would like to hear from users of the library.  If no
+     one seems to be using the library, I won't release any
+     more versions.  I would appreciate bug reports, with
+     examples of failures, and suggestions for additions or
+     improvments to the library.  (I unfortunately cannot
+     promise that I will be able to reply to all enquiries or
+     comments, but I can promise that your comments will be
+     read and considered.  I can also definately NOT promise
+     to help with programming problems!)  Here are some ways
+     that I would like to improve the library:
+
+     - I will probably make versions of the library for
+     Microsoft C 6.0 and Watcom 8.5. (especially if someone
+     pays me...)
+
+     - I may combine this library with my SuperVGA library.
+
+     - I would like samples of Targa(tm) files (or GIFs) which
+     do not display properly when loaded with the
+     HCTGAVIEW or HCGIFVIEW funtions.
+
+     - Support for other graphics hardware.  Hopefully, we will
+     be able to support new hardware and graphics modes as they
+     are introduced. 
+
+     - Faster GIF(tm) and Targa(tm) decoding and encoding
+
+     - Faster everything else.
+
+     - More primitives, like antialiased lines, circles and so on.
+
+     - Small pop-up menu to work with the mouse
+
+     - Real Documentation!
+
+     - Support for 64k color modes.
+
+
+
+FUNCTION SYNOPSES
+
+
+ - Graphics Macros/Defines
+
+
+#define HC_SVGALO	0	/* 640x350 */ /* Not all modes supported */
+#define HC_SVGAMED	1	/* 640x400 */ /* on all cards!!! */
+#define HC_SVGAHI	2	/* 640x480 */
+#define HC_SVGAHI2	3       /* 800x600 */
+#define HC_SVGAHI3	4	/* 1024x768 */
+#define HC_SVGAHI4	5       /* 1280x1024 */
+
+
+#define	XOR	0	/* BitBlt modes */
+#define OR	1
+#define COPY	2
+
+
+#define RGB256INT(r,g,b)	/* Make a HiColor color integer from
+				 Red, Green, Blue values (all in 0..255 range)*/
+
+#define RGBINT(r,g,b)		/* Make a HiColor color integer from
+				 Red, Green, Blue values (all in 0..31 range)*/
+
+#define INTRED(c)		/* Get Red component from HiColor color int */
+#define INTGREEN(c)             /*     Green */
+#define INTBLUE(c)		/*     Blue */
+#define INTRED256(c)		/*     Red (0..255) range */
+#define INTGREEN256(c)		/*     Green */
+#define INTBLUE256(c)          	/*     Blue */
+
+
+ - Graphics Functions
+
+
+int hicolorDAC (void);
+
+
+	Check for existence of Sierra HiColor DAC hardware.
+
+	Returns:	TRUE or FALSE
+
+
+int tseng4000 (void);
+
+	Check for existence of TSENG 4000(tm) hardware.
+
+	Returns:	TRUE or FALSE
+
+
+int hcsetmodetseng (int Mode);
+
+	Set HiColor modes on TSENG 4000 HiColor hardware.  The MODE
+	is 0..3 and defined in HICOLOR.H  Not all modes are supported
+	on all cards.
+
+	Returns:	TRUE or FALSE
+
+
+int hcmodesize(int picwidth,int picheight);
+
+	Get a Mode number for the HCSETMODETSENG function above, given
+	the size of a picture that you would like to display.  This
+	function currently just finds the mininum screen height that will
+	accomadate a given picture size.
+
+	Returns:	integer 0..3 corresponding to Mode number defined
+			in HICOLOR.H
+
+
+void hctextmode (void);
+
+	Set the video to text mode (bios mode 3).
+
+
+void hcputpoint (WORD x, WORD y, WORD color);
+
+	Put a single pixel at location (X,Y) on the HiColor mode
+	graphics screen.  color  is a integer 0..32767 made up
+	of three 5 bit numbers representing (red,green,blue).
+
+	Use the RGBINT or RGB256INT macros to define a color
+	number from the red, green and blue components.
+	RGBINT defines a color integer given the red, green and
+	blue components as numbers from 0..31 (a "native" HiColor
+	15 bit color value.)  RGB256INT returns a color integer
+	given the red, green and blue components as numbers from
+	0..255 (a "true-color" 24bit color). INTRGB and INTRGB256
+	perform the reverse operation - they return the red, green
+	and blue color components given a 15 bit color integer.
+
+
+void hcputpointxor (WORD x, WORD y, WORD color);
+
+	As above, except XOR the color with the existing color
+	at the (X,Y) location.
+
+
+void hcputpointrgb (WORD x, WORD y, WORD r, WORD g, WORD b);
+
+	Place a single pixel, specifying location and red, green,
+	blue color components.
+
+
+WORD rgb265int (WORD r, WORD g, WORD b);
+
+	Function corresponding to RGB256 macro.
+
+	Returns:	Color integer.
+
+
+WORD rgbint (WORD r, WORD g, WORD b);
+
+	Function corresponding to RGBINT macro.
+
+	Returns:	Color integer
+
+
+void intrgb256 (WORD color, WORD *r, WORD *g, WORD *b);
+
+	Function corresponding to INTRGB256.
+
+
+void intrgb (WORD color, WORD *r, WORD *g, WORD *b);
+
+	Function corresponding to INTRGB.
+
+
+WORD hcgetpoint (WORD x, WORD y);
+
+	Get the color value of a pixel at location (X,Y).
+
+	Returns:	color integer, 0..32767
+
+
+void hcgetpointrgb (WORD x, WORD y, WORD *r, WORD *g, WORD *b);
+
+	Get the red, green, blue color values of a pixel at
+	location (X,Y).
+
+	Returns:	red, green, blue in range 0..31
+
+
+WORD hcgetmaxx (void);
+
+	Return the maximum x coordinate for the current HiColor mode.
+
+WORD hcgetmaxy (void);
+
+	Return the minimum y coordinate for the current HiColor mode.
+
+
+void hchline (WORD x, WORD y, WORD x1, register WORD color);
+
+	Plot a horizontal line from (X,Y) to (X1,Y) using "color."
+
+
+void hcvline (WORD x, WORD y, WORD y1, register WORD color);
+
+	Plot a vertical line from (X,Y) to (X,Y1) using color.
+
+
+void hchlinexor (WORD x, WORD y, WORD x1, register WORD color);
+
+	Plot a horizontal line from (X,Y) to (X1,Y), XORing
+	color with the existing color.
+
+
+void hcvlinexor (WORD x, WORD y, WORD y1, register WORD color);
+
+	Plot a vertical line from (X,Y) to (X1,Y), XORing
+	color with the existing color.
+
+
+void hcrectangle (WORD x, WORD y, WORD x1, WORD y1, WORD color);
+
+	Plot a rectangle from (X,Y) to (X1,Y1) using color.
+
+
+void hcrectanglexor (WORD x, WORD y, WORD x1, WORD y1, WORD color);
+
+	Plot a rectangle from (X,Y) to (X1,Y1), XORing
+	color with the existing color.
+
+void hcline(int a1, int b1, int a2, int b2, WORD lcolor);
+
+	Plot a line from (X,Y) to (X1,Y1) in lcolor.
+
+
+void hclinexor(int a1, int b1, int a2, int b2, WORD lcolor);
+
+	Plot a line from (X,Y) to (X1,Y1), XORing lcolor
+	with the existing color.
+
+
+void hccircle(WORD xc,WORD yc,WORD rad,WORD color);
+
+	Plot a circle at (XC,YC) using radius rad and color.
+
+
+void hcfillcircle(WORD xc,WORD yc,WORD rad,WORD color);
+
+	Plot a filled circle at (XC,YC) using radius rad and color.
+
+
+void hcbar (WORD x, WORD y, WORD x1, WORD y1, register WORD color);
+
+	Plot a filled rectangle from (X,Y) to (X1,Y1).
+
+
+void hcclrscr (WORD color);
+
+	Fill the entire screen with color.
+
+
+void hcputrow (WORD x, WORD y, register WORD w, register WORD *buf);
+
+	Fill a row starting at (X,Y) of width w, using the colors
+	from lbuf.
+
+
+void hcputrowxor (WORD x, WORD y, register WORD w, register WORD *buf);
+
+	Fill a row starting at (X,Y) of width w, XORing the colors
+	from lbuf with the existing colors.
+
+
+void hcputrowor (WORD x, WORD y, register WORD w, register WORD *buf);
+
+	Fill a row starting at (X,Y) of width w, ORing the colors
+	from lbuf with the existing colors.
+
+
+void hcgetrow (WORD x, WORD y, register WORD w, register WORD *buf);
+
+	Get a row starting at (X,Y) of width w, putting the colors
+	into lbuf.
+
+
+DWORD hcgetimagesize (register WORD left, register WORD top, register WORD right,register WORD bottom);
+
+	Get the size in bytes required to "hcgetimage" an area of
+	the screen defined by (LEFT,TOP) to (RIGHT,BOTTOM).
+
+	Returns:	unsigned long integer of the
+			size in bytes of the region.
+
+
+void hcgetimage (WORD left, WORD top, WORD right, WORD bottom, WORD *bitmap);
+
+	Get the area of the screen from (LEFT,TOP) to (RIGHT,BOTTOM),
+	placing the colors into buffer bitmap.
+
+
+void hcputimage (WORD left, WORD top, WORD *bitmap, WORD drawtype);
+
+	Put a bitmap onto the screen at position (LEFT,TOP), using
+	drawtype 0..2 (XOR, OR or COPY, as defined in HICOLOR.H).
+
+void hcputchr (unsigned char ch, WORD xpos, WORD ypos, WORD fg, WORD background);
+
+	Draw a single character ch at position (XPOS,YPOS) using foreground
+	color fg and background color BG.  The (XPOS,YPOS) position refers
+	to the top left of the character.  The characters are drawn using
+	the font from ROM.
+
+
+void hcputstr (char *str, WORD xpos, WORD ypos, WORD fg, WORD background);
+
+	Draw a string onto the screen at position (XPOS,YPOS) using
+	foreground and background colors FG and BG.
+
+
+void hcfill(int x,int y,int ncolor);
+
+	Flood fill a bounded area of the screen starting at (X,Y)
+	and using color ncolor.  All contiguous pixels that are the
+	same color as pixel (X,Y) will be filled with color ncolor.
+
+
+void hcpfill(int x,int y,int bordcol,WORD *pat,int pw,int ph);
+
+	Flood fill a bounded area of the screen with a pattern
+	PAT, which is PW pixels wide and PH pixels high.  All
+	pixels not equal to bordcol will be filled with the pattern.
+	The pattern may be a simple array of integers, or may be
+	a bitmap captured from the screen, and converted using
+	HCIMAGETOPATTERN below.
+
+
+WORD *hcimagetopattern(WORD *bitmap,WORD *w,WORD *h);
+
+	Convert a bitmap which was captured from the screen using
+	HCGETIMAGE into a pattern for use with HCPFILL.
+
+	Returns:	WORD *pointer to a pattern, and the width
+			and height of the pattern.
+
+
+ - Mouse Macros/Defines
+
+
+#define GRCURSORSIZEX	11	/* Max. graphics cursor width in pixels */
+#define GRCURSORSIZEY	15	/* Max. cursor height in pixels + 1 */
+#define GRCURSORNUM	10	/* Max number of default and definable cursors */
+
+#define ARROWCURSOR		0	/* Graphics cursor types */
+#define SMALLARROWCURSOR	1
+#define CROSSHAIR		2
+#define SMALLCROSSHAIR		3
+#define DIAGCROSSHAIR		4
+
+typedef int	grcursortype[GRCURSORSIZEX][GRCURSORSIZEY];
+typedef char	mousestr[80];
+
+
+ - Mouse functions
+
+int  initmouse(void);				/* Init. mouse driver */
+
+	Low-level mouse initialization routine.  Checks for
+	mouse driver, initializes.
+
+	Returns:	TRUE for success.
+
+
+void showmouse(void);				/* Show (text) cursor */
+
+	Show cursor (text mode only).
+
+
+void hidemouse(void);				/* Unshow (text) cursor */
+
+	Hide cursor (text mode only).
+
+
+void getmouse(int *x,int *y,int *buttons);/* Get position */
+
+	Get current mouse position (X,Y) and button state (BUTTONS).
+
+
+void putmouse(int x,int y);			/* Place mouse */
+
+	Set mouse position to (X,Y).
+
+
+void getmousebuttonon(int button,int *buttonstate,
+		      int *numpresses,int *x,int *y);/* Get buttons pressed */
+
+	Get mouse button press state. Returns number of presses, (X,Y)
+	location.
+
+
+void getmousebuttonoff(int button,int *buttonstate,
+		       int *numreleases,int  *x,int *y);/* Get buttons released */
+
+	Get mouse button release state. Returns number of releases, (X,Y)
+	location.
+
+
+void setmouserange(int x,int y,int x1,int y1);	/* Set range */
+
+	Restrict the movement of the mouse to the rectangle defined
+	by (X,Y) of (X1,Y1).
+
+
+void getmousemotion(int *x,int *y);		/* Get movement */
+
+	Return mouse movement in (X,Y).
+
+
+void setmousemove(int x,int y);			/* Set sensitivity */
+
+	Set mouse sensitivity to (X,Y).
+
+
+void setgrcursor(int index,grcursortype newgrcursor);/* Set cursor bitmap */
+
+	Set the type of graphics cursor to be used to index.
+	Predefined cursors are defined as 0..4 in HICOLOR.H.
+
+
+void putgrcursor(int x,int y);		/* Place graphics cursor */
+
+	Put the graphics cursor at location (X,Y).
+
+
+void unputgrcursor(void);		/* Remove graphics cursor */
+
+	Remove the previous placed graphics cursor.
+
+
+int getgrcursorx(void);                 /* Get current postn */
+
+	Get current horizontal graphics cursor position.
+
+	Returns:	Current X position.
+
+
+int getgrcursory(void);
+
+	Get current vertical graphics cursor position.
+
+	Returns:	Current Y position.
+
+
+int initgrcursor(int grcursorindex,int color);/* Init. graphics cursor */
+
+	Initialize the graphics cursor to grcursorindex and color,
+	where grcursorindex is the cursor type to use.
+
+
+void closegrcursor(void);
+
+	Remove, deinitialize the graphics cursor.
+
+
+ - TARGA(tm) Macros/Defines
+
+
+#define HCTGACANTOPEN	-1
+#define HCTGANOMEM	-2
+#define HCTGANOTSUPPORTED -3
+#define HCTGACANTREAD	-4
+#define HCTGACANTWRITE	-5
+
+#define MAXTGAXWIDTH	1280
+#define MAXTCOMMENT	256
+
+extern unsigned char tcomment[MAXTCOMMENT];
+extern unsigned char tcommentsize;
+
+
+ - TARGA(tm) Functions
+
+int hctgasize(char *fname,int *w,int *h,int *pixsize,int *ox,int *oy,int *type,int *comp,int *mapp,BYTE *csize,BYTE *comm);
+
+	Get the size of a Targa(tm) file FNAME.
+
+	Returns:	Width W and Height H, pixel size in PIXSIZE,
+			origin in OX, OY, Targa type in TYPE.  COMP and
+			MAP will be returned if the file is compressed and/or
+			has a colormap, and the size (in bytes, CSIZE) of the
+			comment COMM.
+
+int hctgaview(char *fname,int x,int y,int x1,int y1,int dither,int jitter);
+
+	Display the Targa(tm) file FNAME in the rectangle defined by
+	(X,Y) and (X1,Y1).  If DITHER/JITTER is TRUE, then dither/jitter 24
+	or 32 bit images while displaying.  Image will be displayed starting
+	at (X,Y) and clipped to (X1,Y1).  If X is -1, then the image will be
+	centered horizontally on the screen, if Y is -1, then the image will
+	be centered vertically on the screen.
+
+	Returns:	0 for success or an error code as
+			defined in HCTARGA.H
+
+int hctgasave(char *fname,int x,int y,int x1,int y1,int compressed,BYTE csize,BYTE *comm);
+ 
+	Save the rectangular region of the screen defined by (X,Y)
+	and (X1,Y1) to a Targa-16(tm) file FNAME.  Save as a compressed
+	file if COMPRESSED is TRUE, use a comment of length CSIZE (up to
+	255 characters) from COMM.  Defaults to the entire screen if
+	(X,Y) is (-1,-1) and (X1,Y1) is (-1,-1).
+
+	Returns:	0 for success or an error code as defined in
+			HCTARGA.H
+
+
+
+ - GIF(tm) Macros/Defines
+
+
+#define HCGIFCANTOPEN	-1
+#define HCGIFNOMEM	-2
+#define HCGIFBADGIF	-3
+#define HCGIFNOTGIF	-4
+
+
+ - GIF(tm) Functions
+
+
+int hcgifsize(char *filename,int *width,int *height,long offset);
+
+	Get the size of a GIF(tm) file FNAME, reading FNAME starting
+	at position OFFSET.
+
+	Returns:	Width W and Height H, and the size
+			of the comment COMM, in bytes, CSIZE.
+
+
+int hcgifview(char *filename,int xs,int ys,long offset,int autoscale);
+
+	Display the GIF(tm) file FNAME starting at position (XS,YS),
+	reading FNAME starting at position OFFSET.  If AUTOSCALE is
+	TRUE, then sky the image up to try to fill the available area.
+	If XS is -1 then the width of the image will be centered on the
+	screen, and if YS is -1 then the height of image will be centered
+	on the screen. 
+
+	Returns:	0 for success or an error code as
+			defined in HCTARGA.H
+
+

@@ -1,0 +1,420 @@
+                       The Warp Graphics Library
+
+                              Version 1.02
+
+                                written
+
+                                   by
+
+                              Trevor Bell
+
+                             Copyright 1991
+
+
+WHAT IT IS:
+
+        The Warp Graphics Library is a full-featured graphics library.
+Do not be fooled by the small file sizes, the binary drivers are
+written in assembly language and the libraries are in well-optimized
+C++, contributing to the small sizes.
+        It supports both EGA and VGA graphics modes.  It has support for
+multiple open windows, scrolling up and down in windows, line drawing,
+box drawing, highlighting areas of the screen, saving and restoring
+windows, and many other features.  A small demonstration program is
+provided to show off some of these features and you may modify it.
+
+        Warp Graphics is NOT PUBLIC DOMAIN, Warp Graphics IS SHAREWARE.  A
+registration fee of $50 (of course I won't mind if you send more than
+$50) is required if you wish to use Warp Graphics in any application to be
+distributed to the general public.  Registration will get you the full
+source code for the Turbo C++ libraries and library files for each of the
+6 memory models (tiny, small, medium, compact, large, huge), and
+the source code for the driver files (VGA.BIN and EGA.BIN).  Without
+registration you will be limited to compiling programs in the small
+memory model and this will substantially limit programs.  By registering
+this program you will be contributing to the release of future versions
+of Warp Graphics and future programs that I will be creating.  Your
+registration will be greatly appreciated.  See the file ORDER.FRM for
+details on registering.
+
+Registrations may be sent to:
+
+        Trevor Bell
+        P.O. Box 4173
+        Redondo Beach, CA  90278
+
+I can be contacted on THE SOURCE BBS at 213-371-3737.
+
+
+
+HOW TO USE IT:
+
+--------------------------------------------------------------------------------
+
+              Using the Warp Graphics Library in Turbo C++
+
+--------------------------------------------------------------------------------
+
+The file GRAPH.HPP must be included into any C++ file in which you wish
+to use the Warp Graphics library and WGRAPHS.LIB must be linked into the
+EXE file.
+
+
+Initializing the graphics driver:
+---------------------------------
+
+main_gui.read(char *path);
+
+Before any graphics operations are performed the graphics driver must be
+initialized.  To do this simply put the line above with the path to the
+proper graphics driver, like this:
+
+for VGA only:
+
+main_gui.read("VGA.BIN");
+
+or for EGA only:
+
+main_gui.read("EGA.BIN");
+
+
+Setting the graphics mode:
+--------------------------
+
+main_gui.set_mode();
+
+Issuing the command above will set the appropriate graphics mode for the
+driver that has been loaded into memory.  Warp Graphics operates in
+640 X 350 X 16 colors in EGA mode and 640 X 480 X 16 colors in VGA mode.
+
+
+Restoring the text mode:
+------------------------
+
+main_gui.text_mode();
+
+Issuing the command above will restore the standard text mode when you
+wish to exit the program.
+
+
+Filling the screen:
+-------------------
+
+main_gui.fill_screen(unsigned char color)
+
+Issuing the above command with an appropriate argument will clear the
+screen to the selected color.  It can be used like this:
+
+main_gui.fill_screen(1);
+
+This will fill the screen with a dark blue color.
+
+
+Saving the screen:
+------------------
+
+main_gui.save_screen()
+
+Issuing the above command will save the current graphics screen to a
+memory buffer for later restoration.  In the small memory model you will
+not be able to save the screen because there is not enough available
+memory.
+
+
+Restoring the screen:
+---------------------
+
+main_gui.restore_screen()
+
+Issuing the above command will restore a previously saved graphics
+screen.  In the small memory model you will not be able to restore the
+screen because there is not enough memory available to save the screen
+in the first place.
+
+
+Scrolling an area of the screen:
+--------------------------------
+
+main_gui.scroll(unsigned int x1, unsigned int y1, unsigned int x2,
+    unsigned int y2, unsigned char color, int lines);
+
+Issuing the above command with the appropriate arguments will scroll the
+screen.  The x and y arguments represent coordinate values on the
+screen.  The lines argument is the number of scan lines you wish to
+scroll the screen, a positive value in this field will scroll the screen
+upward and a negative value will scroll it downward.
+
+To scroll the screen upward fifteen lines in EGA mode and clear the
+unused portion of the screen to black would be accomplished like this:
+
+main_gui.scroll(0, 0, 640, 349, 0, 15);
+
+
+Drawing a point:
+----------------
+
+void point::put(unsigned int x, unsigned int y, unsigned char color);
+
+To draw a point, a structure of type point must first be defined like this:
+
+point point_structure;
+
+Then the following command can be issued to draw a point in bright white:
+
+point_structure.put(0,0,20,0,15);
+
+
+Drawing a line:
+---------------
+
+void line::put(unsigned int x1, unsigned int y1, unsigned int x2,
+    unsigned int y2, unsigned char color);
+
+To draw a line, a structure of type line must first be defined like this:
+
+line line_structure;
+
+Then the following command can be issued to draw a horizontal line in
+bright white:
+
+line_structure.put(0,0,20,0,15);
+
+
+Loading fonts:
+--------------
+
+A font structure must be defined before any fonts can be loaded, like
+this:
+
+font type_face(8,15);
+
+Then the fontpointer variable must be loaded with the address of this
+new font structure like this:
+
+fontpointer =& type_face;
+
+Then the font must be loaded into memory like this:
+
+fontpointer->load_font("STANDARD.FNT");
+
+Only one font is provided in the unregistered version, however 40 fonts
+are provided in the registered version.
+
+
+Drawing boxes:
+--------------
+
+Before any boxes can be drawn, a structure of type boxes must be defined
+like this:
+
+boxes box_structure;
+
+
+Drawing an unfilled box:
+------------------------
+
+After defining a box structure the following command can be issued to
+draw an unfilled box of the color white:
+
+box_structure.box(0,0,50,50,15);
+
+
+Drawing a filled box:
+---------------------
+
+After defining a box structure the following command can be issued to
+draw a filled box of the color white:
+
+box_structure.filled_box(0,0,50,50,15);
+
+
+Drawing a radio button:
+-----------------------
+
+After defining a box structure the following command can be issued to
+draw a radio button:
+
+box_structure.radio_button("Button",0,0,50,50);
+
+
+Drawing a checked box:
+----------------------
+
+After defining a box structure the following command can be issued to
+draw a checked box in the color white:
+
+box_structure.check_box("Checked Box  ",0,0,15);
+
+
+Creating a window:
+------------------
+
+windows::windows(unsigned int xx1, unsigned int yy1, unsigned int xx2,
+    unsigned int yy2, unsigned char color, unsigned char background,
+    enum opts options);
+
+The first four arguments are simply coordinate values, the next two
+represent the foreground and background colors of the window.  The last
+argument is an enumerated type which allows you to set several options
+in the window, including horizontal centering, vertical centering, auto
+downward scrolling, and auto upward scrolling.
+
+To create a window, a structure of type windows must be defined like
+this:
+
+windows new_window(0,0,50,50,7,0,window::none);
+
+Then the windowpointer variable must be assigned to the window, like
+this:
+
+windowpointer =& new_window;
+
+Then the window should be reset like this:
+
+windowpointer->reset();
+
+
+Putting a border on the window:
+-------------------------------
+
+void windows::border(unsigned char color, unsigned char color2,
+    unsigned int width);
+
+After a window has been defined, a border can be put around it with one
+color on the top and left edges and another color on the bottom and
+right edges to provide a sort of shadow effect.  The last argument
+represents the width of the window's border. This can be set like
+this:
+
+windowpointer->border(15,8,3);
+
+
+Putting text in the window:
+---------------------------
+
+void windows::text(char *text, unsigned int andwith, unsigned int x,
+    unsigned int y, unsigned char color, unsigned char background);
+
+The text variable represents a text string to be placed in the window,
+the andwith variable determines whether the background variable is used
+or not.  The x and y variables determine the location of the string on
+the screen, and the color and background variables determine the
+foreground and background colors of the text.
+
+A character string in bright white can be placed in the window like this:
+
+windowpointer->text("Text string.",0,0,0,15,0);
+
+
+Scrolling the window:
+---------------------
+
+void windows::scroll(int lines);
+
+The window can be scrolled with the scroll command.  Putting a positive
+value for lines will scroll the screen upward, while a negative value
+will scroll it downward.
+
+The window could be scrolled upward 15 lines like this:
+
+windowpointer->scroll(15);
+
+
+Saving a window:
+----------------
+
+void windows::save(void);
+
+Issuing the above command will save the current window to a
+memory buffer for later restoration.  In the small memory model you will
+not be able to save the window because there is not enough available
+memory.
+
+Saving the window is accomplished like this:
+
+windowpointer->save();
+
+
+Restoring a window:
+-------------------
+
+void windows::restore(void);
+
+Issuing the above command will restore a previously saved window.
+In the small memory model you will not be able to restore the
+window because there is not enough memory available to save the window
+in the first place.
+
+Restoring the window is accomplished like this:
+
+windowpointer->restore();
+
+
+Putting a cursor in the window:
+-------------------------------
+
+void windows::put_cursor(unsigned int x, unsigned int y, unsigned char color);
+
+A bright white cursor can be placed in the window like this:
+
+windowpointer->put_cursor(0,0,15);
+
+
+Removing a cursor from the window:
+-------------------------------
+
+void windows::remove_cursor(unsigned int x, unsigned int y,
+        unsigned char background);
+
+A cursor can be removed from the window like this:
+
+windowpointer->remove_cursor();
+
+
+--------------------------------------------------------------------------------
+
+                             CODE EXAMPLES
+
+--------------------------------------------------------------------------------
+
+
+A very simple demo program is provided with Warp Graphics to demonstrate
+it's capabilities very minimally.  Feel free to modify it to your
+heart's desire, keep in mind however that without registration your
+program will need to remain within the small memory model.
+
+The source code for this program is provided in the file DEMO.CPP
+Turbo C++.
+
+
+
+--------------------------------------------------------------------------------
+
+                                SUPPORT
+
+--------------------------------------------------------------------------------
+
+
+Support can be obtained through mail sent to my P.O. Box or by calling the
+following BBS:
+
+        The Source
+        213-371-3737
+
+
+--------------------------------------------------------------------------------
+
+                            VERSION HISTORY
+
+--------------------------------------------------------------------------------
+
+
+Version 1.00:
+        not released to the public
+
+Version 1.01:
+        My first release!
+
+Version 1.02:
+        I forgot to include the fonts in the ZIP file (whoops!).
+

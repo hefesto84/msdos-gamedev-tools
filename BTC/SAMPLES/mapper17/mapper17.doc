@@ -1,0 +1,91 @@
+
+                             The Mapper Program
+
+                                 Version 1.7
+
+                              22 November 1988
+
+
+         I was interested in techniques  for producing maps, and  found
+      the article by William D. Johnston in the May and June 1979  Byte
+      Magazine.    This   two  part  article   provided  an   excellent
+      introduction and source  code in Basic  Language.   His code  was
+      restricted to the algorithms and  did not get involved with  user
+      interface.  To evaluate his algorithms and try out the displays I
+      coded the program and a simple interface in Turbo-C Version  1.5.
+      The program in its current form is highly based on Mr. Johnston's
+      algorithms and provides no significant additional capabilities.
+
+      I also found  a high resolution database  called the Micro  World
+      Data Bank II (MWDBII).   This database was  1 megabyte in  length
+      and good down  to minutes  of a degree.   See the  C source  code
+      comments for availability.
+
+      To run the  program and receive  help you  use the DOS  common
+      method of the question option "/?".  Just type "mapper/?" and the
+      following usage help will be displayed:
+
+              Usage: mapper [/bcdgilmrsx]
+
+                /b   Boundaries Off
+                /c   Countries On
+                /dn  Database ('MWDBII' Default)
+                /g   Grid lines On
+                /i   Islands Off
+                /l   Lakes Off
+                /mn  Map Resolution (5 Default)
+                /r   Rivers On
+                /s   States On
+                /x   Colors On
+
+              Defaults to Boundaries and Islands On
+
+      The defaults are what I thought should be fairly common.  The map
+      database has  5 resolutions,  and can  be selected  with the  'm'
+      option.  5 is the  lowest resolution and 1  is the greatest.   If
+      you have several different databases  you can use the 'd'  option
+      and provide the path and filename (128 Characters max).  The  'm'
+      and 'd' options  should be placed at  the end.   They can be  put
+      anywhere  but  it's  a  little  easier  at  the  end.    Example:
+      mapper/glrsm1.  If you use the option in the middle you will need
+      to put a  space between it  and the  remaining options.  Example:
+      mapper/glddata /rs.  These are the most foolproof methods.  Note:
+      The level 5 database included doesn't really use the options yet.
+      The program works as advertised on level 1. There are some errors
+      with the database as you'll see.  I've converted the database  to
+      ASCII, and am working on cleaning up the errors and redundancies.
+
+         A little about the speed of the result.  The program is  quite
+      slow on an 8088 without a math coprocessor, and speed is  getting
+      acceptable on  an 80286.   The  C language  standard uses  double
+      precision math.    This is  a  waste  with the  current  database
+      resolution.  An integer version  of the math routines would  sure
+      speed up  the program  quite  a bit.    The mapper  program  uses
+      Turbo-C auto detect  of a  math coprocessor  and graphics  device
+      type (CGA, EGA, and VGA).
+
+         If you want to quit the  plotting on the screen, just hit  any
+      key and the bell will  sound and exit you back  to DOS.  You  can
+      also use Control-C to get out.
+
+         The C program  lists three sources  for the  Micro World  Data
+      Bank II database.  The  database is 1 Megabyte (800K  Compressed)
+      and is just too much data for reasonable downloading.   To see if
+      the program  would  be  useful  for you  I  included  a  level  5
+      resolution map (the lowest resolution).  This particular database
+      has all  the data  thrown together  so the  command line  options
+      aren't fully functional.  They  become functional at about  level
+      3 I believe.
+
+         This program was tested  on a PC XT  Clone, 640K, and NSI  EGA
+      board.  Also a Zenith Z-248 with 512k and CGA was tested.   Other
+      configurations will need to be tested.
+
+      Due to  the  grid  method used,  it  shouldn't  be used  with  an
+      Azimuthal Equidistant map.   You can  try it once  to see what  I
+      mean.  There's lots of room for improvements, "Handle It!".
+
+      Thanks to Mr. Johnston for his article and algorithms.
+
+      USMail: Steve R. Sampson, Box 45668, Tinker AFB, Oklahoma, 73145
+      Compuserve: 75136,626  Unix: sampson@killer.dallas.tx

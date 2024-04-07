@@ -1,0 +1,19 @@
+                                                                   
+       +-----------------------------------------------------------+
+       | The QLIBGV.ARC file should contain the following files    |
+       |                                                           | 
+       | 1.  QDEMO.C          16583  Source code for demo program  |
+       | 2.  QDEMO.COM        13478  Run-time demo program         |
+       | 3.  QDEMO.PRJ           35  Project file for demo program |
+       | 4.  QFOCUS1.COM       4216  Tutorial screen               |
+       | 5.  QFOCUS2.COM       4216  Tutorial screen               |
+       | 6.  QFOCUS3.COM       4216  Tutorial screen               |
+       | 7.  QFOCUS4.COM       4216  Tutorial screen               |
+       | 8.  QLIB.LIB          5632  QLIB object library           |
+       | 9.  QWELCOME.COM     14570  A welcome/info program        |   
+       |                                                           |
+       | To get started FAST:                                      |  
+       |                                                           |      
+       |        Run QWELCOME.COM                                   |        
+       |        Run QDEMO.COM                                      |    
+       +-----------------------------------------------------------+

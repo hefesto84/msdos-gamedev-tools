@@ -1,0 +1,38 @@
+! BIOS interrupt 13h function list.
+! Reference: IBM ROM BIOS Quick Reference Guide by Ray Duncan
+! Microsoft Press  ISBN #1-55615-135-7
+!
+! Note - all function numbers are in hexidecimal!
+!
+13 Disk Services
+!
+00 reset disk system
+01 get system status
+02 read sector
+03 write sector
+04 verify sector
+05 format track
+06 format bad track
+07 format drive
+08 get drive params
+09 init fixed disk
+0A read sector long
+0B write sector long
+0C seek
+0D reset fixed disk
+0E read sector buffer
+0F write sector buffer
+10 get drive status
+11 recalibrate driver
+12 controller RAM diag
+13 controller drv diag
+14 controller log diag
+15 get disk type
+16 get disk change stat
+17 set disk type
+18 set media type
+19 park heads
+1A format ESDI drive
+!
+! end of int 13h function list
+

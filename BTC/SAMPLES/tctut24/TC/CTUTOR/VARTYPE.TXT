@@ -1,0 +1,146 @@
+               VARIABLE TYPES and DECLARATIONS in C.
+               ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+Variable declarations must indicate the type, which circumscribes the set
+of values the variable can have and the operations that can be performed on
+it.  C has a great variety of data types, with different sizes of integers
+and floating-point values, as well as the modifiers 'signed' and
+'unsigned'.  The size and range of these variables are given in detail on
+page 309 of the User's Guide (version 2.0).
+
+There are four basic data types: integers, floating-point numbers, text and
+pointers.
+
+Integers.
+ÄÄÄÄÄÄÄÄÄ
+Integers obviously have no decimal part, but can be positive or negative.
+The type 'int' occupies two bytes (16 bits) in memory, which can contain
+values from -32768 to 32767.  The type 'unsigned int' also occupies two
+bytes, but can range in value from 0 to 65535.
+
+C also supports 'short int' and 'long int', usually abbreviated as 'short'
+and 'long'.  The actual sizes of 'short' and 'long' depend on the
+implementation and in Turbo C 'short' occupies 16 bits, the same as 'int',
+and 'long' occupies 32 bits.
+
+Integers are declared by the reserved word 'int' followed by a list of one
+or more integer variable names, separated by commas as illustarted below:
+
+   int    a,b,sum;           /* note that declarations, like statements */
+                             /* are concluded with a semi-colon.        */
+
+The reserved words 'short' and 'long' are used for short and long integers.
+
+Floating-point numbers.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+In C, numbers with decimal parts are defined by type 'float', although in
+ALGOL and Pascal they are called 'real'.  The type 'float' occupies 32 bits
+in memory and can range in value 3.4E-38 to 3.4E+38, whereas the type
+'double' occupy 64 bits and the type 'long double' occupies 80 bits.
+
+A typical declaration involving both integers and floating-point numbers is
+
+   int     a,b;
+   float   ratio;             /*  where  ratio = a / b;  */
+
+Text.
+ÄÄÄÄÄ
+Text is made up of single characters (a,Z,!,3) and strings ("This is a
+string of 33 characters").  C does not support a separate string data type,
+but it does provide two different approaches to defining strings.  One is
+to use a 'character array' and the other is to use a 'character pointer'.
+
+A single character, typically the Y or N answer to a question, is declared
+
+   char    ans;
+
+A character array is declared as follows:
+
+   char    msg[30];
+
+The [30] after 'msg' sets aside space for up to 29 characters, followed by
+a 'null character'  \0   referred to in the User's Guide as a 'null
+terminator'.
+
+The variable 'msg' itself does not contain a character value, but instead
+it holds the address of a memory location for the first of those 29 'char'
+variables.
+
+A character pointer is declared using the * prefix as illustrated below:
+
+   char    *msg;
+
+The asterisk * in front of 'msg' tells the compiler that 'msg' is a pointer
+to a character.  'msg' holds the address of some character, but the
+compiler does not set aside space to store the characters and does not
+initialize 'msg' to any particular value.
+
+When the compiler finds a statement such as
+
+   msg = "Press any key to continue\n";    /* \n indicates a new line */
+
+it creates the string, followed by a null character somewhere within the
+object code file and assigns the starting address of that string - the
+address of the character P - to 'msg'.
+
+Pointers.
+ÄÄÄÄÄÄÄÄÄ
+Pointers are used to locate where some particular data is stored in memory,
+rather than just its value.
+
+An appreciation of memory addressing is therefore required.  Briefly,
+Random Access Memory (RAM) is composed of binary digits ('bits'), each of
+which can assume two states, which are interpretted as 0 or 1.  Eight bits
+are grouped together to form a 'byte' and commonly two bytes form a 'word'.
+
+Each byte can have a numeric value from 0 to 255, and these values can be
+interpretted as characters, decimal digits, punctuation marks, etc.,
+according to a predefined code, such as ASCII.
+
+Each byte in the computer's memory has a unique address, specified by an
+offset value and a segment value.  This segment/offset addressing is
+required because with the 16 bit address bus of an AT machine, values are
+limited to the range from 0 to 65535 (64K) and most modern computers have
+640K and upwards of memory.  Memory therefore consists of 64K segments and
+the absolute address is formed by combining the segment value, left-shifted
+by 4 bits or one hexadecimal digit, with the offset to give a 20 bit
+address, covering a range of values up to 1Mbyte.
+Of course, computers with different architecture (MCA or EISA) use
+different addressing methods, but the principal that consecutive bytes have
+consecutive addresses still holds.
+
+A pointer is used in several ways.  First, it can be used to point to
+different data and different data structures, by changing the address the
+pointer contains. Thus a linked list of structures (or records) can be
+traversed with only one pointer.
+
+Secondly, a pointer can be used for 'dynamic memory allocation', allowing
+the creation of new variables while the program is running.
+
+Thirdly, a pointer can access different locations within a data structure,
+such as an array, a string or a structure.  This is achieved by indexing in
+order to access succeeding bytes.
+
+Associated with pointers is the 'address-of' operator (&), which returns
+the address of a given variable.  The use of pointers and address-of
+operator is illustrated in the example below, taken from page 167 of the
+User's Guide (version 2.0):
+
+#include <stdio.h>
+
+main()
+{
+   int    ivar,*iptr;
+
+   iptr = &ivar;          /* the address of ivar is assigned to iptr */
+   ivar = 421;            /* the integer value 421 is assigned to ivar */
+
+   printf("location of ivar: %p\n",&ivar);
+   printf("contents of ivar: %d\n", ivar);
+   printf("contents of iptr: %p\n", iptr);
+   printf("value pointed to: %d\n",*iptr);
+
+
+
+VARTYPE.TXT
+28.8.90

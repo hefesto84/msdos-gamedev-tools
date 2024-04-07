@@ -1,0 +1,85 @@
+(******************************************************************************
+*                                  MouseLib                                   *
+* mouseLib for TC2.0, TC++ and BC++                                           *
+******************************************************************************)
+
+ mouseLib documentation file     : mouseLib.doc, rel 5.0.
+ last update                     : Sep. 15, 1991, LR, CR
+
+Introduction
+------------
+
+  mouseLib is a port of Loewy Ron's Turbo Pascal mouse support unit to C, 
+ designed to provide event driven mouse support, using a standard (default) 
+ event handling mechanism. The package includes all of the normal mouse API 
+ functions, (show, hide cursor, define threshhold, detect mouse etc..). 
+  mouseLib was ported by Cohen Ran, and distributed by permission.
+
+Technical documantation
+-----------------------
+
+  We will not give any technical documentation but the supplied source code,
+ We have tried to document the code as good as we could, we used the best names
+ I could think of to functions and procedures, and added explanations where-
+ ever we felt the code was not trivial. If you intend to use this package, you
+ will have to look into the source code. 2 points we would like to mention - 
+ a.> use the setMouseGraph and resetMouseGraph before using the initMouse
+     procedure, to choose if you want text or graphics mouse support.
+ b.> look at the defaultHandler assembler routine, this is the heart of my
+     event driven applications. (use setDefaultHandler to ...).
+
+Difference from Pascal version
+------------------------------
+
+  Because Turbo Pascal has the feature to execute unit initialization automatically
+ no special procedure was supplied. This is not the case with the C version.
+ Be sure to call function doMouse before you start to use any of the package
+ functions!.
+
+Warranty
+--------
+
+  There is no warranty what so ever, The unit and docs. are supplied as is,
+ The authors (Loewy Ron and Cohen Ran), are not, and will not be responsible 
+ for any damages, lost profits, or inconveniences caused by the use, 
+ or inability to use this unit. The use of the unit is at your own risk. 
+ By using the unit you agree to this.
+
+General
+-------
+
+  mouseLib is copyrighted by (c) Loewy Ron, 1990, 1991. The C port of
+ mouseLib is copyrighted by (c) Loewy Ron & Cohen Ran, 1991. We release
+ the source, and it can be used for non-commercial programs, If you find
+ mouseLib worthy, and plan to use it in a commercial product - please
+ register mouseLib. (An order form is supplied - ORDER.TXT). Please notice,
+ this package is reffered as mouCeLib in the ORDER.TXT, where mouseLib is the
+ pascal version.
+
+What mouseLib lacks
+-------------------
+
+  There is no TSR support, because our Genius Mouse reference did not mention
+ INT 033H functions 014h, 015h etc.., We will sit down and write support for
+ these functions some time, unless some one else will be kind enough to do that,
+ and mail me the update. The new release adds functions to save and restore
+ the mouse driver state (release 4) (functions 14 & 15), but there is still no
+ tsr support (that will probably need func. 17 & 18 hex.)
+
+Contact
+-------
+
+  You can contact me on what-ever you want to at my address at :
+
+          Loewy Ron,                            Loewy Ron
+          9 Haneveem st.            Or          20 Smolanskin st.
+          Herzeliya, 46465,                     Haifa, 34366,
+          Israel.                               Israel.
+
+Credits
+-------
+
+  Turbo Pascal, Turbo C, Turbo C++ and Borland C++ are copyrights
+  of Borland International. 
+
+  Genius Mouse is a trademark of KUN YING ENTERPRISE CO.

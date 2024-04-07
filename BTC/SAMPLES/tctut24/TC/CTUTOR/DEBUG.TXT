@@ -1,0 +1,120 @@
+               PROGRAM ERRORS & DEBUGGING.
+               ßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+Programming errors inevitably occur due to typing mistakes, the use of
+incorrect logic, failure to initialize variables, the use of bad
+algorithms, etc.  It is fortunate therefore that debugging features are
+built into the Turbo C integrated development environment (IDE).
+
+There are three basic types of program bugs:
+
+ 1. Syntax errors.
+
+     These are found by the compiler at compile time and include such
+     mistakes as the ommision of an end-of-statement semi-colon or the
+     use of parentheses instead of braces to mark the body of a function.
+
+ 2. Semantic errors.
+
+     These are found at run-time and include dividing by zero.
+
+ 3. Logical errors.
+
+     These can be difficult to find.  Perhaps a variable has not been
+     correctly initialized and hence assumes an unexpected value, or the
+     algorithm for the solution of the problem is incorrectly chosen.
+
+
+1. Syntax errors.
+
+When using the integrated development environment (IDE) version of Turbo C
+(TC.EXE), the compiler provides a complete list of all the syntax errors and
+any warnings and displays them in the Message window at the bottom of the
+screen, whilst access to the source code for editing is still available.
+The Message window is not displayed immediately, but during compilation a
+Compiling window shows the details of the compilation, including the number
+of warnings and errors.  Eventually the message 'Press any key' invites the
+action to display the Message window.  The function key F5 allows zoom
+action so that the message window occupies the whole screen if required.
+
+It should be noted, however, that sometimes the compiler can be confused.
+A true syntax error in one place may cause the compiler to mistakenly think
+that it has found other errors. If parentheses are used instead of braces to
+enclose the statements of a function, the compiler may mistakenly believe
+that several variables have not been correctly declared.  Moreover the
+compiler does not indicate the incorrect use of parentheses.  In cases like
+this it is sensible to correct as many errors as understood and recompile to
+check the error situation again.  Intelligent interpretation of the compiler
+messages should soon lead to a program that will compile.
+
+To correct an error, place the highlight bar in the Message window on the
+first error message and press 'ENTER'. The cursor shifts to the Edit window
+and is placed in the spot that generated the error message. The status line
+of the editor now shows the error message, so that the appropriate
+correction can be made. Pressing F6 will now return to the Message window
+so that the down-arrow key can be used to select the next error for
+correction as above.  Alternatively, ALT-F8 can be used to move to the next
+error.
+
+ALT-F7 allows movement backwards through the error messages if this is
+necessary.  If curing one error will eliminate many other errors, then the
+F6 method is preferred, as several now redundant errors can be missed.
+Otherwise the ALT-F8 method is to be preferred.
+
+
+If the command-line version of Turbo C (TCC.EXE) is used instead of the IDE
+version (TC.EXE), the DOS screen display gives line numbers and error
+messages, so that an alternative editor can be used to correct the program.
+The procedure for compiling and linking from a command line is given on
+pages 37-39 of the User's Guide.  For the simple demonstration program
+EXAMPLE.C the command line is
+
+     tcc -IB:\include -LB:\lib example.c
+
+where the -I option allows include files from B:\include and
+      the -L option allows library files from B:\lib
+      if the B drive contains the appropriate files.
+other options are given in the User's Guide.
+
+The following files must be available on the existing path:
+
+     TCC.EXE       TLINK.EXE      as well as the file(s) for compilation.
+
+
+2. Semantic errors.
+
+When a compiled program is run, semantic errors which then occur will be
+indicated on the screen. A divide by zero is shown as 'Divide error'.
+
+
+3.  Logical errors.
+
+These are the most difficult to find, and would normally require a manual
+calculation through the algorithm or the insertion of additional lines in
+the program (temporarily) to show values as the program is executed.
+Fortunately the Turbo C integrated debugger is included in the IDE, with
+three main menus (Run, Debug, and Break/Watch) with suitable hot keys for
+the debugger commands.  Table 5.3 on pages 97-8 of the User's Guide gives
+details of these debugger commands.  Perhaps the most significant of these
+commands are:
+
+     Ctrl-F7 Break/Watch/Add Watch   which permits the value of a variable
+                                     to be displayed in the Watch window.
+
+     F7 Run/Trace Into               which allows the program to be executed
+                                     one line at a time, so that the values
+                                     in the Watch window can be observed.
+
+Appropriate use of these two commands simulate the traditional method of
+debugging a program by inserting additional temporary commands in the
+program, in order to display the values of significant variables as the
+program is run.
+
+
+DEBUG.TXT
+3.1.91
+25.5.93
+
+
+
+

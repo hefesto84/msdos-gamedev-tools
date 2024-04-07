@@ -1,0 +1,167 @@
+Documentation for IFC routines.
+-------------------------------
+Source file(s)	: ifc.c
+Include file(s)	: ifc.h
+Library			: tools.lib
+
+The routines contained in IFC.C are designed to simplify reading from, and
+writing to, the parallel ports in order to use them for simple interfacing
+circuits.
+
+===============================================================================
+
+Function		int IFCset(int portnum)
+Prototype in	ifc.h
+
+	Sets the current port to portnum. Portnum can range from 0 to 3, with 0
+	being LPT1, and 3 being LPT4.
+
+Returns			FALSE if an invalid printer port is specified, TRUE otherwise.
+
+-------------------------------------------------------------------------------
+
+Function		int16 IFCout(uint8 val)
+Prototype in	ifc.h
+
+	Outputs the 8 bits of val to the current port.
+
+Returns			the value ouput, or -1 if the current port is invalid.
+
+-------------------------------------------------------------------------------
+
+Function		int16 IFCin()
+Prototype in	ifc.h
+
+	Reads 8 bits of data from the current port.
+
+Returns			the value read, or -1 if the current port is invalid.
+
+===============================================================================
+
+General notes :
+---------------
+
+Beginning at location 0040:0008 is a block of 8 bytes. These are arranged as
+4 words, 1 for each of the ports LPT1 to LPT4. If this word is 0, the corres-
+ponding port is invalid, otherwise the word contains the base I/O address of
+the port. Starting from this base addresss are 3 locations of interest.
+
+At [base+0] is an 8-bit latch leading to pins 2-9 on the connector. There is
+also a tri-state buffer reverse-connected across this latch, so that reading
+this address will return the current states of pins 2-9. Unfortunately, that
+does not mean these pins can be used for input, as the latch is not open-
+collector. However, this feature is useful for verifying that written data has
+actually made it to the hardware.
+
+At [base+1] is an I/O chip, of which bits 3-7 are useful. This chip can
+only be used for inputting data. Bits 3-6 will read as 0 if the appropriate
+pin is at GND relative to pin 25, or 1 if the pin is at +5v. However, bit 7
+is inverted - It will read 0 if pin 11 is at +5v and 1 if it's at GND.
+
+At [base+2] is another chip, of which bits 0-3 can be read or written. This
+chip is a set of open-collector output transistors, with tri-state buffers
+reverse-connected to enable reading. Bits 0, 1 and 3 are inverted. A 1 in the
+bit position will produce GND on the appropriate pin, while a 0 will produce
+a floating (+5v) value. Bit 2 will produce +5v if it's 1, or a floating GND
+if it's 0.
+
+This gives a total of 17 bits which can be played with, as follows :
+
+Offset	bit		Pin		Direction
+0		0		2		Output
+0		1		3		Output
+0		2		4		Output
+0		3		5		Output
+0		4		6		Output
+0		5		7		Output
+0		6		8		Output
+0		7		9		Output
+1		3		15		Input
+1		4		13		Input
+1		5		12		Input
+1		6		10		Input
+1		7		11		Input		Inverted
+2		0		 1		Either		Inverted
+2		1		14		Either		Inverted
+2		2		16		Either
+2		3		17		Either		Inverted
+
+As written, my functions use the first 8 bits (Offset 1, 3-7 and Offset 2, 0-2)
+as input pins. This gives us a total of 8 inputs and 8 outputs (from Offset 0).
+I figured this was a good balance, and it shouldn't be too hard to write some
+routines for any other configuration. Some possibly useful configurations
+would be :
+
+12 outputs, 5 inputs,
+8 outputs,  9 inputs, or
+9 outputs,  8 inputs.
+
+WARNING : You should be careful not to change any bits in these locations
+other than the necessary ones. I can't remember what they do. Also, Bits 0-3
+of Offset 2 terminate at open-collector ouputs on the chip. If you're going
+to use these for inputs, you need to make sure you don't short them to +5v
+while they are latched at Gnd. However, the other way is quite okay. The safest
+bet is to only connect up gear which shorts them to ground, or leaves them Open
+circuit. They have pullup resistors internal to them, and if left floating will
+quite happily show a '1'.This will prevent damage to the chip, then all you
+have to remember is to write them correct value to each of these bits before
+doing any reading from them. This makes sure the outputs are not S/C to ground
+by the chip itself. If this doesn't make sense, the following suggested
+connection diagram might help.
+
+              PC               |                Your Gear
+                               |
+              +5v              |
+               |               |
+               Z resistor      |
+               |---------------------- SWITCH
+              |/               |         |
+Bit 0-3   ----|                |         |
+              |\               |        Gnd
+               |               |
+               |               |
+              Gnd              |
+                               |
+
+Here's the pin to port/bit assignments.
+
+Pin		IFCallout	IFCallin	IFCout	IFCin	Port/Bit	Direction
+-----------------------------------------------------------------------------
+ 1		   8		   0				  0		   2/0		Both
+ 2		   0					  0				   0/0		Out
+ 3		   1					  1				   0/1		Out
+ 4		   2					  2				   0/2		Out
+ 5		   3					  3				   0/3		Out
+ 6		   4					  4				   0/4		Out
+ 7		   5					  5				   0/5		Out
+ 8		   6					  6				   0/6		Out
+ 9		   7					  7				   0/7		Out
+10					   7				  6		   1/6		In
+11					   8				  7		   1/7		In
+12					   6				  5		   1/5		In
+13					   5				  4		   1/4		In
+14		   9		   1				  1		   2/1		Both
+15					   4				  3		   1/3		In
+16		  10		   2				  2		   2/2		Both
+17		  11		   3						   2/3		Both
+-----------------------------------------------------------------------------
+
+Here's the normal pin functions for a printer port.
+
+Pin		Function at PC					Pin		Function at PC
+-----------------------------------------------------------------------------
+ 1		Strobe out						14		Auto LF out
+ 2		D0 out							15		Fault in
+ 3		D1 out							16		Init out
+ 4		D2 out							17		Select out
+ 5		D3 out							18		Gnd
+ 6		D4 out							19		Gnd
+ 7		D5 out							20		Gnd
+ 8		D6 out							21		Gnd
+ 9		D7 out							22		Gnd
+10		ACK in							23		Gnd
+11		Busy in							24		Gnd
+12		Paper End in					25		Gnd
+13		Select in
+-----------------------------------------------------------------------------
+

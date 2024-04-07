@@ -1,0 +1,18 @@
+Name: glob - match files against regular expression
+
+Synopsis: glob pathname
+
+Description: glob uses regexp(3) to match files against the pathname
+		   which may be a regular expression as described in ed(1)
+		   and egrep(1). If a path is not given, the current 
+		   directory is used. The pathname must use '/' instead
+		   of the MSDOS '\' because the \ is interpreted as
+		   part of the regular expression.
+
+Example:	   The following shows all executable files in the 
+		   current dir:	
+			glob "*\.(EXE|BAT|COM)"
+
+Bugs:        Case is insignifigant due to MSDOS . 
+	
+

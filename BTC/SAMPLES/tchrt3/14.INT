@@ -1,0 +1,17 @@
+! BIOS interrupt 14h function list.
+! Reference: IBM ROM BIOS Quick Reference Guide by Ray Duncan
+! Microsoft Press  ISBN #1-55615-135-7
+!
+! Note - all function numbers are in hexidecimal!
+!
+14 Serial Port Services
+!
+00 init COMM port
+01 write char
+02 read char
+03 get port status
+04 extended init port
+05 extended port cntl
+!
+! end of int 14h function list
+

@@ -1,0 +1,63 @@
+
+
+                            TCHRT V3.00 Registration
+
+
+     Name ______________________________ Company ______________________________
+
+     Address __________________________________________________________________
+
+     City/State/Zip ___________________________________________________________
+
+     Telephone _______________________ Got TCHRT from _________________________
+
+     Version 3 Single Language Timer Toolboxes.  Includes large & small
+     model libraries (C), full library source, support by US Mail or
+     Compuserve Email.  License does not permit commercial distribution
+     of object code.
+
+     Qty _____ TCHRT V3 for Turbo C @ $20.00 each ..................... _______
+
+     Qty _____ MSCHRT V3 for Microsoft C @ $20.00 each ................ _______
+
+     Qty _____ TPHRT V3 for Turbo Pascal 5 & 5.5 @ $20.00 each ........ _______
+
+     Version 4 Timer  Toolbox. Supports  TC & MSC in small, medium,
+     compact, and large models, Turbo Pascal 5 & 5.5.  20 additional
+     functions to manage timers, profile interrupts, generate synchronous
+     alarms, run the timer tick interrupt at a user specified rate.
+     Two standalone utilities time execution and profile interrupts of
+     most executable programs without recompilation.  Full library
+     source in C & Pascal included.  Printed manual.  Support by
+     telephone, US Mail or Compuserv Email.  License  permits
+     commercial distribution of object code.
+
+     Qty ______ PCHRT V4.00 @ $49.95 each ............................. _______
+
+     Shipping in USA @ $2.00 .......................................... _______
+
+     Shipping outside USA @ $4.00 ..................................... _______
+
+     Subtotal ......................................................... _______
+
+     Michigan residents add 4% ........................................ _______
+
+     Total enclosed ................................................... _______
+
+
+     Payment method:  ___Check  ___Money Order  ___VISA  ___MasterCard
+
+     Card # ____________________________________________ Exp _________
+
+     Signature _________________________________________
+
+     Remit to Ryle Design, P.O. Box 22, Mt. Pleasant, MI 48804
+
+     Credit  card  customers  may  order  by  Email  on Compuserve  to
+     73047,1765,  or  by telephone at (517) 773-0587.  This is a voice
+     mail system.  Leave your name and number in voice mailbox #2, and
+     your call will be returned and your order taken.
+
+     Thank you!
+
+

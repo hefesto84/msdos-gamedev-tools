@@ -1,0 +1,11 @@
+;
+; File name: P1TC2.DIF
+; Product  : Turbo C
+; Version  : TC.EXE 2.0
+;
+; Fix for TC.EXE; changes __TURBOC__ to "0x0200"
+;
+   456CA:  32 30 30
+           31 38 44
+
+

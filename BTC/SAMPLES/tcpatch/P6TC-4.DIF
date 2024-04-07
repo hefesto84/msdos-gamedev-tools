@@ -1,0 +1,30 @@
+;
+; Filename : p6tc-4.dif
+; Product  : Turbo C
+; Version  : TC.EXE 1.0
+;
+;This file will change the Turbo C Integrated Environment editor's tab
+;   width from 8 to 4.
+;   This file is input to PATCH.COM.
+
+   2EA81:  03
+           07
+   2EA84:  FC
+           F8
+   2EAE0:  03
+           07
+   2EAE3:  03
+           07
+   2ECD2:  03
+           07
+   2ECD6:  04
+           08
+   2ECDA:  03
+           07
+   2F089:  03
+           07
+   2F08D:  04
+           08
+   2F091:  03
+           07
+

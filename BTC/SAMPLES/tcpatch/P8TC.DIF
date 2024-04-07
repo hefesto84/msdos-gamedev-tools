@@ -1,0 +1,11 @@
+;
+; Filename : p8tc.dif
+; Product  : Turbo C
+; Version  : TC.EXE 1.0
+;
+; This fixes a problem in the integrated environment where in certain
+;  circumstances, the temporary file DMMWPGBJ.$$$ is not deleted.
+;
+    9C23:  C8 79
+           63 15
+           

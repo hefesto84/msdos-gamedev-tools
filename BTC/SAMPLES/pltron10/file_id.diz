@@ -1,0 +1,15 @@
+PLATFORMTRON 1.00 Copyright 1997 Liouros Thanasis
+--------------------------------------------------
+A high level game library for Borland/Turbo C++
+that helps you create fast professional platform
+and action arcade games very easily. Features:
+VGA 320x200x256 mode, 70Hz smooth animation,
+built in scrolling up to 280 pixels/sec in
+every direction, complete "World" support,
+collision detection, sprite lists, priority lists,
+sprites - background interaction, multiple layers,
+low level keyboard handler, system timer and real
+time clock handlers, action functions, ems support
+Windows 95 compatibility.
+
+

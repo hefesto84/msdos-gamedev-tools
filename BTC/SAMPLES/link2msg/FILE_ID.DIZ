@@ -1,0 +1,7 @@
+LINK2MSG ù Tlink Output Filter for
+           Borland C++ 3.1
+Captures output from Turbo Linker
+into the message window in the
+BC++ 3.1 IDE, in a similar way to
+GREP2MSG and TASM2MSG.
++ Freeware, C source included.

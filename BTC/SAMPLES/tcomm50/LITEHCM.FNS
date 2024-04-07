@@ -1,0 +1,24 @@
+int lch_oncarr(unsigned);
+int lch_offcarr(unsigned);
+int lch_codeset(unsigned,unsigned);
+int lch_dial(unsigned,char *);
+int lch_fduplex(unsigned);
+int lch_hduplex(unsigned);
+int lch_onecho(unsigned);
+int lch_offecho(unsigned);
+int lch_sreg(unsigned,unsigned,int);
+int lch_greg(unsigned,unsigned);
+int lch_hook(unsigned,unsigned);
+int lch_redo(unsigned);
+void _settype(int);
+void _setset(int);
+int _rettype(void);
+int _retset(void);
+int lch_codeson(unsigned);
+int lch_codesoff(unsigned);
+int lch_wrdres(unsigned);
+int lch_numres(unsigned);
+int lch_tone(unsigned);
+int lch_pulse(unsigned);
+int lch_speaker(unsigned,unsigned);
+

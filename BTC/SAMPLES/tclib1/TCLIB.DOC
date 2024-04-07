@@ -1,0 +1,164 @@
+
+
+
+
+
+                             TCLIB 1.0 DOCUMENTATION
+
+                          TCLIB - The Turbo C Librarian
+           Created for use with Borland Internationals Turbo C Compiler
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           This product is being distributed under the Shareware concept.
+           This gives you the right to try before you buy and pass on a
+           good thing to others. You may not reproduce this product or its
+           documentation for a profit or include it in a commercial pack-
+           age of any kind without written permission of Panama City Soft-
+           ware. If you find that you like this product well enough to use
+           it, please show your support by registering it. Registration
+           will assure you of timely notice of upgrades (which will most
+           certainly occur). To register, please send $25.00 in U.S. funds
+           to:
+
+
+
+
+
+
+
+
+                                    Rodney B. Rich
+                                 Panama City Software
+                                    2661-A Garfield
+                                Tyndall AFB, Fl. 32403
+
+                                     (904) 286-6265
+
+
+
+
+       The TCLIB librarian is an object code library manager for use with
+Turbo C librarys used with TLINK. The libraries created and managed by
+this program are NOT Microsoft .LIB compatible but are compatible with
+those produced by QLIB, the quick and dirty library CREATE ONLY utility
+written by Roger Schlafy for Borland. It can however, read and convert
+Microsoft format library files, such as those supplied with Turbo C. The
+TCLIB libraries have the advantage of being much smaller (an average of
+10K on a 70-80k Microsoft format lib). The TCLIB program is also much
+faster than LIB from Microsoft. It can extract, delete, and append files
+using an all command line approach or a command line and response file
+approach (for long lists of commands). It can also provide a list of
+object modules in a library.
+
+        To use TCLIB, invoke it with at least the name of a library on the
+command line as TCLIB libname. Do NOT use any extensions, .LIB is assumed.
+If all you supply is a library name, the library will be scanned and a
+file with the same name as the library and an extension of .LST will be
+created. This file contains a list of all object modules in the library in
+order of occurance, along with thier offset and size.
+
+        If the library is not already in TCLIB format (ie, its in
+Microsoft library format), the library will be converted to the TCLIB
+format. This involves renaming the existing library to have an .MSF
+extension and creating the new library under the old library name. If the
+program detects that the library is in need of conversion, this will
+happen automatically, so ensure that sufficient space is available on the
+current drive/directory for the new library.
+
+         Following the library name on the command line should be the
+names of any object modules you wish to work with, each proceded by the
+desired switch character with no intervening space between the switch and
+object module name. There should also be NO extension used on the object
+file names on the command line. OBJ is the assumned extension. See the
+example below for command line format:
+
+    Assuming the library contains the following modules:
+
+        absread
+        plot
+        write
+        writea
+
+    and you issue the following command:
+
+    TCLIB libname -absread +scanf +fprintf +plot *write *writea
+
+    then absread will be deleted (- switch), scanf, fprintf will be added
+(+ switch), plot will be deleted (since it is being added and it already
+exists) and then the new copy appended, and write and writea will be
+copied from the library to independant object files on the disk, though
+not in that order. TCLIB will always delete and replace (the new copy is
+appended at the end) a module if it already exists in the library. So if
+you wish to replace an existing module, simply specify add for that module
+on the command line. This is the equivalent of Microsoft LIBs -+ switch.
+Commands are processed in the following order; extracts, deletes, then
+
+adds. To accomplish the same as Microsofts command to extract and remove a
+module (move, as they call it) just do an extract and delete of the same
+file. Operations take place in the appropriate order no matter what order
+they are given in. A new library will be created any time you add or
+delete modules. The existing library will be renamed to an .OLD extension
+and a new library will be constructed on the currently logged drive /
+directory. Make sure you have the room for this! If it fails, you can
+simply rename the .OLD library with no loss other than time however.
+
+         If you are dealing with more commands than will fit on the
+command line, you can use a response file. This is nothing more than an
+ASCII file in which each command is on a SEPARATE line, and consists of
+the same switch and object module format as the command line given above.
+Unlike the Microsoft librarian, you do NOT put the library name in the
+reponse file. It must be on the command line as the first parameter. The
+response file must be the second parameter and is the name of your
+response file with an @ switch appended to the front of it. No extension
+is assumned so if it has one, you must supply it. Also, unlike LIB, you
+do not use any line continuation characters in the file. Each line should
+consist of just ONE switch/filename combination. Invalid switches and/or
+files without switches will be ignored! No other parameters should follow
+the response file name on the command line and will be ignored if they do.
+A sample of this format appears below:
+
+     TCLIB libname @rspfile
+
+To accomplish what was done in the full command line example previously,
+the response file should contain the following:
+
+-absread
++scanf
++fprintf
++plot
+*write
+*writea
+
+
+         I am very interested in hearing comments and suggestions
+concerning this product. My Compuserve ID is 74126,60 and my phone and
+address are given at the top. I plan to optimize this product for better
+speed during the delete and append processes, as well as add more
+features, such as a full symbolic cross reference but I felt the product
+would best serve the many users of Turbo C who either aren't happy with
+the speed of the Microsoft librarian, or who like myself, don't have it,
+if I got it out there quickly. Thanks in advance for your support!
+
+                                                      Rodney B. RIch
+                                                   Panama City Software
+
+
+
+                          TCLIB is (c) copyright 1987
+
+

@@ -1,0 +1,30 @@
+                      FEATURES of TCHK 2.1
+
+  TCHK is a Turboc C library compiled with Turbo C 2.0 sporting over
+  350 functions. Some of these functions are:
+
+      - litebar, popup and Lotus 'slash-bar' style menus
+      - keyboard input including a full featured string input function
+        similiar to dBASE's @...GET, but better
+      - date conversions supporting string, Julian, Gregorian and DOS
+        date formats
+      - time conversions supporting string 12 and 24 hour formats,
+        numeric and DOS time formats
+      - numerous string manipulations not found in Turbo C
+      - math functions from rounding to standard deviation and summation
+      - financial calculations including Present and Future values,
+        depreciation and more
+      - video functions, from text output to cursor control, including
+        line drawing (lines, boxes, shadows boxes + more)
+      - mouse information and control functions
+      - hardware and software identification (cpu type, machine type,
+        detection of many popular TSRs, disk type, MCA, EMS, XMS,
+        101/102-key keyboard, DESQview, Double DOS and much much more)
+      - DOS disk and file functions (commit(), isdir(), parse and expand
+        filenames, among others)
+      - multi-tasking functions with heavy support for DESQview
+      - printer control functions
+      - joystick information
+      - and more
+
+  Check out TCHK today. You won't be disappointed.

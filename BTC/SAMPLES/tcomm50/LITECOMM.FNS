@@ -1,0 +1,30 @@
+int _portchg(unsigned, unsigned, char, unsigned);
+int	comm_opn(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
+int comm_setup(unsigned, unsigned, unsigned, unsigned, unsigned);
+int comm_close(unsigned, unsigned);
+void commtx(COMM *);
+
+int	lc_get(unsigned);
+int	lc_put(unsigned, unsigned char);
+int lc_peek(unsigned);
+int lc_estat(unsigned);
+int	lc_getw(unsigned);
+int lc_icnt(unsigned);
+int lc_ocnt(unsigned);
+int	lc_setmdm(unsigned,unsigned);
+int	lc_clrmdm(unsigned,unsigned);
+int	lc_togmdm(unsigned,unsigned);
+int lc_mstat(unsigned);
+int lc_gets(unsigned,unsigned char *, int);
+int lc_puts(unsigned,unsigned char *, int);
+int	lc_getw(unsigned);
+int lc_tflush(unsigned);
+int lc_rflush(unsigned);
+void lc_flshtrue(unsigned, unsigned char);
+int lc_nflush(unsigned, int);
+int lc_xoff(unsigned,int);
+int lc_gotxoff(unsigned);
+int lc_putxoff(unsigned);
+int	lc_sbrk(unsigned);
+int lc_gotbrk(unsigned);
+

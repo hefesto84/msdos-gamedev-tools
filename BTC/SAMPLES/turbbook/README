@@ -1,0 +1,61 @@
+October, 1987
+
+This diskette contains the source and exe files for the programs in 
+"Turbo C: Memory-Resident Utilities, Screen I/O, and Advanced 
+Programming Techniques", Al Stevens, 1987, MIS:Press.
+
+This book uses the unique features of Turbo C to implement a complete
+video window package. The package includes support for context-sensitive
+help, pop-down menus, data entry templates, and a window text editor.
+
+The book also explains the concepts of Terminate-and-Stay-Resident 
+(TSR) utility programs under DOS. Example TSR programs are provided, and 
+a TSR driver program is included that allows you to build your own TSR
+programs in Turbo C.
+
+There are differences between the files here and the listings in the book
+As published, clock.c only works properly when compiled	with the tiny 
+memory model. The clock.c program on this diskette can be compiled with 
+either the tiny or small memory model. The files twindow.c and twindow.h 
+in the book have a bug that prevents compiling when FASTWINDOWS is defined.
+The bug is corrected in the files on this diskette.
+
+To order the book, call 1-800-MANUALS.
+
+------------------------------------------------------------------------------
+
+Other books by the author:
+
+C Development Tools for the IBM PC, Brady, 1986
+
+This book contains C source code and descriptions for menus, data entry
+screens, a terminal driver, file management, b-trees, file sorting, and
+cache memory. The source code is available on diskette from the author.
+Seven PC C compilers are supported (Aztec, DeSmet, Lattice, Eco-C88,
+Let's C, Microsoft C, Turbo C).
+
+C Data Base Development, MIS:Press, 1987
+
+This book carries the concepts of software tools beyond those of the 
+first book into the data base management system. Included are the source 
+code for a relational DBMS, a description of data base concepts, and a 
+primer on data base design. The source code is available on diskette
+for nine different PC C Compilers (Aztec, CI-C86, Datalight, Eco-C88, 
+Lattice, Let's C, Microsoft C, Turbo C, Wizard C).
+
+Order from the publisher at 1-800-MANUALS.
+
+--------------- Copyright 1987, Al Stevens and MIS:Press ---------------------
+
+The source code on this diskette is protected by Copyright laws. You may 
+exchange the source code and you may develop programs using the code that you 
+sell or otherwise distribute to other parties. You may not charge more than
+reasonable copy costs for copies of the source code, and you may not 
+publish the source code except on a Bulletin Board Service (BBS).
+
+Al Stevens
+2983 Newfound Harbor Drive
+Merritt Island, FL 32952
+(305) 453-4129
+
+

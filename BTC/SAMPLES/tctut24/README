@@ -1,0 +1,94 @@
+                INTRODUCTION TO THE TURBO C TUTOR.
+                ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+This software has been prepared to help in the presentation of Turbo C
+training courses and is now made available as shareware. Please freely
+distribute to friends and colleagues.
+If however you do use the programs to advantage, please send a donation
+of œ5 to one of the following charities:
+
+       Imperial Cancer Research Fund.
+       OXFAM.
+       Guide Dogs for the Blind.
+       Arthritis Research Council.
+
+A letter, fully addressed to the selected charity, will be created
+directly on your printer from the DOS prompt by typing A:REGISTER and
+pressing the ENTER key. You will then be asked to provide your name,
+organisation name and address and to select the charity. Please send a
+copy to the author of the programs and any comments, both critical and
+favourable, in order that improvements can be made to the presentation.
+If requiring an acknowledgement or answers to qestions, please send a
+stamped addressed envelope.
+
+
+The author's name and address are:     R Shaw
+                                       Shaw Software
+                                       56a Maidenhead Road
+                                       Stratford-upon-Avon
+                                       Warwickshire
+                                       CV37 6XT     (telephone 0789 295150)
+
+     _________________________________________________________________
+
+The hardware requirements are any IBM PC compatible machine from XT
+upwards, with 640kb memory and a VGA colour monitor.
+
+
+There are 68 files on this diskette, which is labelled CTUTOR.
+
+62 of these files are in the subdirectory \TC\CTUTOR and relate to the
+display of Turbo C tutorial notes and example programs using the
+object-oriented code of Turbo Vision. The example programs can also be
+run from the Run examples submenu. The screen display can be adjusted
+using the Windows submenu and mouse and colour options can be set using
+the Options submenu.
+
+
+The Notes are in files with the extension name .TXT, whilst the examples
+are available as both source code (.C) and executable files (.EXE).
+The main program that controls the display is CTUTOR.EXE and so the command
+is just CTUTOR if the correct subdirectory has already been selected.
+
+There are 6 files in the root directory of this diskette:
+
+The README file is this one being read by means of the batch file INTRO.BAT
+
+The DOS file CONFIG.SYS is in this directory, to allow a meaningful
+operation of the program DOSOPS.EXE when using drive A:
+
+There are two other batch files RUN.BAT and INST.BAT
+The first allows operation directly from the diskette drive A: by typing
+RUN and pressing the ENTER key.
+The second transfers all the files in the A:\TC\CTUTOR subdirectory to the
+hard disk drive C: in the subdirectory C:\TC\CTUTOR which is first created
+by the batch file. The command is INST followed by the ENTER key.
+
+The executable file REGISTER.EXE creates a letter to a selected charity.
+
+The tutorial runs in Turbo Vision, which provides an environment similar
+to the Integrated Development Environment (IDE) of Turbo C.
+
+The initial screen display shows a Menu Bar at the top of the screen and
+a Status Line at the bottom. The Status Line always provides essential
+advice, typically that the function key F10 will access the Menu. Then
+the arrow keys can be used to select the required menu item and the
+sub-menu pulled down by pressing the ENTER key. The arrow keys can again
+be used to select the required sub-menu option and that option activated
+by pressing the ENTER key. The function key F1 always provides context
+sensitive help, including any hot-key short cuts.
+The hot-key combination Alt-X will immediately cause an exit to DOS.
+
+Initially, using hot-key combinations, press Alt-N followed by L and
+then the ENTER key to obtain a list of the text files available.
+Alt-F3 will close the current display and return to the original screen.
+Then press Alt-N followed by O to display a dialog box which offers
+selection of the notes as text files. Press the Tab key and then use the
+arrow keys to select the required text file and then press the ENTER key.
+
+Good luck with learning Turbo C.
+
+README.
+8.5.93
+
+

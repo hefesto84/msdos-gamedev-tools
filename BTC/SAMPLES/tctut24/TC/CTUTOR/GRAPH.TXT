@@ -1,0 +1,206 @@
+                    GRAPHICS.
+                    ßßßßßßßßß
+
+Turbo C provides a separate library of over 70 graphics functions, ranging
+from high-level calls (like setviewport, bar3d and drawpoly) to bit-oriented
+functions (like getimage and putimage).  These functions are in the library
+file GRAPHICS.LIB and they are prototyped in the header file GRAPHIC.H,
+which must be included in every program that uses graphics.  As well as
+these two files, the graphics package includes Borland graphics device
+drivers (*.BGI files) and stroked character fonts (*.CHR files).
+
+In order to use the graphics functions with TC.EXE it is necessary to toggle
+Options/Linker/Graphics library to On.  Thus when the call to 'Make program'
+is made, the linker will automatically link in the Turbo C graphics library.
+
+When using the command line version TCC.EXE then GRAPHICS.LIB must be
+included on the command line, as in the example:
+
+     tcc myprog graphics.lib
+
+The graphics functions can be divided into the following seven categories:
+
+     Graphics system control
+     Drawing and filling
+     Manipulating screen and viewports
+     Text output
+     Color control
+     Error handling
+     State query
+
+
+The graphics system control functions are listed on page 228 of the User's
+Guide and include the essential functions:
+
+     detectgraph    checks hardware for correct graphics driver to use
+                    (CGA, EGA, VGA, etc.) and recommends a graph mode.
+
+     initgraph      initializes the graphics system and changes to graph
+                    mode.
+
+     closegraph     shuts down the graphics system.
+
+The program GRAPHICS.C illustrates the use of these functions and includes
+the folowing lines:
+
+#include <graphics.h>
+...
+int   graphdriver, graphmode, grapherror;
+...
+detectgraph(&graphdriver, &graphmode);
+...
+initgraph(&graphdriver, &graphmode, "");
+...
+closegraph();
+
+The function closegraph() unloads the driver from memory and restores the
+original video mode by means of another control function restorecrtmode().
+
+Full details of all these functions can be found in Chapter 2 of the
+Reference Guide, arranged in alphabetical order.
+
+The drawing and filling functions are listed on page 231 of the User's
+Guide and include:
+
+     circle          draws a circle
+
+     line            draws a line from (x0,y0) to (x1,y1)
+
+     moveto          moves the current position (CP) to (x,y)
+
+     rectangle       draws a rectangle
+
+     bar             draws and fills a bar
+
+     fillpoly        draws and fills a polygon
+
+Thus it is possible to draw colored lines, arcs, circles, ellipses,
+rectangles, pieslices, 2- and 3-dimensional bars, polygon, and regular or
+irregular shapes based on combinations of these.
+
+A typical drawing command from the program GRAPHICS.C is
+
+     line(69,MaxY-30,MaxX-70,MaxY-30);        /* draws x axis for -5<x<+5 */
+
+The functions for manipulating the screen and viewport are listed on page
+233 of the User's Guide and include:
+
+     cleardevice          clears the screen (active page)
+
+     setviewport          sets the current output viewport for graphics
+                          output
+
+     putpixel             plots a pixel at (x,y)
+
+The use of one of these commands in the program GRAPHICS.C is
+
+     setviewport(0,0,MaxX,MaxY,1);
+
+where the parameters are left, top, right, bottom and clip.  The last
+parameter, if non-zero, indicates that the drawings are truncated at the
+current viewport boundaries.  Full details are given on page 332 of the
+Reference Guide.
+
+The functions for text output in graphics mode are listed on page 234 of the
+User's Guide and include:
+
+     outtextxy           sends a string to the screen at the position
+                         specified by the first two parameters (x,y,string)
+
+     settextjustify      sets text justification values used by outextxy
+
+The function settextjustify is fully defined on pages 324-5 of the Reference
+Guide.  The two parameters refer to the horizontal and vertical
+justification around the current position (CP).  These functions are used in
+the program GRAPHICS.C as follows:
+
+     ...
+     settextjustify( CENTRE_TEXT, CENTRE_TEXT );
+     outtextxy( OX, 10, "Graph of y = x^2 + 5" );
+     ...
+
+
+The color control functions are shown on page 236 of the User's Guide and
+include:
+
+     getbkcolor     returns the current background color
+
+     getcolor       returns the current drawing color
+
+     setbkcolor     sets the current background color
+
+     setcolor       sets the current drawing color
+
+The single parameter for both setcolor and setbkcolor is an integer value,
+ranging from 0 to 15, as shown on page 238 of the User's Guide or page 313
+of the Reference Guide for both CGA and EGA modes.  VGA mode is similar to
+EGA but has higher resolution.  None of these functions are used in the
+program GRAPHICS.C so the default white on black is used.
+
+The functions for error handling in graphics mode are given on page 240 of
+the User's Guide and are as follows:
+
+     grapherrormsg       returns an error message string for the specified
+                         error code.
+
+     graphresult         returns an error code for the last graphics
+                         operation that encountered a problem.
+
+Error return codes are listed in the Guide, 0 indicates no error, whilst a
+range of negative integers to -18 indicate the various errors.  The
+demonstration program GRAPHICS.C uses these function as follows:
+
+     grapherror = graphresult();
+     if (grapherror < 0 )
+     {
+        printf("Initgraph error: %s \n",grapherrormsg(graphmode));
+        exit(1)
+     }
+
+The state query functions are listed on page 241 of the User's Guide and
+include:
+
+     getaspectratio         returns the aspect ratio of the graphics screen
+
+     getcolor               returns the current drawing color
+
+     getmaxx                returns the current x resolution
+
+     getmaxy                returns the current y resolution
+
+Two of these functions are used in the program GRAPHICS.C in order to
+evaluate the parameters MaxX and MaxY to be used in the function call
+setviewport, as shown above. These function calls are as follows:
+
+     MaxX = getmaxx();
+     MaxY = getmaxy();
+
+
+The program GRAPHICS.C makes use of several other functions taken from the
+Shareware Marketing diskette called 'Turbo C Utilities' in order to obtain
+hardcopy in either normal (portrait) or landscape mode.  These are shown in
+the section commented as /* Function prototypes */.
+
+This demonstration program draws the axes and the parabolic graph for the
+function y = x^2 + 5 in the range -5 < x < +5.  The reader is invited to
+complete the graphical representation by marking and labelling the axes at
+unit intervals on the x axis and intervals of 5 units on the y axis.  This
+will involve use of the 'line' function for the axis marks and the
+'outtextxy' function for the values.
+
+
+Those users with experience of Turbo Pascal will observe that the Turbo C
+graphics functions are similar to the graphics procedures and functions of
+Turbo Pascal.
+
+
+The essential functions to initialize the graphics system ( detectgraph and
+initgraph ) must always be included in a graphics program and at the same
+time the appropriate *.BGI file must be available on the default drive.
+Thus the file CGA.BGI must be available for a CGA monitor (320 x 200) or
+EGAVGA.BGI for a VGA display (640 x 480 pixels).
+
+
+GRAPH.TXT
+5.1.91
+

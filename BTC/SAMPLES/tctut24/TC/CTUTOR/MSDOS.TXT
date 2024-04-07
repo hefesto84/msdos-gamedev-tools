@@ -1,0 +1,301 @@
+                              MS-DOS.
+                              ßßßßßßß
+
+The Microsoft Disk Operating System (MS-DOS) is a group of programs that
+controls the running and operation of the computer. It provides an interface
+between the operator and the computer.
+
+DOS allows communication with the Central Processor Unit (CPU), the monitor,
+the disk drives, the printer, and other peripherals. It enables the
+manipulation of program and data files stored on diskette or hard disk.
+
+DOS has a command library of over 40 commands that provide the environment
+for handling files, developing programs and running applications. It should
+be noted that Turbo Pascal allows an easy switch between the TP environment
+and DOS.
+
+The file handling commands of DOS allow the operator to copy and delete
+files, copy entire diskettes, display the contents of files, etc., but also
+to group files in a hierarchical directory structure. There is also a Line
+Editor called EDLIN and a DEBUG utility.
+
+Although GW-Basic is usually provided with DOS when a PC is purchased, other
+high-level languages, such as Turbo Pascal must be provided as additional
+software.
+
+When the computer is switched on, DOS is initialized, provided it is either
+on the hard disk or on a diskette in drive A. After initialization, some
+DOS commands are memory resident, and these are called internal commands.
+Others, known as external commands, remain on disk.
+
+The internal commands, which are part of the command processor, are not seen
+on a directory listing and comprise the following:
+
+BREAK             DEL(ERASE)        MKDIR(MD)         SET
+CHDIR(CD)         DIR               PATH              SHIFT
+CLS               ECHO              PAUSE             TIME
+COPY              EXIT              PROMPT            TYPE
+CTTY              FOR               REM               VER
+DATE              GOTO              REN(RENAME)       VERIFY
+                  IF                RMDIR(RD)         VOL
+
+External commands reside on disk as program files, with extension names of
+.COM, .EXE, or .BAT,  and include the following:
+
+ASSIGN            EDIT              GWBASIC           REPLACE
+ATTRIB            EDLIN             HEXDUMP           RESTORE
+BACKUP            EXE2BIN           JOIN              SELECT
+CHKDSK            FC                LABEL             SHARE
+COMMAND           FDISK             LINK              SORT
+COMP              FIND              MODE              SUBST
+DEBUG             FORMAT            MORE              SYS
+DISKCOMP          GRAFTABL          PRINT             TREE
+DISKCOPY          GRAPHICS          RECOVER           XCOPY
+
+DOS enables a commonly executed series of commands to be grouped together
+into a single file, called a batch file, that can be executed by typing the
+file name. e.g. a file START.BAT would enable a certain process to be started
+by typing START and pressing the ENTER key.
+
+
+The AUTOEXEC.BAT file is a special form of batch file which, if present, is
+automatically executed at system initialization. A simple autoexec.bat file,
+suitable for Turbo C running on the hard disk drive, is shown below:
+
+PATH c:\;c:\tc;c:\tc\include      /*set path from root to other directories*/
+PROMPT $P$G                       /*set screen prompts for directory and > */
+KEYB UK 437                       /*select UK keyboard and US character set*/
+CLS                               /*clear the screen*/
+VER                               /*display DOS version number*/
+
+
+The full set of MS-DOS commands are listed in the manual supplied with the
+computer. It is however worthwhile to illustrate some of the more frequently
+used ones.
+
+Most of the commands require Parameters and possibly Switches as indicated:
+
+Parameters.
+-----------
+d:          Disk drive letter
+filename    Up to eight-character name of the file on disk.
+filespec    Disk drive letter and filename.
+path        Disk drive letter and directory location.
+pathname    Path to the name of the file
+
+Delimiters, which separate commands and parameters, are:
+     space, comma, semicolon, or equal sign.
+
+Switches.
+---------
+/F          CHKDSK/F  Correct any error found.
+/P          DIR/P     Stop displaying the directory when screen full.
+                      Press any key to continue.
+/S          FORMAT/S  Copy the system files to the disk.
+/V          FORMAT/V  Enter a volume label on the diskette.
+/W          DIR/W     Display only the file names widthwise.
+
+Commands.
+---------
+CD [drive:][path]
+                 Change the current directory as indicated by 'path'.
+
+[d:][path]CHKDSK[drive:][path][filename][/F]
+                 Check disk and report.
+
+CLS
+                 Clear screen and move cursor to the home position.
+
+COPY[pathname][pathname]
+                 Copies one or more files.
+
+DEL or ERASE[drive:]pathname
+                 Deletes the specified files from disk.
+
+DIR[drive:][pathname][/P][/W]
+                 Lists files in current or specified directory.
+
+[d:][[path]DISKCOPY[sourcedrive][targetdrive]
+                 Copies the contents of a diskette onto another diskette.
+
+
+[d:][path]FORMAT drive: [/S][/V]
+                 Format a disk to receive MS-DOS files.
+                 If 'drive' not specified the default is chosen, so take
+                 care not to inadvertently format the hard disk.
+
+MD (or MKDIR) path
+                 Make a new directory.
+
+PATH[d:]\path[;[d:]\path.....]
+                 Display or set command search path.
+
+REN (or RENAME) pathname filename
+                 Renames files.
+
+RD (or RMDIR) [drive:] path
+                 Removes a directory.
+
+TYPE pathname
+                 Displays the contents of the specified file on the screen.
+                 The display can be redirected to the printer by the
+                 redirection indicator > followed by PRN i.e >PRN
+
+
+A text file can be edited in a number of ways. In MS-DOS the Text Editor,
+called EDLIN, can be used. It is usual for each computer manufacturer to
+provide an additional editor (e.g. Amstrad's RPED) and of course the Turbo
+Pascal EDIT facility may be used.
+
+EDLIN.
+------
+From the DOS prompt the command is    [d:][path]EDLIN filespec.
+
+EDLIN then copies the file into a workspace area of memory for editing and
+if all is correct displays the message 'End of input file'. Each line of
+the file is numbered and is referenced by that number (n) in the edit
+procedure. Some of the more important EDLIN commands are :
+
+n               Edit line n, which is displayed and a new line with the same
+                number is displayed to allow the modification.
+[n]D            Delete line.
+E               End the edit, save new file and return to DOS.
+[n]I            Insert line, before n.
+Q               Quit the edit and abandon changes made.
+
+DEBUG.
+------
+For binary and executable files a facilty,called DEBUG, is provided. The
+command is
+           DEBUG filespec arguments
+where filespec can be the full file specification, including drive,
+directory and filename. The 'arguments' refer to the parameters used by
+the program under examination.
+Debug responds with its own command prompt, which is a hyphen (-).
+
+Some Debug parameters are:
+address            hexadecimal segment;hexadecimal offset.
+bytevalue          hexadecimal byte value.
+range              start address, end address.
+
+
+Some debug commands are:
+D [range] address
+                   Display this area of memory.
+
+E address [,bytevalue[,bytevalue]...]
+                   Replace value at address with bytevalue.
+
+Q
+                   Quit debug and discard file.
+
+W [address]
+                   Write file to disk.
+
+The above information is provided as a limited indication of the facilities
+available under MS-DOS and is far from complete. Reference to the DOS manual
+must be made for more detailed information.
+
+
+There are two other important system files in DOS. The first is CONFIG.SYS
+which is a text file containing a set of commands to change certain default
+options selected by DOS at initialization. This file can call the second,
+called ANSI.SYS, which extends the screen handling facilities.
+
+CONFIG.SYS
+----------
+Some of the commands in this file are:
+
+BREAK=[ON][OFF]
+              extends the [Ctrl][C] interrupt to disk read/write operations.
+
+BUFFERS=n
+                changes number of buffers used in disk read/write operations.
+                The default is 2, but 10-20 recommended.
+
+COUNTRY=country code
+                sets correct time ,date, currency and decimal separator.
+
+DEVICE=pathname
+                installs a device driver, such as ANSI.SYS (see below).
+
+FILES=n
+                sets the maximum number of files open concurrently.
+
+
+ANSI.SYS
+--------
+When this file is called by CONFIG.SYS (see above), standard ANSI screen
+control codes are made available. These control codes all begin with the
+character ESC (decimal 27, hex 1B) followed by a left bracket and are
+frequently refered to as the ANSI escape sequences. There are four groups
+as follows:
+
+Cursor Control Commands.
+------------------------
+Cursor Position        ESC[n;mf  or  ESC[n;mH
+                       moves the cursor to row n, column m
+
+Cursor Up              ESC[nA
+                       moves cursor up n rows.
+
+Cursor Down            ESC[nB
+                       moves cursor down n rows.
+
+Cursor Right           ESC[nC
+                       moves cursor right n columns.
+
+Cursor Left            ESC[nD
+                       moves cursor left n columns
+
+and others, which save, restore, and report cursor position.
+
+Erase Display Commands.
+-----------------------
+
+Erase Display          ESC[2J
+                       erases screen and moves cursor to home position.
+
+Erase Line             ESC[K
+                       erases to end of line.
+
+Attribute and Mode Commands.
+----------------------------
+
+Set Display Mode       ESC[=nh
+                       sets screen mode.... n=0 is  40 x 25 bllack & white.
+                                            .
+                                            n=4 is  320 x 200 color
+                                            etc.
+
+Set Graphics           ESC[n;..;km
+                       where n...k take the values as follows:
+                       0  all attributes off.
+                       1  bold
+                       ....
+                       30 black foreground      40 black background
+                       31 red foreground        41 red background
+                       .....
+                       37 white foreground      47 white background
+
+Keyboard Control Commands.
+--------------------------
+
+Define Key             ESC[n;.....;np
+                       Assigns one or more characters to be produced when
+                       a specified key is pressed. The first 'n' specifies
+                       the key to be defined (ASCII 1 to 127) or if a key
+                       combination or function key then 0;n must be used.
+                       The last n is the character(s) to be produced, and
+                       can be a string enclosed in double quotes.
+                       e.g.  ESC[0;68;"dir|sort|more";13p
+                             redefines the function key F10 for a directory
+                             list, piped to sort and more commands.
+
+Restore Key            ESC[n;....;np
+                       where the first n and second n are the same.
+                       e.g.  ESC[0;68;0;68p
+                             restores the F10 key to its original meaning.
+
+MSDOS.TXT
+3.1.90

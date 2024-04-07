@@ -1,0 +1,300 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   EXPR.LIB
+
+                        An expression library for Turbo C
+
+                                 Version 1.1
+
+                                Copyright 1992
+
+                                 Dan Schikore
+                              1983 Greenheath Dr.
+                             Florissant, MO 63033
+
+                              All Rights Reserved
+
+                               February 26, 1992
+
+
+
+
+
+
+                Turbo C is a copyright of Borland International
+
+
+
+
+
+
+Table of Contents
+-----------------
+
+Introduction ....................... page 1
+
+Disclaimer ......................... page 1
+
+Shareware Notice ................... page 1
+
+What is an expression? ............. page 2
+
+Using the Library .................. page 3
+
+Function Summaries ................. page 4 - 6
+
+
+                                - 1 -
+
+
+Introduction
+------------
+Expr.lib is a library of Turbo C functions to create and perform operations
+on expressions of one or more variables.  The capabilities of the functions
+include:
+
+   . Parsing equations from strings
+   . Unparsing an equation into a string
+   . Simplifying an equation
+   . Copying equations
+   . Differentiating with respect to a variable
+   . Multiplying, Dividing, Adding, or Subtracting two equations
+   . Evaluating the expression for given variable values
+
+
+
+
+Disclaimer
+----------
+The author of expr.lib provides no warranties or guarantees concerning the
+functionality of this library or its suitability for any purpose.
+
+
+
+
+Shareware Notice
+----------------
+This expression library is shareware.  If you try it, and would like to
+continue using it, you should register.  Registration for personal use
+is $10.  Registration for any other use is $25.  The source for the current
+version will be included for an additional $25.  Please fill out the document
+'register.doc' and send along with check or money order to:
+
+	Dan Schikore
+	1983 Greenheath Dr.
+	Florissant, MO 63033
+
+
+                                - 2 -
+
+What is an expression?
+----------------------
+
+Expressions supported by Expr.lib are typical mathematical expressions
+including constants, real numbers, variables, functions, and all
+mathematical operators.
+
+Constants:
+
+	E = 2.718281828
+	PI = 3.1415926535
+
+Variables:
+
+	Expr.lib supports equations of any variables, to be specified
+by the programmer.  Variables are assumed to be alphabetic, and are
+not case-sensitive.
+
+Functions:
+
+	COS SIN TAN CSC SEC COT
+	COSH SINH TANH CSCH SECH COTH
+	SQRT LOG LN EXP
+
+Operators:
+
+	Addition (+)
+	Subtraction (-)
+	Multiplication (*)
+	Division (/)
+	Negation (-)
+	Exponentiation (^)
+	Parenthesis may be used to define precedence
+
+
+                                - 3 -
+
+Using the Library
+-----------------
+
+Expr.lib is a Turbo C function library created with Turbo C Version 2.0,
+compiled with the huge memory model.  The only new data type needed by
+the programmer is a structure called 'Expr'.  The necessary definitions
+for the new data structures are in the file, 'expr.h'.  To use expr.lib,
+you should first place the file 'expr.h' in your include file directory,
+and place 'expr.lib' in your library directory. In programs which use
+expr.lib, put the following line with the other #include statements near
+the beginning of the program:
+
+#include <expr.h>
+
+Expressions are parsed from character strings and placed into these
+structures.  To parse an expression from the command line, use the
+following declarations and calls:
+
+	Expr *expr;                /* declare an expression variable */
+	expr=ParseExpr(argv[1]);   /* parse the expr. from command line */
+
+Once an equation has been parsed, many things can be done to it.  First,
+you can reverse the process and get a string from the parsed expression.
+To add to the above example, the following line would print out the
+parsed expression:
+
+	printf("parsed expression: %s\n",UnParseExpr(expr));
+
+A more detailed User Reference to the functions follows on the next page.
+
+For an example of how to use these and other functions, see the program
+'parse.c' included in the archive.  To compile the example program,
+type 'tcc -mh parse.c expr.lib' at the DOS prompt.
+
+                                - 4 -
+
+The Functions
+-------------
+
+-------------------------------------------------------------------------
+FUNCTION: ParseExpr
+
+DECLARATION: Expr *ParseExpr(char *, int, char *)
+
+USE: Parses an expression from the first argument string.  The second
+     argument is the number of variable in the equation, and the third
+     is an array listing the variables.
+
+RETURN VALUE: An Expr pointer if a valid expression was parsed. On error,
+              NULL is returned, and a brief description of the cause of
+              the error is in the string Eqn_errstr.  This string should
+              not be freed in the user program.
+
+-------------------------------------------------------------------------
+FUNCTION: UnParseExpr
+
+DECLARATION: char *UnParseExpr(Expr *)
+
+USE: Un-parses the given equation into a string.
+
+RETURN VALUE: A character string containing the un-parsed form of
+              the equation.  This string is dynamically allocated
+              by UnParseExpr and should be freed when it is no longer
+              needed.
+
+-------------------------------------------------------------------------
+FUNCTION: SimpExpr
+
+DECLARATION: void SimpExpr(Expr *)
+
+USE: Simplifies the given expression.
+
+RETURN VALUE: none.
+
+-------------------------------------------------------------------------
+FUNCTION: DiffExpr
+
+DECLARATION: Expr *DiffExpr(Expr *, char)
+
+USE: Differentiates the given expression, which respect to the given
+     variable.
+
+RETURN VALUE: An Expr pointer giving the differentiated equation.
+
+-------------------------------------------------------------------------
+
+                                - 5 -
+
+
+-------------------------------------------------------------------------
+FUNCTION: CopyExpr
+
+DECLARATION: Expr *CopyExpr(Expr *)
+
+USE: Copies the given expression into an identical structure.
+
+RETURN VALUE: A pointer to the new expression structure.
+
+-------------------------------------------------------------------------
+FUNCTION: EvalExpr
+
+DECLARATION: double EvalExpr(Expr *, double *)
+
+USE: Evaluates the given expression for the given values of the variables.
+
+RETURN VALUE: The result of evaluating the expression.
+
+-------------------------------------------------------------------------
+FUNCTION: FreeExpr
+
+DECLARATION: void FreeExpr(Expr *)
+
+USE: frees all memory associated with the given expression.  The pointer
+     passed to this function is no longer valid.
+
+RETURN VALUE: None.
+
+-------------------------------------------------------------------------
+FUNCTION: AddExpr
+
+DECLARATION: Expr *AddExpr(Expr *, Expr *)
+
+USE: Adds the two expression arguments.  These expressions should be
+     created using the same variables.
+
+RETURN VALUE: A pointer to a new expression containing the sum.
+
+-------------------------------------------------------------------------
+FUNCTION: SubExpr
+
+DECLARATION: Expr *SubExpr(Expr *, Expr *)
+
+USE: Subtracts the second expression from the first.  These expressions
+     should be created using the same variables.
+
+RETURN VALUE: A pointer to a new expression containing the difference.
+
+-------------------------------------------------------------------------
+FUNCTION: DivExpr
+
+DECLARATION: Expr *DivExpr(Expr *, Expr *)
+
+USE: Divides the first expression by the second expression.  These
+     expressions should be created using the same variables.
+
+RETURN VALUE: A pointer to a new expression containing the quotient.
+
+-------------------------------------------------------------------------
+
+                                - 6 -
+
+-------------------------------------------------------------------------
+FUNCTION: MultExpr
+
+DECLARATION: Expr *MultExpr(Expr *, Expr *)
+
+USE: Multiplies the two expressions together.  These expressions should be
+     created using the same variables.
+
+RETURN VALUE: A pointer to a new expression containing the product.
+
+-------------------------------------------------------------------------

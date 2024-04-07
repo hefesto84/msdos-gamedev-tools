@@ -1,0 +1,57 @@
+CFLAGS = -O -Z
+
+.c.obj:
+	tcc $(CFLAGS) -c $<
+
+sayings.exe: sayings.obj maxims.obj thelp.obj twindow.obj ibmpc.obj
+	tcc $(CFLAGS) -esayings sayings.obj maxims.obj thelp.obj twindow.obj ibmpc.obj
+
+prom.exe: prom.obj promote.obj twindow.obj ibmpc.obj
+	tcc $(CFLAGS) -eprom prom.obj promote.obj twindow.obj ibmpc.obj
+
+popup.exe: popup.obj exec.obj testmove.obj promote.obj ccolor.obj \
+fasttest.obj notepad.obj ordent.obj maxims.obj poems.obj editor.obj \
+entry.obj thelp.obj tmenu.obj twindow.obj resident.obj ibmpc.obj
+	tcc $(CFLAGS) -epopup *.obj
+
+poetry.exe: poetry.obj poems.obj thelp.obj twindow.obj ibmpc.obj
+	tcc $(CFLAGS) -epoetry poetry.obj poems.obj thelp.obj twindow.obj ibmpc.obj
+
+order.exe: order.obj ordent.obj entry.obj thelp.obj twindow.obj ibmpc.obj
+	tcc $(CFLAGS) -eorder order.obj ordent.obj entry.obj thelp.obj twindow.obj ibmpc.obj
+
+note.exe: note.obj notepad.obj editor.obj thelp.obj twindow.obj ibmpc.obj
+	tcc $(CFLAGS) -enote note.obj notepad.obj editor.obj thelp.obj twindow.obj ibmpc.obj
+
+move.exe: move.obj testmove.obj twindow.obj ibmpc.obj
+	tcc $(CFLAGS) -emove move.obj testmove.obj twindow.obj ibmpc.obj
+
+menu.exe: menu.obj exec.obj testmove.obj promote.obj ccolor.obj \
+fasttest.obj notepad.obj ordent.obj maxims.obj poems.obj editor.obj \
+entry.obj thelp.obj tmenu.obj twindow.obj ibmpc.obj
+	tcc $(CFLAGS) -emenu *.obj
+
+fast.exe: fast.obj fasttest.obj twindow.obj ibmpc.obj
+	tcc $(CFLAGS) -efast fast.obj fasttest.obj twindow.obj ibmpc.obj
+
+color.exe: color.obj ccolor.obj twindow.obj ibmpc.obj
+	tcc $(CFLAGS) -ecolor color.obj ccolor.obj twindow.obj ibmpc.obj
+
+clock.exe: clock.obj ibmpc.obj
+
+
+popup.obj:	popup.c twindow.h
+exec.obj:	exec.c twindow.h keys.h
+testmove.obj:	testmove.c twindow.h keys.h
+promote.obj:	promote.c twindow.h keys.h
+ccolor.obj:	ccolor.c twindow.h keys.h
+fasttest.obj:	fasttest.c twindow.h
+notepad.obj:	notepad.c twindow.h
+ordent.obj:	ordent.c twindow.h
+maxims.obj:	maxims.c twindow.h keys.h
+poems.obj:	poems.c twindow.h keys.h
+editor.obj:	editor.c twindow.h keys.h
+entry.obj:	entry.c twindow.h keys.h
+thelp.obj:	thelp.c twindow.h keys.h
+tmenu.obj:	tmenu.c twindow.h keys.h
+twindow.obj:	twindow.c twindow.h keys.h

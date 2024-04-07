@@ -1,0 +1,12 @@
+;
+; File name: P3TC2.DIF
+; Product  : Turbo C
+; Version  : TC.EXE 2.0
+;
+;
+; This is the patch for the TC.EXE debugger INT 60H problem.
+;
+    47E7:  02
+           04
+
+

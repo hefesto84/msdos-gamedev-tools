@@ -1,0 +1,111 @@
+Packing List of Distributed Files for TCHK 2.1          Tue  06-06-1989
+----------------------------------------------
+
+This file is the foremost, most accurate and up to date list
+of TCHK distributed files and supersedes all other lists.
+
+All files distributed are listed below. All files distributed for
+version 2.1 have the date stamp 06-06-89 and the time stamp 2:10:00.
+
+TCHK21.ZIP - TCHK 2.1 Main Distribution File
+             (Documentation, Library, Header & Support files)
+
+        PACKING.LST    - list of distributed files (this file)
+        READ.ME        - last minute notes
+
+        BUG.DOC        - TCHK bug report form
+        REGISTER.DOC   - TCHK registration form
+        TCHK.GEN       - TCHK file description for GEnie
+        TCHK.MSG       - brief description of TCHK
+        TCHK.PRO       - TCHK BBS file description for ProDoor
+        TCHK.ZDR       - TCHK BBS file description for ZDoor
+
+        TCHK.DOC       - TCHK documentation
+        TCHKF.DOC      - TCHK function documentation
+        TCHKS.LIB      - small memory model library
+        TCHKS.TC       - Turbo C configuration file (Environment)
+        TCHKS.CFG      - Turbo C configuration file (Command Line)
+
+        INCLUDE.ZIP    - archive of header files
+            ANSIHK.H       - header file for ANSI functions
+            CHIPHK.H       - header file for chip id routines
+            COLOR.H        - color definitions
+            COMM.H         - header file for communications functions
+            DATEADV.H      - header file for advanced date routines
+            DATECONV.H     - header file for date conversion routines
+            DATEHK.H       - header file for date routines
+            DOSHK.H        - header file for DOS routines
+            FILEHK.H       - header file for file routines
+            FINANCE.H      - header file for financial routines
+            HOWARD.H       - header file for miscellanoues definitions
+            IBM.H          - header file for misc. IBM routines
+            KEYBOARD.H     - header file for keyboard routines
+            KEYCODE.H      - keyboard key codes
+            MATHHK.H       - header file of math routines
+            MENUHK.H       - header file for menu routines
+            MOUSEHK.H      - header file for mouse routines
+            MULTIHK.H      - header file for multi-tasking routines
+            NETWORK.H      - header file for network routines
+            PRINTHK.H      - header file for print routines
+            REAL.H         - header file for simulated FP functions
+            SOUND.H        - header file for sound routines
+            STATEHK.H      - header file for state/zip code functions
+            STRINGHK.H     - header file for string routines
+            TIMEHK.H       - header file for time routines
+            VIDEO.H        - header file for video routines
+            ZIP.H          - header file for .ZIP file format support
+
+
+TCHK21E.ZIP - TCHK 2.1 Examples
+              (Source and Executables)
+
+        PACKING.LST    - list of distributed files (this file)
+        READ.ME        - last minute notes
+        DEMOADV.C      - date conversion functions
+        DEMOADV.EXE
+        DEMOADV.PRJ
+        DEMODATE.C     - date functions
+        DEMODATE.EXE
+        DEMODATE.PRJ
+        DEMODISK.C     - disktype function
+        DEMODISK.EXE
+        DEMODISK.PRJ
+        DEMOLITE.C     - litebar menu functions
+        DEMOLITE.EXE
+        DEMOLITE.PRJ
+        DEMOMOUS.C     - mouse functions
+        DEMOMOUS.EXE
+        DEMOMOUS.PRJ
+        DEMONUM.C      - number functions (math/financial)
+        DEMONUM.EXE
+        DEMONUM.PRJ
+        DEMOPARS.C     - DOS parsing functions
+        DEMOPARS.EXE
+        DEMOPARS.PRJ
+        DEMOPOP.C      - popup menu functions
+        DEMOPOP.EXE
+        DEMOPOP.PRJ
+        DEMOTIME.C     - time conversion functions
+        DEMOTIME.EXE
+        DEMOTIME.PRJ
+
+
+TCHK21NG.ZIP - TCHK 2.1 Norton Guide
+
+        PACKING.LST    - list of distributed files (this file)
+        READ.ME        - last minute notes
+        TCHK.NG        - Norton Guide for TCHK 2.1
+
+
+
+Just for the record, the official TCHK distribution files are distributed
+in .ZIP format. If you wish to convert these .ZIP files to some other
+format, you may not add, remove or change any files, change any date/time
+stamps, etc. The distributed files may NOT be modified in any way, only
+the method of distribution regarding compression/archiving/etc.
+
+
+      Howard Kapustetin
+
+      Author of TCHK
+

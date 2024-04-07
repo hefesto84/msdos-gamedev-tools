@@ -1,0 +1,69 @@
+                        TURBO C LANGUAGE COURSE.
+                        ------------------------
+    Recommended order of study, but omit as appropriate to knowledge,
+    especially DOS. Use arrow keys or mouse to scroll all text files.
+
+    1.  First principles  (98 lines)
+              Relation to other languages, structure, etc.
+        File types (50 lines)
+              DOS and Turbo C, including library & header.
+        C language references (40 lines)
+              Kernighan & Ritchie (C language originators).
+              Borland*Osborne/McGraw-Hill. 
+
+    2.  DOS operations   (322 lines)
+              Main commands, EDLIN, CONFIG.SYS, ANSI.SYS
+
+    3.  Integrated Development Environment  (233 lines)
+              File, edit, run, compile, project, options, debug, break/watch.
+
+    4.  Variable types & declarations in C (142 lines)
+              Int, float, char and pointers.
+
+    5.  Input and output   (202 lines)
+              From keyboard & disk to screen, disk & printer.
+
+    6.  Manipulating data in C - Operators (128 lines)
+              Assignment, unary, binary, increment, decrement, bitwise,
+              combined, address, relational, logical and comma operators. 
+
+    7.  Conditional statements (151 lines)
+              if...else, while loop, for loop, do...while loop, switch, break,
+              return and continue. 
+
+    8.  Program errors and debugging (112 lines)
+              Syntax, semantic & logical errors.  Tracing.
+
+    9.  Functions, prototypes, parameters & return values   (89 lines)
+
+    10. Arrays and pointers   (87 lines)
+              Address-of (&) and indirection (*) operators.
+
+    11. Structures & unions   (84 lines)
+              Collection of variables of different types.
+
+    12. Dynamic memory allocation using the heap   (78 lines)
+              Static and dynamic variables. The function malloc().
+
+    13. Calling child programs from a Turbo C parent program  (63 lines)
+              The functions exec...() spawn...() and system().
+
+    14. Graphics   (201 lines)
+              Initialization, drawing and hardcopy.
+
+    15. 8086 Registers (141 lines)
+              General, segment, pointer, index, instruction pointer and
+              status registers. Inspection using DOS Debug.
+
+    16. Memory models (160 lines)
+              Address calculation; Near, Far and Huge pointers;
+
+    17. Low-level programming (158 lines)
+              Pseudo variables; Inline assembly language; Interrupt functions.
+
+
+
+    COURSE.TXT
+    20.12.90 
+    27.3.91
+    25.5.93

@@ -1,0 +1,45 @@
+
+                  Installable Device Drivers in C
+
+ This document is intended to describe a method for using version
+ 1.5 (or greater) of Borland's Turbo C compiler to develop
+ "Installable Device Drivers" for MS-DOS.
+
+ Installable Device Drivers are created by first writing the
+ individual driver functions to be supported, then linking these
+ functions with the "Driver Header".  A prototype header file is
+ provided in the file HDR.ASM.  Note that two data items (the
+ "Attribute" and "Name/unit" fields) must be filled in with
+ information specific to your driver before this file will
+ assemble properly.
+
+ The driver header file assumes the existence of the following
+ functions (stubs are provided in the DRIVER.LIB library file),
+ which perform the various operations described in the Installable
+ Device Drivers chapter of the DOS Reference Manual:
+
+           Init()                   MediaCheck()
+           BuildBPB()               IoCtlIn()
+           Input()                  ndInput()
+           InputStatus()            InputFlush()
+           Output()                 OutVerify()
+           OutStatus()              OutFlush()
+           IoCtlOut()               DevOpen()
+           DevClose()               RemMedia()
+
+ A sample character device driver is included in this package,
+ which creates a device named "MON".  Characters output to this
+ device will appear on the IBMPC monochrome screen.  Study of the
+ file MONO.C should reveal the details of this implementation.
+
+ The file DRIVER.H provides a number of useful definitions for
+ developing Device Drivers.  Reading the code will probably do
+ more for you than reading this document.
+
+ Questions or comments on this package may be directed to:
+
+Frank Whaley
+Senior Development Engineer
+Quadratron Systems Incorporated
+few@quad1.quad.com
+uunet!ccicpg!quad1!few

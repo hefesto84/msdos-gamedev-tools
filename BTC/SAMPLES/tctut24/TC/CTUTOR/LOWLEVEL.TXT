@@ -1,0 +1,164 @@
+                         LOW-LEVEL PROGRAMMING.
+                         ßßßßßßßßßßßßßßßßßßßßßß
+
+Turbo C allows low-level programming, without the necessity of setting
+up a separate assembly language module.  This is achieved by the use of
+pseudo-variables, inline assembly code and interrupt functions.
+
+Pseudo-Variables.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+The notes on Registers have already indicated that the CPU of 80x86 type
+systems has a number of registers that are used to manipulate values.
+Sometimes in low-level programming it might be necessary to directly
+access these registers from the C program, in order to load values
+before calling a system routine or to inspect the values currently
+stored in these registers.
+
+Turbo C permits access to the registers through pseudo-variables, which
+are simply identifiers that correspond to each particular register.
+These variables are of type unsigned int or unsigned char and are listed
+in table 12.6 on page 369 of the User's Guide (version 2.0). Typical
+examples are:
+
+   _AX   (unsigned int)  relating to the accumulator register AX.
+   _AL   (unsigned char) relating to AL, the lower byte of AX.
+   _AH   (unsigned char) relating to AH, the higher byte of AX.
+
+   and similarly for BX, CX and DX registers.
+
+   _CS   (unsigned int)  relating to the code segment address register CS.
+
+   and similarly for DS, SS, ES, SP, BP, DI, and SI registers.
+
+The illustration programs PEEK.C and STRUCTUR.C  make use of the
+pseudo-variable _DS to determine the data segment address, in order
+to 'peek' the value stored at a given pointer value, which is the offset
+value in the function peek(segment,offset);
+
+The alternative use of pseudo-variables to place values in registers
+prior to the execution of an interrupt service routine is shown on page
+369 of the User's Guide. The particular interrupt is the BIOS function
+call INT 10/08 which reads the character and attribute bytes, for a
+specified display page, at the cursor's current postion.  (See DOS and
+BIOS Functions - Quick Reference by Que Corporation).  For this interrupt
+the register AH must contain 08 and the register BH must contain the page
+number.
+Thus the function in the example given starts with
+						   _AH = 8;
+						   _Bh = page;
+						   geninterrupt(0x10)
+
+The last line above is the C function for generating a software interrupt
+(see page 148 of the Reference Guide version 2.0).
+
+Pseudo-variables can be treated as regular global variables of the
+appropriate type, but there are some restrictions which must be
+respected, as indicated:
+
+  1. The address-of operator can not be used with pseudo-variables.
+
+  2. The compiler constantly generates code that uses the registers, so
+     that the value created by a pseudo-variable may not be preserved.
+
+  3. The values of pseudo-variables may not be preserved across a
+     function call.
+
+  4. Since the machine code produced by the Turbo C compiler uses the
+     registers CS, SS, SP and BP, modifying these registers could have
+     unexpected results.
+
+
+Inline Assembly Language.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+Turbo C allows the inclusion of assembly language code inside the C
+program.  The technique is called inline assembly. To use inline
+assembly code, however, there are two requirements:
+
+  1.  With TC the statement - #pragma inline - must be included with the
+      source code or
+      with TCC the command line option -B must be used.  (see apge 445
+      of the Reference Guide).
+
+  2.  A copy of Turbo Assembler (TASM) must be used.
+
+It is also necessary to be familiar with the 8086 instruction set (see
+the course notes on Turbo Assembler).  Then all that is required is the
+keyword 'asm', so that the inline assembly language instruction has the
+format:
+
+      asm <opcode> <operands> <; or newline>
+
+where <opcode> is a valid 8086 instruction, such as    mov
+      <operands> are operands acceptable to the <opcode> and can
+		 reference C constants, variables and labels.
+      <; or newline> is a semicolon or a newline, either of which
+		     indicates the end of the asm statement.
+
+Care must be taken not to use semicolons for comments as with TASM.  The
+conventional /* and */ must be used as with Turbo C. A new asm statement
+can be placed on the same line, after a semicolon, but no asm statement
+can continue to the next line.
+
+Because the inline assembly facility is not a complete assembler, many
+errors will not be detected immediately.  TASM will find the errors,
+however, but may not correctly identify the location of the errors.
+
+Whereas assembly statements located inside any function are stored in the
+code segment, those external to a function are stored in the data segment.
+
+Inline code is more versatile, because it is independent of the memory
+model and the calling convention (C or Pascal), whereas the .ASM
+equivalent must always be changed to suit the model and the call.
+
+Any of the 8086 instruction opcodes may be used in the inline assembly
+statements and can be classified in four groups:
+
+   normal instructions - see table 12.7 on page 373 of the User's Guide.
+
+   string instructions - see table 12.8 on page 374.
+
+   jump instructions   - see table 12.9 on page 374.
+
+   assembly directives - see page 375 of the User's Guide.
+
+Any C symbols can be used in asm statments, including automatic (local)
+variables, register variables and function parameters as Turbo C will
+automatically convert them to the appropriate assembly language operands.
+
+Structure members can be referenced in the usual <variable>.<member> way
+in inline assembly statements.
+
+Conditional and unconditional jump instructions together with loop
+instructions may be used in inline code, but they are only valid inside a
+function.  Since no labels are allowed in asm statements, jump
+instructions must use C goto labels as the object of the jump.
+
+
+Interrupt Functions.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+The 8086 processor reserves the first 1024 bytes of memory for a set of
+256 far pointers, known as interrupt vectors, to special system routines
+called interrupt handlers.  These routines are called by executing the
+instruction:
+	       int <#>
+
+where <#> is the interrupt number, ranging from 0 to FF (hex).
+
+Most of the interrupts require values to be placed in various registers
+prior to the call, particularly the AH register.  Details are given in
+books describing the DOS and BIOS functions, such as the Que Corporation
+Quick Reference mentioned above.  Values may be returned from the
+interrupt in the registers.
+
+Many of the interrupt vectors are unused, so it is possible to write
+additional interrupt handlers.  This procedure is described on page 378
+of the User's Guide and is the way in which many memory-resident
+routines work.
+
+
+LOWLEVEL.TXT
+5.2.91
+

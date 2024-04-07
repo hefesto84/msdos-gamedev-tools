@@ -1,0 +1,1239 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     Turbo C profiler (TCPROF version 1.5)
+                        Copyright (C) 1988 Andre Nancoz
+                              all rights reserved
+
+
+
+
+                               Contents
+
+
+
+          INTRODUCTION                                               1
+             Overview  . . . . . . . . . . . . . . . . . . . . . . . 1
+             History . . . . . . . . . . . . . . . . . . . . . . . . 1
+             Copyright information . . . . . . . . . . . . . . . . . 1
+             Trademark information . . . . . . . . . . . . . . . . . 1
+             System requirements . . . . . . . . . . . . . . . . . . 2
+             Compilation and execution requirements  . . . . . . . . 2
+             Restrictions and caveats  . . . . . . . . . . . . . . . 2
+
+          USING THE PROFILER                                         4
+             Executing the profiler  . . . . . . . . . . . . . . . . 4
+             Profiler options  . . . . . . . . . . . . . . . . . . . 4
+
+          INPUT/OUTPUT                                               6
+             File usage  . . . . . . . . . . . . . . . . . . . . . . 6
+             Report content  . . . . . . . . . . . . . . . . . . . . 6
+
+          MEMORY USAGE                                               9
+             Lines within functions  . . . . . . . . . . . . . . . . 9
+             Functions only  . . . . . . . . . . . . . . . . . . . . 9
+
+          ERROR MESSAGES                                            10
+
+          APPENDIX A                                                11
+             LISTING 1..............................................11
+             EXAMPLE 1..............................................12
+             EXAMPLE 2..............................................13
+
+          APPENDIX B                                                14
+             Registered user information . . . . . . . . . . . . . .14
+             Registered user features  . . . . . . . . . . . . . . .14
+
+          APPENDIX C                                                17
+             PROBLEM REPORT/SUGGESTIONS  . . . . . . . . . . . . . .17
+             REGISTERED USER ORDER FORM  . . . . . . . . . . . . . .18
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       i
+
+
+
+                             INTRODUCTION
+
+
+     Overview
+
+          TCPROF will show you where the most time is being spent in a
+          program  written with Borlands' Turbo C.  The output report
+          indicates the percentage of time (numerically and
+          graphically) spent in each function and line of your program.
+          Several options allow you to vary the amount of information
+          shown on the report.  No changes to your source code are
+          required in order to run the profiler.  The hardware timer is
+          read but not modified.
+
+          This program is distributed at no charge and is designed for
+          users who have an occasional need or curiosity about the
+          efficiency of their programs.  A registered user version of
+          this program (TCPROFRU) is available which allows more
+          extensive tailoring of the output and can reduce the amount
+          of overhead and size of the report (See Appendix B for more
+          information).
+
+
+     History
+
+          Version 1.0   First release.
+
+          Version 1.5   Update for Turbo C release 2.0.  Timing logic
+                        change to increase consistency.
+
+
+     Copyright information
+
+                Turbo C profiler program TCPROF and documentation
+                       Copyright (C) 1988 by Andre Nancoz
+                               all rights reserved
+
+          The Turbo C profiler is not public domain software.  TCPROF
+          and it's accompanying documentation may be distributed freely
+          provided no fee is charged and it is not part of a package
+          for which a charge is made.  Furthermore, the program and
+          documentation must be distributed with no modifications.
+
+          TCPROF is distributed as-is with no expressed or implied
+          warranties.
+
+
+     Trademark information
+
+          Turbo C is a trademark of Borland International Inc.
+          IBM-PC is a trademark of International Business Machines
+          Corporation.
+          MS-DOS is a trademark of Microsoft Corporation.
+
+
+
+
+
+
+
+
+October 4, 1988                                                 INTRODUCTION - 1
+
+
+
+     System requirements
+
+          IBM-PC and true compatibles.
+          MS-DOS version 3.0 or above.
+          Minimum memory required is 39K above that required for the
+          program being profiled.  Additional memory may be required
+          depending on the program being profiled.  See the section on
+          memory usage for more information.
+
+
+     Compilation and execution requirements
+
+          In order to run a program under the profiler the program must
+          be compiled with, at least, the following options:
+
+          TCC command line;
+            -y generate line numbers in .obj file.
+            -M full link map.
+
+          TLINK command line;
+            /m or /s to generate a link map.
+            /l output line numbers in link map.
+
+          Integrated Development Environment;
+            O/C/Code generation/Line numbers..On
+            O/L/Map file..Publics or Detailed
+
+          NOTE:  Line numbers and map options are required even if the
+          functions only option is used.
+
+          When running the profiler the .EXE and the .MAP file must be
+          available using the standard DOS search path, i.e. the
+          current directory of the current drive is checked first.  If
+          not found, each directory in the environment PATH is checked.
+
+
+     Restrictions and caveats
+
+          Timer
+          If your program steals the timer interrupt it must chain to
+          the previous owner of the interrupt.  The profiler does NOT
+          modify the timer rate but does read the timer chip.  If your
+          program modifies the timer rate the profiler may still
+          operate correctly.
+
+          Single Step and Interrupt 3
+          If your program uses these, the profiler will not work
+          correctly.  It may be reboot time.
+
+          longjmp
+          Likely to mess up timing.
+
+          Static functions
+          All line numbers for a function defined as static will be
+          included with the last non-static function.  This will likely
+          cause the warning message regarding inaccurate timing.  The
+          profiler keeps track of entrances to and exits from
+
+
+
+
+                                                                INTRODUCTION - 2
+
+
+
+          functions.  Since static function addresses do not appear in
+          the link map the profiler does not have an accurate
+          indication of where the static function began or where the
+          previous non-static function ended.
+
+          Assembler
+          Assembler modules should be assembled without the line number
+          option(TASM /ZD).  The profilers' timing resolution cannot
+          handle interrupts at each machine instruction.
+
+          Unlike previous versions of Turbo C, version 2.0 passes the
+          line number option on to TASM when inline assembler is used.
+          When a single machine instruction is generated for a line of
+          C source it is likely that they will be reported as 0% due to
+          the profilers timing resolution.  Some functions such as
+          enable(), disable(), etc. will cause the same problem.  Use
+          of the emit() function to output one instruction per line
+          will also cause the problem.
+
+          If you are using previous versions of Turbo C, use of the asm
+          keyword within a C module will cause no line numbers to be in
+          the map, TCC invokes MASM without the line number option.
+          Therefore, functions which contain the asm keyword should be
+          compiled in a separate module from functions which you wish
+          to time.
+
+          TSRs
+          I have tested the profiler with several TSRs with no
+          problems.  The timing may be different for the same program
+          depending on which TSRs are loaded.  Therefore, in order to
+          compare results of two profiler runs, the same environment
+          should be used for each run.  Of course activating a TSR
+          during a profiler run would disturb the timing.
+
+          Bugs
+          This program is not a debugger and expects a reasonably
+          behaved program.  The profiler may be useful in detecting
+          some problems such as loops or functions executing the wrong
+          number of times or not executing at all, etc.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                INTRODUCTION - 3
+
+
+
+                          USING THE PROFILER
+
+
+     Executing the profiler
+
+          TCPROF [prof options] program-name [program-name options]
+            The brackets [] denote optional information, they are
+            not entered.
+
+          If the program-name is not entered, help information is
+          displayed.
+
+          Program-name options are passed to program-name in the same
+          manner as if the program was executed stand-alone.  The
+          argv[0] parameter contains program-names' full path.  The
+          profiler report is written to stdout, any redirection applies
+          to both program-name and the profiler report.  The profiler
+          uses stderr for error messages which cause it to abort the
+          run, also for a few messages to the console when stdout is
+          redirected.
+
+
+     Profiler options
+
+          Profiler options may be entered in upper or lower case.  The
+          leading character may be either a - or a /.  All profiler
+          options must precede the name of the program to be profiled.
+
+          -F            Profile by function.  The default is a detailed
+                        report by line number within function.  Using
+                        this option creates an output report with only
+                        one line per function and substantially reduces
+                        the profiler overhead when your program is
+                        running.
+
+
+          -Cnn          Print only lines whose execution count is equal
+                        to or greater than nn. The default value is 0.
+                        This option only influences the amount of
+                        report output.  The option has no effect if the
+                        -F option is chosen.  The nn is interpreted as
+                        an unsigned long integer.
+
+          -Lnn          Number of lines per page.  The default is 25.
+                        If nn is omitted, 0 or an invalid number, the
+                        default is 58 (a good value for 8.5 inch
+                        printed output).  This option does not change
+                        the "pause between each page" output action,
+                        which is controlled by whether or not stdout
+                        has been redirected.
+
+          -Snn          This option controls an internal memory
+                        allocation parameter.  Entry to a function
+                        requires a word on an internal stack, the word
+                        is released at function exit.  The value
+                        specified is the number of words to allocate.
+                        The maximum is 32751 minus the number of
+
+
+
+
+                                                          USING THE PROFILER - 4
+
+
+
+                        functions profiled.  It should only be required
+                        if your program uses recursion.   The default
+                        value is 10.  If the warning message "Timing
+                        may be inaccurate" occurs then this parameter
+                        should be used.  It should be set to the
+                        maximum level of recursions that can occur at
+                        any one time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                          USING THE PROFILER - 5
+
+
+
+                             INPUT/OUTPUT
+
+
+     File usage
+
+          When the program to be profiled is run only the standard
+          Turbo C start up files are open.  The spawn function passes
+          these files to the program to be run.  The profiler uses
+          stdout and stderr before and after running your program.  Any
+          redirection applies to both the profiler and the program
+          being profiled.  Delimiter lines are written by the profiler
+          to stdout before and after running your program.
+
+          Besides the program to be profiled, the .MAP file must be
+          available for read only access, this file is not open while
+          your program is running.  All file are located via the
+          standard DOS path search.
+
+
+     Report content
+
+          The profile report is written to stdout with a default of 25
+          lines to the page, the L option can be used to change the
+          default.  If stdout has not been redirected the output will
+          pause at the end of each page and you may either display the
+          next page or cancel the remaining output, a clear screen is
+          issued between each page.  When output has been redirected,
+          no pause or clear screen occurs between pages.
+
+          Appendix A contains a listing and two reports of a small test
+          program.  The first report is by line number.  This report
+          exhibits very high profiler overhead since majority of time
+          is spent within loops which generate a small number of
+          machine instructions per line of C code.  In more realistic
+          programs overhead is in the 30% range.  The second report is
+          the same program but it was run with the functions only
+          option.
+
+          Only functions which are compiled with the line number option
+          "on" are shown on the report.  The time for functions
+          compiled without line numbers are included in the lines of
+          your program from where they are called.  As a consequence,
+          all the time for the system run time library functions (such
+          as printf) will be included in the lines from which they are
+          called.  In the test program line 23 took 1 percent of the
+          main functions' time, this includes the time it took to
+          execute the printf function (with redirection to disk).  On
+          the other hand, the time for line 19 only includes the time
+          to call and return from test_func, since test_func line
+          numbers are included in the map.
+
+          The first page of output contains general information about
+          the program being profiled.  In reality this may be many
+          pages of output since it contains the stdout of the program
+          being profiled.  The options section on this page shows all
+          the profiler options which were in effect during this
+          execution.
+
+
+
+
+                                                                INPUT/OUTPUT - 6
+
+
+
+          Prior to running your program, the .MAP file is analyzed and
+          a table is built in memory.  After this is done the amount of
+          memory available to run your program is printed.
+
+          The "parameters" line contains the argv[0] to be passed to
+          your program, subsequent line(s) contain argv[1] to argv[n]
+          parameters each enclosed in quotes.  A line is then output to
+          delimit the stdout of your program from that of the profiler,
+          it contains the full path and name of the program to be
+          executed.  If stdout has not been redirected the profiler
+          will pause with a message allowing you to cancel execution or
+          run the profile, optionally you may clear the screen prior to
+          running your program.
+
+          After returning from your program, a line is output giving
+          the return code and the calculated time your program would
+          have taken if the profiler had not been used.  This time is
+          the basis for the percentage calculations made in the body of
+          the report.  The next line contains the start date, time, end
+          time and the percentage of the elapsed time spent within the
+          profiler.
+
+          The body of the report starts on the next page.  In Appendix
+          A, example 1 is lines within functions, example 2 is a
+          functions only report.
+
+          Whenever a new module is encountered in the .MAP file a line
+          is output with the module name.  When the beginning of a
+          function is identified a line is output with the name, the
+          percentage of time the function executed as compared to your
+          programs total time from page 1 and a graphic representation
+          of the percentage.  In addition, for a functions only report
+          the count column contains the number of times the function
+          was executed, for a lines within function report this count
+          appears on the first line within the function.
+
+          The line number report has additional information.  The first
+          column contains the starting address of the line, the line
+          number, the number of times the line was executed, the time
+          taken by the line as a percentage of the programs' time, the
+          time taken by the line as a percentage of the functions' time
+          and a graphic representation of the percentages.
+
+          Each column in the graph represents approximately 2.5%.  Four
+          characters are used within the graph, asterisks, periods,
+          equal signs and dashes.  The asterisks are used for function
+          lines only, no other characters appear on these graph lines.
+          Even though a report by lines is requested, if a function is
+          not executed only the function line will appear on the
+          report.  The period only appears in the first column of the
+          graph, it is used when a line was executed at least once but
+          the time was less than 2.5%.  The end of the equal signs
+          represents the lines' time compared to the total time.  The
+          end of the dashes represents the lines' time compared to the
+          functions' time.
+
+
+
+
+
+
+                                                                INPUT/OUTPUT - 7
+
+
+
+          For the lines within functions report, the format of the
+          source file can affect the report.  The listing in Appendix A
+          contains some examples which will be referred to in the
+          following discussion.  The source for lines 33 and 34, and
+          line 39 are essentially the same and generate identical
+          machine instructions.  On the other hand, the report is
+          different for these two instruction sequences due to the map
+          output.  The compiler generates the initialization code of
+          the "for loop" and outputs the line address for the .MAP
+          file.  Since the calculation is contained on the same line
+          nothing is output to the .MAP file for it.  Therefore, line
+          39 reports that the line was executed only once and all the
+          time for the loop is included with line 39.  In the case of
+          lines 33 and 34, the compiler outputs the line 33 address for
+          the initialization code and the line 34 address for the
+          calculation which shows 19999 executions of the expression.
+          In version 2 of Turbo C other loop constructs (while, do) are
+          now generated similarly, so that lines 21 and 37 are now
+          reported in the same manner as line 39.
+
+          All times for the last line of a function are reported with
+          the line which called the function.  Therefore for best
+          results, the closing bracket of a function should appear on a
+          separate line.  The count for the last line of a function is
+          correct.
+
+          The difference in times between lines 21 and 39 indicate the
+          efficiencies of register variables.  In the main function two
+          dummy variables were allocated as registers so that the other
+          variables, which are used in line 21, could not be
+          automatically assigned by the compiler to registers.  In
+          test_func the variables for the loop were allocated to
+          registers.
+
+          In version 2.0 of Turbo C the compiler outputs line numbers
+          to the .MAP file for floating point instructions.  Therefore,
+          these lines are now reported correctly.
+
+          If you are using version 1.5 of Turbo C, lines 41 and 42
+          exhibit a problem when using floating point.  If the first
+          machine instruction to be generated on a line is for a
+          floating point operation the compiler does not output a line
+          number for the .MAP file.  Therefore, line 42 does not appear
+          in the report and all the time for line 42 is reported in
+          line 41.  If you need to see one or more floating point lines
+          separately the only option would be to precede each statement
+          with a non-floating point statement, such as an increment of
+          a dummy integer variable (better yet, upgrade to version 2,
+          it's worth it).
+            Example:  dummy++; r = a * b;  /* on one line */
+
+
+
+
+
+
+
+
+
+
+
+                                                                INPUT/OUTPUT - 8
+
+
+
+                             MEMORY USAGE
+
+
+     Lines within functions
+
+          "Memory required" =
+          16 * "number of lines mapped" +
+          2  * ("number of functions within the line map" +
+                "value of -S option") +
+          13 * "number of modules within the line map" +
+          "your program requirements" + 39k
+
+
+     Functions only
+
+          "Memory required" =
+          16 * "number of functions within the line map" * 2 +
+          2  * ("number of functions within the line map" +
+                "value of -S option") +
+          13 * "number of modules within the line map" +
+          "your program requirements" + 39k
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                MEMORY USAGE - 9
+
+
+
+                            ERROR MESSAGES
+
+
+          Return
+          Code    Message
+
+          35      DOS version must be 3.0 or later.
+
+          36      Parameter invalid in response file.
+
+          37      File not found (.exe and .map required).
+
+          38      Invalid map file, no line numbers.
+                  In the chapter "INTRODUCTION" see section "Compiler
+                  and execution requirements".
+
+          39      Insufficient memory.
+
+          40      Logic.
+                  This message is accompanied by other information.  If
+                  it should occur please notify me, giving the full
+                  message displayed, details of your system and compile
+                  options used on the program being profiled.
+
+          41      Not a Turbo C program.
+
+          42      Invalid map file, no public values found.
+                  Refer to the section "Compiler and execution
+                  requirements".
+
+          43      NOTE:  Timing inaccurate, see -S in documentation.
+                  Refer to the section "Profiler options".
+
+          44      NOTE:  Timing inaccurate, see caveats in
+                  documentation.
+                  See the discussion on static functions under
+                  "Restrictions and caveats".
+
+          99      Parameter display or error.
+
+                  All return codes below 35 are identical to the errno
+                  values used by Turbo C.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                             ERROR MESSAGES - 10
+
+
+
+                                   APPENDIX A
+
+
+                             ---------------------------------
+                                   LISTING 1
+                             ---------------------------------
+
+           1  #include <stdio.h>
+           2  #include <stdlib.h>
+           3
+           4
+           5
+           6
+           7  /*      Prototype Definitions      */
+           8  void test_func(void);
+           9  /* End Prototypes  */
+          10
+          11  #define LOOP_CNT 20000
+          12
+          13  main()
+          14  {
+          15  register int reg_si, reg_di; /* dummy variables to use up regs */
+          16  int a = 10;
+          17  int i = LOOP_CNT;
+          18
+          19    test_func();
+          20
+          21    while (--i) a = a * a / a;
+          22
+          23    printf("Proftest executed");
+          24    return (0);
+          25  }                  /*     end of main     */
+          26
+          27  void test_func(void)
+          28  {
+          29  register unsigned int i;
+          30  register unsigned int a = 10;
+          31  float b, c;
+          32
+          33    for (i = LOOP_CNT; --i;)
+          34      a = a * a / a;
+          35
+          36    i = LOOP_CNT;
+          37    while (--i) a = a * a / a;
+          38
+          39    for (i = LOOP_CNT; --i;) a = a * a / a;
+          40
+          41    for (i = 50, b = 10.0; i > 0; i--)
+          42      c = b * b / b;
+          43  }                /* end of test_func */
+
+
+
+
+
+
+
+
+
+
+
+                                                                 APPENDIX A - 11
+
+
+
+                            ----------------------------------
+                                   EXAMPLE 1
+                            ----------------------------------
+
+                         Turbo C Profiler (TCPROF V1.5)                    1
+
+PROFILER OPTIONS:
+  Minimum line count printed(-C) 0:  Lines per page(-L) 58
+  Internal stack size(-S) 10 default
+
+Analyzing C:\C\PROFTEST.MAP
+18 lines in 2 functions in 1 module will be profiled
+
+Building profile table
+Memory available 437432 bytes
+
+Parameters:  C:\C\PROFTEST.EXE
+
+***** STDOUT FOR C:\C\PROFTEST.EXE *****
+Proftest executed
+
+*** End of Program Output  Return code 0  Time mm:ss 0:03 ***
+Start 9-25-1988 16:41:26.67  End 16:41:42.22  Profiler overhead 84%
+
+   --------   Example 1 Page 1:   tcprof -L proftest >proftest.ex1   --------
+
+
+
+
+
+PROFTEST.EXE             Turbo C Profiler (TCPROF V1.5)                    2
+Func/Addr   Line   Count      %Tot %Fun...1...2...3...4...5...6...7...8...9...
+
+MODULE PROFTEST
+
+main                           36      ***************
+0000:01FA   13     1            0    0 .
+0000:0202   16     1            0    0 .
+0000:0207   17     1            0    0 .
+0000:020C   19     1            0    0 .
+0000:020F   21     1           36   99 ==============--------------------------
+0000:0229   23     1            0    1 .
+0000:0232   24     1            0    0 .
+0000:0236   25     1            0    0 .
+
+test_func                      64      *************************
+0000:023C   27     1            0    0 .
+0000:0244   30     1            0    0 .
+0000:0247   33     1            0    0 .
+0000:024C   34     19999       21   33 ========-----
+0000:025D   36     1            0    0 .
+0000:0260   37     1           18   28 =======----
+0000:0273   39     1           18   28 =======----
+0000:0289   41     1            0    0 .
+0000:0299   42     50           7   11 ===-
+0000:02B6   44     1            0    0 .
+
+
+
+
+
+                                                                 APPENDIX A - 12
+
+
+
+*** End of profile report for C:\C\PROFTEST.EXE ***
+
+   --------   Example 1 Page 2:   tcprof -L proftest >proftest.ex1   --------
+
+                       ----------------------------------
+                                   EXAMPLE 2
+                       ----------------------------------
+
+                         Turbo C Profiler (TCPROF V1.5)                    1
+
+PROFILER OPTIONS:
+  FUNCTIONS ONLY(-F):  Lines per page(-L) 58
+  Internal stack size(-S) 10 default
+
+Analyzing C:\C\PROFTEST.MAP
+2 functions in 1 module will be profiled
+
+Building profile table
+Memory available 437656 bytes
+
+Parameters:  C:\C\PROFTEST.EXE
+
+***** STDOUT FOR C:\C\PROFTEST.EXE *****
+Proftest executed
+
+*** End of Program Output  Return code 0  Time mm:ss 0:03 ***
+Start 9-25-1988 16:42:58.56  End 16:43:02.08  Profiler overhead 12%
+
+   -------   Example 2 Page 1:   tcprof -L -F proftest >proftest.ex2  -------
+
+PROFTEST.EXE             Turbo C Profiler (TCPROF V1.5)                    2
+Func/Addr   Line   Count      %Tot %Fun...1...2...3...4...5...6...7...8...9...
+
+MODULE PROFTEST
+
+main               1           38      ***************
+test_func          1           62      *************************
+
+*** End of profile report for C:\C\PROFTEST.EXE ***
+
+   -------   Example 2 Page 2:   tcprof -L -F proftest >proftest.ex2  -------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                 APPENDIX A - 13
+
+
+
+                              APPENDIX B
+
+
+     Registered user information
+
+          A registered users version of this program, TCPROFRU, is
+          available for $20.00 ($25.00 for 3 1/2" diskettes).  Please
+          use the order form at the end of this document.
+
+          The registered user version has additional options which
+          allow you to tailor the amount of information gathered by the
+          program.  On larger programs this reduces the overhead of the
+          profile runs and the size of the report.
+
+
+     Registered user features
+
+          -A[-]func-nm  Alter the treatment of the named function.
+
+                        If the profiler is being run in the default
+                        mode of lines by function, each function named
+                        by this option will NOT have line numbers
+                        traced.  A single line, as for a functions only
+                        report, is output for each named function.
+
+                        If the functions only option is "on" (-F) then
+                        the named functions will have line number
+                        tracing on.
+
+                        For either case above, if a minus sign precedes
+                        the named function it will not be traced and
+                        all times for the function will be included in
+                        the lines or functions that call it.
+
+                        Multiple A options may be used.  The function
+                        name is case sensitive.
+
+                          Ex:  tcprofru -F -Afn1 -A-fn2 tstprg
+                        Functions only plus fn1 lines and no trace on
+                        fn2.
+
+          -M[-]mod-nm   Alter the treatment of all functions in the
+                        named module.
+
+                        Depending on the status of the F switch the
+                        treatment of all functions within the named
+                        module will be modified.  This is a shorthand
+                        method of altering(A[]) the treatment of all
+                        the functions in a module.
+
+                        Multiple M options may be used.  The module
+                        name is not case sensitive.
+
+                          Ex:  tcprofru -Mmod1 -M-mod2 testprog
+                        Profile functions only in mod1, no profile of
+                        functions in mod2, all other functions are
+                        profiled by line.
+
+
+
+
+                                                                 APPENDIX B - 14
+
+
+
+          -F[-][+]      Alter the treatment of all functions in the
+                        program.
+
+                        The -F- option causes all functions to be
+                        skipped except those specified by A or M
+                        options.  The functions included by a -A or -M
+                        option are profiled by line unless the name is
+                        preceded by a -, in which case a single line
+                        per function is reported.  This is convenient
+                        when only a few functions in a large program
+                        needs to be profiled.
+
+                        The -F+ option resets the default, profile by
+                        line.  It would be used if a response file (-@
+                        option) contains a -F option and you wish to
+                        override it. The last -F option encountered on
+                        the command line is the one in effect for all
+                        functions.
+
+                        The interaction between the -F, -M and -A
+                        options result in 27 possibilities.  The table
+                        below is taken from the help screen of
+                        TCPROFRU.
+
+          -F[-][+]     |     No or +     |       Yes       |      with -     |
+          -M[-]module  |  N  |  Y  |  -  |  N  |  Y  |  -  |  N  |  Y  |  -  |
+          -A[-]function|N Y -|N Y -|N Y -|N Y -|N Y -|N Y -|N Y -|N Y -|N Y -|
+              resulting L F S F L S S L F F L S L F S S L F S L F L F S F L S
+                profile: L = lines; F = function; S = skip, add time to caller
+
+                        The second, third and fourth columns are
+                        interpreted as follows:  N means that the
+                        option not used for a particular module or
+                        function.  Y means that the option was used for
+                        a particular module or function.  The - means
+                        that a particular module or function was
+                        preceded by a minus.
+
+                          Ex: tcprofru -M-module1 -Amod1fn2
+                        Refering to the preceding table:  The
+                        "resulting profile" line gives the effect for a
+                        particular function.  the effect on functions
+                        mod1fn1 and mod1fn2 in module1 is:  No -F
+                        option therefore, select -F column 1; -M-
+                        specified for module1 therefore, select -M
+                        column 3; for mod1fn1 -A was not specified
+                        therefore, select -A column 7 which results in
+                        this function not appearing in the report and
+                        its time being added to the caller.  On the
+                        other hand, mod1fn2 is specified by a -A option
+                        which selects -A column 8 and results in each
+                        line of the function being profiled.
+
+
+
+
+
+
+
+
+
+                                                                 APPENDIX B - 15
+
+
+
+                          Ex:  tcprofru -F- -Afn1 -M-mod2 tstprg
+                        The -F- option turns off profiling of all
+                        functions in the program.  The -A and -M
+                        options then modify this action as follows:
+                        Profile by lines function fn1, one line per
+                        function will be profiled for the functions in
+                        module mod2, all other function times are
+                        included with the caller's.
+
+
+          -PnnF&|T      Only print lines whose percentage exceeds nn.
+
+                        F = Line's percentage of function:  T = Line's
+                        percentage of total. If both are specified the
+                        line is printed if either percentage exceeds
+                        the nn value.  If both are to be the same
+                        percentage it may be specified as P20FT.
+
+                          Ex:  tcprofru -P50F -p10t tstprg
+                        Only print lines, which are 50% or more of the
+                        function or are 10% or more of the total.
+
+          -I[-]         Include C source in the report.
+
+                        This option interleaves the C source code with
+                        the report.  For each C module encountered in
+                        the .MAP file a standard DOS path search is
+                        made.  If the source code is found it is
+                        printed with the report.  The -I- option can be
+                        used to override a -I specified in a response
+                        file (-@ option).
+
+          -@file-name   Merge the named file with the command line
+                        options.
+
+                        When the @ option is encountered on the command
+                        line the file is opened and each line within
+                        the file is treated as one profiler command
+                        line parameter.  The response file cannot be
+                        used to specify the program to be profiled or
+                        it's options.  The options must be in the same
+                        sequence as they would appear on the command
+                        line.  An @ option may not be contained within
+                        the file.  Multiple @ options may be used on
+                        the command line.
+
+                          Ex: tcprofru -@op.dat -Aadd_fn tstprg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                 APPENDIX B - 16
+
+
+
+                              APPENDIX C
+
+
+     PROBLEM REPORT/SUGGESTIONS
+
+                                                     TCPROF version 1.5
+          From:  Name:             ___________________________________
+
+                 Company:          ___________________________________
+
+                 Address:          ___________________________________
+
+                 City, State, Zip: ___________________________________
+
+          Received program from: _____________________________________
+
+          Hardware:          _________________________________________
+
+          Operating system:  ________________________  version: ______
+
+          Resident programs: _________________________________________
+
+                            __________________________________________
+
+          Error message (if problem report):
+
+             _________________________________________________________
+
+          Description of error or suggestions:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          If appropriate and available, printed output of the profile
+          report and a listing of the program or a fragment
+          illustrating the problem would be helpful.
+
+          Mail to:
+                              Mr. Andre Nancoz
+                              349 Quincy Ave.
+                              Bronx, NY 10465
+
+
+
+
+     REGISTERED USER ORDER FORM
+
+          Mail to:
+                              Mr. Andre Nancoz
+                              349 Quincy Ave.
+                              Bronx, NY 10465
+
+            ..........................................................
+
+            Order for TC profiler registered users version (TCPROFRU):
+
+          Name:             __________________________________________
+
+          Company:          __________________________________________
+
+          Address:          __________________________________________
+
+          City, State, Zip: __________________________________________
+
+
+          Received TCPROF program from:
+
+            __________________________________________________________
+
+
+          Hardware:          _________________________________________
+
+
+          Operating system:  ________________________  version: ______
+
+          Send:
+
+             ___ copies of 5 1/4" DSDD at $20.00 each ________
+
+             ___ copies of 3 1/2" DSDD at $25.00 each ________
+
+                                     Total enclosed. $________
+            Checks only.  U. S. funds.  NO COD.
+

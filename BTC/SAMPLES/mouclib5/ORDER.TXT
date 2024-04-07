@@ -1,0 +1,78 @@
+
+                                   Order Form
+                                   ----------
+
+ To :                                          Date : __/__/199_
+        Loewy Ron, 
+        9 Haneveem st.,
+        Herzeliya, 46465
+        Israel
+
+ I would like to register the following products :
+
+        Product     User     Media       Price       Number          Total
+           -        Group      -          Per          of
+         Name       PCMSU    Type        Unit*       Copies
+        ---------   -----    -----      ------      ------          -----
+
+  _     APP         R-NNM    _____        $15       ______        $ _____
+  _     APP         -RNNM    _____        $45       ______        $ _____
+  _     mouseLib    ORNRM    _____        $10       ______        $ _____
+  _     mouCeLib    ORNRM    _____        $10       ______        $ _____
+  _     xmsLibr     ORNRM    _____        $10       ______        $ _____
+  _     parser      ORNRM    _____        $10       ______        $ _____
+  _     WWToolKit   RRNRM    _____        $40       ______        $ _____
+  _     RPTP        OR--M    _____        $7        ______        $ _____
+  _     RPTP        O-R-M    _____        $20       ______        $ _____
+  _     RPTP        O--RM    _____        $45       ______        $ _____
+  _     RPTPwin     OR--M    _____        $7        ______        $ _____
+  _     RPTPwin     O-R-M    _____        $20       ______        $ _____
+  _     RPTPwin     O--RM    _____        $45       ______        $ _____
+  _     RLIST       ORNNM    _____        $7        ______        $ _____
+  _     RSS         ORNNM    _____        $45       ______        $ _____
+  _     TXS         ORNNM    _____        $45       ______        $ _____
+  _     XCD         ORNNM    _____        $10       ______        $ _____
+  _     WINTEXT     RNNRM    _____        $145      ______        $ _____
+  _     RFFSRT      OR--M    _____        $30       ______        $ _____
+  _     RFFSRT      O-R-M    _____        $95       ______        $ _____
+  _     RFFSRT      O--RM    _____        $145      ______        $ _____
+
+  ------- Total ----------  ............................  $ _____
+
+ User Group types :
+
+     P - Private use   ( 1 copy )
+     C - Corporate use ( 5 copies )
+     M - coMmercial use ( as part of your product )
+     S - Source ( with non - disclosure agreement attached, for use in your
+                  products with no more royalities )
+     U - Upgrade from previous versions.
+
+ User group information :
+
+     R - Registration is required of the user.
+     O - Registration is optional, to help the author maintain the software.
+     N - Not available.
+     - - Available with another price.
+     M - Media price, upgrade price for registered users : $2
+ 
+ Please send me the latest versions of the products I ordered.
+
+ I enclose a cheque with the required amount.
+
+
+ User Name : __________________________________________________________
+             __________________________________________________________
+
+ Address   : __________________________________________________________
+             __________________________________________________________
+             __________________________________________________________
+
+
+ Remarks   : __________________________________________________________
+             __________________________________________________________
+             __________________________________________________________
+
+
+ * Please add $1 for 3.5'' media.
+

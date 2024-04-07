@@ -1,0 +1,143 @@
+                        8086 REGISTERS.
+                        ßßßßßßßßßßßßßßß
+
+Before considering the different memory models in Turbo C, it is useful
+to appreciate the function and behaviour of registers in the 8086 range
+of microprocessors and to use the DOS facility DEBUG to inspect both
+the registers and memory.
+
+Intel 8088, 8086, 80286 and 80386 microprocessors have 14 Registers,
+which are used to store and process numbers quickly, within the
+Central Processor Unit (CPU) itself.  These are 16-bit registers,
+although the first four may be accessed as 8-bit parts. The word-sized
+registers are as follows:
+
+    General purpose registers  - AX, BX, CX and DX
+
+    Segment registers (Code, Data, Stack & Extra) - CS, DS, SS and ES
+
+    Pointer registers (Base and Stack) - BP and SP
+
+    Index registers (Source & Destination)  - SI and DI
+
+    Instruction pointer register - IP        | Turbo C can not access |
+                                             | these two registers.   |
+    Status register (Flags).                 |                        |
+
+
+The AX (Accumulator) register is used to store data prior to the
+execution of an instruction.
+
+The BX (Base) register is used in some memory addressing schemes.  It can
+be used to store the offset portion of a far pointer.
+
+The CX (Count) register is often used as a loop counter.
+
+The DX (Data) register is used to store 16-bit data or as an extension to
+the AX register when handling 32-bit data.
+
+The SI (Source Index) and DI (Destination Index) registers can function as
+general-purpose registers and can also act as index registers.  They are
+also used by Turbo C for register variables.
+
+SP (Stack Pointer) register points to the current top-of-stack and is an
+offset into the stack segment.
+
+The BP (Base Pointer) register is a secondary stack pointer, usually used
+to index into the stack in order to retrieve parameters.
+
+The base pointer (BP) register is used in C functions as a base address for
+arguments and automatic variables.  Parameters have positive offsets from
+BP, which vary depending on the memory model and the number of registers
+saved on function entry.
+
+
+The segment registers are provided because of the 'segmented memory
+architecture' of the 8086 microprocessor, which is designed to directly
+address only 64K of memory at a time.  Each 64K part of memory is known as
+a segment.
+
+The CS (Code Segment) register identifies the segment in which the program
+resides.
+
+The DS (Data Segment) register identifies the segment in which the data
+(program variables) reside.
+
+The SS (Stack Segment) register points to the stack segment and is
+used in conjunction with the Stack Pointer (SP).
+
+The ES (Extra Segment) register is used, usually, for extra data.
+
+
+
+A simple text program, which can be created by using the Turbo C editor,
+can be loaded into memory by means of the DOS debug utility by typing:
+
+       debug <filespec>
+
+where <filespec> can be the full file specification, including drive,
+directory and filename.
+
+The screen response is the minus sign (-) and then a number of debug
+commands can be used, such as d followed by the offset address to
+'dump' a section of memory or r to indicate the state of the various
+registers as shown below:
+
+debug test.txt
+
+-d 0100
+4DFC:0100  46 69 72 73 74 20 6C 69-6E 65 20 6F 66 20 74 65   First line of te
+4DFC:0110  78 74 0D 0A 53 65 63 6F-6E 64 20 6C 69 6E 65 20   xt..Second line
+4DFC:0120  66 6F 6C 6C 6F 77 73 0D-0A 54 68 69 72 64 20 6C   follows..Third l
+4DFC:0130  69 6E 65 20 69 73 20 6E-65 78 74 0D 0A 46 6F 75   ine is next..Fou
+4DFC:0140  72 74 68 20 6C 69 6E 65-20 69 73 20 6C 61 73 74   rth line is last
+4DFC:0150  0D 0A 1A 00 00 00 00 00-00 00 00 00 00 00 00 00   ................
+4DFC:0160  00 00 00 00 00 00 00 00-00 00 00 00 00 00 00 00   ................
+4DFC:0170  00 00 00 00 00 00 00 00-00 00 00 00 00 00 00 00   ................
+
+
+-r
+AX=0000  BX=0000  CX=0053  DX=0000  SP=2AB6  BP=0000  SI=0000  DI=0000
+DS=4DFC  ES=4DFC  SS=4DFC  CS=4DFC  IP=0100   NV UP EI PL NZ NA PO NC
+4DFC:0100 46            INC     SI
+-q
+
+The final command q is used to quit debug.
+
+It can be seen that the CS register displays the segment in which the
+code resides, whilst the IP register indicates that the code starts at
+the offset address 0100, which is the normal offset used by debug.
+
+Finally, other debug commands can be used to write a new line to the
+file. Enter (e) is used first to add a new line and then insert a
+carriage return and line feed (OD OA). Then Name (n) is used to give
+this file a new name (test2.txt) and Write (w) is employed to write
+the new file, as shown below.
+
+
+    -e 0152 "One more line added"
+    -e 0165 0D 0A
+    -r cx
+    CX 0053
+    :67
+    -n test2.txt
+    -w
+    Writing 0067 bytes
+
+This can then be checked as follows:
+
+-d 0100
+4DFC:0100  46 69 72 73 74 20 6C 69-6E 65 20 6F 66 20 74 65   First line of te
+4DFC:0110  78 74 0D 0A 53 65 63 6F-6E 64 20 6C 69 6E 65 20   xt..Second line
+4DFC:0120  66 6F 6C 6C 6F 77 73 0D-0A 54 68 69 72 64 20 6C   follows..Third l
+4DFC:0130  69 6E 65 20 69 73 20 6E-65 78 74 0D 0A 46 6F 75   ine is next..Fou
+4DFC:0140  72 74 68 20 6C 69 6E 65-20 69 73 20 6C 61 73 74   rth line is last
+4DFC:0150  0D 0A 4F 6E 65 20 6D 6F-72 65 20 6C 69 6E 65 20   ..One more line
+4DFC:0160  61 64 64 65 64 0D 0A 00-00 00 00 00 00 00 00 00   added...........
+4DFC:0170  00 00 00 00 00 00 00 00-00 00 00 00 00 00 00 00   ................
+-q
+
+
+REGS.TXT
+31.1.91
+

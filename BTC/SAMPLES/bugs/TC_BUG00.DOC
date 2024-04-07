@@ -1,0 +1,678 @@
+ *****
+ 
+   The following bugs were listed by Gene Alm on 14 June 1987.
+   As of this writing, they have NOT been reported to Frank
+   Borland by the reporter.  They will be reported within a day
+   or two.
+ 
+   ***
+ 
+      Error Class:  Error in math.h
+ 
+      In the header file math.h, you will find:
+    
+        #define M_PI              3.14159265358979224
+  
+      This should read:
+  
+        #define M_PI              3.14159265358979324
+  
+      Reference:  Don Knuth, Seminumerical Algorithms
+  
+      Comments:  I have not checked any other values.  Are
+                 there any other dumb errors in these
+                 constants???
+ 
+      Disposition:  Unreported
+  
+   ***
+ 
+      Error Class:  Documentation error
+ 
+        On page 144 of the Users Guide, there is an error in
+        the syntax shown for enumerated variables.  It reads:
+ 
+          enum days = { Sun, Mon, Tues, Wed,
+                        Thurs, Fri, Sat };
+ 
+        It should read:
+  
+          enum days { Sun, Mon, Tues, Wed,
+                        Thurs, Fri, Sat };
+ 
+      Reference:  Lattice C Compiler Version 3.00 Technical
+                  Bulletin
+ 
+      Comments:  The enum data type is quite a bit more flexible
+                 than implied in the illustration given.  Consult
+                 a good reference.
+ 
+      Disposition:  Unreported
+ 
+   ***
+ 
+      Error Class:  Documentation error
+ 
+        On page 297 of the Reference Guide, it states that the
+        -nxxx environment option sends the .OBJ and .ASM files
+        to the directory or path given in xxx.
+ 
+        It ALSO sends load modules (.EXE) files to this path.
+ 
+      Reference:  Try it and see!
+ 
+      Comments:  I like to send temporary files (I usually
+                 consider .OBJ files as temporaries) to a ramdisk
+                 for speed but like to keep load modules on the
+                 current drive (hard disk).  The command line
+                 options by themselves don't seem to support
+                 sending .OBJ and .EXE files to different drives
+                 (paths).
+ 
+      Disposition:  Unreported
+ 
+   ***
+ 
+      Error Class:  Documentation error
+ 
+        On page 18 of the Reference Guide, the usage for _fmode
+        is shown as:
+ 
+          extern int _fmode;
+ 
+        If you look in the fcntl.h header file, you will discover
+        that the declaration is:
+ 
+          extern unsigned _Cdecl _fmode;
+ 
+        This confusion between an integer and an unsigned may
+        manifest itself in a warning message during compilation.  
+        
+      Reference:  See for yourself!
+ 
+      Comments:  This is a common nuisance for a new product.
+                 The documentation doesn't agree with the facts.
+                 So assume the facts are correct.  Go with the
+                 declaration as shown in the header file since
+                 it is PROBABLY more current than the manual.
+ 
+      Disposition:  Unreported
+ 
+   ***
+ 
+      Error class:  Compiler error
+ 
+        If the following code is compiled, the compiler will return
+        a message that "code in line 9 has no effect."  Well
+        that is not true since if you execute the program the results
+        that are listed via the two printf statements are different.
+        The code does indeed have an effect.  Fortunately the compiler
+        ignores its own warning and generates the correct code for a
+        statement that it says is redundant.  The statement is
+        syntactically correct.  The leading asterisk indicates a
+        dereferencing that is not used and this appears to be the
+        problem that the compiler recoginzes.  Removing this asterisk
+        causes the message to disappear.  But in C, I am allowed to
+        do what I want to do even if it makes no sense!  The compiler
+        should issue a redundant operator message, not a redundant
+        code message!
+        
+        static int  a[] = {0, 1, 2, 3, 4};
+        static int  *p[] = {a, a+1, a+2, a+3, a+4};
+        static int  **pp;
+  
+        void main () {
+   	 
+          pp = p;
+          printf ("\n%10d%10d%10d", pp-p, *pp-a, **pp);
+          *++*pp;
+          printf ("\n%10d%10d%10d", pp-p, *pp-a, **pp);
+        }
+ 
+        Reference:  Kernighan and Ritchie
+ 
+        Comments:  When receiving a message such as "code is
+                   bad", just how much of it is bad?  If the compiler
+                   recognizes redundant operators or statements,
+                   it might well inform the programmer of the "find".
+                   Other compilers don't inform the user that a
+                   redundant construct has been used.  I am delighted
+                   that this environment tells me about it.  More
+                   often than not, such a message will indicate that
+                   there is a problem.  But don't simply say that code
+                   is bad.  
+ 
+        Disposition:  Unreported
+ 
+   ***
+ 
+        Documentation error
+ 
+          On page 78 of the Reference Guide, the usage for
+          farcoreleft is given as:
+  
+            long farcoreleft (void);
+ 
+          In the alloc.h header file, the prototype is shown as:
+  
+            unsigned long _Cdecl farcoreleft(void);
+ 
+        Reference:  See for yourself
+ 
+        Comments:  Once again, if the documentation differs from
+                   the information given in a header file, assume
+                   that the header file contains the latest, and
+                   therefore the most correct information.
+  
+        Disposition:  Unreported
+ 
+  ***
+ 
+        Error class:  Compiler error
+ 
+          When the following program is executed, you will get
+          two different results.  Casting values in the expression
+          for xr0 does not alter the situation.  
+ 
+          #define   MAX_POINTS  16
+   
+          main () {
+   
+            int      points, index;
+            double   xr0, xr1;
+ 
+            points = MAX_POINTS;
+            for (index = 0; index < points; index++) {
+              xr0 = 512.0 / MAX_POINTS * index;
+              xr1 = 512 / MAX_POINTS * index;
+              printf ("\n%20.6lf%20.6lf", xr0, xr1);
+            }
+          }
+ 
+        Reference:  Kernighan and Ritchie
+ 
+        Comments:  If the order of the terms in xr0 is changed
+                   (xr0 = 512.0 * index / MAX_POINTS), the results
+                   will change.  Since the order of the terms should
+                   make no difference, this is a serious bug.  Other
+                   compilers handle the above code with no problem.
+                   It appears as though the compiler doesn't like
+                   the appearance of two constants together.  If
+                   you suspect this problem, interchange the order
+                   of the terms.
+ 
+        Disposition:  Unreported
+ 
+   ***
+ 
+   ******************************************************************
+
+			     16 June 1987
+
+      There are a plethora of bugs in the documentation relating
+      to the agreement between the RG (Reference Guide) and the
+      header files.  I looked at these and here are some of the
+      problems that I found.  Only the disagreements are stated:
+      the correct prototype (in some cases) is not clear.
+
+ 
+   ******************************************************************
+ 
+   Page 15 of RG
+ 
+      It says that extern char *sys_errlist [];
+      and          extern int sys_nerr;
+
+      are in errno.h.  They are in stdlib.h, not errno.h.
+
+   Page 19 of RG
+ 
+      It says that extern unsigned int _psp;
+
+      is in stdlib.h.  It is in dos.h, not stdlib.h.
+ 
+   Page 27 of RG
+ 
+      The prototype for setblock is shown as
+         int setblock (int set, int newsize);
+      It is shown in dos.h as
+         int _Cdecl setblock(unsigned segx, unsigned newsize);
+
+   Page 45 of RG
+ 
+      The prototype for brk is shown as
+         int brk (void *endds);
+      It is shown in alloc.h as
+         int _Cdecl brk(char *addr);
+
+      The prototype for sbrk is shown as
+         char *sbrk (int incr);
+      It is shown in alloc.h as
+         void *_Cdecl sbrk(int incr);
+ 
+   Page 46 of RG
+ 
+      The prototype for bsearch is shown as
+         void *bsearch (void *key, void *base, int *nelem,
+                        int width, int (*fcmp)());
+ 
+      It is shown in stdlib.h as
+         void *_Cdecl bsearch(void *key, void *base, int nelem,
+			int width, int _Cdecl (*fcmp)());
+ 
+      The prototype for lfind is shown as
+         void *lfind (void *key, void *base, int *nelem,
+                      int width, int (*fcmp)());
+
+      It is shown in stdlib.h as
+         void *_Cdecl lfind  (void *key, void *base, unsigned *num,
+			int width, int _Cdecl (*fcmp)());
+
+      The prototype for lsearch is shown as
+         void *lsearch (void *key, void *base, int *nelem,
+                        int width, int (*fcmp)());
+
+      It is shown in stdlib.h as
+         void *_Cdecl lsearch(void *key, void *base, unsigned *num,
+			int width, int _Cdecl (*fcmp)());
+
+   Page 70 of RG
+ 
+      The prototype for eof is shown as
+         int eof (int *handle);
+   
+      It is shown in io.h as
+         int _Cdecl eof(int handle);
+ 
+   Page 78 of RG
+ 
+      The prototype for farcoreleft is shown as
+         long farcoreleft (void);
+      It is shown in alloc.h as
+         unsigned long _Cdecl farcoreleft(void);
+ 
+   Page 101 of RG
+ 
+      The prototype for fread is shown as
+         int fread (void *ptr, int size, int nitems, FILE *stream);
+      It is shown in stdio.h as
+         int _Cdecl fread (void *ptr, unsigned size, unsigned n, FILE *fp);
+ 
+      The prototype for fwrite is shown as
+         int fwrite (void *ptr, int size, int nitems, FILE *stream);
+      It is shown in stdio.h as
+         int _Cdecl fwrite(void *ptr, unsigned size, unsigned n, FILE *fp);
+ 
+   Page 105 of RG
+ 
+      The prototype for fstat is shown as
+         int fstat (char *handle, struct stat *buff)
+      It is shown in stat.h as
+         int  fstat (int fildes, struct stat *statbuf);
+ 
+   Page 106 of RG
+ 
+      The prototype for fwrite is discussed above with Page 101
+      of RG.
+ 
+      It says that when using gcvt you should use the statement
+         #include <dos.h>
+      It should say that you should use the statement
+         #include <stdlib.h>
+ 
+   Page 107 of RG
+ 
+      The prototype for ungetch is shown as
+         int ungetch (int c);
+      It is shown in conio.h as
+         int _Cdecl ungetch(unsigned ch);
+ 
+   Page 114 of RG
+ 
+      The prototype for getdfree is shown as
+         void getdfree (int drive, struct dfree *dfreep);
+      It is shown in dos.h as
+         int _Cdecl getdfree(unsigned char drive, struct dfree *dtable);
+ 
+   Page 117 of RG
+ 
+      The prototype for getfat is shown as
+         void getfat (int drive, struct fatinfo *fatblkp);
+      It is shown in dos.h as
+         int _Cdecl getfat(unsigned char drive, struct fatinfo *dtable);
+ 
+      The prototype for getfatd is shown as
+         void getfatd (struct fatinfo *fatblkp);
+      It is shown in dos.h as
+         int _Cdecl getfatd(struct fatinfo *dtable);
+ 
+   Page 118 of RG
+ 
+      The prototype for getftime is in io.h and not in dos.h
+      as indicated.
+ 
+   Page 123 of RG
+ 
+      The prototype for setverify is shown as
+         void setverify (int value);
+      It is shown in dos.h as
+         int _Cdecl setverify(int value);
+ 
+   Page 125 of RG
+ 
+      The prototype for hardretn is shown as
+         void hardretn (int errcode);
+      It is shown in dos.h as
+         int _Cdecl hardretn(int retn);
+
+   Page 128 of RG
+ 
+      The prototype for hardretn is discussed with page 125 of RG.
+ 
+   Page 136 of RG
+ 
+      The prototype for ioctl is shown as
+         int ioctl (int handle, int cmd [, int *argdx, int argcx]);
+      It is shown in io.h as
+         int _Cdecl ioctl(int handle, char func, ...);
+         /* optional 3rd and 4th args are: void * argdx, int argcx */
+ 
+   Page 138 of RG
+ 
+      The prototypes for is... are to be found in ctype.h, not
+      in io.h as stated.
+ 
+   Page 141 of RG
+ 
+      The prototype for keep is shown as
+         void keep (int status, int size);
+      It is shown in dos.h as
+         void _Cdecl keep(unsigned char status, unsigned size);
+ 
+   Page 142 of RG
+ 
+      The prototype for lfind is shown as
+         void *lfind (void *key, void *base, int *nelem
+                      int width, int (*fcmp)());
+      It is shown in stdlib.h as
+         void *_Cdecl lfind (void *key, void *base, unsigned *num,
+			     int width, int _Cdecl (*fcmp)());
+ 
+   Page 146 of RG
+ 
+      The discussion of lsearch is to be found with page 46
+      comments.
+ 
+      The prototype for lseek is shown as
+         long lseek (int handle, long offset, int fromwhere);
+      It is shown in io.h as
+         long _Cdecl lseek(int handle, long offset, unsigned char kind);
+ 
+   Page 154 of RG
+ 
+      The prototype for memchr is shown as
+         void *memchr (void *s, char ch, unsigned n);
+      It is shown in mem.h as
+         void *_Cdecl memchr(void *s, unsigned char c, unsigned n);
+ 
+      The prototype for memcmp is shown as
+         void *memcmp (void *s1, void *s2, unsigned n);
+      It is shown in mem.h as
+         int _Cdecl memcmp(void *s1, void *s2, unsigned n);
+ 
+      The prototype for memset is shown as
+         void *memset (void *s, char ch, unsigned n);
+      It is shown in mem.h as
+         void *_Cdecl memccpy(void *dest, void *src, unsigned char c,
+                              unsigned n);
+ 
+   Page 156 of RG
+ 
+      MK_FP is implemented as a macro as shown in dos.h.  The
+      description for MK_FP given in the RG should note this.
+ 
+   Page 158 of RG
+ 
+      The prototype for movedata is shown as
+         void movedata (int segsrc, int offsrc, int segdest,
+                        int offdest, unsigned numbytes);
+      It is shown in mem.h as
+         void _Cdecl  movedata(unsigned srcseg, unsigned srcoff,
+			unsigned dstseg, unsigned dstoff, unsigned n);
+ 
+   Page 159 of RG
+       
+      The prototype for setmem is shown as
+         void setmem (void *addr, int len, char value);
+      It is shown in mem.h as
+         void _Cdecl setmem(void *dest, unsigned length, char value);
+ 
+   Page 160 of RG
+ 
+      The prototype for _open is shown as
+         int _open (char *pathname, int access);
+      It is shown in io.h as
+         int _Cdecl _open (char *filename, unsigned oflags);
+
+      The prototype for open is shown as
+         int open (char *pathname, int access [, int permiss]);
+      It is shown in io.h as
+         int _Cdecl open(char *path, unsigned access,...
+                         /*unsigned mode*/);
+ 
+      For both of the above functions, be sure to #include <io.h>
+      to access the prototypes.
+ 
+   Page 163 of RG
+ 
+      The prototype for parsfnm is shown as
+         char *parsfnm (char *cmdline, struct fcb *fcbptr,
+                        int option);
+      It is shown in dos.h as
+         char *_Cdecl parsfnm(char *cmdline, struct fcb *fcb,
+                              unsigned char opt);
+ 
+   Page 164 of RG
+ 
+      The prototype for peek is shown as
+         char peek (int segment, unsigned offset);
+      It is shown in dos.h as
+         int _Cdecl peek(unsigned segment, unsigned offset);
+ 
+      The prototype for peekb is shown as
+         char peekb (int segment, unsigned offset);
+      It is shown in dos.h as
+         int _Cdecl peekb(unsigned segment, unsigned offset);
+ 
+   Page 166 of RG
+ 
+      The prototype for poke is shown as
+         void poke (int segment, int offset, int value);
+      It is shown in dos.h as
+         void _Cdecl poke(unsigned segment, unsigned offset, int value);
+
+      The prototype for pokeb is shown as
+         void pokeb (int segment, int offset, char value);
+      It is shown in dos.h as
+         void _Cdecl pokeb(unsigned segment, unsigned offset, char value);
+ 
+   Page 168 of RG
+ 
+      The cprintf function will be found in conio.h and not
+      in stdio.h.
+ 
+   Page 181 of RG
+ 
+      The prototype for fputc is shown as
+         int fputc (int ch, FILE *stream);
+      It is shown in stdio.h as
+         int _Cdecl fputc (char c, FILE *fp);
+ 
+      The putch function will be found in conio.h and not
+      in stdio.h.
+ 
+      The prototype for putw is shown as
+         int putw (int w, FILE *stream);
+      It is shown in stdio.h as
+         int _Cdecl putw (unsigned w, FILE *fp);
+ 
+   Page 184 of RG
+ 
+      The putw function is discusssed in the page 181 information.
+ 
+   Page 185 of RG
+ 
+      The prototype for qsort is shown as
+         void qsort (void *base, int nelem, int width,
+                     int (*fcmp)());
+      It is shown in stdlib.h as
+         void _Cdecl qsort  (void *base,
+		      unsigned nelem,
+		      unsigned width,
+		      int _Cdecl (*fcmp)());
+ 
+   Page 188 of RG
+ 
+      The prototype for read is shown as
+         int read (int handle, void *buf, int nbyte);
+      It is shown in io.h as
+         int _Cdecl read (int handle, char *buf, unsigned int len);
+ 
+   Page 190 of RG
+ 
+      The prototype for rewind is shown as
+         int rewind (FILE *stream);
+      It is shown in stdio.h as
+         void _Cdecl rewind (FILE *fp);
+ 
+   Page 191 of RG
+ 
+      The discussion of sbrk is shown with that for page 45.
+ 
+      The cscanf prototype is found in conio.h and not in
+      stdio.h.
+ 
+   Page 205 of RG
+ 
+      The discussion of setblock is shown with that for page 27.   
+ 
+      The prototype for setbuf is shown as
+         void setbuf (FILE *stream, char *buf);
+      It is shown in io.h as
+         void _Cdecl setbuf (FILE *fp, void *buf);
+ 
+      The prototype for setvbuf is shown as
+         int setvbuf (FILE *stream, char *buf, int type,
+                      unsigned size);
+      It is shown in io.h as
+         int _Cdecl setvbuf (FILE *stream, void *buf, int type,
+                             unsigned size);
+ 
+   Page 209 of RG
+ 
+      The discussion of setmem is shown with that for page 159.   
+      
+   Page 210 of RG
+ 
+      The prototype for setmode is shown as
+         int setmode (int handle, unsigned mode);
+      It is shown in io.h as
+         int _Cdecl setmode (int handle, int amode);
+ 
+   Page 211 of RG
+ 
+      The discussion of setvbuf is shown with that for page 205.
+ 
+      The discussion of setverify is shown with that for page 123.
+ 
+   Page 212 of RG
+ 
+      The prototype for sleep is shown as
+         unsigned sleep (unsigned seconds);
+      It is shown in dos.h as
+         void _Cdecl sleep(unsigned seconds);
+ 
+   Page 221 of RG
+ 
+      The discussion of fstat is shown with that for page 105.   
+   
+   
+   Page 224 of RG
+ 
+      The prototype for strcspn is shown as
+         int strcspn (char *str1, char *str2);
+      It is shown in string.h as
+         size_t _Cdecl strcspn(char *s1, char *s2);
+ 
+      The type size_t is typedef'd to be other than int.
+ 
+      The prototype for strncat is shown as
+         char *strncat (char *destin, char *source, int maxlen);
+      It is shown in string.h as
+         char *_Cdecl strncat(char *dest, char *src, unsigned maxlen);
+ 
+      The prototype for strncmp is shown as
+         int strncmp (char *str1, char *str2, int maxlen);
+      It is shown in string.h as
+         int _Cdecl strncmp(char *s1, char *s2, unsigned maxlen);
+ 
+      The prototype for strncpy is shown as
+         char *strncpy (char *destin, char *source, int maxlen);
+      It is shown in string.h as
+         char *_Cdecl strncpy(char *dest, char *src, unsigned maxlen);
+ 
+      The prototype for strspn is shown as
+         int strspn (char *str1, char *str2);
+      It is shown in string.h as
+         size_t	_Cdecl strspn(char *s1, char *s2);
+ 
+      The prototypes for strtod and strtol were not to be found
+      in the appropriate header files (stdlib.h and string.h).
+
+
+   Page 234 of RG
+ 
+      The prototype for swab is shown as
+         void swab (char *from, char *to, int nbytes);
+      It is shown in stdlib.h as
+         void _Cdecl swab (void *from, void *to, unsigned nbytes);
+ 
+   Page 241 of RG
+ 
+      The prototype for ungetc is shown as
+         int ungetc (char c, FILE *stream);
+      It is shown in stdio.h as
+         int _Cdecl ungetc (int c, FILE *fp);
+ 
+   Page 243 of RG
+ 
+      The prototype for unlock is given in io.h and not in
+      dos.h as shown.
+ 
+   Page 249 of RG
+ 
+      The prototype for write is shown as
+         int write (int handle, void *buf, int nbyte);
+      It is shown in io.h as
+         int _Cdecl write (int handle, char *buf, unsigned int len);
+ 
+   
+
+ 
+   
+   
+ 
+   
+ 
+   
+         
+
+
+
+ 
+   
+      
+   
+
+
+

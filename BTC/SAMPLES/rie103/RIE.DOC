@@ -1,0 +1,866 @@
+
+
+
+
+
+
+
+
+
+
+
+
+                                 RRRR  I EEEEE
+                                 R   R I E
+                                 RRRR  I EE
+                                 R R   I E
+                                 R  R  I EEEEE
+
+                              Rimrock Icon Editor
+                                 Version 1.04
+                               20 February 1992
+
+                    Copyright (C) 1992 by Rimrock Software
+                              All Rights Reserved
+
+
+
+
+                             ÚÄÄÄÄÄÄÄÄÄ¿
+                       ÚÄÄÄÄÄÁÄÄÄ¿     ³               (R)
+                     ÄÄ³         ³o    ³ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+                       ³   ÚÄÄÄÄÄÁÐÄÄ¿ ³  Association of
+                       ³   ³         ³ÄÙ  Shareware
+                       ÀÄÄÄ³    o    ³    Professionals
+                     ÄÄÄÄÄÄ³    º    ³ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+                           ÀÄÄÄÄÐÄÄÄÄÙ    MEMBER
+
+
+
+
+
+
+
+
+Rimrock Software
+P.O. Box 2406
+Hayden, ID  83835
+(208) 772-9347 (after 6 pm Pacific Time)
+
+
+                       RIE Shareware Information
+
+RIE is a shareware product.  No matter how you obtained this product, we 
+encourage you to freely copy and distribute RIE, provided that 
+
+    1. No fee is charged beyond normal media duplication and shipping costs. 
+
+    2. The RIE archive distribution file must be distributed in its original 
+       form.  Specifically, the files listed in the PACKING.LST must be 
+       included.  None of these files should be altered, and no new files 
+       should be added.  Advertising within the RIE archive file is 
+       prohibited. 
+
+    3. Commercial use of RIE is prohibited unless the program is registered 
+       for the specific number of computers on which it will be used. 
+
+See the ORDER.FRM file for more licensing information. 
+
+If you received RIE as shareware, i.e., you didn't pay a registration fee for 
+it or you got it from a shareware library, and you use it on a regular basis, 
+you must register the program using the accompanying order form.  Registering 
+shareware encourages program authors to continue making improvements to 
+programs and to create newer and better software. 
+
+For your $29 registration fee, you will receive the latest registered version 
+of RIE, all accompanying files, and a printed user's manual.  You will also be 
+entitled to unlimited technical support.
+
+Rimrock Software is a member of the Association of Shareware Professionals 
+(ASP).  ASP wants to make sure that the shareware principle works for you.  If 
+you are unable to resolve a shareware-related problem with an ASP member by 
+contacting the member directly, ASP may be able to help.  The ASP Ombudsman 
+can help you resolve a dispute or problem with an ASP member, but does not 
+provide technical support for members' products.  Please write to the ASP 
+Ombudsman at 545 Grover Road, Muskegon, MI  49442-9427 or send a CompuServe 
+message via easyplex to ASP Ombudsman 70007,3536 
+
+
+
+
+
+
+
+
+
+
+
+
+                                      -i-
+                               TABLE OF CONTENTS
+
+    Introduction to RIE . . . . . . . . . . . . . . . . . . . . . .  1
+        Overview. . . . . . . . . . . . . . . . . . . . . . . . . .  1
+        System Requirements . . . . . . . . . . . . . . . . . . . .  1
+        Technical Support . . . . . . . . . . . . . . . . . . . . .  1
+        Registration Information. . . . . . . . . . . . . . . . . .  2
+
+    Using RIE . . . . . . . . . . . . . . . . . . . . . . . . . . .  2
+        Running RIE . . . . . . . . . . . . . . . . . . . . . . . .  2
+        RIE and the Mouse . . . . . . . . . . . . . . . . . . . . .  2
+        RIE and the Keyboard. . . . . . . . . . . . . . . . . . . .  3
+        The RIE Display . . . . . . . . . . . . . . . . . . . . . .  3
+          The Pulldown Menu . . . . . . . . . . . . . . . . . . . .  4
+            File Menu . . . . . . . . . . . . . . . . . . . . . . .  4
+            Info Menu . . . . . . . . . . . . . . . . . . . . . . .  7
+          The File Frame. . . . . . . . . . . . . . . . . . . . . .  7
+          The Icon Information Frame. . . . . . . . . . . . . . . .  7
+          The Icon Editing Frame. . . . . . . . . . . . . . . . . .  8
+          The Toolbox . . . . . . . . . . . . . . . . . . . . . . .  9
+    Loading Icons to the Display Adapter. . . . . . . . . . . . . . 11
+        How Icons Work. . . . . . . . . . . . . . . . . . . . . . . 11
+        How to load an Icon . . . . . . . . . . . . . . . . . . . . 12
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     -ii-
+Introduction to RIE
+-------------------
+
+    Overview
+    --------
+
+    Have you ever wanted to dress up the text-based programs you create with 
+    graphic images, without actually going through the hassle of rewriting 
+    your program for a graphics display mode?  With icons created by the 
+    Rimrock Icon Editor (RIE), you can create 'pseudo-graphic' images that can 
+    be displayed on an EGA or VGA display in text mode. 
+
+    RIE allows you to graphically create a 16 bit by 32 bit icon, which is 
+    stored in a C source file.  This information can then be used as 4 
+    characters of 16 lines, which can be loaded as user-defined characters 
+    into the display adapter.
+
+    RIE was created primarily to support version 6 of TCXL, the TesSeRact C 
+    eXtended Library (TCXL is copyright (C) 1987-92 by Innovative Data 
+    Concepts).  TCXL is an excellent library that allows you to create virtual 
+    windows, menus, data entry forms and much more.  We use it ourselves and 
+    can heartily recommend it.  However, once you know how, you can load and 
+    use icons without using TCXL.  We will show you how in this manual and 
+    with the included ICONLOAD sample program. 
+
+    System Requirements
+    -------------------
+
+    DOS Version: 2.10 or higher
+    Memory:      640k
+    Disk drives: 1 floppy or hard disk for file storage/retrieval.
+    Display:     EGA, VGA or Hercules display required.
+    Other:       A Microsoft compatible mouse and driver is optional 
+                 but desirable.
+
+    Technical Support
+    -----------------
+
+    If you have any questions regarding RIE, you may call Rimrock Software for 
+    technical assistance.  Technical support is available throughout the week, 
+    from 6:00 pm to 10:00 pm, Pacific time.  The phone number is (208) 772-
+    9347.  Technical support is NOT limited to registered users, although we 
+    encourage you to register the RIE package. 
+
+    You may reach Rimrock Software on CompuServe.  We regularly monitor the 
+    SHAREWARE forum, section 1, for questions about our software.  Please 
+    direct your questions to Michael Burton, 71211,70. 
+
+    You may obtain the latest shareware version of RIE, and ask questions 
+    about it, on the Tech Board BBS, (208) 765-0180. The Tech Board sysop is 
+    Dan Boss and he has kindly provided an area for support of Rimrock 
+    Software products.  Many thanks, Dan. 
+        
+                                      -1-
+    Registration Information
+    ------------------------
+
+    The unregistered version of RIE is a fully functional, uncrippled program. 
+    If you find this program to be useful, you can become a registered user.  
+    Registration entitles you to the latest version of the program and a 
+    bound, printed manual, as well as unlimited technical support.  The only 
+    difference between the registered and the unregistered versions of the 
+    program is that the registered version does not have any registration 
+    reminders.  An order form is included with RIE, and may be printed by 
+    entering the following at the DOS prompt: 
+
+        COPY ORDER.FRM PRN
+
+    Be sure to fill out all the information on the order form, including the 
+    RIE unregistered version you are using. 
+
+Using RIE
+---------
+
+    Running RIE
+    -----------
+
+    RIE is easy to use.  The only file necessary is RIE.EXE.  To run the 
+    program, simply enter 
+
+        RIE
+
+    No command line options are available.  When RIE executes, you will see a 
+    registration request screen.  You may continue on to the RIE display by 
+    pressing any key. 
+
+    RIE and the Mouse
+    -----------------
+
+    RIE does not require a mouse.  If you have one, though, using RIE is much 
+    easier. 
+
+    Moving the mouse will produce corresponding motion of the cursor on the 
+    RIE display.
+
+    Clicking the left mouse button will select whatever item you happen to 
+    have the cursor pointing at.  For instance, to pull down the File menu, 
+    you would move the cursor to the word 'File' on the menu bar and then 
+    click the left mouse button.  To load a file, you would then move the 
+    cursor down to the word 'Load' and click the left mouse button again.  If 
+    you are in the Icon Editing Frame (see figure 1), clicking the left mouse 
+    button will change the state of the icon pixel you are pointing at. 
+
+    If you press and hold down the left mouse button in the Icon Editing 
+    Frame, and move the mouse, then many of the icon pixels will change state. 
+
+                                      -2-
+    If you press and hold down the right mouse button, you can move the 
+    various RIE frames around.  The only frame that is glued down is the Icon 
+    Editing Frame.  All the other frames, including the Pulldown Menu, can be 
+    moved.  
+    
+    NOTE: RIE creates a configuration file that contains the positions of all 
+    the frames.  If you move them around and then leave RIE, when you reenter 
+    RIE the frames will be where you left them.  If you want them to go back 
+    to the default positions, erase the RIE.CFG file. 
+    
+    NOTE: If you move any of the frames so they overlap the Icon Editing 
+    Frame, drawing will slow down.  Try to keep the other frames out of the 
+    Icon Editing Frame. 
+
+    RIE and the Keyboard
+    --------------------
+
+    You can still use RIE, even if you don't have a mouse.  You can use the 
+    cursor keys to move the cursor and the Enter key to select an item.
+
+    Cursor keys - Move the cursor around.  Unshifted cursor keys provide gross 
+    movement, and shifted cursor keys provide fine movement. 
+
+    Enter key - Functions as the left mouse key.  Press and release it to 
+    select an item.  In the Icon Editing Frame, you can press and hold the 
+    Enter key down and then move around with the cursor keys to change many 
+    pixels.
+
+    Alt-F key - Selects the File menu item.  You may then select one of the 
+    file options by pressing the underlined letter for that item.  NOTE: If 
+    you press Alt-F and the menu comes down, then goes away, move the cursor 
+    out of the Icon Editing Frame and try again.
+
+    Alt-I key - Selects the Info menu item.  You may then select one of the 
+    info options by pressing the underlined letter for that item.  NOTE: If 
+    you press Alt-I and the menu comes down, then goes away, move the cursor 
+    out of the Icon Editing Frame and try again. 
+
+    Ctrl-Break key - A nasty way to leave RIE.  You are NOT given a chance to 
+    save your work if you use this key.  USE CTRL-BREAK ONLY AS A LAST RESORT.  
+    Use the File Exit menu item to leave RIE normally. 
+
+    The RIE Display
+    ---------------
+
+    Other than the registration request screen, there is only one other 
+    display in RIE.  There are five major frames in the display (see figure 
+    1); the Pulldown Menu, the File Frame, the Icon Information Frame, the 
+    Icon Editing Frame and the Toolbox. 
+
+
+                                      -3-
+    +--------------------------------------------------------------------+
+    | File  Info                                                         |
+    +--------------------------------------------------------------------+
+    |                                                                    |
+    |  +-------+     +-----------------------+  +---------------------+  |
+    |  |RIMROCK|     |                       |  |File:  [File Frame]  |  |
+    |  |ICON   |     |                       |  |---------------------|  |
+    |  |EDITOR |     |                       |  |Unregistered Version |  |
+    |  +-------+     |                       |  +---------------------+  |
+    |                |                       |                           |
+    | +-----------+  |                       |  +------+                 |
+    | |PX:        |  |                       |  |      |                 |
+    | |PY:        |  |                       |  +------+                 |
+    | |           |  |                       |  |      |                 |
+    | | [Icon     |  | [Icon Editing Frame]  |  +------+                 |
+    | |Information|  |                       |  |      | <-[Toolbox]     |
+    | |  Frame]   |  |                       |  +------+                 |
+    | +-----------+  |                       |  |      |                 |
+    |                |                       |  +------+                 |
+    |                |                       |  |      |                 |
+    |                |                       |  +------+                 |
+    |                |                       |  |      |                 |
+    |                |                       |  +------+                 |
+    |                |                       |  |      |                 |
+    |                |                       |  +------+                 |
+    |                |                       |  |      |                 |
+    |                |                       |  +------+                 |
+    |                |                       |                           |
+    |                |                       |                           |
+    |                |                       |                           |
+    |                +-----------------------+                           |
+    |                                                                    |
+    +--------------------------------------------------------------------+
+
+                         Figure 1  RIE Editing Display
+
+        The Pulldown Menu
+        -----------------
+
+            File Menu
+            ---------
+
+            The file menu is used to load and save icons, and to leave 
+            RIE when you are finished. It contains four items, detailed below 
+            (see figure 2). 
+
+
+
+
+                                      -4-
+                                  +-----------------
+                                  | File   Info
+                                  +-------------+---
+                                  | Load        |
+                                  | Save        |
+                                  | Save as     |
+                                  +-------------+
+                                  | Exit to DOS |
+                                  +-------------+
+
+                                Figure 2  File Menu
+
+            In general, when you select a file load or save item, a pop up 
+            file selection window appears (see figure 3).  This window 
+            contains an empty file name box, a current directory box, a 
+            scrolling list of file names, a scrolling list of directories and 
+            drives, a Cancel button and an Ok button. 
+            
+            To select a file for loading or saving, you must fill out the 
+            empty file name box.  You can do this in two different ways; 
+            clicking on a file name in the file name scrolling list or typing 
+            the name into the file name box.  
+            
+            To click on an existing file name, move the file name list up or 
+            down using the scroll controls, then click on the appropriate file 
+            name.  That file name will be displayed in the file name box.  If 
+            you need to change to a different directory or drive, click on it 
+            in the directory/drive list.
+            
+            To type in a file name, click on the empty file name box.  A bar 
+            cursor will appear, indicating you may start typing.  Type in a 
+            file name.
+
+            Once the file name box is filled out, click on OK or press the 
+            Enter key.
+
+            NOTE: RIE files have an extension of '.C'.  Any extension you 
+            enter in the file name box will be ignored and will be replaced 
+            with '.C'.
+
+
+
+
+
+
+
+
+
+
+                                      -5-
+
+           +-------------------------------------------------------+
+           |                      Load Icon                        |
+           +-------------------------------------------------------+
+           |           +-----------------+                         |
+           | Filename: |                 |                         |
+           |           +-----------------+                         |
+           |           +-----------------------------------------+ |
+           | Directory:|H:\RIE                                   | |
+           |           +-----------------------------------------+ |
+           | +---------------------+-+ +-----------------------+-+ |
+           | | DIALOG.C            |^| | [.]                   |^| |
+           | | INFO.C              +-+ | [..]                  +-+ |
+           | | INFO2.C             | | | [RIESRC]              | | |
+           | | INFO3.C             | | | [-A-]                 | | |
+           | | QUERY.C             | | | [-B-]                 | | |
+           | | QUERY2.C            | | | [-C-]                 | | |
+           | | QUERY3.C            +-+ | [-D-]                 +-+ |
+           | | WARN.C              |V| | [-E-]                 |V| |
+           | +---------------------+-+ +-----------------------+-+ |
+           |                                      +------+  +----+ |
+           |                                      |CANCEL|  | OK | |
+           |                                      +------+  +----+ |
+           +-------------------------------------------------------+
+
+                        Figure 3  File Selection Window
+
+            Load
+
+            The Load menu item allows you to load an icon into RIE from a C 
+            source file.  If you select Load and you have not saved your 
+            current work, you will be prompted to do so.
+
+            Save
+
+            The Save menu item allows you to update an icon file with the 
+            changes you have made.  For new work, selecting Save is the same 
+            as selecting Save as.
+
+            Save as
+
+            Allows you to specify a file into which you may save your work.  
+            This is especially useful if you load a file, make changes, and 
+            then wish to save the changes out as a different file.
+
+            Exit to DOS
+
+            Quit to DOS allows you to leave RIE and return to DOS.  You will 
+            be prompted to save your work, if you have not already done so.
+
+                                      -6-
+            Info Menu
+            ---------
+
+            The Info Menu contains information about RIE and how to 
+            register the RIE package (see figure 7).
+
+                              +------------------------
+                              | File   Info
+                              +-------+------------+---
+                                      | About      |
+                                      | Order Info |
+                                      +------------+
+
+                                  Figure 7  Info Menu
+
+            About RIE
+
+            About contains information about the date and version of 
+            RIE and directs you to Order Info for more information. 
+
+            Order Info
+
+            Order Info displays information about how to create an 
+            order form, so you can register the RIE package. 
+
+    The File Frame
+    --------------
+
+    The File Frame contains the name of the file you are currently working on.  
+    It also contains a reminder that this version of RIE is unregistered, and 
+    that it would help your conscience to register it (see figure 8).
+
+                              +---------------------+
+                              |File:                |
+                              |---------------------|
+                              |Unregistered Version |
+                              +---------------------+
+
+                               Figure 8  File Frame
+
+    The Icon Information Frame
+    --------------------------
+
+    The Icon Information Frame displays two important bits of information.  It 
+    shows the X and Y coordinates of where you currently are in the Icon 
+    Editing Frame.  This is helpful when editing from a completely black 
+    (inverted) image.  The Icon Information Frame also shows an EXACT image of 
+    icon, as you will see it when you use it in a text mode program (see 
+    figure 9).
+
+                                      -7-
+                                   +-----------+
+                                   |PX: 5      |
+                                   |PY: 12     |
+                                   |           |
+                                   | XXXX      |
+                                   | XXXX      |
+                                   | XXXX      |
+                                   +-----------+
+
+                         Figure 9  Icon Information Frame
+
+    The Icon Editing Frame
+    ----------------------
+
+    The Icon Editing Frame is where all the real action takes place in RIE 
+    (see figure 10). The current icon is displayed here in a magnified view. 
+    You may set or clear any pixels of the icon.  To set a pixel, move to it 
+    and click.  To clear a pixel, do the same thing.  The Toolbox also allows 
+    you to make changes to the icon displayed here. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      -8-
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | | | | | | | | | | | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | |*|*|*|*|*|*| | | | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | |*|*| | | | |*|*| | | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | |*|*| | | | | | |*|*| | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | |*|*| | | | | | |*|*| | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | | | | | | | |*|*| | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | | | | | | | |*|*| | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | | | | | | |*|*| | | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | | | | | |*|*| | | | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | | | | |*|*| | | | | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | | | |*|*| | | | | | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | | | |*| | | | | | | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | | | |*| | | | | | | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       | | | | | | | |*| | | | | | | | |
+                       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       |                               |
+                       |                               |
+                       |                               |
+                       |                               |
+                       |                               |
+                       |                               |
+                       |                               |
+                       +-------------------------------+
+
+                         Figure 10  Icon Editing Frame
+
+    The Toolbox
+    -----------
+
+    The Toolbox allows you to make gross changes to the icon.  The Toolbox is 
+    located adjacent to the Icon Editing Frame.  There are eight controls; up, 
+    down, left, right, flip horizontal, flip vertical, invert and clear (see 
+    figure 11). 
+
+
+                                      -9-
+                                   +-------+
+                                   |   ^   |
+                                   +-------+
+                                   |   v   |
+                                   +-------+
+                                   |  <<   |
+                                   +-------+
+                                   |  >>   |
+                                   +-------+
+                                   |  <->  |
+                                   +-------+
+                                   |  ^v   |
+                                   +-------+
+                                   |  O-*  |
+                                   +-------+
+                                   |   O   |
+                                   +-------+
+
+                            Figure 11  The Toolbox
+
+    When you click on the up arrow control, the entire icon is moved up by one 
+    pixel row.  The top row of pixels is lost. 
+
+    When you click on the down arrow control, the entire icon is moved down by 
+    one pixel row.  The bottom row of pixels is lost. 
+
+    When you click on the left arrow control, the entire icon is moved to the 
+    left by one pixel column.  The left column of pixels is lost. 
+
+    When you click on the right arrow control, the entire icon is moved to the 
+    right by one pixel column.  The right column of pixels is lost. 
+
+    Clicking on the flip horizontal control flips the icon over horizontally, 
+    i.e., a left to right mirror image of the icon is produced. 
+
+    Clicking on the flip vertical control flips the icon over vertically, 
+    i.e., a top to bottom mirror image of the icon is produced. 
+
+    Clicking on the invert control inverts the icon.  All the pixels that were 
+    set are cleared and all the pixels that were clear are set. 
+
+    Clicking on the clear control clears all the pixels of the icon.
+
+
+
+
+
+
+
+                                     -10-
+Loading Icons to the Display Adapter
+------------------------------------
+
+    How Icons Work
+    --------------
+
+    Pseudo-graphical images like icons take advantage of a special EGA and VGA 
+    capability, the ability to load your own character set into the display 
+    adapter and use it in place of the default font. (For more information 
+    about this user font capability, see Rimrock Software's DFE - Display Font 
+    Editor, available wherever RIE is available). 
+
+    Basically, an icon is a display of 8 8x8 characters from the upper 128 
+    characters of the display set, arranged as a 2 x 4 matrix, like 
+
+        AE
+        BF
+        CG
+        DH
+
+    These characters are created by RIE and are stored in a C source file so 
+    they can be used in your program.  When the characters are loaded into the 
+    display adapter and displayed as shown, they form one continuous image. 
+    You can easily create a simple example of an icon from the built-in font 
+    by drawing a box, using the 4 corner characters (218, 191, 192 and 217). 
+
+    The adapter characters are all 8 bits wide.  For VGAs, the adapter 
+    automatically adds a ninth bit to the character as a margin. Characters 
+    192 through 223 (0xc0 - 0xdf) of the display set handle this ninth bit in 
+    a special way.  These characters duplicate their rightmost bit in the 
+    ninth position.  This allows you to draw boxes without dashed lines in 
+    them.  In the RIE Icon Information Frame, the icon is drawn with this 
+    ninth bit added.  Since you want to make the icon continuous, it is 
+    necessary to set the icon's first four characters (A through D) in the 
+    192-223 range.  The last four characters, E through H, should not be in 
+    the 192-223 range (see figure 12). To make things easy, we will use 8 
+    contiguous characters, 220-227 (DC-E3).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     -11-
+                                      +- margin         +- margin
+                                      | (extended bit)  | (bit not extended)
+                                      v                 v
+
+                     |    Char A     | |    Char E     | |
+                    -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+                     | | | | | | | | | | | | | | | | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | | |*|*|*|*|*|*|*| | | | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | |*|*| | | | | |*|*| | | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | |*|*| | | | | | | |*|*| | | | |
+              Char A +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ Char E
+                     | | | |*|*| | | | | | | |*|*| | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | | | | | | | | | |*|*| | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | | | | | | | | | |*|*| | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | | | | | | | | |*|*| | | | | |
+                    -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+                     | | | | | | | | | | |*|*| | | | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | | | | | | |*|*| | | | | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | | | | |*|*|*| | | | | | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | | | | |*|*| | | | | | | | | |
+              Char B +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ Char F
+                     | | | | | | | |*|*| | | | | | | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | | | | |*|*| | | | | | | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | | | | | | | | | | | | | | | |
+                     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     | | | | | | | | | | | | | | | | | | |
+                    -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+
+                     Figure 12  Icon Characters A, B, E and F
+
+    How to load an Icon
+    -------------------
+
+    Assuming you have already created an icon with RIE, you must do the 
+    following to load an icon.
+
+    1. Pick the character positions where the icon will be loaded.  Make sure 
+    that the first and third characters are in the 192-223 range and that the 
+    second and fourth are not.
+
+                                     -12-
+    2. Load the characters into the display using interrupt 10h, function 11h, 
+    subfunction 10h.
+
+
+    An example of this, to be compiled with Borland C follows.
+
+    #include <dos.h>
+
+    #define LINES *((unsigned char far *) 0x00000485)
+
+    /* An icon generated by RIE */
+    unsigned char iconDIALOG[64] = {
+       0xff,0x80,0x80,0x80,0x80,0x88,0x88,0x88,
+       0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
+       0x80,0x80,0x80,0x80,0x80,0x80,0x81,0x87,
+       0x83,0x83,0x83,0x9e,0x83,0x83,0x87,0xff,
+       0xff,0xff,0xff,0xff,0xe3,0xc1,0x81,0x81,
+       0xb5,0x81,0xad,0x81,0xb9,0x81,0xb5,0x81,
+       0xbd,0x81,0xad,0x81,0xad,0x81,0x81,0x81,
+       0x81,0x83,0x83,0x7,0xff,0xff,0xff,0xff
+    };
+
+    /* Load an icon into the display adapter */
+    void load_icon(unsigned char *chr, unsigned char_num)
+    {
+       struct REGPACK r;
+       int i;
+
+       r.r_es = FP_SEG(chr);
+       r.r_bp = FP_OFF(chr);        /* character address in ES:BP        */
+       r.r_bx = LINES << 8;         /* bytes per char in BH, 0 in BL     */
+       r.r_cx = 8;                  /* number of chars to load           */
+       r.r_dx = char_num;           /* which char will be loaded (0-255) */
+       r.r_ax = 0x1100;             /* function 11h, subfunction 00h     */
+       intr(0x10,&r);               /* go load the character             */
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     -13-
+
+    /* Display an icon generated with the Rimrock Icon Editor */
+    void main()
+    {
+       unsigned char icon_array[256];
+       int i, j, start;
+
+       start = ((LINES * 8) - 64) / 4;
+
+       memset(icon_array, 0, 256);
+
+       for(i=start,j=0; i<start+32; i++,j++)
+          icon_array[i] = iconDIALOG[j];
+
+       start += ((LINES * 8) / 2);
+
+       for(i=start; i<start+32; i++,j++)
+          icon_array[i] = iconDIALOG[j];
+
+       load_icon(icon_array,0xdc);
+
+    }                                  /* and that's it, folks. */
+
+
+
+    To display the icon, you would display the characters 220-227 as follows: 
+
+                220 224
+                221 225
+                222 226
+                223 227
+
+    See ICONLOAD.C and EXAMPLE.BAT for more information.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     -14-
+

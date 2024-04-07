@@ -1,0 +1,20 @@
+Turbo C Async Routines.
+By Joe DeRosa Latest Rev 11/15/87
+Tested at up to 9600 baud on 8mhz V30.
+Tested at up to 19200 baud on 10mhz 80286.
+By increasing Buffer size, Higher baud rates should work on slower machines.
+If you use this program great you can send me millions of dollars. But let's be
+real nobody pays for shareware. So if you do send money then I will be totally
+suprised. I had fun writing this stuff and I hope it helps you all out. There is
+NO documentation and there will be none other than this document and the comment
+in the code. If you wish to pay money send to:
+Joe DeRosa jr
+Box 93
+Milford CT 06460
+Or you can send a postcard saying thanks or whatever.
+
+Remember always take your fun seriously and
+         never  take yourself seriously.
+
+Joe DeRosa
+Burning Bird BBS 16/42 203-877-9727

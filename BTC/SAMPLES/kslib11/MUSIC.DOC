@@ -1,0 +1,84 @@
+Documentation for music routines
+--------------------------------
+Source file(s)	: music.c
+Include file(s)	: music.h
+Library			: tools.lib
+
+The music routines enable sound to be played through the normal PC speaker.
+The first routine emulates the standard BASIC "play" command, with single
+note output, while the other two routines enable 3-voice polyphonic music
+to be played from a file in a special format.
+
+===============================================================================
+
+Function		void play(char *s)
+Prototype in	music.h
+
+	Plays notes from the character string s. S should contain a sequence of
+	commands, optionally followed by a single digit argument, as follows :
+
+	Command		Argument	Function
+	A-G			1-9			Play the note, set the length for this note only
+							if the argument is present.
+	T			0-9			Set the tempo from 0 (fastest) to 9 (slowest).
+	L			1-9			Set the default note length from 1 (full note) to
+							9 (1/256th note).
+	O			1-9			Set the octave from 0 (lowest) to 9 (highest).
+	@			filename	Continue getting commands from the specified file.
+							Unless this is the last command in the string, the
+							argument should be terminated by another '@'. The
+							file can contain multiple lines, and can contain
+							another '@' command. '@'s can be nested until you
+							run out of memory.
+
+Returns			Nothing
+
+-------------------------------------------------------------------------------
+
+Function		void tri(short tune)
+Prototype in	music.h
+
+	Takes an array of 'short', and plays it. Each element in the array must
+	be at least 16 bits long. The highest 3 bits represent the Command, and
+	the lowest 13 bits represent the Value. The commands are as follows :
+
+	000		End-Of-Tune
+	001		Delay for Value, then play Voices 1,2 & 3
+	010		Change Tempo to Value
+	011		Ignore this Value
+	100		Set Pitch for Voice 1
+	101		Set Pitch for Voice 2
+	110		Set Pitch for Voice 3
+	111		Set Pitch for Voice 3
+
+	Note that this is only my best guess at how this thing really works.
+	Take it with a pinch of salt.
+
+Returns			Nothing
+
+-------------------------------------------------------------------------------
+
+Function		char *mplay(char *name)
+Prototype in	music.h
+
+	This function uses tri() to play a tune stored in a file. The file has a
+	default extension of ".POL", and should contain a series of integers
+	seperated by blanks or newlines. Each of the integers should be in the
+	format specified for tri().
+
+Returns			pointer to the name of the file played.
+
+===============================================================================
+
+General notes :
+---------------
+
+mplay() was written by Mike Talvola, of Agoura Hills CA, and placed in the
+public domain. I used it here virtually unchanged.
+
+tri() was written by A. Bogatyrev, of Moscow, and placed in the public domain.
+Again, I used it here virtually unchanged.
+
+play() was written by myself, and is placed in the public domain, although I
+retain full copyrights.
+

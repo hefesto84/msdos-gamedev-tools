@@ -1,0 +1,114 @@
+
+                     PLATFORMTRON game library license:
+
+Throughout this document:
+
+0.
+- "the original PLATFORMTRON game library archive" or "the original archive"
+   refers to the set of files originally distributed by the author
+   (Liouros Thanasis) as the PLATFORMTRON game library. This archive is
+   originally named as "PLTRONxx.EXE", where x.x is the version number, but
+   it may have been renamed or re-archived by third parties.
+- "Using" the PLATFORMTRON game library means linking your program
+   to pltron.lib (pltron.lib is part of the original PLATFORMTRON game
+   library archive )
+- "A program based on PLATFORMTRON" or "a program that uses PLATFORMTRON
+   game library" is a program that has been linked to pltron.lib
+   (pltron.lib is part of the original PLATFORMTRON game library archive)
+- "You" refers to the licensee, or person using the PLATFORMTRON game
+   library.
+- "me" and "I" refers to the author of PLATFORMTRON game library (Liouros
+   Thanasis)
+
+PLATFORMTRON GAME LIBRARY IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT
+WILL THE AUTHOR OR THE COPYRIGHT HOLDER BE LIABLE FOR ANY DAMAGES
+CAUSED BY THE USE OR INABILITY TO USE, OF PLATFORMTRON GAME LIBRARY.
+
+This license applies to all files distributed in the original PLATFORMTRON
+game library archive, including all source code, binaries and documentation,
+in its original, unmodified form as distributed in the original archive.
+If you are unsure whether or not a particular file is covered by this 
+license, you must contact me to verify this.
+
+You are not required to accept this license. However, as PLATFORMTRON game 
+library is copyrighted material, only this license grants you the right 
+to use or distribute it. Therefore, by using or distributing PLATFORMTRON 
+game library, you indicate that you understand and accept all the terms 
+of this license.
+
+1. PLATFORMTRON game library may freely be copied and distributed in its
+original, unmodified form as long as no fee is charged for the PLATFORMTRON
+game library itself.When ever the PLATFORMTRON game library is distributed,
+this license must be included in unmodified form, and all files must contain
+their original copyright notices.
+
+2. There is an evaluation period of 30 days. PLATFORMTRON game library may be
+used for private purposes only ,at this period. That means that you can
+develop programs that use PLATFORMTRON game library but you cannot
+distribute any of those programs ,at that period.
+The evaluation period begins the moment you get in your hands a specific
+version of PLATFORMTRON game library for the first time.
+
+After the end of the evaluation period (or sooner), you must decide to
+register or not , your PLATFORMTRON game library copy.
+- If you decide not to register you must delete PLATFORMTRON game
+  library and any program that uses PLATFORMTRON game library, and was
+  developed during the evaluation period.
+  ( you cannot leave PLATFORMTRON game library lying somewhere in your
+    hard disk. )
+- If you decide to register then you must choose just one of the following
+  registrations:
+
+  i).the freeware registration:
+     This registration grants you the right to develop (and distribute)
+     freeware programs that use PLATFORMTRON game library.
+     Each freeware program based on PLATFORMTRON must include the following
+     message in its aknowledgements:
+      "This program uses the PLATFORMTRON game library, Copyright 1997
+       Liouros Thanasis. E-mail: p3940042@dias.aueb.gr"
+     This registration applies to one copy of PLATFORMTRON game library,
+     but this copy can be used for any number of freeware programs
+     based on PLATFORMTRON .
+     If you choose this registration then you must fill in the registration
+     form (register.frm) and send it to me (see register.frm for more details)
+     , along with the registration fee of $US25 (twenty five american dollars).
+     The moment i will receive your registration form and the corresponding
+     registration fee you will automatically become a registered user ,and thus
+     you will be able to legally develop and distribute freeware programs.
+
+ ii).the shareware registration
+     This registration grants you the right to develop (and distribute)
+     shareware and freeware programs that use PLATFORMTRON game library.
+     Each shareware and/or freeware program based on PLATFORMTRON must include
+     the following message in its aknowledgements:
+      "This program uses the PLATFORMTRON game library, Copyright 1997
+       Liouros Thanasis. E-mail: p3940042@dias.aueb.gr"
+     This registration applies to one copy of PLATFORMTRON game library,
+     but this copy can be used for any number of shareware and freeware
+     programs based on PLATFORMTRON .
+     If you choose this registration then you must fill in the registration
+     form (register.frm) and send it to me (see register.frm for more details)
+     , along with the registration fee of $US50 (fifty american dollars).
+     The moment i will receive your registration form and the corresponding
+     registration fee you will automatically become a registered user ,and thus
+     you will be able to legally develop and distibute shareware and freeware
+     programs.
+  
+iii).the commercial registration.
+     This registration grants you the right to develop (and distribute)
+     commercial programs that use PLATFORMTRON game library.
+     This registration applies to one copy of PLATFORMTRON game library,
+     but this copy can be used for any number of commercial programs based 
+     on PLATFORMTRON . (no royalties required)
+     If you choose this registration then you must fill in the registration
+     form (register.frm) and send it to me (see register.frm for more details)
+     , along with the appropriate registration fee (contact me for more details )
+     As soon as i get your registration form and the corresponding registration
+     fee i will send you a written permission that grants you the right to
+     use PLATFORMTRON game library for commercial purposes. Note that if you
+     do not have that written permission, the use of PLATFORMTRON game library
+     for commercial purposes is illegal. If you choose this registration you
+     should contact me first.
+

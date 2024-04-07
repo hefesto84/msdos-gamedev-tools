@@ -1,0 +1,33 @@
+TURBO C DEMONSTRATION PROGRAMS
+
+These programs were written to demonstrate the usability of the new
+Turbo C compiler from Borland International.  A third program allows
+source code to be mixed in a listing with the assembly code it creates.
+
+
+INCLUDED FILES IN THIS ARC
+
+bioshand.asm               used to support rclock.c
+intvid.asm                 used to support rclock.c
+intvid.h                   included by rclock.c
+
+rclock.c                   c source for resident on-screen clock
+rclock.exe                 exe file for resident on-screen clock
+
+rdir.c                     c source for resident directory
+rdir.exe                   exe file for resident directory
+
+tcod.c                     c source for c/asm source lister
+tcod.exe                   exe file for c/asm source lister
+
+readme                     this file
+
+CAVEAT EMPTOR
+
+These programs are marginally useful, and may (probably) have bugs.
+They were written mainly for education/demo purposes, and are 
+here so you can see how easy it is using Turbo C.  The programs are
+commented, which is the extent of the documentation.
+
+
+

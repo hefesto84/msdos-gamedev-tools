@@ -1,0 +1,134 @@
+                        GPSE  Source  Code
+                        ==================
+
+
+About the program:
+-----------------
+
+This program takes RINEX pseudorange data files produced by GPS (Global
+Positioning System) receivers and produces earth-fixed WGS84 positional
+fixes. It cannot (as yet) deal with `raw' data from GPS receivers, use 
+phase information or give velocities. Most commercial GPS receivers 
+are able to output their data in RINEX format files (RINEX is a standard
+which GPS manufacturers should adhere to), so it should be possible
+to tailor this software to accept data from a wide variety of GPS types. 
+Presently the software can deal only with specific GARMIN and LEICA
+GPS units, but by looking at the software modules which deal with these
+GPS types you should be able to include as many others as you please,
+without too much difficulty. The software presently operates in the
+following three modes: (i) Ordinary (non-differencing) 
+(ii) Positional differencing   (iii)  Pseudorange differencing.
+
+I have written this software mainly for three reasons: (seeing that GPS units
+can output their positional data to files, one might ask what the point
+of the software is!)
+
+(i)    To allow differencing to be done using two GPS units where the
+       operator has no control over the satellites used by the GPS units - 
+       ie. where the GPS units are were not built to do differencing.
+
+(ii)   To allow differencing to be done using different GPS units, or
+       GPS units produced by different manufacturers.
+
+(iii)  For educational purposes, and for the programmer who wishes to
+       experiment with different algorithms (eg. the satellite selection
+       algorithm, the data processing algorithm, the reference model
+       for positional output, etc.). 
+
+
+
+About the source code:
+---------------------
+
+The main file is GPSE.C.  Open this file in your C environment, and
+BUILD  it. It should compile without errors, using any version of Borland C++.
+   Run GPSE.EXE at your dos prompt to test the compiled program. Don't use the
+tiny memory model when compiling, it will lead to problems. Use one of the
+bigger models. To assist in tracing problems which may arise, some details
+of my machine follow: it's a 386-DX-33 with 387, 4Mb RAM and an American
+Megatrends Bios, dated  1990, running DOS 5.00. More details, including
+author names and addresses, appear in GPSE.C  -  please take a look at this
+file. The source code has been extensively commented in the hope that this
+will make it easier for you to use and modify the program.
+
+
+About the GPSE.EXE file  (How to `get started' info.)
+-----------------------
+
+The EXE file has been included so that the demo can be run immediately, and
+also in case you have problems compiling the source code.
+  There are two sets of demo data in the package: use each set separately,
+don't mix them up (during processing). The data were recorded at different
+times and it would make no sense to difference files from different sets.
+Here is a short summary of the data files:
+
+SET1:     xx.92o             Leica base unit observation file
+          xx.92n                 "           nav file
+          yy.92o             Leica roving unit obs file
+          yy.92n                 "             nav file
+
+
+SET2:     base.93n           Leica base unit, nav file
+          base.93o           Leica base unit, obs file
+          bill.93n           Garmin roving unit, nav file borrowed from above.
+          bill.93o           Garmin roving unit, obs file.
+
+
+When you run GPSE, the results will appear on the screen, as well as be
+written to a file in which the last character of the extension is F. You
+will notice a result file where the last character of the extension is an M.
+This is a marker file which is used by a Matlab analysis program, and it can
+safely be deleted. The important file is the result file, containing an F
+in its extension.
+
+
+Description of files:
+--------------------
+
+You should have received the following files in this package (file
+sizes are approximate, and may have changed):
+
+
+      File Name         Size        Description
+      ---------         ----        -----------
+
+     README              5836       (THIS FILE): `get started'
+     GNU      DOC       12735       GNU Public License text
+     GPSE     C         33196       Main source file; author details
+     LEICA_G1 C         94319       Included source file
+     LEICA_G2 C         68208             "
+     LEICA_H  C           617             "
+     LEICA_R  C          8864             "
+     LEICA_U  C         26974             "
+     LEICA_V  C         11102             "
+     LEICTEST C         16422             "
+
+     GPSE     EXE      111828       `Ready to run' EXE for demo data
+     XX       92N       19678       First set of demo data
+     YY       92N       33286             "
+     XX       92O      170223             "
+     YY       92O       47667             "
+     BASE     93N       26806       Second set of demo data
+     BILL     93N       26806             "
+     BASE     93O       64048             "
+     BILL     93O       81457             "
+     ALICE                 36       Auxiliary file (for diff mode)
+
+
+===========================================================================
+
+Gary Agnew,                    agnew@odie.ee.wits.ac.za               
+5 April 1994.                  
+                               G D Agnew
+                               P O Box 118
+                               Wits, 2050
+                               Johannesburg
+                               South Africa
+
+          
+===========================================================================
+
+
+
+
+

@@ -1,0 +1,10 @@
+TCHK is a Turboc C library compiled with Turbo C 2.0 sporting over
+350 functions. Some of these functions are:
+
+- litebar and popup style menus            - mouse info and control
+- keyboard input and video output/control  - DOS disk and file functions
+- date, time and string manipulations      - math and financial functions
+- hardware and software identification     - printer control functions
+- multi-tasking functions                  - joystick functions
+- and more
+Check out TCHK today. You won't be disappointed.    -Howard Kapustein

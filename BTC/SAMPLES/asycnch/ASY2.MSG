@@ -1,0 +1,19 @@
+From: resnicks@netcom.COM (Steve Resnick)
+Newsgroups: comp.os.msdos.programmer,alt.msdos.programmer
+Subject: Serial Code. Need it? Read This. (Updated)
+Date: 1 Jul 91 22:44:22 GMT
+
+For those who didn't like my (improper) copyright notice, here's a new
+version of asynch.shar - This code is licensed for personal or educational
+use, commercial use is restricted to registered users. For registration,
+contact me at the above address.
+
+--
+-------------------------------------------------------------------------------
+        resnicks@netcom.com, steve@camphq, IFNA:        1:143/105.0,
+                 co moderator for comp.binaries.os2
+ Real life: Steve Resnick. Chief Software Architect, Process Scientific, Inc
+ Flames, grammar and spelling errors >/dev/null
+ The Asylum OS/2 BBS - (408)263-8017 12/2400,8,1 - Running Maximus CBCS 1.2
+-------------------------------------------------------------------------------
+

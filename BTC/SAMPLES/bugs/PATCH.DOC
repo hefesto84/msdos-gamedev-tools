@@ -1,0 +1,72 @@
+PATCH.COM
+
+Syntax: patch [-u] dif_file prog_file [out_file]
+
+PATCH.COM reads the text from dif_file and applies the patch to prog_file.
+The diff file is relatively free format. Any number of spaces or tabs can
+appear between two values, and any number of spaces, tabs, and blank lines
+can appear between lines.  The file consists of zero or more pairs of lines
+in the following format:
+
+   offset: newbyte [newbyte ...]
+           oldbyte [oldbyte ...]
+
+All values are represented in the file using hexidecimal digits.  The value
+of offset can range from 0 to 7FFFFFFF hex.  The values of new and old bytes
+can range from 0 to FF hex.
+
+Comments can be inserted in the file by starting a new line with
+a semicolon (;).
+
+----------------------------------- Example --------------------------------
+; Example patch file
+    6:  88
+        85
+ 1DEE:  74 1A 52 7F FF 77 00
+        73 00 1A 52 7F ff 77
+; notice the free format
+03636: 053 08  5B     19 71 8  5B    19
+
+00 00   00 00 00 00  00 0
+----------------------------------------------------------------------------
+
+As you can see from the first two pairs, the diff file is more readable when
+formatted nicely.  But, you can be pretty flexible as shown in the third
+pair of lines.  Note: The first line of each pair contains the new byte values
+while the second line contains the old byte values.
+
+When applying a patch, PATCH.COM makes a first pass to check that all bytes
+in the file which will be changed, currently match the old values which are
+defined in dif_file.  If they don't, an error message is printed and the
+patch is not applied.  If they do match, all the corresponding bytes are
+changed to their new values.  If any error occurs during this second step,
+it is most likely an out of disk space error.  During the update, a backup
+copy of your original file (.BAK) is kept.  This means you need twice as
+much disk space if your input and output files are on the same disk drive.
+In case of an error, the temporary file is usually deleted and the .BAK file
+is renamed back to the original name.  If something else goes wrong, like a
+power outage, you should still have your original file on the disk with a
+.BAK extension.
+
+After the patch is completed:
+  If the output file is the same as the input file, the .BAK file is deleted.
+  If the output file is different than the input file, the .BAK file is
+  renamed back to its original name.
+
+The -u option cause PATCH.COM to undo the patch defined in dif_file.  In this
+case, it checks that all the bytes to be modified match the new byte values
+on the first line of each pair.  It then changes the corresponding bytes to
+the old byte values defined on the second line of each pair.
+
+The last parameter (out_file) is optional.  If defined, the patched version
+of the original file will be saved under the name specified by out_file, and
+the original file will be left intact.  If it is not specified, the patched
+version of the file will have the same name as the original version of the
+file, and the original version of the file will be lost.
+
+Note:  Because PATCH.COM checks the old values of each byte to be patched,
+two or more patches which affect the same byte must be applied in order.
+Also, because of the fixed offsets defined in dif_file, the same dif_file will
+probably not be usable with multiple versions of the program file being
+patched.
+

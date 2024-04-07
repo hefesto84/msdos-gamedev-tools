@@ -1,0 +1,64 @@
+
+
+                           RIE - Rimrock Icon Editor
+                           -------------------------
+
+                                 Version 1.04
+                                --------------
+
+                           P A C K I N G    L I S T
+                          --------------------------
+
+
+    The complete RIE shareware evaluation package should contain the following 
+    files.  Please ensure that each file is present.  If any of these files 
+    are missing then the package is not complete and is not suitable for 
+    distribution to others.  The complete package may be obtained directly 
+    from Rimrock Software. 
+
+              File Name:                Purpose of File:
+             ------------   ---------------------------------------------------
+
+             PACKING.LST    This text file.
+
+             RIE.EXE        The Rimrock Icon Editor program.
+
+             RIE.DOC        Complete Rimrock Icon Editor User Manual
+
+             ORDER.FRM      Order form and licensing information.
+
+             PROBLEM.DOC    Fill out and send in to report problems.
+
+             VENDOR.DOC     Information and restrictions for disk vendors,
+                            distributors, user groups, and more.
+
+             SYSOP.DOC      Information and restrictions for Bulletin Board 
+                            System distribution. 
+
+             DESCRIBE.DOC   Sample descriptions for catalogs, BBSs, etc.
+
+             WARRANTY.DOC   Important warranty information
+
+             EXAMPLE.BAT    Uses a sample text file, the included icons and 
+                            ICONLOAD to show how icons can be displayed on a 
+                            VGA.
+
+             ICONLOAD.C     Source code for icon loading example.
+
+             ICONLOAD.EXE   Example of loading icons to the VGA.  See the 
+                            source code for an explanation.
+
+             SAMPLE.TXT     Sample text for EXAMPLE.BAT.
+
+             INFO.C         Sample icon produced by RIE.
+
+             INFO4.C        Sample icon produced by RIE.
+
+             QUERY3.C       Sample icon produced by RIE.
+
+             DIALOG.C       Sample icon produced by RIE.
+
+             WARN.C         Sample icon produced by RIE.
+
+             WARN2.C        Sample icon produced by RIE.
+

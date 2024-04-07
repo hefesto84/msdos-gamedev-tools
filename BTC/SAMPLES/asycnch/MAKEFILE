@@ -1,0 +1,19 @@
+
+!if $d(DEBUG)
+objs=asynch.obj circleq.obj test.obj
+cargs=-ms -v -DDEBUG=1
+
+test.exe: $(objs)
+	cc $(cargs) -etest.exe $(objs)
+!else
+objs=asynch.obj circleq.obj main.obj
+cargs=-ms -v
+
+term.exe: $(objs)
+	cc $(cargs) -eterm.exe $(objs)
+!endif
+
+.c.obj:
+	cc -c $(cargs) $<
+
+

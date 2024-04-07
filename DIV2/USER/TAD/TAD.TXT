@@ -1,0 +1,90 @@
+    Librer¡a de soporte para Tipos Abstractos de Datos TAD.DLL
+    ==========================================================
+
+http://www.columbus-digital.com/barroso/emda.htm
+Miguel Adolfo Barroso Mu¤oz (barroso@columbus-digital.com)
+(R) Todos los derechos reservados
+
+TERMINOS DE LA LICENCIA
+* Este c¢digo fuente, y los ficheros necesarios para su uso, son  
+freeware, no pudi‚ndose cobrar por su uso, copia ni distribuci¢n.
+* El autor no se hace responsable de las p‚rdidas o da¤os que se 
+puedan producir con el uso de este programa.
+* Todos y cada uno de los ficheros deben ser distribuidos integra 
+e  inseparablemente de forma gratuita.
+* Este c¢digo fuente, y dem s ficheros necesarios para su uso, se 
+distribuyen con fines educativos. Son susceptibles a 
+modificaciones  y no es necesario el pago por su empleo.
+* Toda modificaci¢n del c¢digo, y dem s ficheros necesarios, est n 
+permitidos siempre que:
+        - Forme parte de investigaci¢n y/o aprendizaje
+        - El c¢digo sea reutilizado para la elaboraci¢n de otros
+        programas, tanto en cuanto, no sea plagio
+* El archivo TAD.DLL puede ser distribuido gratuitamente junto a 
+cualquier programa compilado y realizado en DIV que lo use. En 
+este caso, el resto de archivos de este paquete no necesariamente 
+deben acompa¤arlo.
+
+ARCHIVOS
+	tad.txt		 3.243 bytes	documento explicativo
+	tad.prg		 3.666 bytes	fichero de demostraci¢n
+	tad.dll		20.480 bytes	librer¡a TAD 
+
+FUNCIONES
+* TAD_VERSION
+	Sintaxis: 
+		version = tad_version();
+	Devuelve la versi¢n actual de TAD. 'version' valdr  100 para 
+la versi¢n 1.00
+* CREA_COLA
+	Sintaxis: 
+		cola = crea_cola();
+	Crea una estructura de tipo COLA y devuelve su id. 'cola' 
+contendr  el id de la Cola.
+* ACOLA
+	Sintaxis: 
+		acola(cola, dato);
+	Introduce un nuevo elemento a la cola indicada. 'cola' debe 
+ser el id de la Cola y 'dato' el dato a acolar.
+* DESACOLA
+	Sintaxis: 
+		dato = desacola(cola);
+	Extrae elemento de la cola indicada. 'cola' debe ser el id 
+de la Cola y 'dato' contendr  el dato extra¡do.
+* DESTRUYE_COLA
+	Sintaxis: 
+		 destruye_cola(cola);
+	Destruye la cola indicada, eliminando su contenido si no 
+estaba vac¡a, liberando memoria. 'cola' debe ser el id de la Cola.
+* CREA_PILA
+	Sintaxis: 
+		 pila = crea_pila();
+	Crea una estructura de tipo PILA y devuelve su id. 'pila' 
+contendr  el id de la Pila.
+* APILA
+	Sintaxis: 
+		 apila(pila, dato);
+	Introduce un nuevo elemento a la pila indicada. 'pila' debe 
+ser el id de la Pila y 'dato' el dato a apilar.
+* DESAPILA
+	Sintaxis: 
+		 dato = desapila(pila);
+	Extrae elemento de la pila indicada. 'pila' debe ser el id 
+de la Pila y 'dato' contendr  el dato extra¡do.
+* DESTRUYE_PILA
+	Sintaxis: 
+		 destruye_pila(pila);
+	Destruye la pila indicada, eliminando su contenido si no 
+estaba vac¡a, liberando memoria. 'pila' debe ser el id de la Pila.
+
+NOTAS DE INTERES
+* Cada dato introducido en una Pila o Cola reduce el tama¤o de 
+memoria disponible. Cada vez que se extrae un dato de una Pila o 
+Cola se libera memoria.
+* No debe ocurrir nada si se intenta extraer datos de una Pila o 
+cola vac¡a, pero debe evitarse a toda costa.
+
+EN BREVE
+* Lista Gen‚rica
+* Lista Circular
+

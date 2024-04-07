@@ -1,0 +1,156 @@
+              CONDITIONAL, SWITCH, BREAK and OTHER STATEMENTS.
+              ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+There are four conditional statements in C, namely:
+
+     The if....else statement    and three loop constructs:
+
+     The while loop
+     The for loop
+     The do...while loop
+
+All are based on the Boolean logic of true (1) or false (0).
+
+
+The if...else statement.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+The generic format of this statement is:
+
+         if(value)
+            statement1;
+         else
+            statement2;
+
+where 'value' is any expression that resolves to an integer value.  If
+'value' is nonzero (true) then statement1 is executed, otherwise statement2
+is executed.
+
+In some cases the alternative is not relevant and thus the 'else' and
+'statement2' can be omitted, so that if value = 0 (false), then no
+statement is executed.
+
+Statement1 and statement2 can be replaced by a compound statement, which
+consists of
+              a left brace ( { )
+              a number of statements, each ending with a semicolon.
+              a right brace ( } )
+
+The if statement is illustrated in the programs KEYCHECK.C and the
+associated LIMITKEY.H and in STRUCTUR.C, whilst the if...else
+statement is used in the programs BINTREE.C and TWOLINKS.C
+
+
+The while loop.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+The while loop is the most general loop and can replace the other two,
+which are provided only for convenience. The format is:
+
+         while (expression)
+            statement;
+
+where expression resolves to a zero or nonzero value and statement is
+either a single or compound statement.  The expression is evaluated and if
+true the statement is executed and the process repeated until expression
+false.
+
+The for loop.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄ
+The for loop is available in most programming languages, but in C it is
+very flexible and very powerful.  This for loop allows execution of a set
+of statements some fixed number of times while a variable, known as the
+index variable, steps through a range of values.
+
+The generic format of the for loop statement is:
+
+         for (exp1; exp2; exp3)
+            statement;
+
+where  exp1  is usually an assignment to the index variable
+       exp2  is a test for loop continuation
+       exp3  is usually some modification of the index variable
+  and  statement can be a compound statement.
+
+Examples of for loops can be found in many of the demonstration programs,
+including the simple program EXAMPLE.C and also on pages 175-6 of the
+User's Guide (version 2.0).
+
+
+The do...while loop.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+The generic format of the do...while loop is:
+
+         do statement while (exp);
+
+This is different from the while loop because the statements in the
+do...while loop always execute at least once.
+
+There is some similarity with the repeat...until loop of Turbo Pascal,
+except that the repeat loop executes until its condition is true, whereas
+the do...while loop executes while its condition is true.
+
+
+The switch statement.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Repeated if..else if..else if.. constructs can be replaced by the switch
+statement, which has the format:
+
+         switch (expression)  {
+            case const-expr:  statements;
+            case const-expr:  statements;
+            ...
+            default:  statements;
+         }
+
+Each case is labeled by one or more integer-valued constants or constant
+expressions.  If a case matches the expression value, execution starts at
+that case.  The case labeled 'default' is executed if none of the other
+cases are satisfied, but if default is not present then no statement is
+executed.
+
+Because cases serve as labels only, execution falls through to the next
+case unless explicit action to escape is taken.  Break and return are the
+most common ways to leave a switch and must be used unless it is required
+to deliberately proceed to the statements of the next case.
+
+
+The break statement.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+The break statement can be used with all three loop statements and with the
+switch statement, but not with the if...else statement.  It permits the
+quick and easy exit from a loop, before the end is reached and the exit
+from a switch statement.
+
+
+The return statement.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+There are two major uses of the return statement.  First, if a function
+returns a value, then return must be used to pass the value back to the
+calling routine. The following simple example ilustrates this:
+
+    int   imax(int a, int b);
+    {
+       if (a > b)
+           return(a);
+       else
+           return(b);
+
+The second usage is to exit a function at some other point than its end, as
+when a condition is detected that requires termination. If the function is
+of type 'void' then return can be used on its own without a value passed
+back. An example in the middle of a function might be:
+
+         ...
+         if (size <=0)
+             return(-1);
+             ...
+
+
+The continue statement.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Sometimes it is necessary to skip the rest of a loop and start again at the
+top. The continue statement allows this. See page 201 of the User's Guide.
+
+
+IF&LOOPS.TXT
+30.1.91
+

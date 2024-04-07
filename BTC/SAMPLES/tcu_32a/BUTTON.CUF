@@ -1,0 +1,15 @@
+COLOUR = White/Blue
+INPUT  = Yellow/Cyan
+TCOLOUR = White/Blue
+
+TYPE   = SINGLE
+SIZE   = 25,7
+
+Title = "Button Test"
+
+TEXT   = @1,2; "Filename:"
+
+FIELD  = @11,2; Name=Filename; String(12); Value="NONAME.DAT"
+
+FIELD  = @5,4; Name=Quit; Colour=LightRed/Cyan; Button="Quit"
+FIELD  = @12,4; Name=Accept; Colour=LightGreen/Cyan; Button="Accept"

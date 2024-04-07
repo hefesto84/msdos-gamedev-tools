@@ -1,0 +1,495 @@
+
+	This document is very slim, but it's better than nothing.
+	Better docs next time.
+
+	This package was written with TURBOC v1.5, and will work with v1.5
+	or v2.0.
+
+	This package is made up of 22 function calls, offering simple calls
+	to handle popup windows. A large range of special parameters may be
+	easily handled such as exploding windows, shrinking windows, sound
+	effects, colors, 5 differant border styles, 9 differant shadow styles
+	and more. Status parameters are also easily obtained such as total and
+	remaing buffer space, total and remaining windows, current window id,
+	height, and width, as well as version number, current explode, shrink
+	and sound effects values.
+		The next release will implement the ability to pop (move) buried
+	windows to top screen level.
+
+
+
+	Kevin Murphy (sysop)
+	Murphy's Remote
+	Los Altos, CA.
+	(415) 949-1072
+	2400/1200/300bps
+	24 hrs/7 days
+
+
+ 	---------------------------------------------------------------------------
+	parameter definitions
+    ---------------------------------------------------------------------------
+
+	int mode		- mode selects the text mode for the popup windows, this
+					  parameter is supplied only to the init_popup() function.
+
+					  Where valid values are: (defined in conio.h)
+                            			BW40 	(0)  = Black & White 40 by 25.
+                            			C40     (1)  = Color 40 by 25.
+                            			BW80    (2)  = Black & White 80 by 25.
+                            			C80     (3)  = Color 80 by 25.
+                            			MONO    (7)  = Monochrome 80 by 25.
+
+	int left  		- left supplies the windows left edge screen coordinate.
+
+					  Where 1 through 79 are valid values.
+
+	int top			- top supplies the windows top edge screen coordinate.
+
+					  Where 1 through 24 are valid values.
+
+	int right   	- right supplies the windows right edge screen coordinate.
+
+					  Where 2 through 80 are valid values.
+
+	int bottom		- bottom is the windows bottom edge screen coordinate.
+
+					  Where 2 through 25 are valid values.
+
+	int foreground 	- foreground supplies the windows text color attribute.
+
+					  Where valid values are: (defined in conio.h)
+												BLACK			(0)
+												BLUE			(1)
+												GREEN			(2)
+												CYAN			(3)
+												RED				(4)
+												MAGENTA			(5)
+												BROWN			(6)
+												LIGHTGRAY		(7)
+												DARKGRAY		(8)
+												LIGHTBLUE		(9)
+												LIGHTGREEN		(10)
+												LIGHTCYAN		(11)
+												LIGHTRED		(12)
+												LIGHTMAGENTA	(13)
+												YELLOW			(14)
+												WHITE			(15)
+
+											Also BLINK 			(128)
+                                            may be added to the color.
+>>>
+
+    int background 	- background supplies the background color attribute.
+
+					  Where valid values are: (defined in conio.h)
+												BLACK			(0)
+												BLUE			(1)
+												GREEN			(2)
+												CYAN			(3)
+												RED				(4)
+												MAGENTA			(5)
+												BROWN			(6)
+												LIGHTGRAY		(7)
+
+    int border		- border supplies the windows border color attribute.
+
+					  Valid values are the same as 'foreground'.
+
+	int bordertype	- bordertype supplies the windows border style.
+
+					  Where valid values are: (defined in popups.h)
+												NO_BORDER    (0)
+												ONE_LINE     (1)
+												TWO_LINE     (2)
+												THIN_SOLID   (3)
+												THICK_SOLID  (4)
+
+			NO_BORDER		no border
+			ONE_LINE        single line box border, i.e. ÄÄÄÄÄ
+			TWO_LINE        double line box border, i.e. ÍÍÍÍÍ
+			THIN_SOLID      thin solid box border, i.e. ßßßßß
+			THICK_SOLID     thick solid box border, i.e. ÛÛÛÛÛ
+
+
+	int shadow_style - shadow_style defines the shadow type, and position.
+
+					  Where valid values are: (defined in popups.h)
+												NO_SHADOW 	(0)
+												TL_THIN 	(1)
+												TR_THIN 	(2)
+												BL_THIN 	(3)
+												BR_THIN 	(4)
+												TL_THICK    (6)
+												TR_THICK    (7)
+												BL_THICK    (8)
+												BR_THICK    (9)
+
+
+			NO_SHADOW   no shadow
+			TL_THIN 	thin shadow behind top and left edge
+			TR_THIN     thin shadow behind top and right edge
+			BL_THIN     thin shadow behind bottom and left edge
+			BR_THIN     thin shadow behind bottom and right edge
+			TL_THICK    thick shadow behind top and left edge
+			TR_THICK    thick shadow behind top and right edge
+			BL_THICK    thick shadow behind bottom and left edge
+			BR_THICK    thick shadow behind bottom and right edge
+>>>>
+    ---------------------------------------------------------------------------
+	init_popup
+    ---------------------------------------------------------------------------
+
+	Name	init_popup - save screen image, initialize popups variables,
+			and create the initial main screen.
+
+	Usage	init_popup(mode,left,top,right,bottom,foreground,background,
+					   border,bordertype);
+
+    Description:
+			Initializes all pointers and variables, save original screen
+			image in ram allowing for restoration of image at exit. Creates
+			the main screen (window 0).
+
+	return  [int] 0 (zero) if no errors encountered, else a -1 (ERROR) is
+			returned if init_popup() have been called previously, and not
+			been properly exited via uninit_popup() or abandon_popup().
+
+
+
+    ---------------------------------------------------------------------------
+	next_popup
+    ---------------------------------------------------------------------------
+
+	Name	next_popup - create a new window.
+
+	Usage	next_popup(mode,left,top,right,bottom,foreground,background,
+					   border,bordertype);
+
+    Description:
+			Opens/creates a new window based on the supplied parameters and
+			current state of switches.
+
+	return  [int] windows id number, or -1 (ERROR) if window request would
+			exceed the maximum number of windows, or if windows memory
+			requirements exceed the remaining buffer space.
+
+
+
+    ---------------------------------------------------------------------------
+	previous_popup
+    ---------------------------------------------------------------------------
+
+	Name	previous_popup - close current window and restore screen.
+
+	Usage	previous_popup()
+
+    Description:
+			Closes current window, restores screen image, and releases the
+			respective buffer space.
+
+	return  [int] windows id number, or -1 (ERROR) if current window id is
+			0 (zero), i.e. there is no window to close.
+>>>>
+    ---------------------------------------------------------------------------
+	uninit_popup
+    ---------------------------------------------------------------------------
+
+	Name	uninit_popup - restore original screen image, and mode.
+
+	Usage	uninit_popup();
+
+    Description:
+			Restore original screen image and mode, but only if current window
+			id is 0 (zero).
+
+	Return 	[int] -1 (ERROR) is returned if current window id is not 0 (zero)
+			or init_popup() has not been previously called.
+
+
+
+    ---------------------------------------------------------------------------
+	abandon_popup
+    ---------------------------------------------------------------------------
+
+	Name	abandon_popup - restore original screen image, and mode.
+
+	Usage	abandon_popup();
+
+    Description:
+			Restore original screen image and mode, regardless of the current
+			window id value/level.
+
+	Return 	[int] -1 (ERROR) is returned if init_popup() has not been called.
+
+
+
+    ---------------------------------------------------------------------------
+	version_pop
+    ---------------------------------------------------------------------------
+
+	Name	version_pop - returns the version number of 'popups'.
+
+	Usage	version_pop();
+
+    Description:
+			Returns the version number of 'popups'.
+
+	Return 	[int] whole version number, i.e. 101 represents version 1.01.
+>>>
+    ---------------------------------------------------------------------------
+	explode
+    ---------------------------------------------------------------------------
+
+	Name	explode - toggles exploding window parameter switch.
+
+	Usage	explode(toggle);
+				Where 'toggle' is ON (1), or OFF (0).
+
+    Description:
+			Toggles exploding window parameter switch. If switch is ON the
+			windows first appear very small, and then explode (expand) at
+			an incremental rate. If the switch is OFF, the windows appear
+			on the screen full size instantly.
+
+	Return 	none
+
+
+
+	---------------------------------------------------------------------------
+	explode_delay
+    ---------------------------------------------------------------------------
+
+	Name	explode_delay - sets or returns the delay for exploding windows.
+
+	Usage	explode_delay(unsigned int ex_delay);
+				Where 'ex_delay' is a value between 0 and 1024.
+
+    Description:
+			Sets or returns the incremental exploding window step delay in
+			milliseconds. A value of 0 (zero) will return the current delay
+			value. Any value higher than 0 (zero) will be accepted as the new
+			delay value.
+
+	Return 	[unsigned int] current value if entery value was 0 (zero).
+>>>>
+    ---------------------------------------------------------------------------
+	shrink
+    ---------------------------------------------------------------------------
+
+	Name	shrink - toggles the shrinking window parameter switch.
+
+	Usage	shrink(toggle);
+				Where 'toggle' is ON (1), or OFF (0).
+
+    Description:
+			Toggles shrinking window parameter switch. If switch is ON the
+			windows disappear (implode) from the screen at an incremental rate.
+			If the switch is OFF, the windows disappear instantly.
+
+	Return 	none
+
+
+	---------------------------------------------------------------------------
+	shrink_delay
+    ---------------------------------------------------------------------------
+
+	Name	shrink_delay - sets or returns the delay for shrinking windows.
+
+	Usage	shrink_delay(unsigned int sh_delay);
+				Where 'sh_delay' is a value between 0 and 1024.
+
+    Description:
+			Sets or returns the incremental shrinking window step delay in
+			milliseconds. A value of 0 (zero) will return the current delay
+			value. Any value higher than 0 (zero) will be accepted as the new
+			delay value.
+
+	Return 	[unsigned int] current value if entery value was 0 (zero).
+>>>>
+	---------------------------------------------------------------------------
+	noise
+    ---------------------------------------------------------------------------
+
+	Name	noise - toggles the window sound effects switch.
+
+	Usage	noise(toggle);
+				Where 'toggle' is ON (1), or OFF (0).
+
+    Description:
+			Toggles the window sound effects switch. If switch is ON the
+			windows are accompanied by sound. If the switch is OFF, no
+			sound is made.
+
+	Return 	none
+
+
+
+	---------------------------------------------------------------------------
+	noise_tone
+    ---------------------------------------------------------------------------
+
+	Name	noise_tone - sets or returns the base sound effects frequency.
+
+	Usage	noise_tone(unsigned int tone);
+				Where 'tone' is a value between 0x0000 and 0xffff.
+
+    Description:
+			Sets or returns the base sound effects frequency in Hz (Hertz).
+			(Hertz = cycles per second). The window sound effects will
+			reload this base value each time a window is opened or closed
+			if the sound effects are enabled.
+			> Also see noise_step().
+
+	Return 	[unsigned int] current value if entery value was 0 (zero).
+
+
+
+	---------------------------------------------------------------------------
+	noise_step
+    ---------------------------------------------------------------------------
+
+	Name	noise_step - sets or returns the sound effects frequency step.
+
+	Usage	noise_step(unsigned int tone);
+				Where 'tone' is a value between 0x0000 and 0xffff.
+
+    Description:
+			Sets or returns the sound effects frequency step in Hz (Hertz).
+			(Hertz = cycles per second). When the windows are in the shrinking
+			or exploding mode, the sound effects frequency is increased by
+			this value at the begining and end of each incremental size step.
+
+	Return 	[unsigned int] current value if entery value was 0 (zero).
+>>>>
+    ---------------------------------------------------------------------------
+	pop_max
+    ---------------------------------------------------------------------------
+
+	Name	pop_max - returns the maximum number of windows allowed.
+
+	Usage	pop_max();
+
+    Description:
+			Returns the maximum number of windows allowed, (controlled by
+			a constant value in source file).
+
+	Return 	[int] maximum windows.
+
+
+    ---------------------------------------------------------------------------
+	pop_left
+    ---------------------------------------------------------------------------
+
+	Name	pop_left - returns the remaining number of windows allowed.
+
+	Usage	pop_left();
+
+    Description:
+			Returns the remaining number of availible windows before exceeding
+			maximum allowed.
+
+	Return 	[int] remaing windows.
+
+
+    ---------------------------------------------------------------------------
+	buf_max
+    ---------------------------------------------------------------------------
+
+	Name	buf_max - returns the size of the windows memory buffer.
+
+	Usage	buf_max();
+
+    Description:
+			Returns the size of the windows memory buffer in bytes, (defined
+			by a constant value in source file).
+
+	Return 	[int] number of bytes in buffer.
+
+
+    ---------------------------------------------------------------------------
+	buf_left
+    ---------------------------------------------------------------------------
+
+	Name	buf_left - returns the remaining number of bytes in buffer.
+
+	Usage	buf_left();
+
+    Description:
+			Returns the remaining number of availible bytes in windows memory
+			buffer.
+
+	Return 	[int] remaing bytes in buffer.
+>>>
+    ---------------------------------------------------------------------------
+	high_popup
+    ---------------------------------------------------------------------------
+
+	Name	high_popup - returns the usable height of window.
+
+	Usage	high_popup();
+
+    Description:
+			Returns the usable height of current window in number of rows.
+
+	Return 	[int] number of rows.
+
+
+	---------------------------------------------------------------------------
+	wide_popup
+    ---------------------------------------------------------------------------
+
+	Name	wide_popup - returns the usable width of window.
+
+	Usage	wide_popup();
+
+    Description:
+			Returns the usable width of current window in number of columns.
+
+	Return 	[int] number of columns.
+
+
+	---------------------------------------------------------------------------
+	id_popup
+    ---------------------------------------------------------------------------
+
+	Name	id_popup - returns the current windows id number.
+
+	Usage	id_popup();
+
+    Description:
+			Returns the usable current windows id number.
+
+	Return 	[int] window id number.
+>>>
+	---------------------------------------------------------------------------
+	shadow_color
+    ---------------------------------------------------------------------------
+
+	Name	shadow_color - sets the color attribute of the windows shadow.
+
+	Usage	shadow_color(int foreground);
+
+    Description:
+			Sets the color attribute of the windows shadow.
+			> Also see shadow().
+
+	Return 	none
+
+
+	---------------------------------------------------------------------------
+	shadow
+    ---------------------------------------------------------------------------
+
+	Name	shadow - sets the style (if any) of the windows shadow.
+
+	Usage	shadow(int shadow_style);
+
+    Description:
+			Sets the style of the windows shadow.
+
+	Return 	none
+
+
+
+

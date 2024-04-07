@@ -1,0 +1,54 @@
+                    FILE TYPES.
+                    ßßßßßßßßßßß
+
+Files are described by up to 8 characters plus an extension name of up to
+3 characters. Whereas the file name is selected by the user, the extension
+name is frequently defined by the system in use. Some typical extension
+names relevant to MS-DOS and Turbo C are:
+
+.BAK  Backup source file - a resaved file automatically saves the
+      original as a .BAK file.
+
+.BAT  Batch file containing a sequence of MS-DOS command lines.
+      The AUTOEXEC.BAT file is automatically executed when the computer
+      is switched on, so that any required conditions are initialized.
+
+.BGI  Borland Graphics Interface files, which are the graphics device
+      drivers for the screen display.
+
+.C    A C source code file (not compiled).
+
+.COM  Compiled file, which is an executable file from MS-DOS.
+
+.EXE  Executable file from MS-DOS.
+
+.H    A header file, used in C to list the headers to previously prepared
+      functions, which are stored in library (.LIB) files.
+
+.HLP  Help file.
+
+.LIB  Library files for mathematical, graphical functions, etc.
+
+.MAP Contains information about the executable file, such as the list of the
+     segemnts in the program, the program start address and any warning or
+     error messages produced during the link.
+
+.OBJ  Object file for the binary machine instructions produced by the
+      compiler, before 'linking' with the library files to produce the
+      final executable (.EXE) file.
+
+.PCK  A list of the files previously being edited in the integrated
+      development environment, for recall by File/Pick option.
+
+.PRJ  A project file, containing the names of all files to be compiled and
+      linked, when there are multiple source files (as allowed in C).
+
+.SYS  System file used by MS-DOS.
+
+.TXT  Text file in ASCII format.
+
+Further details can be found in the MS-DOS manual.
+
+
+FILES.TXT
+30.8.90

@@ -1,0 +1,12 @@
+M=l
+
+LIBS=wn$(M).lib db$(M).lib tl$(M).lib net$(M).lib gm$(M).lib
+
+all		: demo1 demo2
+
+demo1	: demo1.exe
+demo2	: demo2.exe
+
+.c.exe
+	tcc -m$(M) $< $(LIBS)
+

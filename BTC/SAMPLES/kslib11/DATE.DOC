@@ -1,0 +1,17 @@
+Documentation for date functions
+--------------------------------
+Source file(s)	: date.c
+Include file(s)	: date.h
+Library			: tools.lib
+
+The date functions are designed to enable easy conversion between different
+date formats, calculation of such things as the Day-of-Week, access to
+descriptive strings for day names, month names, etc, and computation of the
+difference between two dates.
+
+===============================================================================
+
+
+
+===============================================================================
+

@@ -1,0 +1,234 @@
+Last minute notes for TCHK 2.1:
+
+  Just a couple of quick notes that didn't make it into the documentation.
+
+    - The file list in the documentation is not accurate. Refer to the
+      file PACKING.LST for the most up to date list of files
+
+    - TCHK 2.1 is distributed in 3 parts:
+
+            TCHK21.ZIP      - Documentation, Library, Header and Support files
+            TCHK21EX.ZIP    - Examples for TCHK 2.1 (source and executables)
+            TCHK21NG.ZIP    - Norton Guide for TCHK 2.1
+
+    - In addition to those benefits listed in the documentation,
+      registered users will also receive the source to the Norton Guide
+      for TCHK 2.1
+
+    - The file TCHKS.CFG is a configuration file for TCHK for the command
+      line compiler. Since the .TC format for 2.0 is not compatible with
+      the 1.5 version, TCHKS.CFG is included for your convenience. Note
+      that TCHKS.CFG was created with Borland's utility TCCONFIG.EXE
+      operating on TCHKS.TC. The resulting file had all -D options removed
+      from it (Compiler Defines). See the documentation for the data types
+      byte, word and bboolean for more information.
+
+    - TCHK 2.1 should work with Turbo C 1.5 as well as 2.0. The only
+      changes made from TC 1.5 to 2.0 were debugging and compiler/linker
+      speed. The actual libraries have not been changed (except for some
+      minor bug fixes). I have not personally tested this, but several
+      people have inquired and after telling them it should work I never
+      heard from them again. Borland did not change any object/library
+      file formats from 1.5 to 2.0, so everything should be kosher. Patches
+      for the 1.5 libraries still work with the 2.0 libraries, so TCHK
+      should be compatible also.
+
+    - Due to some problems with the mouse on my system, I have not been
+      able to fully test all the mouse functions. Fortunately, the demo
+      was compiled before any of these problems started appearing, so
+      it should be fine. However, due to an oversight on my part,
+      the mouse functions are not fully documented. Each individual
+      function is documented, but programming a mouse in general is not
+      explained to my satisfaction. Microsoft Press has recently released
+      a book about mouse programming which I recommend for you serious
+      rodent fans. For those of you without MS's book, see the end of this
+      file for some general explanations of how the mouse works. By the
+      next release the mouse functions will be expanded to provide greater
+      support, especially during text modes since dealing with the cells
+      per character is annoying.
+
+      Note that this is not intended as a mouse manual, but rather
+      a brief outline.
+
+    - A full blown demo of pretty much all the features of TCHK is in
+      the works, but is not yet ready for distribution and will not be
+      found with TCHK 2.1. See the examples provided in TCHK21EX.ZIP for
+      some smaller samples.
+
+    - Customized versions of TCHK for specialized applications can be
+      provided on request for a modest fee. Please contact me for further
+      information
+
+
+
+        Howard Kapustein
+
+        Author of TCHK
+
+
+
+
+
+MOUSE INTERFACE
+===============
+
+I. Screen Modes
+
+    The screen mode defines the number of pixels on the screen and the
+    types of objects that appear on the screen. The available screen
+    modes depend on the type of display adapter you have in your
+    computer. The following table lists these screen modes and adapters
+    that support them:
+                            Virtual                     
+            Display         Screen          Cell        Bits/Pixel
+    Mode    Adapter         (X x Y)         Size        (Graphics Modes)
+    --------------------------------------------------------------------
+     0      CGA,EGA,3270    640x200         16x8            --
+     1      CGA,EGA,3270    640x200         16x8            --
+     2      CGA,EGA,3270    640x200         8x8             --
+     3      CGA,EGA,3270    640x200         8x1             --
+     4      CGA,EGA,3270    640x200         2x1             2
+     5      CGA,EGA,3270    640x200         2x1             2
+     6      CGA,EGA,3270    640x200         1x1             1
+     7      MDA,EGA,3270    640x200         8x8             --
+     D      EGA             Not supported
+     E      EGA             640x200         1x1             1
+     F      EGA             640x350         1x1             1
+    *10     EGA             640x350         1x1             1
+     30     3270            720x350         1x1             1
+            Hercules        720x348         1x1             1
+
+    Mode values are hex (0x...)
+    3270 = IBM All Points Addressable Graphics Adapter (3270 PC)
+
+    The mouse software should support other video modes, but I only
+    have documentation for these modes. This is not intended to be a
+    mouse manual, just a brief outline.
+ 
+    * = Mouse will not display properly in this mode on an EGA card
+        with only 64K RAM; 128K RAM is needed
+
+II. Virtual Screen
+
+    The mouse operates on the computer's screen as if it were a virtual
+    screen. The "Virtual Screen" column in the table above gives the
+    number of horizontal and vertical virtual points for each supported
+    screen mode. Whenever INT 0x10 is called to change the screen mode,
+    the mouse software intercepts the call and determines which virtual
+    screen to use. The mouse software also reads the screen mode and
+    chooses the appropriate virtual screen whenever ismouse() is called
+    to reset default parameters values in the mouse software.
+ 
+    Regardless of the screen mode, the software uses a pair of virtual
+    screen coordinates to locate an object on the screen. Each pair of
+    coordinates defines a point on the virtual screen.
+
+    Many mouse functions take virtual screen coordinates as input, or
+    return them as output. Whenever you refer to a pixel or character in
+    a mouse function, make sure that the horizontal and vertical
+    coordinates are the correct values for the given screen mode. If you
+    supply an incorrect value, the function rounds the value down before
+    continuing. The mouse functions always return correct vlaues for the
+    given screen mode.
+
+    1. Graphics Modes 6, E, F, 10, 30 and Hercules
+
+        Each point in the virtual screen has a one-to-one correspondence
+        with each pixel on the screen. The full range of coordinates in
+        the "Virtual Screen" column is permitted.
+ 
+    2. Graphics Modes 4 and 5
+
+        The screen has half the number of pixels that it has in the
+        other graphics modes. To compensate, the mouse software uses
+        only even-numbered horizontal coordinates. This means that every
+        other point in the virtual screen corresponds to a pixel.
+
+    3. Text Modes 2,3 and 7
+
+        Each character is an 8- by 8-pixel group (see the "Cell Size"
+        column in the table above).
+
+        Because the mouse software cannot access individual pixels in a
+        character, it uses the coordinates of the pixel in the upper
+        left corner of the character for the character's location. Since
+        each character is an 8- by 8-pixel group, both the horizontal
+        and vertical coordinates are multiples of 8. On a standard 80
+        column by 25 line screen, the virtual coorindates will range
+        from 0,0 (upper left corner) to 632,192 (lower right corner).
+
+    4. Text Modes 0 and 1
+
+        Each character is a 16- by 8-pixel group (see the "Cell Size"
+        column in the table above). See II.3. ("Text Modes 2,3 and 7")
+        for more details.
+
+III. Graphics Cursor "Hot Spot"
+
+    Whenever a mouse functions refers to the graphics cursor location,
+    it gives the point on the virtual screen that lies directly under
+    the cursor's "hot spot". The hot spot is the point in the cursor
+    block that the mouse software uses to determine the cursor
+    coordinates. The coorindates can be within the range -16 to 16;
+    however, in modes 4 and 5, the horizontal coordinate must be an even
+    number. In all graphics modes, the coordinates are relative to the
+    upper left corner of the cursor block.
+
+IV. Software Text Cursor
+
+    Using MCursorText() the cursor in text modes can be changed. If the
+    software cursor is used, the 16 bits of screen data are illustrated
+    below:
+
+      bit ³ 15 ³ 14      12 ³ 11 ³ 10       8 ³ 7        0 ³
+          ÃÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄ´
+          ³ b  ³ background ³ i  ³ foreground ³ character  ³
+          ÀÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+        b           = blink
+        background  = background color
+        i           = intensity
+        foreground  = foreground color
+        character   = ASCII character
+
+    The high order byte is the attribute and the low order byte is the
+    ASCII character.
+
+    The screen data is ANDed with the screen mask (parm1) and then XORed
+    with the cursor mask (parm2). See the MCursorText() call in
+    DEMOMOUS.C for an example.
+ 
+    The text cursor does not have a hot spot.
+
+V. Mouse Unit of Distance: The Mickey
+
+    The mouse unit of distance is called a mickey, which is
+    approximately 1/200 of an inch.
+
+    The number of pixels that the cursor moves does not have to
+    correspond one-to-one with the number of mickeys the track ball
+    rolls.
+
+VI. Internal Cursor Flag
+
+    The mouse software maintains an internal flag that determines when
+    the cursor should be displayed on the screen. The value of this flag
+    is always 0 or less.
+
+        - When the flag is 0, the cursor is displayed
+        - When the flag is any other value, the cursor is hidden
+
+    Application programs cannot access this flag directly. To change the
+    flag's value, the program must call MCursorOn() and MCursorOff(),
+    which increment and decrement the flag, respectively.
+ 
+    Calling ismouse() resets the flag to -1 and hides the cursor.
+
+    Your program can call either MCursorOn() or MCursorOff() any number
+    of times, but if it calls MCursorOff() it must call MCursorOn()
+    later on to restore the flag's previous value. For example, if the
+    cursor is visible and your program calls MCursorOff() five times,
+    you must call MCursorOn() five times for it to be visible again.
+
+
+- fini -

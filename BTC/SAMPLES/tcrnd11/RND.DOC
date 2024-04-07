@@ -1,0 +1,79 @@
+
+TCRND by Mark Adler  Pasadena, CA  1987, 1988.
+
+RND.ASM is a set of Turbo C subroutines written in assembler to generate
+random numbers of high quality at high speed for scientific use.
+Include RND.H in any C program that will use the routines.  The
+documentation in the source file (RND.ASM) is duplicated here:
+
+This module provides two different random number generators, both
+augmented by shuffling.  The two methods are linear conguential and
+additive generation.  Both run at approximately the same speed.  The
+reason for having two is to allow switching between them to check the
+sensitivity of the simulation to the random number generation method.
+The routines are:
+
+void setseed(s)  - Set the seed to the 32 bit value 's' and initialize
+long s;            the tables for the additive generator and shuffling.
+                   Also sets the method to linear congruential.
+
+long seed()      - Return the current linear congruential seed.
+
+long ticks()     - Return the current tick count (IBM PC compatibles).
+
+long rndmize()   - Same as setseed(ticks()) and returns the seed used.
+
+void rndpick(f)  - Select the random number generator method to be used.
+int f;             f=0 picks linear congruential, f=1 picks additive.
+
+long lrnd()      - Return a 32 bit random number.
+
+int rnd(n)       - Return a random number between 0 and n, inclusive.
+int n;             (n is a 16 bit integer greater than 0.)
+
+double drnd()    - Return a random floating point number in [0..1].
+
+void shuffle(a, n) - Shuffle the (16 bit) integer array 'a' with 'n'
+int a[], n;          entries.  (Unrelated to the shuffling used in the
+                     random number generation.)
+
+The expected use is to call either rndmize() or setseed() to set the
+seed and initialize the tables, then call rndpick() to select the
+generation method, and then any combination of lrnd()'s, rnd()'s,
+drnd()'s, and shuffle()'s.  rndpick() should not be used in the middle
+of the simulation to try to get a "more random" sequence.  The same
+method should be used throughout, but the method can be switched between
+runs and the results compared to see if they have any dependence on the
+random number generators themselves.
+
+The drnd() routine assumes the presence of an 80X87, but does not check
+for it.
+
+These routines should be easily customizable for use with other
+compilers.
+
+.OBJ files are provided for all the memory models in the form RND_x.OBJ,
+where x is S, C, M, L, or H for small (or tiny), compact, medium, large,
+and huge.
+
+Also a batch file, RND.BAT, is provided to assemble RND.ASM (which
+requires TASM 1.0) for each model and appends it to the appropriate
+Turbo C library.  This eliminates the need for project or make files for
+small programs that use the routines.
+
+See the source file for instructions on assembling and adding the result
+to the C libraries.  A set of macros necessary for assembling RND.ASM is
+provided.  They allow model independent assembler code to be written and
+then assembled for particular models.  Look at RND.ASM for examples on
+how to use it.  All the macro names start with an "@".
+
+Feel free to send any problems with or comments on TCRND to:
+
+        Mark Adler
+        P.O. Box 60998
+        Pasadena, CA  91106
+
+        bitnet: madler@hamlet
+        arpa:   madler@hamlet.caltech.edu
+
+

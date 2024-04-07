@@ -1,0 +1,44 @@
+! BIOS interrupt 33h function list.
+! Reference: MS-DOS Extensions Quick Reference Guide by Ray Duncan
+! Microsoft Press  ISBN #1-55615-212-4
+!
+33 Mouse Services
+!
+00 reset & get status
+01 show pointer
+02 hide pointer
+03 get pos & buttons
+04 set pointer pos
+05 get button press 
+06 get button release
+07 set horiz limits
+08 set vert limits
+09 set graph pointer
+0A set text pointer
+0B read motion count
+0C set event handler
+0D read graphic pixel
+0E light pen emul on
+0F set mickeys/pixel
+10 set exclusion area
+13 set dbl speed thresh
+14 swap event handlers
+15 get buffer size
+16 save driver state
+17 restore driver state
+18 set alt event handlr
+19 get alt event addr
+1A set sensitivity
+1B get sensitivity
+1C set interrupt rate
+1D sel pointer page
+1E get pointer page
+1F disable driver
+20 enable driver
+21 reset driver
+22 set language
+23 get language
+24 get info
+!
+! end of int 33h function list
+

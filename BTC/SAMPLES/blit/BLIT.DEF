@@ -1,0 +1,17 @@
+rect	struc
+left	dw	?
+top	dw	?
+right	dw	?
+bot	dw	?
+rect	ends
+
+bitmap	struc
+bounds	db	(size rect) dup(?)
+bytes	dw	?
+pntr	dd	?
+bitmap	ends
+
+segoff	struc
+offs	dw	?
+segm	dw	?
+segoff	ends

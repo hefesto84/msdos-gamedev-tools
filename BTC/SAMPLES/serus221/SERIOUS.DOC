@@ -1,0 +1,445 @@
+
+                                                                   page 1
+
+
+
+
+
+              ----------- SERIOUS Users Guide -----------
+
+
+
+
+
+
+
+
+
+
+       SERIOUS version 2.21 -- serial communications device driver
+       Copyright (c) 1989,1990 by  Norman J. Goldstein
+                                   132 Powell Street
+                                   Vancouver BC
+                                   Canada  V6A 1G1
+
+
+
+
+
+
+
+
+
+
+       This software is distributed under the Shareware concept.
+
+       - You are encouraged to copy and distribute the file  SERUS221.ZIP ;
+         in its original, unmodified form only.
+
+       - No fee is to be charged for the software, other than the actual
+         cost of copying and distribution.
+
+       - If you end up using  SERIOUS , on other than an evaluation basis,
+         you are obliged to send in a registration fee to the copyright owner.
+         The last section of this document has details on this.
+
+       The copyright owner is not liable for damages of any kind resulting
+       from the use of this software.
+
+                                                                   page 2
+
+
+
+
+
+
+                       Contents
+
+
+
+       Section                                  Page
+
+          1     Introduction                      3
+
+          2     How  SERIOUS  works               3
+
+          3     Function specifications           4
+
+          4     Obtaining the entry address       7
+
+          5     The inner workings                8
+
+          6     Revisions (future and past)       8
+
+          7     Registration                      9
+
+
+
+                                                                   page 3
+
+       Section 1 -- Introduction
+
+       SERIOUS is a device driver for the serial port of the IBM PC and
+       compatible computers.  It is not a communications program.  It
+       does provide the tools to write your own communications program.
+       There are, of course,  BIOS and DOS routines for serial com-
+       munications, but these are weak, and are not used in serious
+       programs.  The  SERIOUS  device driver is intended to fill this
+       gap.
+
+
+       Section 2 -- How  SERIOUS  works.
+
+       The program is a DOS installable device driver.  The syntax for its
+       entry in the config.sys file is
+
+       device=serious.sys  [name]  [ord]
+
+       The 2 parameters  name  and  ord  are optional, and may be placed
+       in any order, separated by at least 1 space.
+
+       name -- This is the file name by which DOS will recognize the
+               installed driver.  The default name is  SERIOUS0 . The 1st
+               character must not be a digit.  Otherwise, the usual DOS
+               file naming conventions apply; in particular, the name must
+               be at most 8 characters.
+
+       ord -- The driver may be configured to contain a buffer in
+              which to place incoming characters.  The default is that
+              there be no such buffer.  If  ord  is a number between
+              1 and 16 , then the driver will contain such a buffer.
+              Function 0 (open) of section 3  explains how users may
+              supply their own buffer for the driver to use.
+
+              The buffer has length  2  to the power of the order.  The
+              highest allowable order is  16 , which would give the buffer
+              the size of a complete segment -- 64K bytes. The smallest
+              allowable order is  1 , creating a meagre  2  byte buffer.
+
+              Two advantages to creating and using a default buffer within
+              the driver are 1) Less work to later open and use the driver,
+              and 2) The buffer remains in RAM even if the application
+              program is terminated; this is a convenient way for the driver
+              to be reaccessed without any incoming characters having been
+              lost, assuming that the terminated program did not close
+              the driver.
+
+              The disadvantage to creating a default buffer within the
+              driver is that it may not be deallocated.  The driver
+              code occupies less than  1300  bytes in RAM; having a 2K
+              buffer would more than double the RAM being used.
+
+
+       The driver contains 5 functions, which may be accessed by the
+       applications program.  They are described in the next section.
+
+
+                                                                   page 4
+
+       Section 3 -- Function specifications
+
+       The functions are accessed by the application filling CPU registers
+       with appropriate values, and then performing a far call to the
+       entry address of  SERIOUS .  The way to obtain the entry address
+       is explained in section 4 .  Examples are in the file  serface.c ,
+       which contains routines for interfacing with  Turbo C .  These
+       examples also illustrate how to construct an assembler interface
+       to  SERIOUS .  The file  serdemo.c  is a Turbo C example of an
+       application using the interface routines of  serface.c  ; it is a
+       dumb terminal.
+
+       Every function has the following in common.
+
+       Input:   bx = function number.
+
+       Returns  bx = error code.
+                A value of  0  indicates no error.
+
+       The file  serface.h  defines the numeric values of
+       all the error codes.
+
+       ------------------------------------------------------------------
+       Function 0: Open
+
+       Purpose: Inform the driver of the user's configuration, and set up
+                the hardware interrupt routines.
+
+       Input:   bx = 0 .
+                ax = base port number of the serial chip.
+                ch = interrupt request number (IRQ) of the serial chip.
+
+                cl = order of the user supplied input buffer.
+                es = segment of the user supplied input buffer.
+                di = offset of the user supplied input buffer.
+
+          The 'order' and purpose of the input buffer is described in
+          section 2 . A reasonable order is  10 , for a buffer of  1K .
+          At  1200 baud, a continuous input stream from the serial port would
+          fill up a  1K  buffer in about 10 seconds.  A special case is
+          entering a value of  0  for the order.  This informs the driver to
+          use the default buffer, which is contained within the driver.  The
+          size of this default buffer is determined at installation as a
+          command paramater in the config.sys file, as explained in section 2 .
+
+          If  port  is specified as  0 , then this function  merely reports
+          whether the driver is currnetly open.  No other input information
+          is used, in this case.
+
+       Return errors: ERR_Active   - driver was already open.
+                      ERR_BadOrder - the  order  is not in the allowable
+                                     range of between  1  and  16 , or
+                      neither a default nor a user-defined buffer was
+                      specified.
+                      ERR_BadIrq    - The Interrupt Request number is
+                                      not between  0  and  15 .
+                      ERR_NotActive - this is possible, if  port  is
+                                      specified as  0 .
+       ------------------------------------------------------------------
+
+                                                                   page 5
+
+       ------------------------------------------------------------------
+       Function 1: SetParms
+
+       Purpose: Set the transmission parameters.
+
+       Input:   bx = 1 .
+                ax = baud.
+                ch = stop , cl = data.
+                dx = parity.
+
+         baud = rate of transmission, between  2  and  65,535
+                bits/second.  Some common values are  300 , 1200  and
+                2400 .  The driver has been tested at  9600 , using a
+                hardwire connection to a network.
+
+         data = the number of data bits in each character,
+                between  5  and  8 .  Common values are  7  and  8 .
+
+         stop = the number of stop bits, either  1  or  2 . (Actually,
+                for  data  of length  5 , only  1 1/2  stop bits are
+                generated when  stop  is specified as  2 .)
+
+         parity is the code to specify the type of parity generated.
+                0,2,4,6: no parity bit.
+                      1: odd parity.
+                      3: even parity.
+                      5: mark parity (Parity bit = 1).
+                      7: space parity (Parity bit = 0).
+
+       When  SERIOUS  is opened, the default paramater settings are
+       1200 baud with 8 data bits, 1 stop bit and no parity.
+
+       Return errors: ERR_BadData , ERR_BadStop , ERR_BadParity , or
+                      ERR_BadBaud  indicates the specified parameter is
+                      out of range.
+       ------------------------------------------------------------------
+
+
+       ------------------------------------------------------------------
+       Function 2: Close
+
+       Purpose: Disable the UART, and restore the hardware interrupt
+                vectors to their values before the previous call to
+                Open .  It is important to close  SERIOUS  before
+                deallocating the input buffer.  Otherwise, characters might
+                be written to the old location of the input buffer!
+
+       Input    bx = 2 .
+
+       Return errors: ERR_NotActive - driver was not open.
+       ------------------------------------------------------------------
+ 
+                                                                   page 6
+
+       ------------------------------------------------------------------
+       Function 3: SendChar
+
+       Purpose: Send a character out through the serial port.
+
+       Input al = character to be sent.
+             bx = 3 .
+
+       Return errors: ERR_UARTsleeps - UART is not responding.
+       ------------------------------------------------------------------
+
+       ------------------------------------------------------------------
+       Function 4: RecvChar
+
+       Purpose: Receive a character from the serial port.
+
+       Inpput:   bx = 4 .
+
+       Output:  ax = the next character (ah=0), if there is one, or
+                ax = -1 , if there is no character.
+
+       Return errors: none
+       ------------------------------------------------------------------
+
+       ------------------------------------------------------------------
+       Function 5: SetMode
+
+       Purpose: Specify which interrupts to activate on the UART .
+
+       Inpput:   bx = 5 .
+                 al = interrupt mask.
+                      A bit is set if the interrupt is to be active.
+                      bit 0 -- Received data.
+                          1 -- Transmitter holding register empty.
+                          2 -- Line error.
+                          3 -- Modem status change.
+
+       The driver routines for reception and transmition require that
+       bits 0 and 1 be set.  When the driver is opened, these are the
+       only set bits in the mask.
+
+       Bits 2 and 3 are useful for debugging.  They have the following
+       effect, when the appropriate bit is set.
+
+       When a line error is detected, the byte  ^L  is inserted into the
+       input stream, followed by the byte content of the Line Status Register
+       of the UART .  The relevant bits of this register are described.
+       Bit   Meaning when set:
+        1 -- Overrun. A received character was overwritten before being read.
+        2 -- Parity. A wrong parity bit was received.
+        3 -- Framing. A stop bit was not received where expected.
+        4 -- Break interrupt.
+
+
+                                                                   page 7
+       cont Function 5 -- SetMode
+
+       When a modem status change is detected, the byte  ^S  is inserted into
+       the input stream, followed by the byte content of the Modem Status
+       Register of the UART.  The bits of this register are described.
+       Bit   Meaning when set:
+        0 -- Change in "Clear To Send" .
+        1 -- Change in "Data Set Ready" .
+        2 -- A ring has just completed.
+        3 -- Change in "Data Carrier Detect" .
+        4 -- "Clear To Send" .
+        5 -- "Data Set Ready" .
+        6 -- Ring indicator.
+        7 -- "Data Carrier Detect" .
+
+       When  ^L  or  ^S  is being used in this special fashion, and is
+       received through the serial port, the driver preceeds it  by the
+       backslash character  '\' ;  should  '\'  be received, it too is
+       preceeded by a backslash!  In other words, the backslash is used
+       as an escape character, to denote that the next character is to be
+       taken literally.  These complications are introduced only if either
+       bits 2 or 3 is set in the interrupt mask; otherwise all characters in
+       the input stream have been actually received through the serial port.
+
+       Return errors: none
+       ------------------------------------------------------------------
+
+
+       Section 4 -- Obtaining the entry address
+
+       In the earlier versions of  SERIOUS , this was an awkward
+       procedure, as the driver was implemented as a TSR .  Not so,
+       any more!
+
+       The steps outlined in this section are implemented in the
+       function  SetEntryAddress()  in the file  serface.c .
+
+       The default device name for the driver is  SERIOUS0 , although
+       this may be changed at installation, as explained in section 2 .
+       This device must be opened, as any regular file, to obtain a
+       descriptor from  DOS .  This descriptor is used to perform an
+       "i/o control" read from the driver; this places the entry address
+       into a user supplied variable i.e. into a 4 byte buffer.
+
+
+                                                                   page 8
+
+       Section 5 -- The inner workings
+
+       The PC serial communications chip is called a UART (Universal
+       Asynchronous Receiver Transmitter).  As characters are received by
+       the UART through the serial port, SERIOUS  automatically places them
+       into an input buffer (specified by the user), using the hardware
+       interrupt system of the UART.  This buffer is implemented as a
+       circular buffer.  As soon as wrap-around occurs, the buffer
+       becomes 'empty'. The user must read characters from the input
+       buffer sufficiently often to ensure this does not happen. This is
+       not difficult.  A  1K  buffer takes about 10 seconds to fill up at
+       1200 baud.  There is plenty of time for the CPU to process
+       the characters.
+
+       When open, the driver intercepts 3 interrupts:
+
+       0Ch -- UART interrupt, mentioned above.
+       1Ch -- Clock interrupt, for timings.
+       23h -- DOS break (^C) interrupt.  The driver is automatically
+              closed.  This means that it is safe, as far as SERIOUS is
+              concerned, to terminate your application using  ^C .
+
+
+       Section 6 -- Revisions (future and past)
+
+       Some possible enhancements are:
+
+       - Allow changing the input buffer.
+         (Now, SERIOUS must first be closed, and then opened to change
+          the size or location of the input buffer.)
+
+       - Specify/change an output buffer, at any time.  This allows for
+         smoother transmission;  the interrupt system of the UART would,
+         more completely, handle the sending of characters out through
+         the serial port.
+         (Now, there is no output buffer, and spin waits are used until
+          the UART is ready to send the next character.)
+
+       - Support the break interrupt facility of the UART.
+
+
+       Revision history:
+
+       This is off to a late start.  Better late than never!
+
+       23 Aug 1990: Version 2.21 -- Bug fix.  Now ports other than COM1
+                    can actually be used.
+
+
+
+
+                                                                   page 9
+
+
+
+
+
+
+       Section 7 -- Registration
+
+       Single users are asked to send $20 to the address on the cover page
+       of this document.  For evnironments with multiple machines, please
+       contact me to arrange an agreement.
+
+       In any event, I would like to hear your comments about this software.
+       For registered users, I certainly intend to give detailed responses,
+       as well as early update information.
+
+
+
+        ----------------------------------------------------------------
+
+
+        IBM  is a registered trademark of
+             International Business Machines Corporation .
+
+        Turbo C  is a registered trademark of  Borland International .
+
+
+
+        I made heavy use of the document
+
+        "NS16450/INS8250A/NS16C450/INS82C50A
+         Asynchronous Communications Element" , Feb 1985
+         by National Semiconductor
+
+        which I obtained, along with other helpful information, from
+        Hamilton Avnet Electronics  in  Burnaby, BC .
+

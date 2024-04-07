@@ -1,0 +1,39 @@
+               TCHRT V3 Shareware Evaluation Distribution List
+               -----------------------------------------------
+
+
+Documentation Files
+
+        distrib         txt           This file
+        license         txt           TCHRT software license
+        readme          txt           Latest manual changes
+        register        txt           TCHRT registration form
+        tchrtv3         doc           TCHRT users manual
+
+Demo Files
+
+        delay           c             \
+        demov3          c              \
+        seektest        c               - C demos
+        testbios        c              /
+        watch           c             /
+        delay           prj           \
+        demov3          prj            \
+        seektest        prj             - TC project files for small model
+        testbios        prj            /
+        watch           prj           /
+
+Library Files
+
+        pchrt           h             C header file
+        10              int           \ 
+        13              int            |
+        14              int            |
+        16              int            |- Interrupt function description 
+        17              int            |  files for BIOS timers
+        21              int            |
+        33              int            |
+        67              int           / 
+        tchrts          lib           TC small model library
+
+

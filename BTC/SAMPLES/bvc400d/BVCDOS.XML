@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<XML_DIZ_INFO>
+<MASTER_PAD_VERSION_INFO>
+    <MASTER_PAD_VERSION>1.00</MASTER_PAD_VERSION>
+    <MASTER_PAD_INFO>Portable Application Description, or PAD for short, is a data set that is used by shareware authors to dissemminate information to anyone interested in their software products.  To find out more go to http://www.asp-shareware.org/pad</MASTER_PAD_INFO>
+</MASTER_PAD_VERSION_INFO>
+<Company_Info>
+        <Company_Name>OptiCode - Dr. Martin Sander Software Dev.</Company_Name>
+        <Address_1>Steinachstr. 9A</Address_1>
+        <Address_2 />
+        <City_Town>Schriesheim</City_Town>
+        <State_Province />
+        <Zip_Postal_Code>D-69198</Zip_Postal_Code>
+        <Country>Germany</Country>
+        <ASP_Member>N</ASP_Member>
+        <ASP_Member_Number />
+        <ESC_Member>N</ESC_Member>
+        <Company_WebSite_URL>http://www.optivec.com</Company_WebSite_URL>
+<Contact_Info>
+        <Author_First_Name>Martin</Author_First_Name>
+        <Author_Last_Name>Sander</Author_Last_Name>
+        <Author_Email>msander@optivec.com</Author_Email>
+        <Contact_First_Name>Martin</Contact_First_Name>
+        <Contact_Last_Name>Sander</Contact_Last_Name>
+        <Contact_Email>info@optivec.com</Contact_Email>
+    </Contact_Info>
+<Support_Info>
+        <Sales_Email>sales@optivec.com</Sales_Email>
+        <Support_Email>support@optivec.com</Support_Email>
+        <General_Email>info@optivec.com</General_Email>
+        <Sales_Phone />
+        <Support_Phone />
+        <General_Phone />
+        <Fax_Phone>+49-6203-925396</Fax_Phone>
+    </Support_Info>
+</Company_Info>
+<Program_Info>
+        <Program_Name>OptiVec for Borland C++ (DOS)</Program_Name>
+        <Program_Version>4.0</Program_Version>
+        <Program_Release_Month>05</Program_Release_Month>
+        <Program_Release_Day>18</Program_Release_Day>
+        <Program_Release_Year>2004</Program_Release_Year>
+        <Program_Cost_Dollars>249</Program_Cost_Dollars>
+        <Program_Cost_Other />
+        <Program_Type>Freeware</Program_Type>
+        <Program_Release_Status>Major Update</Program_Release_Status>
+        <Program_Install_Support>Install and Uninstall</Program_Install_Support>
+        <Program_OS_Support>MS-DOS</Program_OS_Support>
+        <Program_Language>English</Program_Language>
+        <Program_System_Requirements>Borland C/C++ 4.0 or higher</Program_System_Requirements>
+        <Program_Categories>programming, C, C++, libraries</Program_Categories>
+<File_Info>
+        <Filename_Versioned>bvc400d.zip</Filename_Versioned>
+        <Filename_Previous>bvc334d.zip</Filename_Previous>
+        <Filename_Generic>bvcdos.zip</Filename_Generic>
+        <Filename_Long>bvcdos.zip</Filename_Long>
+        <File_Size_Bytes>1599716</File_Size_Bytes>
+        <File_Size_K>1599</File_Size_K>
+        <File_Size_MB>1.5</File_Size_MB>
+    </File_Info>
+<Expire_Info>
+        <Has_Expire_Info>N</Has_Expire_Info>
+        <Expire_Count />
+        <Expire_Based_On>Days</Expire_Based_On>
+        <Expire_Other_Info />
+        <Expire_Month />
+        <Expire_Day />
+        <Expire_Year />
+    </Expire_Info>
+        <Includes_VB_Runtime>N</Includes_VB_Runtime>
+        <Includes_JAVA_VM>N</Includes_JAVA_VM>
+        <Includes_DirectX>N</Includes_DirectX>
+</Program_Info>
+<Program_Descriptions>
+<English>
+        <Keywords>vector, matrix, library, function, math, programming, curve fitting, inversion, linear systems</Keywords>
+        <Char_Desc_45>Fast vector and matrix library for BC++</Char_Desc_45>
+        <Char_Desc_80>OptiVec: Fast vector and matrix library for Borland C/C++ (DOS)</Char_Desc_80>
+        <Char_Desc_250>OptiVec for Borland C++ (DOS): Assembler-written library of vector and matrix functions, 2-3 times faster than compiled C/C++ code: Math, statistics, analysis, FFT, matrix inversion, decomposition, curve-fitting  - in total more than 3500 functions.</Char_Desc_250>
+        <Char_Desc_450>Brings the power of vectorized programming to the PC. Replacing loops over data arrays by the hand-optimized, Assembler-written vector and matrix functions of OptiVec can speed up program execution by 2-3 times and enhances accuracy and safety. 
+More than 3500 functions for math, statistics, analysis, signal processing, matrix operations, curve fitting, etc. For Borland C++ 3.0 or higher.</Char_Desc_450>
+        <Char_Desc_2000>OptiVec contains more than 3500 hand-optimized, Assembler-written functions for all floating-point and integer data types from the following fields:
+1. Vectorized form of arithmetic operators and math functions. 
+2. Matrix operations, e.g.: multiplication, inversion, LU decomposition, singular value decomposition, eigenvalues. 
+3. Fast Fourier Transform techniques for efficient convolutions, correlation analyses, spectral filtering, etc., both one- and two-dimensional.   
+4. Curve fitting for a wide range of model functions from simple linear regression to non-linear models with multiple data sets. 
+5. Statistics. 
+6. Analysis (derivatives, integrals, extrema, interpolation). 
+7. Graphical representation of data in Cartesian coordinates. 
+8. Complex number math, both in cartesian and polar format. 
+The vectorized implementation in Assembler makes OptiVec functions, on the average, 2-3 times faster than compiled source code of the same functionality. In many instances, the numerical accuracy is improved as well. 
+The object-oriented interface for C++, "VecObj", offers simplified function calls and increased memory safety.
+This version is for the memory model DOS-LARGE of Borland C/C++ 4.0 or higher.</Char_Desc_2000>
+</English>
+<German>
+        <Keywords>Vektor, Matrix, Bibliothek, Funktion, mathematisch, Programmierung, Kurvenanpassung, Inversion, lineare Systeme</Keywords>
+        <Char_Desc_45>Schnelle Vektor- /Matrix-Bibliothek fuer BC++</Char_Desc_45>
+        <Char_Desc_80>OptiVec: Schnelle Vektor- und Matrix-Bibliothek fuer BC++ (DOS)</Char_Desc_80>
+        <Char_Desc_250>OptiVec fuer Borland C++ (DOS): Vektor- und Matrix-Bibliothek, geschrieben in Assembler und daher 2-3 mal schneller als compilierter Quellcode: Mathematische Funktionen, Statistik, Analysis, FFT, Matrix-Inversion, Zerlegung, Datenanpassung etc.</Char_Desc_250>
+        <Char_Desc_450>OptiVec fuer Borland C++ (DOS): Vektor- und Matrix-Bibliothek, geschrieben in Assembler und daher 2-3 mal schneller als compilierter Quellcode: Mathematische Funktionen, Statistik, Analysis, FFT, Matrix-Inversion, Zerlegung, Datenanpassung etc. - insgesamt mehr als 3500 Funktionen. Fuer Borland C++ ab Version 3.0.</Char_Desc_450>
+        <Char_Desc_2000>OptiVec enthaelt mehr als 3500 hand-optimierte, in Assembler geschriebene Funktionen fuer alle Fliesskomma- und Ganzzahl-Datentypen aus den folgenden Bereichen:
+1. Vektorisierte form arithmetischer Operatoren und mathematischer Funktionen. 
+2. Matrix-Operationen, z.B.: Multiplikation, Inversion, LU-Faktorisierung, Singulaerwert-Zerlegung (SVD), Eigenwerte. 
+3. Schnelle Fourier-Transformation sowohl ein- als auch zweidimensional; fuer effiziente Faltungen, Entfaltungen, Spektralfilterung usw.   
+4. Datenanpassung fuer einen weiten Bereich von Modellfunktionen von einfacher linearer Regression bis hin zu nicht-linearen Modellen mit Mehrfach-Datensaetzen. 
+5. Statistik. 
+6. Analysis (Ableitungen, Integrale, Extrema, Interpolation). 
+7. Graphische Darstellung in Cartesischen Koordinaten. 
+8. Komplex-zahlige Mathematik, sowohl in cartesischen als auch in Polarkoordinaten. 
+Durch die vektorisierte Implementierung in Assembler sind OptiVec-Funktionen durchschnittlich 2-3 mal schneller als compilierter Quellcode derselben Funktionalitaet. Vielfach ist auch die numerische Genauigkeit verbessert. 
+Das objektorientierte Interface fuer C++, "VecObj", bietet vereinfachte Funktionsaufrufe und bessere Speicher-Sicherheit..
+Die vorliegende Version von OptiVec ist fuer das Speichermodell DOS-LARGE von Borland C/C++ 4.0 oder hoeher.</Char_Desc_2000>
+</German>
+</Program_Descriptions>
+<Web_Info>
+<Application_URLs>
+        <Application_Info_URL>http://www.optivec.com</Application_Info_URL>
+        <Application_Order_URL>http://www.optivec.com/order</Application_Order_URL>
+        <Application_Screenshot_URL />
+        <Application_Icon_URL>http://www.optivec.com/common/optivec.gif</Application_Icon_URL>
+        <Application_XML_File_URL>http://www.optivec.com/download/BVCDOS.XML</Application_XML_File_URL>
+    </Application_URLs>
+<Download_URLs>
+        <Primary_Download_URL>http://www.optivec.com/download/BVCDOS.ZIP</Primary_Download_URL>
+        <Secondary_Download_URL />
+        <Additional_Download_URL_1 />
+        <Additional_Download_URL_2 />
+    </Download_URLs>
+</Web_Info>
+<Permissions>
+        <Distribution_Permissions>This product may be distributed through CD compilations or Shareware sites on the Internet, provided that you notify us by email about this.</Distribution_Permissions>
+        <EULA>This is the Freeware version of OptiVec for DOS ("SOFTWARE"). 
+It may be used under the following licence terms:  
+
+1. This product is Freeware in the sense that you may use it free of charge for as long as you like for personal and/or educational purposes.  
+2. Applications, created with the Freeware version of this SOFTWARE, may not be distributed to others or used for any commercial purpose. 
+3. If you want to distribute programs containing functions of this SOFTWARE, you have to purchase the commercial registered version.  
+4. This SOFTWARE is provided on an "as is" basis. Any explicit or implicit warranties for the SOFTWARE are excluded.  
+5. Despite thorough testing of the SOFTWARE, errors and bugs cannot be excluded  with certainty. No claims as to merchantability or fitness for a particular purpose are made.  
+6. You may not use the SOFTWARE in any environment or situation where personal injury or excessive damage to anyone's property (including your own) could arise from malfunctioning of the SOFTWARE. 
+7. You may not decompile, disassemble, or otherwise reverse engineer the SOFTWARE into a machine-readable form. You may, however, inspect the functions it contains by means of debuggers like those included in the Borland and Microsoft compilers. 
+Copyright for the SOFTWARE and its documentation: 
+ (C) 1996-2004 OptiCode - Dr. Martin Sander Software Dev. 
+All rights reserved.</EULA>
+</Permissions>
+<Simtel>
+    <Simtel_Agent />
+    <Simtel_FORM>Y</Simtel_FORM>
+    <Simtel_DOS_Category>Programming - turbo_c Borland Turbo C Programming Language</Simtel_DOS_Category>
+    <Simtel_Platform>Select - Other Platform (blank)</Simtel_Platform>
+    <Simtel_Category>Programming - progc C, C++, Visual C Language Specific</Simtel_Category>
+    <SIMTEL_FORM_VER>1.6 11/26/2002</SIMTEL_FORM_VER>
+</Simtel>
+</XML_DIZ_INFO>

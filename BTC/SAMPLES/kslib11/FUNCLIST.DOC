@@ -1,0 +1,2787 @@
+Function		CFcolcvt
+Prototype in	cf.h
+Module			cf
+Library			tll
+
+int		CFcolcvt(char *s)
+
+Converts a character string into it's corresponding colour number.
+
+Parameters
+	s		The string to convert.
+
+Returns
+	The number of the color the string describes, or -1 if the string
+	could not be matched against one of the known colours.
+
+-------------------------------------------------------------------------------
+Function		CFcolor
+Prototype in	cf.h
+Module			cf
+Library			tll
+
+char	*CFcolor(int c)
+
+Returns the string corresponding to the specified colour number.
+
+Parameters
+	c		The number of the colour.
+
+Returns
+	A pointer to the character string describing the colour, or NULL
+	if the colour is out of range.
+
+-------------------------------------------------------------------------------
+Function		CFcolval
+Prototype in	cf.h
+Module			cf
+Library			tll
+
+int		CFcolval(char *s)
+
+Converts a string of the form :
+
+foreground,background
+
+into the corresponding integer value for use when setting the screen
+colour. Two locally declared static variables are used to hold the
+colour once determined. These are initially set to white on black.
+If either part of the string is missing, the corresponding part of the
+colour is left unchanged. Thus, the following commands, if executed
+consecutively from the start of a program, would change the screen
+colours as follows :
+
+Command						Screen colour after executing
+--------------------		-----------------------------
+At start of program			white on black
+CFcolval("green,brown");	green on brown
+CFcolval("blue");			blue on brown
+CFcolval(",white");			blue on white
+
+Parameters
+	s		The string to convert
+
+Returns
+	The integer corresponding to the new screen colours.	
+
+-------------------------------------------------------------------------------
+Function		CFconf
+Prototype in	cf.h
+Module			cf
+Library			tll
+
+int		CFconf(char *f,CFdata *d)
+
+Read the specified config file into the specified variables. CFopen is
+called to open the config file as normal, then CFread is repeatedly
+called to read in the file. Each valid assignment statement is checked
+against the list of items parsed, and if a match is found, that variable
+is updated. Any invalid assignment statements are ignored.
+
+Parameters :
+	f		The name of the config file as per CFopen.
+	d		Pointer to a list of valid assignment commands. Each item
+			contains a character string and a pointer to the variable to
+			hold that value. The character string holds the variable type
+			in the first character position, and the <cmd> in the rest.
+			Valid types are :	S : String value  (xxxxx)
+								C : Color value   (foreground,background)
+								I : Integer value (nnn)
+								L : Long value    (nnn)
+								F : Float value   (nnn.nn)
+								D : Double value  (nnn.nn)
+
+Return values :
+	 0		All ok.
+	-1		File not found.
+	-2		Syntax error.
+	-3		Command not found.
+
+-------------------------------------------------------------------------------
+Function		CFinit
+Prototype in	cf.h
+Module			cf
+Library			tll
+
+void	CFinit(void)
+
+Initialises the CF routines. Does not need to be called by the programmer
+as all the CF routines check for initialisation at their start.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		CFopen
+Prototype in	cf.h
+Module			cf
+Library			tll
+
+int		CFopen(char *s)
+
+Open a configuration file for later use by CFread.
+
+Parameters :
+	s		Full pathname of config file. If <s> is NULL or empty, a file
+			with the program's name and ".cfg" extension is looked for,
+			first in the current directory, then the home directory. If <s>
+			is specified, only <s> is looked for.
+
+Return Values :
+	0		Config file not found in any of the three locations.
+	1		User supplied filename found.
+	2		Found in current directory.
+	3		Found in home directory.
+
+-------------------------------------------------------------------------------
+Function		CFread
+Prototype in	cf.h
+Module			cf
+Library			tll
+
+int		CFread(char *cmd,char *arg)
+
+Read the next assignment statement from the config file (if open). If no
+config file is currently open, return -1 (EOF). If an invalid statement is
+encountered (positive return value), <cmd> will hold the entire line
+containing the error, and <arg> will be empty. A maximum line size in the
+config file of 80 characters is enforced (anything past this is truncated
+internally). Thus, <cmd> and <arg> only need to be able to hold 81 chars.
+An assignment statement is of the form
+
+[<cmd> = <arg>] [#<comment>]
+
+Note that all white space is ignored, empty lines and lines containing only
+comments are valid, and anything after the first '#' on a line is treated
+as a comment. <cmd> may only consist of alphanumeric characters, while
+<arg> may consist of any character except '#'. As with <cmd>, all
+whitespace is generally ignored when scanning <arg>, unless it is enclosed
+in double quotes. Likewise, the '#' character may be included as part of
+<arg> if it is enclosed in double quotes.
+
+Parameters :
+	cmd		Pointer to a character array at least 81 characters long. It
+			will hold the parameter name on return.
+	arg		Pointer to a character array at least 81 characters long. It
+			will hold the parameter value on return.
+
+Return Values :
+	-1		No more assignment statements available for reading from file.
+	 0		Valid (cmd,arg) pair has been found.
+	 1		Invalid characters found in the parameter name.
+	 2		Syntax error in assignment statement.
+
+-------------------------------------------------------------------------------
+Function		CFwrite
+Prototype in	cf.h
+Module			cf
+Library			tll
+
+int		CFwrite(char *f,CFdata *d)
+
+The inverse of the CFread function. Opens the specified file, and
+writes the contents of the specified CFdata structure to the file.
+
+Parameters
+	f		The file to write to.
+	d		The data structure to write.
+
+Returns
+	Zero if the write operation was successful, or -1 if it wasn't.
+
+-------------------------------------------------------------------------------
+Function		DBadd
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBadd(void *r)
+
+Adds the specified record to the currently active database file.
+
+Parameters
+	r		A pointer to the record to be added.
+
+Returns
+	The record number at which the record was added if the operation was
+	successful, or -1 if it wasn't.
+
+-------------------------------------------------------------------------------
+Function		DBbot
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBbot(void)
+
+Returns the record number of the last record in the currently active
+database file.
+
+Parameters
+	None
+
+Returns
+	The last record number if there is a currently active database file,
+	or -1 if there isn't.
+
+-------------------------------------------------------------------------------
+Function		DBclose
+Prototype in	db.h
+Module			db
+Library			dbl
+
+DBfile	*DBclose(void)
+
+This function closes the currently active database file, together with
+it's index file. The new active database will be the last opened one.
+If no other databases are open, there will be no active database.
+
+Parameters
+	none
+
+Returns
+	A pointer to the new active database, or NULL if there are no more
+	databases open.
+
+-------------------------------------------------------------------------------
+Function		DBcmp
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBcmp(void *rs,void *rd)
+
+Compares two areas of memory. The number of bytes compared is the
+record size of the currently active database. The comparison returns
+a value less than zero if the first area is less than the second, zero
+if they are equal, or greater than zero if the first area is greater than
+the second
+
+Parameters
+	rs		A pointer to the first area of memory.
+	rd		A pointer to the second area of memory.
+
+	Returns
+		The result of the comparison, or zero if there is no currently
+		active database.
+
+-------------------------------------------------------------------------------
+Function		DBcopy
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBcopy(void *rs,void *rd)
+
+Copies one area of memory to another. The number of bytes copied is
+the record size of the currently active database.
+
+Parameters
+	rs		A pointer to the area of memory to copy from.
+	rd		A pointer to the area of memory to copy to.
+
+Returns
+	The record size of the currently active database if there is one,
+	or zero if there isn't.
+
+-------------------------------------------------------------------------------
+Function		DBdelete
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBdelete(void)
+
+Deletes the record at the current record indicator in the currently active
+database file.
+
+Parameters
+	none
+
+Returns
+	-1 in all cases.
+
+-------------------------------------------------------------------------------
+Function		DBend
+Prototype in	db.h
+Module			db
+Library			dbl
+
+void	DBend(void)
+
+Should not be called by the application. This function is called via
+an 'atexit' call originated in DBopen. It closes all database and index
+files in an orderly manner.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		DBfindfirst
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBfindfirst(void *r)
+
+Finds the first record in the currently active database which matches
+the specified memory area.
+
+Parameters
+	r		A pointer to the memory area to find.
+
+Returns
+	The record number it was found at, if it was, or -1 if either there
+	is no currently active database, or the record was not found.
+
+-------------------------------------------------------------------------------
+Function		DBfindnext
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBfindnext(void *r)
+
+Finds the next record in the currently active database which matches the
+specified memory area. The search begins at the record succeeding the
+current record. Generally used after DBfindfirst, but may be used at any
+time.
+
+Parameters
+	r		A pointer to the memory area to find.
+
+Returns
+	The record number it was found at, if it was, or -1 if either there
+	is no currently active database, or the record was not found.
+
+-------------------------------------------------------------------------------
+Function		DBgo
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBgo(int r)
+
+Moves the current record indicator to the specified record in the
+currently active database.
+
+Parameters
+	r		The record number to move to. Range from 0 to the number of
+			database records - 1.
+
+Returns
+	The new current record number if the move was successful, or -1 if
+	it wasn't. If the specified record was out of range, the current
+	record indicator will point to the requested record anyway, which
+	other functions will treat as either before the top, or after the
+	bottom, of the file, depending on whether the requested record was
+	less than zero, or greater than that allowed, respectively.
+
+-------------------------------------------------------------------------------
+Function		DBiread
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBiread(int n)
+
+Should not be called by the application program.
+Reads an index record and returns the database record number it points
+to.
+
+Parameters:
+	n		Index record number to read. Range from 0 to the number of
+			index records - 1.
+
+Returns
+	The database record number (from 0 to the number of database records
+	- 1) if the index record number was valid, or -1 if it wasn't.
+
+-------------------------------------------------------------------------------
+Function		DBiwrite
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBiwrite(int n,int datarec)
+
+Should not be called by the application program.
+Writes a value into the specified index record.
+
+Parameters
+	n		The index record to write to. Range from zero to the number
+			of index records in the file. If it equals the number of
+			index records, it implies an addition to the end of the index
+			file
+	datarec	The value to write. Normally points to a record in the
+			database file, but may theoretically hold any value.
+
+Returns
+	TRUE if the write was successful, or FALSE if it wasn't.
+
+-------------------------------------------------------------------------------
+Function		DBopen
+Prototype in	db.h
+Module			db
+Library			dbl
+
+DBfile	*DBopen(char *fn,int rs,char *ifn,int (*func)(void *,void *))
+
+Opens the specified database file and prepares it for access
+according to the specified index file and function.
+
+Parameters
+	fn		Pathname of the database file.
+	rs		Size of each record in the database file in bytes.
+	ifn		Pathname of the index file.
+	func	Comparison function.
+
+Returns
+	A pointer to the DBfile structure (defined in db.h) for this
+	database, or NULL if the open failed.
+
+-------------------------------------------------------------------------------
+Function		DBread
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBread(void *r)
+
+Reads the current record from the active database into the memory area
+pointed to by 'r'.
+
+Parameters
+	r		A pointer to the memory area to hold the file data.
+
+Returns
+	The current record number if the read was successful, or -1 if it
+	wasn't.
+
+-------------------------------------------------------------------------------
+Function		DBreadn
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBreadn(int rn,void *r)
+
+Reads the specified record from the currently active database file into
+the specified memory area.
+
+Parameters
+	rn		The record number to read.
+	r		A pointer to the memory area to read into.
+
+Returns
+	The record number read if successful, or -1 if not.
+
+-------------------------------------------------------------------------------
+Function		DBrecno
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBrecno(void)
+
+Returns the current record number in the currently active database.
+
+Parameters
+	none
+
+Returns
+	The record number if there is a currently active database, or -1 if
+	there isn't.
+
+-------------------------------------------------------------------------------
+Function		DBseekfirst
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBseekfirst(void *r,int (*func)(void *,void *))
+
+This function and DBseeknext are the same as findfirst and findnext,
+except the programmer must supply the comparison function. This comparison
+function must be a less exact (or as exact) version of the index function.
+For instance, if the index function was based on a string comparison of all
+characters in the surname, this function could be based on a string
+comparison of part of the surname, but could not be based on a comparison
+of the surname and the first name combined.
+
+An example...
+In an application program I've written, part of the database record is the
+patient's surname. This field is also the sorting key for the database.
+Thus, my index function compares the surname's, looking for an *exact*
+match. However, the program allows the user to scan a list of all patients
+matching a given template. The user types in the first few characters of
+a surname, and a list is brought up showing all patients with surnames of
+which the few characters are a subset. eg, SPE will match SPENCER, SPEND,
+etc. To do this, I call the 'seek' functions with a function which returns
+a match if the first string is a subset of the second. The critical point
+is that, no matter what search algorithm I use within these routines, the
+function parsed to 'seek' should be able to find all records given that
+the database is indexed according to the function parsed to 'open'.
+
+Make sense? Didn't think so. Doesn't make sense to me either, but it works.
+
+Parameters
+	r		A pointer to the memory area to find.
+	func	A pointer to the comparison function to use.
+
+Returns
+	The record number it was found at, if it was, or -1 if either there
+	is no currently active database, or the record was not found.
+
+-------------------------------------------------------------------------------
+Function		DBseeknext
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBseeknext(void *r,int (*func)(void *,void *))
+
+See DBseekfirst
+
+Parameters
+	r		A pointer to the memory area to find.
+	func	A pointer to the comparison function to use.
+
+Returns
+	The record number it was found at, if it was, or -1 if either there
+	is no currently active database, or the record was not found.
+
+-------------------------------------------------------------------------------
+Function		DBselect
+Prototype in	db.h
+Module			db
+Library			dbl
+
+void	DBselect(DBfile *db)
+
+Makes the specified database the active one.
+
+Parameters
+	db		A pointer to the DBfile structure for the desired database.
+
+Returns
+	Nothing
+
+-------------------------------------------------------------------------------
+Function		DBskip
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBskip(int n)
+
+Moves the current record indicator for the currently active database
+forward or backward the specified number of records. The move can be
+off the top or bottom of the file, but no further. ie, it will not
+cycle around from top to bottom or vice-versa.
+
+Parameters
+	n		The number of records to skip. A positive value will move
+			forward in the file, while a negative value will move
+			backward. A zero value will have no effect.
+
+Returns
+	The new current record indicator if there is a currently active
+	database, or -1 if there isn't. Note that skipping past the top
+	or bottom of the file will return the Before-Top (-1) or After-Bottom
+	(too large) indicators.
+
+-------------------------------------------------------------------------------
+Function		DBtop
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBtop(void)
+
+Returns the record number of the first record in the currently active
+database file.
+
+Parameters
+	None
+
+Returns
+	The first record number if there is a currently active database file,
+	or -1 if there isn't.
+
+-------------------------------------------------------------------------------
+Function		DBvalid
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBvalid(void)
+
+Returns the validity of the current record indicator in the currently
+active database.
+
+Parameters
+	none
+
+Returns
+	TRUE if the current record indicator is valid, or FALSE if it isn't.
+
+-------------------------------------------------------------------------------
+Function		DBwrite
+Prototype in	db.h
+Module			db
+Library			dbl
+
+int		DBwrite(void *r)
+
+Writes the specified memory area to the current record in the currently
+active database file.
+
+Parameters
+	r		A pointer to the record to write.
+
+Returns
+	The current record number if the operation was successful, or -1 if
+	it wasn't.
+
+-------------------------------------------------------------------------------
+Function		IFCallin
+Prototype in	ifc.h
+Module			ifc
+Library			tll
+
+int16	IFCallin(void)
+
+This function is similar to IFCin, except that it inputs from all 9
+possible input pins instead of just 8. The bits in the returned value are :
+
+Bit		Pin
+0		1
+1		14
+2		16
+3		17
+4		15
+5		13
+6		12
+7		10
+8		11
+
+A ground on the given pin will return a 1 in the appropriate bit position,
+while a 0 is returned if the pin is floating or tied to +5v. Note that
+some of the pins are inverted. This is corrected in this routine by
+exclusive-Oring the read value before returning. Also, to gain a valid
+return value, the programmer should make sure the following function
+call is made :
+
+IFCallout(0x0400);
+
+Since the lower 4 bits of the input value are taken from an open-collector
+output chip, the chip must have the correct values output to it's pins
+before reading. The above call accomplishes this. It also resets the
+remaining output pins (lower 8 bits). This does not need to be done, as
+long as bit 10 is set and bits 8,9 and 11 are reset.
+
+Parameters
+	none
+
+Returns
+	The bits read, or -1 if the port is not installed.
+
+-------------------------------------------------------------------------------
+Function		IFCallout
+Prototype in	ifc.h
+Module			ifc
+Library			tll
+
+int16	IFCallout(uint16 val)
+
+This function is similar to IFCout, except that it outputs to all 12
+possible output pins instead of just 8. The bits are output onto the
+following pins :
+
+Bit		Pin
+0		2
+1		3
+2		4
+3		5
+4		6
+5		7
+6		8
+7		9
+8		1
+9		14
+10		16
+11		17
+
+Parameters
+	val		The binary value to ouput, of which the lower 12 bits are used.
+
+Returns
+	The result of the output operation, as read from the port, or -1
+	if the port is not installed.
+
+-------------------------------------------------------------------------------
+Function		IFCin
+Prototype in	ifc.h
+Module			ifc
+Library			tll
+
+int16	IFCin(void)
+
+This function reads the current status of eight input lines from the
+current port, and returns the value. The bits in the returned value are :
+
+Bit		Pin
+0		1
+1		14
+2		16
+3		15
+4		13
+5		12
+6		10
+7		11
+
+Note : Ground (relative to pin 25) on any pin will produce a 0 in the
+		corresponding bit position, while +5v will produce a 1. With
+		some printer boards, a floating pin will consistently produce
+		a 1, while with others it varies.
+
+Parameters
+	none
+
+Returns
+	The bits read, or -1 if the port is not installed.
+
+-------------------------------------------------------------------------------
+Function		IFCout
+Prototype in	ifc.h
+Module			ifc
+Library			tll
+
+int16	IFCout(uint8 val)
+
+This function outputs the 8-bit value 'val' to the current port.
+The bits are output onto the following pins :
+
+Bit		Pin
+0		2
+1		3
+2		4
+3		5
+4		6
+5		7
+6		8
+7		9
+
+Note : A '1' in any bit position will produce +5v on the appropriate line,
+		while a '0' will drop it to ground, relative to pin 25. These
+		voltages will stay until a different value is written.
+
+Parameters
+	val		The binary value to output.
+
+Returns
+	The result of the output operation, as read from the port, or -1
+	if the port is not installed.
+
+-------------------------------------------------------------------------------
+Function		IFCset
+Prototype in	ifc.h
+Module			ifc
+Library			tll
+
+int		IFCset(int lpt)
+
+This function sets the printer port to use. It simply checks for a valid
+input value and sets IFClpt to that value. This value is used in the
+functions 'IFCin' and 'IFCout'.
+
+Parameters
+	lpt		The port to use. Range from 0 (LPT1) to 3 (LPT4).
+
+Returns
+	TRUE if the port is installed, FALSE if it isn't.
+
+-------------------------------------------------------------------------------
+Function		KBcheck
+Prototype in	kb.h
+Module			kb
+Library			wnl
+
+int		KBcheck(void)
+
+Checks to see whether a key has been pressed.
+
+Parameters
+	none
+
+Returns
+	TRUE if a key has been pressed, or FALSE if it hasn't.
+
+-------------------------------------------------------------------------------
+Function		KBgetc
+Prototype in	kb.h
+Module			kb
+Library			wnl
+
+uchar	KBgetc(char *c,char *s,int f)
+
+Gets a single character response from the keyboard. The key pressed is
+stored in the location pointed to by 'c', and the valid reponses are
+limited to characters in the string 's'. The flag 'f' determines the
+characteristics of the input function as follows :
+
+K_UPPER		Convert all keystrokes to uppercase.
+K_BELL		Sound the console bell on an invalid response.
+K_RETURN	Return a <CR> for the function instead of the character.
+			The character is still stored in 'c'.
+
+Parameters
+	c		A pointer to the location to store the character.
+	s		A pointer to a string containing valid characters.
+	f		The flags above, ORed together.
+
+Returns
+	The character entered, or <CR> if K_RETURN is set.
+
+-------------------------------------------------------------------------------
+Function		KBgetch
+Prototype in	kb.h
+Module			kb
+Library			wnl
+
+uchar	KBgetch(void)
+
+Wait for a keypress and return the key's value.
+
+Parameters
+	none
+
+Returns
+	The key pressed.
+
+-------------------------------------------------------------------------------
+Function		KBgetn
+Prototype in	kb.h
+Module			kb
+Library			wnl
+
+uchar	KBgetn(double *n,uint w,uint d)
+
+Gets a number from the keyboard at the current screen coordinates. Uses
+the WN functions for displaying.
+
+Parameters
+	n		A pointer to the number to be edited (a double).
+	w		The total width of the number to be edited, including the
+			decimal point.
+	d		The number of decimal places in the number to be edited.
+
+Returns
+	The last key pressed before exiting the function.
+
+-------------------------------------------------------------------------------
+Function		KBgets
+Prototype in	kb.h
+Module			kb
+Library			wnl
+
+uchar	KBgets(char *s,uint l,int f)
+
+Gets a string from the keyboard at the current screen coordinates.
+Uses the WN functions for displaying. The only valid value for 'f' is
+K_UPPER, which converts all keys to uppercase.
+
+Parameters
+	s		A pointer to the string to be edited.
+	l		The length of the string to be edited.
+	f		The flags.
+
+Returns
+	The last key pressed before exiting the function.
+
+-------------------------------------------------------------------------------
+Function		KBnwgetch
+Prototype in	kb.h
+Module			kb
+Library			wnl
+
+uchar	KBnwgetch()
+
+Check to see whether a key has been pressed, and if so, return it's
+value.
+
+Parameters
+	none
+
+Returns
+	The key pressed if there was one, or zero if there wasn't.
+
+-------------------------------------------------------------------------------
+Function		KBsetfunc
+Prototype in	kb.h
+Module			kb
+Library			wnl
+
+void	KBsetfunc(void (*func)(void))
+
+Sets the function to be called while waiting for a keypress.
+
+Parameters
+	func	The function to be called, or NULL for no function.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		KBsettrap
+Prototype in	kb.h
+Module			kb
+Library			wnl
+
+void	KBsettrap(uchar key,void (*func)(void))
+
+Sets a key to be looked for while waiting for input, and a function to
+be called if it's seen.
+
+Parameters
+	key		The key to look for.
+	func	The function to call when it's found.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		KKend
+Prototype in	kk.h
+Module			kk
+Library			gml
+
+void	KKend(void)
+
+Resets the vectors to the way they were originally.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		KKget
+Prototype in	kk.h
+Module			kk
+Library			gml
+
+int		KKget(uchar scan)
+
+Returns the current state of the key with the specified scan code.
+
+Parameters
+	scan	The scan code of the key to check.
+
+Returns
+	TRUE if the key is currently pressed, or FALSE if it isn't.
+
+-------------------------------------------------------------------------------
+Function		KKhandler
+Prototype in	kk.h
+Module			kk
+Library			gml
+
+void	interrupt KKhandler(void)
+
+This is the new interrupt 9 handler. It merely sets or resets the
+appropriate byte in the keyboard table, based on the scan code presented.
+There is a call to the old interrupt 9 handler commented out. This is
+because I assume that if you are using this one, you don't want normal
+keyboard actions (such as the buffer filling since you're not reading it)
+to occur. If you want them to, remove the comments around the 'old09()'
+statement, and place them around the 'kbreset()' statement. This may be
+implemented as a parameter to 'newkeyinit()' later.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		KKinit
+Prototype in	kk.h
+Module			kk
+Library			gml
+
+void	KKinit(void)
+
+Initialises the new keyboard handler. First checks the value of 'old09'
+to make sure it hasn't already been called. Then sets vectors, and does
+an 'atexit' call to make sure the vectors are swapped back before exiting
+the program. The 'newkeyend()' function can be called explicitly, as it
+also checks the value of 'old09'. The 'atexit' function could be removed,
+as long as you remember to call 'newkeyend' yourself. Also, this function
+zeroes the current contents of the keyboard flags buffer.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		KKreset
+Prototype in	kk.h
+Module			kk
+Library			gml
+
+void	KKreset(uchar scan)
+
+Sets the flag for the specified key to FALSE
+
+Parameters
+	scan	The scan code of the key to set.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		KKset
+Prototype in	kk.h
+Module			kk
+Library			gml
+
+void	KKset(uchar scan)
+
+Sets the flag for the specified key to TRUE
+
+Parameters
+	scan	The scan code of the key to set.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		MNcolor
+Prototype in	mn.h
+Module			mn
+Library			wnl
+
+void	MNcolor(uint norm,uint high)
+
+Set the menu colors. 'n' specifies the normal text color,
+and 'h' the highlighted text color.
+
+Parameters
+	norm	The normal menu color.
+	high	The highlighted menu color.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		MNmenu
+Prototype in	mn.h
+Module			mn
+Library			wnl
+
+uchar	MNmenu(MNdata *mn)
+
+Initiate the menu system, from the data pointed to by 'mn'.
+
+Parameters
+	mn		A pointer to the MNdata structure defined in mn.h holding
+			the menu definition.
+
+Returns
+	The last character entered before terminating this function.
+
+-------------------------------------------------------------------------------
+Function		MNselect
+Prototype in	mn.h
+Module			mn
+Library			wnl
+
+uchar	MNselect(uint ncolor,uint hcolor,int min,int max,int *option,
+				void (*func)(uint,uint))
+
+Select an item from a list.
+
+Parameters
+	ncolor	The color to use for normal text.
+	hcolor	The color to use for highlighted text.
+	min		The lowest valid value for 'option'.
+	max		The highest valid value for 'option'.
+	option	A pointer to an integer which holds the current item number on
+			entry to this function, and the selected item on exit.
+	func	A pointer to the function which displays the current item.
+
+Returns
+	The last character entered before terminating this function.
+
+-------------------------------------------------------------------------------
+Function		PKaccess_type
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKaccess_type(int if_class,int if_type,int if_number,char far *type,
+					uint typelen,void interrupt (*receiver)())
+
+Initiates  access to packets of the specified type.  The argument type is a
+pointer to a packet type specification.  The argument typelen is the length
+in  bytes  of  the  type  field.  The argument receiver is a pointer  to  a
+subroutine  which  is  called when a packet is received.   If  the  typelen
+argument  is  0,  this indicates that the caller wants to match all packets
+(match all requests may  be  refused by packet drivers developed to conform
+to versions of this spec previous to 1.07).
+
+When a packet is received, receiver  is  called twice by the packet driver.
+The first  time  it  is  called to request a buffer from the application to
+copy the packet into.  AX == 0 on this call.  The application should return
+a pointer to the buffer in ES:DI.  If the application  has  no	buffers, it
+may return 0:0 in ES:DI, and  the  driver  should throw away the packet and
+not perform the second call.
+
+It is important  that  the packet length (CX) be valid on the AX == 0 call,
+so that the receiver can allocate a buffer of the proper size.	This length
+(as well as the copy  performed prior to the AX == 1 call) must include the
+MAC header and all received data, but not the trailing Frame Check Sequence
+(if any).
+
+On  the  second  call, AX == 1.  This call indicates that the copy has been
+completed, and the application may do  as  it  wishes with the buffer.	The
+buffer that the packet was copied into is pointed to by DS:SI.
+
+Parameters
+	if_class	Class of the interface.
+	if_type		Type of the interface.
+	if_number	Number of the interface.
+	type		Pointer to the desired packet type.
+	typelen		Length of the desired packet type.
+	receiver	Pointer to function to call on receipt of an incoming
+				packet.
+
+Returns
+	AX register if operation successful, or -1 if it wasn't.
+
+Possible errors
+		NO_CLASS
+		NO_TYPE
+		NO_NUMBER
+		BAD_TYPE
+		NO_SPACE
+		TYPE_INUSE
+
+-------------------------------------------------------------------------------
+Function		PKas_send_pkt
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKas_send_pkt(char far *buf,uint len,
+					void interrupt (*upcall)(int result,char far *buffer))
+
+as_send_pkt()  differs	from  send_pkt() in that the  upcall()	routine  is
+called when the application's data has	been  copied out of the buffer, and
+the application can safely modify or re-use the  buffer.    The  driver may
+pass a non-zero error code to  upcall()  if  the copy failed, or some other
+error  was  detected,  otherwise  it  should indicate success, even if	the
+packet hasn't actually been  transmitted  yet.	Note that the buffer passed
+to send_pkt() is assumed  to  be modifiable when that call returns, whereas
+with as_send_pkt(), the buffer may be  queued  by the driver and dealt with
+later.	If an error is returned on the initial call, the upcall will not be
+executed.  This function was added in v1.09 of this specification,  and may
+not be implemented by all drivers (see driver_info()).
+
+The upcall() routine is called with the status in AX, and a pointer to the
+original buffer area in ES:DI.
+
+Parameters
+	buf		Pointer to the area containing the data to transmit.
+	len		Length of the data to transmit.
+	upcall	Function to call when buffer re-usable.
+
+Returns
+	TRUE if the operation was successful, or FALSE if it wasn't.
+
+Possible errors
+		CANT_SEND		(transmit error, re-entered, etc.)
+		BAD_COMMAND		(Level 0 or 1 driver)
+
+-------------------------------------------------------------------------------
+Function		PKcheck_int
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKcheck_int(int intnum)
+
+Checks for the existence of a packet driver at the spcified interrupt
+vector.
+
+Parameters
+	intnum	The interrupt vector to check.
+
+Returns
+	TRUE if there is a driver at that vector, or FALSE if there isn't.
+
+-------------------------------------------------------------------------------
+Function		PKdriver_info
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+PKinfo	far *PKdriver_info(int handle)
+
+This  function returns information about the interface.    The	version  is
+assumed to be an internal hardware driver identifier.  In  earlier versions
+of  this  spec, the handle argument (which  must  have	been  obtained	via
+access_type()) was required.   It  is  now  optional, but drivers developed
+according to versions  of  this  spec  previous  to 1.07 may require it, so
+implementers should take care.
+
+Parameters
+	handle	Handle returned from access_type.
+
+Returns
+	Pointer to a locally declared static PKinfo structure defined in pkt.h
+	containing the information if available, or NULL if not. This structure
+	is overwritten with each call to this function.
+
+Possible errors
+		BAD_HANDLE			(older drivers only)
+
+-------------------------------------------------------------------------------
+Function		PKerror
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+void	PKerror(int err)
+
+Generates an error condition. If 'err' == 0, the last error returned
+from the driver is used, else 'err' is used to indicate the type of error.
+The interface functions within this module always pass '0', but the user
+program may wish to pass some other value to simulate an error. Also,
+if the error was not generated by the packet driver (as in the case of
+the initialise() function), PKerror can be called with a non-zero value.
+
+Parameters
+	err		The error number to generate, or 0 to generate the last
+			error from the driver.
+
+Returns
+	Nothing
+
+-------------------------------------------------------------------------------
+Function		PKget_address
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKget_address(int handle,char far *buf,int len)
+
+Copies the current local net address of the interface into buf.  The buffer
+buf is len bytes long.	The actual number of bytes  copied  is	returned in
+CX.    If  the	NO_SPACE  error  is  returned, this indicates that len	was
+insufficient to hold the local net address. If the address has been changed
+by set_address(), the new address should be returned.
+
+Parameters
+	handle	Handle returned from access_type.
+	buf		Pointer to area to store address in.
+	len		Maximum length of area.
+
+Returns
+	The number of bytes copied if successful, or zero if not.
+
+Possible errors
+		BAD_HANDLE
+		NO_SPACE
+
+-------------------------------------------------------------------------------
+Function		PKget_multicast_list
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKget_multicast_list(char far *addrlist)
+
+On a successful return, addrlst points to len bytes of	multicast addresses
+currently in use.  The application program must not modify this information
+in-place.  A NO_SPACE error indicates that there wasn't enough room for all
+active multicast addresses.
+
+Parameters
+	addrlist	Pointer to an area to hold the multicast address list.
+
+Returns
+	The number of bytes copied if the operation was successful, or zero
+	if it wasn't. The multicast address list is copied into the area
+	pointed to by addrlist if possible.
+
+Possible errors
+		NO_MULTICAST
+		NO_SPACE
+
+-------------------------------------------------------------------------------
+Function		PKget_parameters
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+PKparam	far *PKget_parameters(void)
+
+The performance of  an	application may benefit from using get_parameters()
+to  obtain a number of driver parameters.  This function was added to v1.09
+of this  specification,  and  may  not	be  implemented by all drivers (see
+driver_info()).
+
+The major_rev and minor_rev fields are the major and minor revision numbers
+of the version	of  this  specification  the  driver conforms to.  For this
+document, major_rev is	1 and minor_rev is 9.  The length field may be used
+to  determine  which values are valid, should  a  later  revision  of  this
+specification  add  more  values at the end of this structure.	  For  this
+document,  length is 14. The addr_len field is the length of a MAC address,
+in bytes. Note the param structure is assumed to be packed, such that these
+fields occupy four consecutive bytes of storage.
+
+In the param structure, the mtu is the maximum MAC-level packet  the driver
+can  handle  (on Ethernet this number is fixed, but it may  vary  on  other
+media, e.g. 802.5  or  FDDI).	 The  multicast_aval field is the number of
+bytes required to  store  all  the  multicast  addresses  supported  by any
+"perfect filter" mechanism in the hardware.    Calling set_multicast_list()
+with its len argument equal to this value should not  fail  with a NO_SPACE
+error.	A value of zero implies no multicast support.
+
+The rcv_bufs and xmt_bufs indicate the number of  back-to-back	receives or
+transmits  the	card/driver  combination  can  accomodate,  minus  1.	The
+application can use this information  to  adjust  flow-control	or transmit
+strategies.  A single-buffered card (for example, an Interlan NI5010) would
+normally return 0 in both fields. A value of 0 in  rcv_bufs  could  also be
+used by a driver author to indicate that the hardware has limitations which
+prevent  it  from  receiving  as  fast	as  other systems can send, and  to
+recommend that the  upper-layer  protocols invoke lock-step flow control to
+avoid packet loss.
+
+The  int_num  field  should  be  set  to  a  hardware  interrupt  that	the
+application can hook in order to perform interrupt-time protocol processing
+after the EOI has been sent to the 8259 interrupt  controller  and the card
+is  ready for more interrupts.	A value of zero indicates that there is  no
+such interrupt.  Any application hooking this interrupt and finding  a non-
+zero value in the vector must  pass  the  interrupt down the chain and wait
+for  its  predecessors	to return before performing any processing or stack
+switches.  Any	driver	which  implements  this function via a separate INT
+instruction and vector, instead of  just using the hardware interrupt, must
+prevent any saved context from being overwritten by a later interrupt.	 In
+other words,  if  the  driver  switches to its own stack, it must allow re-
+entrancy.
+
+Parameters
+	none
+
+Returns
+	Pointer to a locally declared static PKparam structure defined in pkt.h
+	containing the information if available, or NULL if not. This structure
+	is overwritten with each call to this function.
+
+Possible errors
+		BAD_COMMAND			(No high-performance support)
+
+-------------------------------------------------------------------------------
+Function		PKget_rcv_mode
+Prototype in	pk.h
+Module			pk
+Library			netl
+	
+int		PKget_rcv_mode(int handle)
+
+Returns the current receive mode of the interface associated with handle.
+
+Parameters
+	handle	Handle returned from access_type.
+
+Returns
+	The receive mode if available, or -1 if not.
+
+Possible errors
+		BAD_HANDLE
+
+-------------------------------------------------------------------------------
+Function		PKget_statistics
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+PKstat	far *PKget_statistics(int handle)
+
+Returns a pointer to a statistics structure for the interface.	 The values
+are stored as to be normal 80xx 32-bit integers.
+
+Parameters
+	handle	Handle returned from access_type.
+
+Returns
+	Pointer to a locally declared static PKstat structure defined in pkt.h
+	containing the information if available, or NULL if not. This structure
+	is overwritten with each call to this function.
+
+Possible errors
+		BAD_HANDLE
+
+-------------------------------------------------------------------------------
+Function		PKinit
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKinit(void)
+
+Sets up internal variables for the driver functions to use. Must be
+called prior to calling any other routines in this module.
+
+Parameters
+	none
+
+Returns
+	The interrupt number for the packet driver if one was found, or
+	zero if there isn't one.
+
+-------------------------------------------------------------------------------
+Function		PKrelease_type
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKrelease_type(int handle)
+
+This function ends access  to  packets associated with a handle returned by
+access_type().	The handle is no longer valid.
+
+Parameters
+	handle	Handle returned from access_type.
+
+Returns
+	TRUE if the operation was successful, or FALSE if it wasn't.
+
+Possible errors
+		BAD_HANDLE
+
+-------------------------------------------------------------------------------
+Function		PKreset_interface
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKreset_interface(int handle)
+
+Resets the interface associated with handle to a known state,  aborting any
+transmits in process and reinitializing the receiver. The local net address
+is  reset to the default (from ROM), the multicast list is cleared, and the
+receive mode is set to 3 (own address & broadcasts).	If multiple handles
+are open, these actions  might	seriously  disrupt other applications using
+the interface, so CANT_RESET should be returned.
+
+Parameters
+	handle	Handle returned from access_type.
+
+Returns
+	TRUE if the operation was successful, or FALSE if it wasn't.
+
+Possible errors
+		BAD_HANDLE
+		CANT_RESET
+
+-------------------------------------------------------------------------------
+Function		PKsend_pkt
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKsend_pkt(char far *buf,uint len)
+
+Transmits length bytes of  data,  starting at buffer.  The application must
+supply the entire packet, including local network headers.  Any MAC  or LLC
+information in use  for  packet  demultiplexing  (e.g.	the DEC-Intel-Xerox
+Ethertype) must be filled in by  the  application  as well.  This cannot be
+performed  by  the  driver,  as  no  handle is specified in a call  to	the
+send_packet() function.
+
+Parameters
+	buf		Pointer to the data to be sent.
+	len		Length of the data to be sent.
+
+Returns
+	TRUE if the operation was successful, or FALSE if it wasn't.
+
+Possible errors
+		CANT_SEND
+
+-------------------------------------------------------------------------------
+Function		PKset_address
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKset_address(char far *addr,int len)
+
+This call  is  used  when  the application or protocol stack needs to use a
+specific  LAN  address.   For instance, DECnet protocols on Ethernet encode
+the protocol address in the Ethernet address, requiring that it be set when
+the protocol  stack  is  loaded.    A  BAD_ADDRESS error indicates that the
+Packet Driver  doesn't	like  the  len (too short or too long), or the data
+itself.  Note that packet drivers should refuse to change the address (with
+a  CANT_SET error) if more than one handle is open (lest it be changed	out
+from under another protocol stack).
+
+Parameters
+	addr	Pointer to the address to be set.
+	len		Length of the address to be set.
+
+Returns
+	The number of bytes actually copied if the operation was successful,
+	or zero if it wasn't.
+
+Possible errors
+		CANT_SET
+		BAD_ADDRESS
+
+-------------------------------------------------------------------------------
+Function		PKset_multicast_list
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKset_multicast_list(char far *addrlist,int len)
+
+The addrlst argument is assumed to point to an len-byte buffer containing a
+number of multicast addresses.	  BAD_ADDRESS is returned if len modulo the
+size of an address is  not equal to 0, or the data is unacceptable for some
+reason.   NO_SPACE is returned (and no addresses are set) if there are more
+addresses than the hardware supports directly.
+
+The recommended procedure for  setting	multicast  addresses  is to issue a
+get_multicast_list(),  copy  the  information to a local  buffer,  add	any
+addresses  desired,  and  issue  a  set_multicast_list().  This  should  be
+reversed when the application exits.  If the set_multicast_list() fails due
+to NO_SPACE, use set_rcv_mode() to set mode 5 instead.
+
+Parameters
+	addrlist	Pointer to the multicast address list.
+	len			Length of the multicast address list.
+
+Returns
+	TRUE if the operation was successful, or FALSE if it wasn't.
+
+Possible errors
+		NO_MULTICAST
+		NO_SPACE
+		BAD_ADDRESS
+
+-------------------------------------------------------------------------------
+Function		PKset_rcv_mode
+Prototype in	pk.h
+Module			pk
+Library			netl
+	
+int		PKset_rcv_mode(int handle,int mode)
+
+Sets  the  receive  mode  on  the  interface  associated with  handle.	The
+following values are accepted for mode:
+
+mode	meaning
+
+1		turn off receiver
+2		receive only packets sent to this interface
+3		mode 2 plus broadcast packets
+4		mode 3 plus limited multicast packets
+5		mode 3 plus all multicast packets
+6		all packets
+
+Note that not all interfaces support  all  modes.  The receive mode affects
+all  packets  received	by this interface, not just packets associated with
+the   handle   argument.       See    the    extended	 driver   functions
+get_multicast_list()  and  set_multicast_list()  for  programming  "perfect
+filters" to receive specific multicast addresses.
+
+Note  that mode 3 is the default, and if the set_rcv_mode() function is not
+implemented, mode 3 is assumed to be in force as long  as  any	handles are
+open (from the first access_type() to the last release_type()).
+
+Parameters
+	handle	Handle returned from access_type.
+	mode	Desired receive mode.
+
+Returns
+	TRUE if the operation was successful, or FALSE if it wasn't.
+
+Possible errors
+		BAD_HANDLE
+		BAD_MODE
+
+-------------------------------------------------------------------------------
+Function		PKseterr
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+void	PKseterr(void (*func)())
+
+Sets the function to be called when an error condition is generated.
+Whenever PKerror is called, it checks to see if a function has been
+set, and calls it with the error number and the appropriate error
+string as parameters. The function should be declared as one of the
+following :
+
+void	func(void);
+void	func(char *errstring);
+void	func(char *errstring,int errnumber);
+
+It has been designed this way so that, in the simplest case, the command
+PKseterror(puts) will cause any error messages to be simply displayed on
+standard output. However, the application program can define and specify
+a more complex function using both parameters if required.
+
+Parameters
+	func	The function to be called when an error is generated.
+
+Returns
+	Nothing
+
+-------------------------------------------------------------------------------
+Function		PKterminate
+Prototype in	pk.h
+Module			pk
+Library			netl
+
+int		PKterminate(int handle)
+
+Terminates the driver associated with handle.  If possible, the driver will
+exit and allow MS-DOS to reclaim the memory it was using.
+
+Parameters
+	handle	Handle returned from access_type.
+
+Returns
+	TRUE if the operation was successful, or FALSE if it wasn't.
+
+Possible errors
+		BAD_HANDLE
+		CANT_TERMINATE
+
+-------------------------------------------------------------------------------
+Function		PRerror
+Prototype in	pr.h
+Module			pr
+Library			tll
+
+void	PRerror(int n)
+
+Called by other PR functions to generate an error condition. Can also be
+called by the programmer to simulate a printer error.
+
+Parameters
+	n		The error number to generate.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		PRprintf
+Prototype in	pr.h
+Module			pr
+Library			tll
+
+int		PRprintf(char *fmt,...)
+
+Outputs the specified variables to the printer according to the format
+string. The format specification is the same as for printf etc.
+
+Parameters
+	fmt		The format string.
+	...		The variables to print.
+
+Returns
+	The number of characters output, or EOF if an error occurred.
+
+-------------------------------------------------------------------------------
+Function		PRputs
+Prototype in	pr.h
+Module			pr
+Library			tll
+
+int		PRputs(char *s)
+
+Outputs the specified string to the printer. Attempts to do it's own
+checking of the printer to remove those nasty DOS critical error
+messages. Works well enough, but I'm still not real happy with it.
+Expect some changes to be made here.
+
+Parameters
+	s	The string to output
+
+Returns
+	The last character output, or EOF if an error occurred.
+
+-------------------------------------------------------------------------------
+Function		PRseterr
+Prototype in	pr.h
+Module			pr
+Library			tll
+
+void	PRseterr(void (*func)(char *))
+
+Sets the function to be called when a printer error is generated. The
+function should expect a pointer to a character string containing the
+error message.
+
+Parameters
+	func	A pointer to the function to call.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		SCclear
+Prototype in	sc.h
+Module			sc
+Library			wnl
+
+int		SCclear(SCdata *sc)
+
+Clears the fields on the screen defined in 'sc'.
+
+-------------------------------------------------------------------------------
+Function		SCdisplay
+Prototype in	sc.h
+Module			sc
+Library			wnl
+
+int		SCdisplay(SCdata *f)
+
+Displays the field pointed to by 'f'.
+
+-------------------------------------------------------------------------------
+Function		SCgetfield
+Prototype in	sc.h
+Module			sc
+Library			wnl
+
+uchar	SCgetfield(SCdata *f)
+
+Gets the field pointed to by 'f'.
+
+-------------------------------------------------------------------------------
+Function		SCgetscreen
+Prototype in	sc.h
+Module			sc
+Library			wnl
+
+uchar	SCgetscreen(SCdata *sc,int *cf)
+
+Gets a screen of data from the user, using the array of field
+structures pointed to by 'sc'. On entry, the current field is
+set to 'cf', and on exit, 'cf' is set to the current field.
+
+-------------------------------------------------------------------------------
+Function		SCnf
+Prototype in	sc.h
+Module			sc
+Library			wnl
+
+int		SCnf(SCdata *sc)
+
+Returns the number of fields in the screen pointed to by 'sc'.
+
+-------------------------------------------------------------------------------
+Function		SCshow
+Prototype in	sc.h
+Module			sc
+Library			wnl
+		
+int		SCshow(SCdata *sc)
+
+Displays the current screen defined by 'sc'.
+
+-------------------------------------------------------------------------------
+Function		WNback
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNback(int c)
+
+Set the current window background color to 'c'.
+
+-------------------------------------------------------------------------------
+Function		WNbox
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNbox(int lef,int top,int rig,int bot,int type)
+
+Draw a box from 'ulx','uly' to 'lrx','lry'. Box can be single
+or double lined, as specified in 'attr'. 0 is single, 1 is
+double.
+
+-------------------------------------------------------------------------------
+Function		WNclose
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+WNwin	*WNclose(void)
+
+Close the current window and select the last opened window.
+Removes the window from the screen if it was opened as a
+popup window.
+
+-------------------------------------------------------------------------------
+Function		WNcolor
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+int		WNcolor(int c)
+
+Set the current window color to 'c'.
+
+-------------------------------------------------------------------------------
+Function		WNcursor
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNcursor(int state)
+
+Place the cursor at the absolute position 'posn'. 'posn' is
+a value returned from WNgcursor.
+
+-------------------------------------------------------------------------------
+Function		WNdisplay
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNdisplay(int x,int y,char *mess)
+
+Display the string pointed to by 's' in the current window
+at coordinates 'x','y'.
+
+-------------------------------------------------------------------------------
+Function		WNend
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNend(void)
+
+Close all windows and restore the DOS screen present before
+WNinit was called. Should not be called by the programmer,
+as it is set up as an 'atexit' function by WNinit.
+
+-------------------------------------------------------------------------------
+Function		WNfore
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNfore(int c)
+
+Set the current window foreground color to 'c'.
+
+-------------------------------------------------------------------------------
+Function		WNgcursor
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+int		WNgcursor(void)
+
+Get the current absolute cursor position.
+
+-------------------------------------------------------------------------------
+Function		WNhline
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNhline(int l,int r,int y,int f)
+
+Draws a horizontal line (single or double) from l,y to r,y.
+
+Parameters
+	l	The left x-position of the line.
+	r	The right x-position of the line.
+	y	The y-position of the line.
+	f	0 for a single line, or 1 for a double.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		WNinit
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNinit(void)
+
+Initialise the Windowing System. Does not need to be called
+by the programmer as all WN functions check for it first.
+
+-------------------------------------------------------------------------------
+Function		WNload
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNload(void)
+
+Sets up window limits, screen color, and cursor position and
+type as specified by the current window.
+
+There are 4 things to be restored on entry to a window. The window
+coordinates, the cursor position, the color, and the cursor type.
+
+-------------------------------------------------------------------------------
+Function		WNloadcurs
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNloadcurs(void)
+
+Returns the cursor to the position previously saved by
+WNsavecurs.
+
+Set the current cursor position from two static variables (cursx,cursy).
+These variables can only be seen within this module.
+
+-------------------------------------------------------------------------------
+Function		WNloaddos
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNloaddos(void)
+
+Restore the DOS screen.
+
+-------------------------------------------------------------------------------
+Function		WNmessage
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNmessage(WNwin *win,int x,int y,int c,char *mess)
+
+Place the character string 's' at the position 'x','y' in
+the color 'c' in window 'w'.
+
+-------------------------------------------------------------------------------
+Function		WNopen
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+WNwin	*WNopen(int ulx,int uly,int lrx,int lry,int color,int attr,char *tit)
+
+Open a window from 'ulx','uly' to 'lrx','lry'. Current
+color is set to 'c', and attributes to 'attr'. 'attr' can
+specify whether the window is a popup or not, as well as
+the border style (None, single or double).
+
+-------------------------------------------------------------------------------
+Function		WNputc
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNputc(char ch)
+
+Place the character 'c' in the current window.
+
+-------------------------------------------------------------------------------
+Function		WNsave
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNsave(void)
+
+Save the current window parameters.
+
+These are the only two variables not updated on an ongoing basis by
+these routines. All of the display functions use the Turbo-C console
+I/O routines, which can change the cursor position without updating
+the xy coordinates stored in the 'curr' structure.
+
+-------------------------------------------------------------------------------
+Function		WNsavecurs
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNsavecurs(void)
+
+Save the current cursor position to be restored later by
+WNloadcurs.
+
+Save the current cursor position into two static variables (cursx,cursy).
+These variables can only be seen within this module.
+
+-------------------------------------------------------------------------------
+Function		WNsavedos
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNsavedos(void)
+
+Save the current DOS screen. Used in WNinit.
+
+-------------------------------------------------------------------------------
+Function		WNselect
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+WNwin	*WNselect(WNwin *win)
+
+Make the window pointed to by 'w' the current window.
+
+-------------------------------------------------------------------------------
+Function		WNvline
+Prototype in	wn.h
+Module			wn
+Library			wnl
+
+void	WNvline(int t,int b,int x,int f)
+
+Draws a vertical line (single or double) from x,t to x,b.
+
+Parameters
+	t	The top y-position of the line.
+	b	The bottom y-position of the line.
+	x	The x-position of the line.
+	f	0 for a single line, or 1 for a double.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		binary
+Prototype in	misc.h
+Module			misc
+Library			tll
+
+char	*binary(uint16 val,int digits)
+
+Decodes a 16-bit integer into a character string up to 16 bytes long
+(plus one byte for the terminating NULL) containing the ASCII
+representation of the integer in binary. 'digits' specifies the number
+of bits to decode. Eg, if 'val' was 25, and 'digits' was 8, the function
+would return a pointer to a string consisting of "00011001". This string
+is a locally declared static variable, and is overwritten with each call.
+
+Parameters
+	val		The integer to convert.
+	digits	The number of bits to convert.
+
+Returns
+	A pointer to the converted string.
+
+-------------------------------------------------------------------------------
+Function		chkdrive
+Prototype in	disk.h
+Module			disk
+Library			tll
+
+int		chkdrive(int drive)
+
+Check to see if the specified drive is valid. Works for all floppy
+disks, hard disks, and network drives.
+
+Thanks to marty@Shiva.COM (Marty Del Vecchio) for the idea, and
+valley@gsbsun.uchicago.edu (Doug Dougherty) for the code, on which
+this implementation is based.
+
+Parameters
+	drive	The drive to check (Range 'a'-'z' or 'A'-'Z').
+			Eg, chkdrive('A') or chkdrive('a') to see if drive 'A:'
+			is valid.
+
+Returns
+	TRUE if the drive is valid, or FALSE if it isn't.
+
+-------------------------------------------------------------------------------
+Function		datelong
+Prototype in	date.h
+Module			date
+Library			tll
+
+long	datelong(datest *d)
+
+Given a pointer to a 'datest' structure, return the Day number of the
+specified date(1-11967900). The datest structure contains the
+year(1-32767), the month(1-12), and the day(1-31).
+
+Day 1, Month 1, Year 1 is Day number 1.
+
+-------------------------------------------------------------------------------
+Function		daynam
+Prototype in	date.h
+Module			date
+Library			tll
+
+char	*daynam(int d)
+
+Returns a pointer to the 3-letter day name corresponding to the
+day number parsed. Eg, 1 returns "Sun".
+
+-------------------------------------------------------------------------------
+Function		dayname
+Prototype in	date.h
+Module			date
+Library			tll
+
+char	*dayname(int d)
+
+Returns a pointer to the full day name corresponding to the
+day number parsed. Eg, 1 returns "Sunday".
+
+-------------------------------------------------------------------------------
+Function		daysuff
+Prototype in	date.h
+Module			date
+Library			tll
+
+char	*daysuff(int d)
+
+Returns a pointer to the 2-letter suffix which should be appended to the
+day number parsed. Eg, 21 returns "st".
+
+-------------------------------------------------------------------------------
+Function		delenvp
+Prototype in	env.h
+Module			env
+Library			tll
+
+int		delenvp(char *var)
+
+Delete a variable from the root environment.
+
+Parameters
+	var		The variable to delete.
+
+Returns
+	TRUE if the variable was deleted, FALSE if it wasn't found.
+
+-------------------------------------------------------------------------------
+Function		dice
+Prototype in	random.h
+Module			random
+Library			tll
+
+int		dice(int n,int d)
+
+Rolls a 'd' sided dice 'n' times, summing the results. Eg, dice(4,6)
+simulates the rolling of 4 6-sided dice, returning a number from 4 to 24.
+
+Parameters
+	n		The number of dice to roll.
+	d		The number of sides on each dice.
+
+Returns
+	The sum of the result of the rolls.
+
+-------------------------------------------------------------------------------
+Function		endtrap
+Prototype in	misc.h
+Module			misc
+Library			tll
+
+void	endtrap(void)
+
+Turns off BREAK key checking. See trapbreak.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		farcmp
+Prototype in	far.h
+Module			far
+Library			tll
+
+int		farcmp(char far *s1,char far *s2,int n)
+
+Compares two "far" strings. Returns TRUE or FALSE rather than a proper
+comparison. This will be fixed in a future version. I'm not even sure this
+is the right way to implement these functions, as it makes the libraries
+dependent on this one (any that use these functions), and I'd like to keep
+them completely independent.
+
+Parameters
+	s1		The first string to compare.
+	s2		The second string to compare.
+	n		The maximum number of bytes to compare.
+
+Returns
+	TRUE if the strings are identical, or FALSE if they aren't.
+
+-------------------------------------------------------------------------------
+Function		farmov
+Prototype in	far.h
+Module			far
+Library			tll
+
+void	farmov(char far *s1,char far *s2,int n)
+
+Copies one "far" string to another. See 'farcmp' for more info.
+
+Parameters
+	s1		The string to copy from.
+	s2		The string to copy to.
+	n		The maximum number of bytes to copy.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		fndenvp
+Prototype in	env.h
+Module			env
+Library			tll
+
+void	fndenvp(void)
+
+Locate the root environment, and set some variables for use by other
+functions in this module.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		getarg
+Prototype in	arg.h
+Module			arg
+Library			tll
+
+char	*getarg(void)
+
+Gets succesive arguments from the command line. If called before a 'getopt'
+will get all arguments, including options. However, it is designed to be
+used after a 'getopt'. Each call to getarg will return the next argument
+on the command line.
+
+Parameters
+	none
+
+Returns
+	A pointer to the next command line argument, or NULL if there are none.
+
+-------------------------------------------------------------------------------
+Function		getopt
+Prototype in	arg.h
+Module			arg
+Library			tll
+
+void	getopt(char *opts,...)
+
+Interprets command line arguments according to the rules specified in
+the string 'opts'. It uses the external variable '_argv', which is a
+pointer to the command line argument array, to get the command line
+arguments. The string 'opts' consists of a sequence of alphanumeric
+characters, each one optionally followed by a non-alphanumeric character.
+Each alphanumeric specifies a valid option. If it is followed by a colon,
+the option may have an argument. If it is followed by any other non-
+alphanumeric, the option may still have an argument, but the argument will
+be appended to the storage area for that option, with the specified
+non-alphanumeric character as a seperator.
+
+The string 'opts' should be followed by a series of pointers to locations
+to hold the data. There should always be exactly the same number of
+pointers as characters in 'opts'. Each alphanumeric character should have
+a corresponding pointer to an integer to hold the number of times that
+option was specified on the command line, and each non-alphanumeric
+character should have a pointer to a character array to hold the argument
+following the option (if any). Any of the pointers may be NULL, indicating
+that the corresponding value should not be stored.
+
+Getopt makes any found argument or option into a null-string. Thus, getarg
+can be called after getopt to return any remaining arguments.
+
+An example of use would be good...
+
+void main(void)
+{
+	int		opt_a,opt_b;
+	char	arg_c[81];
+	char	*s;
+
+	getopt("ab:c;",&opt_a,&opt_b,NULL,NULL,arg_c);
+
+	printf("Option a was entered %d times\r\n",opt_a);
+	printf("Option b was entered %d times\r\n",opt_b);
+	printf("Option c had arguments %s\r\n",arg_c);
+
+	while (s = getarg())
+		printf("Argument = %s\r\n");
+}
+
+This program would accept and count the number of occurrences of '-a' on
+the command line, and the same for '-b'. Any arguments following a '-b'
+would be ignored. Each occurrence of '-c' would have it's argument appended
+to 'arg_c', with ';' as the seperator character.
+
+Parameters
+	opts	The specification string
+	...		A list of pointers to either integers or character strings.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		getshftstate
+Prototype in	misc.h
+Module			misc
+Library			tll
+
+int		getshftstate(void)
+
+This function returns the current state of the shift keys. At the moment
+it merely reflects what BIOS thinks they are. If you have not been
+chaining to the BIOS keyboard handler (because you have your own installed)
+this function may return incorrect values.
+
+The following four values are defined in misc.h for use in determining
+whether a given shift key is depressed :
+
+RSHIFT	0x01
+LSHIFT	0x02
+CTRL	0x04
+ALT		0x08
+
+To determine if a given key is pressed, AND the result of getshftstate
+with the corresponding value. Eg, (getshftstate() & CTRL) will return
+TRUE if the CTRL key is currently pressed.
+
+Parameters
+	none
+
+Returns
+	The current state of the shift keys, as follows :
+	Bit 0	Right Shift Key		(1=pressed)
+	Bit 1	Left Shift Key		(1=pressed)
+	Bit 2	Control Key			(1=pressed)
+	Bit 3	Alt Key				(1=pressed)
+	Bit 4	Scroll-Lock status	(1=on)
+	Bit 5	Num-Lock status		(1=on)
+	Bit 6	Caps-Lock status	(1=on)
+	Bit 7	Insert status		(1=on)
+
+-------------------------------------------------------------------------------
+Function		kbreset
+Prototype in	misc.h
+Module			misc
+Library			tll
+
+void	kbreset(void)
+
+This resets the keyboard after a scan-code has been sent, and sends an
+EOI to the 8259 controller. This function is normally done by the old
+interrupt 9 handler, but if it your handler does not chain to the old
+interrupt handler, then this function must be called before exiting.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		leapyear
+Prototype in	date.h
+Module			date
+Library			tll
+
+int		leapyear(int y)
+
+Given a year(1-32767), return non-zero (TRUE) if it is a leapyear,
+zero (FALSE) if it is not.
+Uses the following rules :
+
+If a year is evenly divisible by 4, it is a leapyear, unless it is
+evenly divisible by 100 and not 400.
+eg, 0, 4, 8, etc are leapyears.
+	100, 200, 300 are not leapyears.
+	400, 800, 1200, etc are leapyears.
+
+-------------------------------------------------------------------------------
+Function		locks
+Prototype in	misc.h
+Module			misc
+Library			tll
+
+uint8	locks(uint8 on,uint8 off)
+
+Change the status of the num-lock, scroll-lock and caps-lock keys. At this
+stage, this function merely updates the BIOS record. At some point, BIOS
+updates the keyboard leds. I think this is only during keyboard or screen
+I/O. I ran a batch file to call this function repeatedly, and it worked
+while echo was on, but crashed the machine otherwise, so Handle With Care.
+
+Note that OFF parameters take precedence over ON. Thus,
+
+locks( L_SCR|L_NUM , L_NUM|L_CAP )
+
+will turn the Scroll-lock key on, and both the Num-lock and Caps-lock
+keys off. Also, since locks returns the current state of the lock keys,
+and locks(0,0) will change nothing, it can be used to determine the
+current state.
+
+Parameters
+	on		Bitwise OR of the locks to turn on. Eg, L_SCR | L_NUM.
+	off		Bitwise AND of the keys to turn off. Eg, L_NUM | L_CAP.
+
+Returns
+	The current state of the lock keys.
+
+-------------------------------------------------------------------------------
+Function		longdate
+Prototype in	date.h
+Module			date
+Library			tll
+
+datest	*longdate(datest *ds,long d)
+
+Given a Day number as per function datelong, return the date in the
+variable pointed to by 'ds'.
+
+-------------------------------------------------------------------------------
+Function		longdow
+Prototype in	date.h
+Module			date
+Library			tll
+
+int		longdow(long d)
+
+Given a Day number as per function datelong, return the day of the week
+on that day(1-7). Sunday is the 1st day of the week, Saturday is the 7th.
+
+-------------------------------------------------------------------------------
+Function		monlen
+Prototype in	date.h
+Module			date
+Library			tll
+
+int		monlen(int m,int y)
+
+Given month(1-12) and year(1-32767), return the length of the month.
+	monlen(2,1991) returns 28		(February 1991 has 28 days)
+	monlen(2,1992) returns 29		(February 1992 has 29 days)
+
+-------------------------------------------------------------------------------
+Function		monsum
+Prototype in	date.h
+Module			date
+Library			tll
+
+int		monsum(int m,int y)
+
+Given month(1-12) and year(1-32767), return the number of days within
+the year prior to the first of that month (0-335).
+
+monsum(1,1991) returns 0		(01/01/1991 is Day 1  of 1991)
+monsum(2,1991) returns 31		(01/02/1991 is Day 32 of 1991)
+monsum(3,1991) returns 59		(01/03/1991 is Day 60 of 1991)
+monsum(3,1992) returns 60		(01/03/1992 is Day 61 of 1992 - leapyear)
+
+-------------------------------------------------------------------------------
+Function		monthnam
+Prototype in	date.h
+Module			date
+Library			tll
+
+char	*monthnam(int m)
+
+Returns a pointer to the 3-letter month name corresponding to the
+month number parsed. Eg, 1 returns "Jan".
+
+-------------------------------------------------------------------------------
+Function		monthname
+Prototype in	date.h
+Module			date
+Library			tll
+
+char	*monthname(int m)
+
+Returns a pointer to the full month name corresponding to the
+month number parsed. Eg, 1 returns "January".
+
+-------------------------------------------------------------------------------
+Function		mplay
+Prototype in	music.h
+Module			music
+Library			tll
+
+char	*mplay(char *szName)
+
+		Polyphonic Music Player v1.2
+Written in DeSmet C and placed in the public domain
+		by:	Mike Talvola
+			Agoura Hills, CA
+
+Permission is hereby granted to copy, modify, and
+otherwise use this program except for profit.
+
+Inspired by "Polyphonic Music on the IBM PC"
+	by:	Steve Muenter
+
+This function uses tri() to play a tune stored in a file. The file has a
+default extension of ".POL", and should contain a series of integers
+seperated by blanks or newlines. Each of the integers should be in the
+format specified for tri().
+
+Parameters
+	szName	A pointer to the filename containing the data to play.
+
+Returns
+	A pointer to the name of the file played.
+
+-------------------------------------------------------------------------------
+Function		play
+Prototype in	music.h
+Module			music
+Library			tll
+
+void	play(char *s)
+
+Plays notes from the character string s. S should contain a sequence of
+commands, optionally followed by a single digit argument, as follows :
+
+Command		Argument	Function
+A-G			1-9			Play the note, set the length for this note only
+						if the argument is present.
+T			0-9			Set the tempo from 0 (fastest) to 9 (slowest).
+L			1-9			Set the default note length from 1 (full note) to
+						9 (1/256th note).
+O			0-9			Set the octave from 0 (lowest) to 9 (highest).
+@			filename	Continue getting commands from the specified file.
+						Unless this is the last command in the string, the
+						argument should be terminated by another '@'. The
+						file can contain multiple lines, and can contain
+						another '@' command. '@'s can be nested until you
+						run out of memory.
+
+Parameters
+	s		A pointer to the string holding the commands to play.
+
+Returns
+	Nothing
+
+-------------------------------------------------------------------------------
+Function		randomise
+Prototype in	random.h
+Module			random
+Library			tll
+
+void	randomise(void)
+
+This function is only here to correct a spelling mistake in Turbo-C
+(if you're Aussie it's a spelling mistake anyway). I got sick of having
+to correct myself.
+
+All it does is seed the random number generator from the PC's clock.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		readcmos
+Prototype in	cmos.h
+Module			cmos
+Library			tll
+
+int		readcmos(int port)
+
+Read a CMOS location, waiting for a valid RTC value before returning if
+the location is an RTC location.
+
+Parameters
+	port	The location to read, range from 0x00 to 0xff.
+
+Returns
+	The value at that location, range from 0x00 to 0xff.
+
+-------------------------------------------------------------------------------
+Function		setenvp
+Prototype in	env.h
+Module			env
+Library			tll
+
+int		setenvp(char *var,char *val)
+
+Set a variable in the root environment. If the variable does not exist,
+create it. If it does, replace it.
+
+Parameters
+	var		The variable to set.
+	val		The value to give it.
+
+Returns
+	TRUE if the variable could be set, FALSE if there wasn't enough room.
+
+-------------------------------------------------------------------------------
+Function		settimer
+Prototype in	misc.h
+Module			misc
+Library			tll
+
+void	settimer(ulong hz)
+
+Theoretically this function changes the PC's 18.2hz clock pulses to any
+desired frequency, but as far as I can tell, it doesn't seem to work.
+Maybe the next version.
+
+Parameters
+	hz		The desired clock frequency.
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		trapbreak
+Prototype in	misc.h
+Module			misc
+Library			tll
+
+void	trapbreak(void)
+
+This detects all the various BREAK key combinations and ignores them.
+Anything else is passed through to the normal keyboard handler. The
+key combinations which are ignored are as follows :
+
+CTRL-2
+CTRL-ScrlLock
+CTRL-C
+CTRL-ALT-Delete
+ALT-Keypad0 to Keypad9
+
+Note this last one. The user can normally use the keypad keys with <ALT>
+to generate any ASCII code. If they generate ASCII 3, this is interpreted
+as a BREAK. To prevent this, I disable the <ALT>keypad function completely.
+This was infinitely easier than trying to interfere with the BIOS routine
+which accumulates the <ALT>keypad keystrokes and delivers the ASCII value.
+
+Also, CTRL-ALT-Delete is trapped. I figure if you don't want the user
+breaking out of your program, you don't want him rebooting your machine
+either. An interesting note is that we can never take away the power
+switch, so if the idiot really wants to, he can always stuff up his data
+one way or another. However, the purpose of this routine is simply to
+make sure he doesn't do it accidentally.
+
+This function is one of three. The other two are endtrap and traphandler.
+Endtrap is called to turn BREAK key trapping off. Traphandler should not
+be called by the programmer. It is the interrupt handler.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		traphandler
+Prototype in	misc.h
+Module			misc
+Library			tll
+
+void	interrupt traphandler(void)
+
+The interrupt handler for BREAK key checking. See trapbreak.
+Should not be called by the programmer.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------
+Function		tri
+Prototype in	music.h
+Module			music
+Library			tll
+
+void	tri(short *tune)
+
+play 3-voice music
+
+Copyright (C) A.Bogatyrev (abs)
+				Moscow  1990.
+Program is placed in the public domain by: ABS.
+Permission is hereby granted to copy, modify,
+and otherwise use this program except for profit.
+.................................................
+Modified by:	Kevin Spencer
+				17 Winchelsea Rd,
+				NOLLAMARA  WA  6061
+
+Takes an array of 'short', and plays it. Each element in the array must
+be at least 16 bits long. The highest 3 bits represent the Command, and
+the lowest 13 bits represent the Value. The commands are as follows :
+
+000		End-Of-Tune
+001		Delay for Value, then play Voices 1,2 & 3
+010		Change Tempo to Value
+011		Ignore this Value
+100		Set Pitch for Voice 1
+101		Set Pitch for Voice 2
+110		Set Pitch for Voice 3
+111		Set Pitch for Voice 3
+
+Note that this is only my best guess at how this thing really works.
+Take it with a pinch of salt.
+
+Parameters
+	tune	A pointer to the array described above.
+
+Returns
+	Nothing
+
+-------------------------------------------------------------------------------
+Function		updateclock
+Prototype in	cmos.h
+Module			cmos
+Library			tll
+
+void	updateclock(void)
+
+Update DOS' date/time using the value in the CMOS Real-Time-Clock.
+
+Parameters
+	none
+
+Returns
+	nothing
+
+-------------------------------------------------------------------------------

@@ -1,0 +1,175 @@
+
+[76701,46]
+P1TC.DIF/binary           29-Jun-87 384
+
+    Keywords:
+     PATCH DIF FLOAT DIVIDE CONSTANT
+
+
+         floating constant evaluation patch
+         allows version 1.0 to evaluate constant division.
+         Integrated Environment (TC.EXE) Turbo C version 1.00.
+
+
+
+[76701,46]
+P1TCC.DIF/binary          29-Jun-87 384
+
+    Keywords:
+     PATCH DIF FLOAT DIVIDE CONSTANT
+
+    floating constant evaluation patch
+    allows version 1.0 to evaluate constant division.
+    Command Line (TCC.EXE) Turbo C version 1.00.
+
+
+
+
+[76701,46]
+P2TC.DIF/binary           29-Jun-87 512
+
+    Keywords:
+     PATCH DIF FLOAT STRUCTURE
+
+
+         floating point structure push patch
+         Allows Turbo C to pass structures with floating point members.
+         Integrated Environment (TC.EXE) Turbo C version 1.00.
+
+
+
+
+[76701,46]
+P2TCC.DIF/binary          29-Jun-87 512
+
+    Keywords:
+     PATCH DIF FLOAT STRUCTURE
+
+    floating point structure push patch
+    Allows Turbo C to pass structures with floating point members.
+    Command Line (TCC.EXE) Turbo C version 1.00.
+
+
+
+
+[76701,46]
+P3TC.DIF/binary           29-Jun-87 384
+
+    Keywords: PATCH DIF GENERATE FOR SPEED SWITCH -G
+    
+    
+         generate for speed switch patch
+         Allows the use of the Generate for speed switch with large
+         switch statements.
+         Integrated Environment (TC.EXE) Turbo C version 1.00
+    
+    
+
+
+[76701,46]
+P3TCC.DIF/binary          29-Jun-87 384
+
+    Keywords: PATCH COMMAND LINE DASH G GENERATE FOR SPEED LARGE CASE
+    STATEMENTS
+
+    This file enables Turbo C to use the Generate for speed option (-G) with
+    large case statements.
+    This file should be input to PATCH.COM to patch TCC.EXE for Turbo C v1.0.
+
+    To get a copy of PATCH.COM, download a copy of PATCH.ARC.
+
+
+
+
+[76701,46]
+P5TC.DIF/binary           29-Jun-87 512
+
+    Keywords: PATCH DIF BUILDALL BUILD ALL
+
+
+         This file allows BUILD ALL to operate as expected.
+
+
+
+
+[76701,46]
+P6TC-2.DIF                02-Jul-87 516
+
+    Keywords: PATCH INTEGRATED ENVIRONMENT TC.EXE EDITOR TAB WIDTH 2
+    
+    This patch will change the Turbo C Integrated Environment editor's tab
+    width from 8 to 2.
+    
+    This file is input to PATCH.COM.
+    
+    To get a copy of PATCH.COM, download PATCH.ARC
+    
+    
+
+
+[76701,46]
+P6TC-4.DIF                02-Jul-87 514
+
+    Keywords: PATCH INTEGRATED ENVIRONMENT TC.EXE EDITOR TAB WIDTH 4
+    
+    This patch will change the Turbo C Integrated Environment editor's tab
+    width from 8 to 4.
+    
+    This file is input to PATCH.COM.
+    
+    To get a copy of PATCH.COM, download PATCH.ARC
+    
+    
+
+
+[76701,46]
+P7TC.DIF/binary           29-Jun-87 256
+
+    Keywords:
+     PATCH DIF CONTROL BREAK
+    
+    
+         This file stops Turbo C from exiting when ^C or ^Break are
+         pressed  during compilation.
+         Integrated Environment (TC.EXE) Turbo C version 1.0
+    
+    
+
+
+[76701,46]
+P8TC.DIF                  30-Jun-87 384
+
+    Keywords: PATCH INTEGRATED ENVIRONMENT DELETE TEMPORARY FILE DMMWPGBJ.$$$
+    
+    This fixes a problem in the integrated environment where in certain
+    circumstances, the temporary file DMMWPGBJ.$$$ is not deleted.
+    
+    
+
+
+[76701,46]
+P9TC.DIF                  30-Jun-87 432
+
+    Keywords: PATCH INTEGRATED ENVIRONMENT IBM PC JR
+
+    This file allows the Integrated Environment version of Turbo C to work on
+    the IBM PC Jr.  No similar patch for TCC.EXE is needed as that program
+    works on the Jr without modification.
+    This is an input file for PATCH.COM.  To get a copy of PATCH.COM, download
+    PATCH.ARC.
+    
+
+
+[76701,46]
+PATCH.ARC/binary          29-Jun-87 10496
+
+    Keywords:
+     PATCH DIF BORLAND
+
+    This file contains PATCH.COM and PATCH.DOC.  PATCH.COM uses the .DIF files
+    found in this DL to effect changes to the Turbo C compilers. Download and
+    extract the files with an ARC51 compatible dearchiving utility.
+
+
+
+

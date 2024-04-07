@@ -1,0 +1,92 @@
+TsrPrtSc.C, PrtSc.C, PrtSc.H
+
+Here is some documentation I wrote some time ago. Hope it's useful, but,
+
+     The author shall not be liable to the user for any direct, indirect or
+     consequential loss arising from the use of, or inability to use, any
+     program or file howsoever caused. No warranty is given that the programs
+     will work under all circumstances.
+
+Sherif
+
+/*--------------------------------------------------------------------------*
+ | Sherif El-Kassas        .       :.                                       |
+ | EB dept           \_____o__/ __________                                  |
+ | Eindhoven U of Tec       .. /                                            |
+ | The Netherlands            /             Email: elkassas@eb.ele.tue.nl   |
+ *--------------------------------------------------------------------------*/
+
+A PRINT SCREEN UTILITY
+
+One of the annoying things about printing screens, is that you always get a
+copy of the whole screen including things you don't want to print, such as
+your word processor's status line, the DOS prompt, ...etc.
+
+PrtSc is a memory resident utility - written in Turbo C - that enables you to
+select the screen area you really want to print.
+
+PREPARING PrtSC
+
+Compile using:
+
+     C> TCC -mt PrtSc.C TsrPrtSc.C
+
+Then type PrtSc and press enter to load the program into your computer's
+memory.
+
+
+USING PrtSc
+
+When you want to call PrtSc press the ALT and PrtSc keys [actually the '*' key
+on the right keypad] simultaneously, a white block style cursor will appear at
+the upper left corner of the screen.
+
+Use the arrow and cursor movement keys to move the cursor to the beginning of
+the screen area you want to print and press enter.  Move the cursor to the end
+of the block to be printed (a rubber band box will appear as you move around
+to help you identify the area to be printed ) and press the enter key once
+more. The block enclosed by the rubber band is the printer.
+
+
+HOW PrtSc WORKS
+
+o INSTALLING IN MEMORY
+
+When you run PrtSc it will first initialize some internal variables and system
+pointers and then it simply terminates and returns control back to DOS,
+however it returns control to DOS using a special DOS function, interrupt 0x21
+function 0x31 KEEP PROCESS (we could also use interrupt 0x27 TERMINATE BUT
+STAY RESIDENT). Function 0x31 instructs DOS to terminate the current process
+but without reallocating it's memory. Therefor the terminated program has
+become a part of DOS.
+
+
+o POPPING UP
+
+Making the program memory resident is not enough, the resident program must be
+able to regain control. In our case this is done by checking all the incoming
+key strokes until a special key combination is pressed (ALT-PrtSc) to trigger
+program action. Checking the incoming key strokes is done by taking over the
+keyboard interrupt.
+
+One of the problems we face here is that the DOS services provided throw
+interrupt 0x21 are not re-entrant, which means that we can't use any DOS
+functions (file I/O ..etc) from within the resident program unless we are sure
+that DOS is inactive. As it happens DOS maintains a special flag (the BUSY
+FLAG) that indicates whether or not a DOS routine is currently active. So
+before popping up, the resident utility should check the BUSY FLAG to make
+sure that it's safe to use DOS functions. Another undocumented DOS feature is
+interrupt 0x28. Interrupt 0x28 is called from DOS functions (e.g when function
+0x0A is waiting for a key stoke) and the interesting thing is that during a
+call to interrupt 0x28 it is safe to use DOS functions higher than 0x0C.
+
+So PrtSc monitors the keyboard until the ALT and PrtSc keys are pressed, if
+DOS is inactive the program is activated otherwise it waits for a call to
+interrupt 0x28.
+
+[    Note: this program performs direct video access without attempting to
+     synchronize with vertical/horizontal retrace. So if you have a CGA you
+     will probably get lots of snow. I think the simplest way to fix this is
+     to use the screen access routines found in conio.h (this program was
+     first written using an pre conio.h version of Turbo C).
+]

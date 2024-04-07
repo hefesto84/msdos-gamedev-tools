@@ -1,0 +1,184 @@
+
+$equ macro a,b
+ a equ <b>
+ endm
+
+ifndef __NAME__
+ ifdef @filename
+  $equ __NAME__,%@filename
+ else
+  __NAME__ equ <>
+ endif
+endif
+
+ifdef __TINY__
+ __SMALL__ equ 1
+endif
+
+ifdef __SMALL__
+ __LPROG__ equ 0
+ __LDATA__ equ 0
+endif
+
+ifdef __MEDIUM__
+ __LPROG__ equ 1
+ __LDATA__ equ 0
+endif
+
+ifdef __COMPACT__
+ __LPROG__ equ 0
+ __LDATA__ equ 1
+endif
+
+ifdef __LARGE__
+ __LPROG__ equ 1
+ __LDATA__ equ 1
+endif
+
+ifdef __HUGE__
+ __LPROG__ equ 1
+ __LDATA__ equ 1
+endif
+
+ifndef __LPROG__
+ %out !No model specified---assembling for COMPACT model.
+ __COMPACT__ equ <>
+ __LPROG__ equ 0
+ __LDATA__ equ 1
+endif
+
+if __LPROG__
+ $equ __CNAME__,%__NAME__
+else
+ __CNAME__ equ <>
+endif
+
+if __LPROG__
+ ifdef __HUGE__
+  @a equ 8
+ else
+  @a equ 6
+ endif
+ @f equ 4
+else
+ @a equ 4
+ @f equ 2
+endif
+
+if __LDATA__
+ @d equ 4
+else
+ @d equ 2
+endif
+
+$cseg macro cnm
+ cnm&_text segment byte public 'code'
+ endm
+
+@cseg macro
+ $cseg %__CNAME__
+ endm
+
+@endc macro
+ @curseg ends
+ endm
+
+$dseg macro nm
+ ifdef __HUGE__
+  nm&_data segment word public 'data'
+ else
+  _data segment word public 'data'
+ endif
+ endm
+
+@dseg macro
+ $dseg %__NAME__
+ endm
+
+@endd macro
+ @curseg ends
+ endm
+
+$bseg macro nm
+ ifdef __HUGE__
+  nm&_data segment word public 'data'
+ else
+  _bss segment word public 'bss'
+ endif
+ endm
+
+@bseg macro
+ $bseg %__NAME__
+ endm
+
+@endb macro
+ @curseg ends
+ endm
+
+$header macro nm,cnm
+ name nm
+ @cseg
+ ifdef __HUGE__
+  assume cs:nm&_text,ds:nm&_data
+  dgroup equ <ds>
+ else
+  dgroup group _data,_bss
+  if __LDATA__
+   assume cs:cnm&_text,ds:dgroup
+  else
+   assume cs:cnm&_text,ds:dgroup,ss:dgroup
+  endif
+ endif
+ @endc
+ @dseg
+ @endd
+ ifndef __HUGE__
+  @bseg
+  @endb
+ endif
+ endm
+
+@header macro
+ $header %__NAME__,%__CNAME__
+ endm
+
+@proc macro name
+ local n
+ public _&name
+ if __LPROG__
+  _&name proc far
+ else
+  _&name proc near
+ endif
+ endm
+
+$enter macro nm
+ ifdef __HUGE__
+  push ds
+  push bp
+  mov bp,nm&_data
+  mov ds,bp
+  mov bp,sp
+ else
+  push bp
+  mov bp,sp
+ endif
+ endm
+
+@enter macro
+ $enter %__NAME__
+ endm
+
+@leave macro
+ pop bp
+ ifdef __HUGE__
+  pop ds
+ endif
+ ret
+ endm
+
+@endp macro name
+ _&name endp
+ endm
+
+

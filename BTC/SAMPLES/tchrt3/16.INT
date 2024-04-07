@@ -1,0 +1,20 @@
+! BIOS interrupt 16h function list.
+! Reference: IBM ROM BIOS Quick Reference Guide by Ray Duncan
+! Microsoft Press  ISBN #1-55615-135-7
+!
+! Note - all function numbers are in hexidecimal!
+!
+16 Keyboard Services
+!
+00 read character
+01 get keybd status
+02 get keybd flags
+03 set repeat rate
+04 set keyclick
+05 push char & code
+10 read E_keybd char
+11 get E_keybd status
+12 get E_keybd flags
+!
+! end of int 16h function list
+

@@ -1,0 +1,20 @@
+From: resnicks@netcom.COM (Steve Resnick)
+Newsgroups: comp.os.msdos.programmer
+Subject: Serial Code (Read this if you need it)
+Message-ID: <1991Jun27.231250.19559@netcom.COM>
+Date: 27 Jun 91 23:12:50 GMT
+
+Due to the number of requests for serial code, I am posting this driver
+I wrote. It's for Turbo/Borland C.
+
+Happy Hacking ....
+
+Steve
+
+-------------------------------------------------------------------------------
+        resnicks@netcom.com, steve@camphq, IFNA:        1:143/105.0, 
+                 co moderator for comp.binaries.os2
+ Real life: Steve Resnick. Chief Software Architect, Process Scientific, Inc
+ Flames, grammar and spelling errors >/dev/null
+ The Asylum OS/2 BBS - (408)263-8017 12/2400,8,1 - Running Maximus CBCS 1.2
+-------------------------------------------------------------------------------

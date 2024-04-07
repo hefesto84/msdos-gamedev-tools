@@ -1,0 +1,83 @@
+                DYNAMIC MEMORY ALLOCATION USING THE HEAP.
+                ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+The normal variables used in C programs are 'static' variables, which are
+declared in the program before they are used and allocated space in the
+data segment of memory at compile time. Except for the Huge Memory Model,
+the data segment is limited to 64K.
+
+Sometimes it is desirable to allow the size of the data to grow as the
+program is being executed, typically with databases where the number of
+structures (or records) needs to increase progressively with each new
+addition, frequently beyond the 64K limit of the data segment.
+
+This situation is catered for by 'dynamic memory allocation' using a
+function such as  malloc(size)  which allocates a block of 'size' bytes
+from the C memory heap. In the large data models, all the space beyond
+the program stack to the end of phsical memory is available for the heap.
+
+An example of dynamic memory allocation is given on page 186 of the
+User's Guide (version 2.0) as:
+
+#include <alloc.h>
+
+main()
+{
+     int *iptr;
+
+     iptr = (int *) malloc(sizeof(int));
+     .....
+     .....
+}
+
+malloc() is declared in the header file alloc.h which has to be included
+as shown.
+iptr is a pointer to an integer and it is assigned the value returned by
+the function malloc().
+The expression sizeof(int) returns the number of bytes that a variable of
+type int requires.
+The function malloc(size) allocates 'size' number of consecutive bytes of
+heap memory.
+The expression (int *) means that iptr will be a pointer to type int.
+The dynamically created integer variable can be referred to as *iptr.
+
+
+
+Another example of the use of  *malloc(size);  can be seen in the program
+LINKLIST.C (line 41) as shown below:
+
+     this = (struct person *)malloc(sizeof(struct person));
+
+Here the structure is declared as:
+
+                   struct person {
+                       char            name[20];
+                       char            job[20];
+                       struct person   *next;
+                   };
+
+and the pointer  'this' is a pointer to  struct person as declared below:
+
+struct person   *first, *last, *this;
+
+Here the memory allocated is the sizeof(struct person) which is 44 bytes
+for the large memory model with a pointer to both the segment and the
+offset addresses (4 bytes), but only 42 for the small memory model with
+only an offset value required for the pointer (2 bytes).
+
+Other examples of the use of malloc are found in the programs BINTREE.C
+and TWOLINKS.C
+
+calloc(numberofitems,sizeofitem) is a similar function, except that it
+has two parameters or arguments, the first is the number of items and the
+second is the size of each item.
+
+free(ptr) is the function used to free the memory pointed to by ptr.
+
+Refer to the Reference Guide for further details of these and other memory
+allocation functions.
+
+
+ALLOCMEM.TXT
+25.5.93
+

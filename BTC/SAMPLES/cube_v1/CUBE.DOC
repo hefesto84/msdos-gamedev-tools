@@ -1,0 +1,45 @@
+Dear Hackers :
+     This game is programmed by Andrew Lee & Hubert Lin in NCU M.E.
+It requires a EGA/VGA monitor to run.  You may use the keyboard or the
+mouse to play the game, but a mouse is highly recommended.
+
+  FILES ON THE DISK
+----------------------
+
+  CUBE     EXE  -  The game program
+  CUBE     TIT  -  Graphics file for the title
+  CUBE     WRD  -  Graphics file for the title (Chinese)
+  CUBE     WIN  -  Graphics file for the main screen
+  CUBE     SAV  -  Created by CUBE.EXE when "Saving the game"
+  CUBE     DOC  -  This file
+
+* CUBE     PRJ  -  Project file
+* CUBE1    C    -  Source code for the game
+* CUBE2    C    -  Source code for the game
+* MOUSE    C    -  Source code for the mouse functions
+* MOUSE    H    -  Header file for the mouse functions
+* EGAVGA   OBJ  -  EGA/VGA graphic driver
+
+  MOUSE INTERFACE
+-------------------
+
+     If you play the game with a mouse , and get into some trouble , we
+recommend you update your mouse driver to a new version !
+
+  WORKING SPEED
+-----------------
+
+     In the sake of lots of math operation , we recommend you play the
+game by at least 80386 machine !
+
+  SUGGESTION
+--------------
+
+     CUBE is only a homework in C, so it is not 100% debugged.
+If you have any suggestins or bug reports, please E-mail to :
+
+                U330633@sparc12.ncu.edu.tw (Andrew Lee) or
+                U330634@sparc12.ncu.edu.tw (Hubert Lin)
+
+                     Dep. of Mechanical Engineering
+                      National Central University

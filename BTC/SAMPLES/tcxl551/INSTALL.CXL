@@ -1,0 +1,100 @@
+            The TesSeRact CXL User Interface Development System
+
+                      Version 5.51 -- October 1, 1990
+
+
+     Copyright 1990, Innovative Data Concepts
+     All Rights Reserved
+
+
+     Innovative Data Concepts
+     1657 The Fairways
+     Suite 101
+     Jenkintown, PA 19046
+     Voice:  1-215-884-3373
+     Orders: 1-800-926-4551
+     FAX:    1-215-886-4225
+
+
+
+TCXL is  part of  IDC's TesSeRact  Development Tools series of programmer's
+products.
+                               Installation
+
+
+STEP 1.......BUILD BASE DIRECTORY
+
+The Shareware  Version of  the TCXL  User Interface  Development System  is
+normally distributed on diskette or in a compressed archive.
+
+If you  received a  compressed archive,  either from  a BBS  or from a Disk
+Vendor, follow  the instructions  provided to  extract these  files into  a
+"\TCXL55" directory.  Then skip to Step 2.
+
+If you received a diskette either directly from IDC or from another source,
+put the  diskette in  your drive, change to the root directory of the drive
+you wish to install TCXL on,  and give the command:
+
+  A:COPYTCXL A
+
+  or
+
+  B:COPYTCXL B
+
+
+depending, of  course, on  which drive  you install  from.   COPYTCXL  will
+create a  directory called  "\TCXL55", and  will copy  a  series  of  self-
+extracting archive files into the directory.
+
+In your  TCXL55 directory,  there will  be a file called FILES.CXL.  Verify
+that all  the files  described in  FILES.CXL are actually present.  If not,
+contact whoever supplied you with your copy of TCXL.
+
+Please note  that Innovative Data Concepts normally only provides the small
+model libraries  for shareware  distribution.   If you need the large model
+libraries to  fully evaluate  the product, contact either IDC or one of our
+foreign distributors.   If  you receive  this diskette from IDC, the charge
+will be  $5.00 within  the US,  $7.00 in  Canada and  Mexico, and $10.00 to
+other locations.   Our  distributors may  have other  pricing  policies  --
+contact them for more information.
+
+STEP 2.......RUN START.BAT
+
+Once the  files are  in your TCXL55 directory, you are now able to actually
+install the  product.   Run the  START.BAT file  that is now in your TCXL55
+directory.   This will extract the header files and libraries, and give you
+the option to extract the documentation.  All necessary subdirectories will
+automatically be created.
+
+The libraries  are  are  in  different  directories  depending  upon  which
+compiler you are using.  They are listed below with the letter 'x' inserted
+to indicate  where the  memory model  should be  ('s','m','c', and  'l' for
+small, medium, compact and large respectively).
+
+
+                 Compiler        Library
+                 ------------------------------------
+                 MSC 6           TCXL\M6\TCXLMS6x.LIB
+                 QC 2.5          same as above
+
+                 MSC 5.1         TCXL\M5\TCXLMS5x.LIB
+                 QC before 2.5   same as above
+
+                 TC 2 / TC++     TCXL\TC\TCXLTCx.LIB
+
+                 Zortech C++     TCXL\ZTC\TCXLZTx.LIB
+
+  The 'x' above represents one of the letters s, m, c or l.
+
+
+STEP 3.......COMPILE/LINK DEMO
+
+At the  completion of  START.BAT, you  will be  given a pair of environment
+variables to  create:   TCXL_A and  TCXL_C.  Follow the directions, and add
+these two variables using the DOS SET command.
+
+Next, change  to the  \TCXL55\DEMO directory.   Depending  on the source of
+your copy  of TCXL,  a compiled  demonstration program  may or  may not  be
+provided.   To create  a demo program, execute the MAKEDEMO.BAT file.  This
+will compile/link the TCXL Demonstration Program using the default options.
+

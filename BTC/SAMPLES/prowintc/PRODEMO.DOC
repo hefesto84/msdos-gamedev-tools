@@ -1,0 +1,66 @@
+
+
+
+
+
+
+         "PRODEMO.EXE" demonstrates every function of "ProWindows
+         *LITE* - Version 2.00" and many of the enhanced features of
+         "*LITE* -Version 3.00".
+
+         When invoked as:
+
+              PRODEMO <CR>
+
+         the demonstration run in its default mode of no `Snow'
+         detection.  `Snow' is cause when the CGA adaptor tries to
+         address video memory at the same time the CPU wants to.  This
+         usually occurs on old IBM CGA cards.  Most newer cards do not
+         have this problem.
+
+         Needless to say, if you experience a snowy screen, press
+         [ESCape] (to exit the demo) and re-invoke the program as:
+
+              PRODEMO 1 <CR>
+
+         Snow will be suppressed.
+
+
+         If at any point you would like to pause the demonstration,
+         press 'P'.  Execution will stop until you press a different
+         key.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

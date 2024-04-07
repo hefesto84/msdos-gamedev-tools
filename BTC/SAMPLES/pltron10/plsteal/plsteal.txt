@@ -1,0 +1,59 @@
+             PLSTEAL ver 1.50 Copyright 1994-1997 Liouros Thanasis
+------------------------------------------------------------------------------
+PLSTEAL IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR
+IMPLIED, INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT WILL THE AUTHOR OR THE COPYRIGHT
+HOLDER BE LIABLE FOR ANY DAMAGES CAUSED BY THE USE OR INABILITY TO USE,
+OF PLSTEAL.
+
+PLSTEAL is part of PLATFORMTRON game library and may only be used under the
+terms of the PLATFORMTRON game library license, LICENSE.TXT. By continuing to
+use PLSTEAL you indicate that you have read the license and understand and
+accept it fully. If you do not have the license or have problems understanding
+it or fulfilling its requirements you must contact me.
+
+PLSTEAL is a simple tsr program that grabs images. It works only for VGA mode
+13h (320x200x256) and it needs mouse. PLSTEAL save the images as STEALxxx.BIN
+in the output directory. xxx is any number between 1 and 999. The format of
+those files is very simple:
+ The first word is the length of the image (len), the
+ second is the height of the image (hei) and the next
+ len*hei bytes are the RAW data of the image.
+PLSTEAL will only be enabled if there is a mouse and the VGA card is in mode
+13h. After PLSTEAL is enabled through the "hotkey" a grab box will be
+displayed on the screen:
+
+To move the grab box:            move the mouse
+to resize the grab box:          press the left mouse button, keep it down
+                                 and move the mouse
+to save the image:               press the right mouse button.
+                                 Each time an image is saved the
+                                 "next file number" counter increases
+to save the palette:             press ALT+P
+                                 a palette file STEALxxx.PAL
+                                 will be created in the output directory
+to resize the grab box
+at size 16x16:                   press t
+to freeze the grab box:          press f, press f again to unfreeze the
+                                 grab box. If the grab box is
+                                 freezed you cannot move it.
+to exit from PLSTEAL             press ESC
+
+There are also some parameters when you call PLSTEAL from command line:
+/d=<dirname>        specifies the output directory
+                    all files PLSTEAL creates are put there.
+                    The default is the current directory.
+/nxxx               changes the "next file number" counter to xxx, xxx is
+                    any number between 1 and 999. For example if xxx is
+                    123 the next file that will be created by PLSTEAL
+                    will be named STEAL123.BIN (or STEAL123.PAL)
+/hx                 defines the hotkey. x can take the following values:
+                    1:   CTRL+ALT+I
+                    2:   LEFT SHIFT+ALT+R
+                    3:   LEFT SHIFT+RIGHT SHIFT+K
+                    4:   ALT+G
+                    the default is 4 (ALT+G)
+/u                  uninstalls PLSTEAL if possible.
+
+example:
+ PLSTEAL  /d=c:\images\bin /n100 /h3

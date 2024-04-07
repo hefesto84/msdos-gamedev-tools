@@ -1,0 +1,708 @@
+
+                   Turbo-C Utilities - Forms Compiler, V3.2
+                   ========================================
+
+
+Foreword
+--------
+
+Suggestions, comments and complaints (hopefully not the latter!) will be
+accepted electronically to:
+
+       Karl Keyte
+       Gross-Gerauer Strasse 10
+       D-6108 Weiterstadt
+       Germany
+
+       Voice  :     +(49) 6150 2499
+       e-Mail :     KKEYTE@ESOC.BITNET
+       Bix    :     kkeyte
+
+
+
+
+Disclaimer
+----------
+
+No responsibility taken for anything which may result from using the forms
+compiler. If anything unusual _does_ result, I'd be interested to know!
+
+
+Operation
+---------
+
+Function     :  The forms compiler is used to convert a form source file into
+                either an internal format object file or a real relocatable
+                object file which may be linked with your application. The
+                former offers flexibility in that the form specification
+                may be changed without recompiling or linking the application
+                and the resulting executable size is likely to be smaller as
+                it does not contain the form body itself. An internal format
+                object file (default extension .CFO) is loaded with the
+                service 'load_form'. Relocatable object units allow an
+                application to be completely standalone, embodying any forms
+                which it requires in the executable image. The disadvantage
+                is that if the form is changed, the application must be
+                relinked with the new form object. The applications are also
+                larger as the body of the form takes part of the image. The
+                service 'load_image_form' is used to load a form which has
+                been linked as an object into the application. 'unload_form'
+                is used to free the form (and hence memory) regardless of the
+                type of object chosen.
+
+                The forms compiler does a thorough parsing and error reporting
+		of the source form.  If an error is detected no object form is
+		generated.  See 'Return Value' in the TCU users guide under
+		'load_form' for further information.
+
+
+Syntax       :  fcomp <options> <CUF-Source-filename> [Object-filename]
+
+                Extensions default to .CUF for the source file, .CFO for an
+                internal format object file and .OBJ for a relocatable object
+                file.
+
+                Options are:
+
+                  /keep
+                     Instructs the compiler to keep the intermediate .CFO
+                     file when a relocatable object file (.OBJ) is being
+                     generated. If the option '/nokeep' is used when only
+                     an internal format object (.CFO) file is being generated,
+                     it will be deleted, forcing the compiler to perform only
+                     a syntax check of the form specification.
+
+                  /loadname=PUBLIC_NAME
+                     Tells the compiler to produce a relocatable object file
+                     with the specified public symbol name. This name is
+                     used in the application program to reference the form.
+                     The '/object' option is automatically forced when this
+                     option is specified. All loadnames are CASE SENSITIVE!
+
+
+                  /memory
+                     Display memory load statistics about the form.  This
+                     displays two values: the first is the number of bytes of
+                     memory required after issuing a 'load_form' or a
+                     'load_image_form' service call; the second the number of
+                     bytes required while the form is actually displayed on
+                     the screen. Note that the amount of actual dynamic memory
+                     required is the same with both services.
+
+                  /object
+                     Directs the compiler to produce a relocatable object file
+                     (.OBJ) rather than an internal format object file (.CFO).
+                     If the '/keep' option is specified together with the
+                     '/object' option, both types of object will be generated.
+
+                  /verbose
+                     Displays information about the fields within the form as
+                     it is being compiled.
+
+
+Output       :  The forms compiler outputs an error list if errors were
+                detected.  If no errors were detected, an object file is
+                generated.
+
+
+Source Format
+-------------
+
+The CUF file defines the structure, size and attributes of the form and its
+fields. It comprises lines which identify form elements. Blank lines may be
+used to increase clarity and comments may be added. Comments must start with
+the '!' character. All characters following the comment identifier will be
+ignored.
+
+Lines may be continued on more than one file line by placing the '&' symbol
+at the end of a source line. This takes the following line as part of the
+same logical line.
+
+The following elements may be used to define the form. Spaces are not
+significant, though each element must use only one line which may be up to 255
+characters long:
+
+      SIZE = <width>,<height>
+
+                 The width and height include a perimeter box, meaning that
+                 they specify the absolute size of the form as it will
+                 appear. If any field positioning element contradicts the
+                 specified form size, the form will not load.
+
+      TYPE = <line-style>
+
+                 The linestyle is SINGLE,DOUBLE or BLANK to define whether
+                 the form should appear in a single or double lined perimeter
+                 box, or surrounded only by blank spaces.
+
+      COLOUR = <foreground>/<background>
+
+                 This definition defines the colour of the form text and
+                 background. The background colours are:
+
+                     Black, Blue, Green, Cyan, Red, Magenta, Brown,
+                     LightGray
+
+                 The foreground colours include the above and in addition:
+
+                     DarkGray, LightBlue, LightGreen, LightCyan, LightRed,
+                     LightMagenta, Yellow, White
+
+                 NOTE: A blinking foreground may be achieved by using the '*'
+                       symbol before the colour. E.e. COLOUR=*WHITE/CYAN would
+                       produce a blinking WHITE foreground on a CYAN background.
+
+      INPUT = <foreground>/<background>
+
+                 These colours are used for input field areas. The colours
+                 are as above.
+
+      EDITCOLOUR = <foreground>/<background>
+
+                 This sets a default for the colours used when a field is
+                 selected for edit. May be overridden on a per field basis.
+
+
+      TCOLOUR = <foreground>/<background>
+
+                 These colours are used for the form title string (if one is
+                 used). The colours are as above.
+
+      TITLE = "<title string>"
+
+                 Defines the title to be used in the form. The default is for
+                 no title.
+
+      TEXT = @<x>,<y>; [<colour-definition>;] "<body of text>"
+
+                 Defines a fixed text string to be displayed in the form.
+                 'x' and 'y' specify the coordinates of the start of the
+                 text relative to the top-left corner of the INNER form.
+                 The INNER form is defined as the usable part of the form,
+                 i.e. that area which excludes the perimeter box.
+
+                   COLOUR = <foreground>/<background>
+
+                      Sets the field colour to the new colour instead of the
+                      default set with the main 'COLOUR=' keyword.
+
+      FIELD = @<x>,<y> [;NAME=<name>] ;<field-type> [;<attributes>]
+
+                 Defines an input field area on the form. 'x' and 'y' are as
+                 for the TEXT operator. 'NAME=...' allows an optional name to
+                 be given to a field for use with 'get_field_id' and may be
+                 up to 8 characters in length. Case is not significant.
+                 'field-type' must be specified is one of the following:
+
+                      String   Numeric   Date   Logical   Choice
+
+                 Each type may (and in the case of string, numeric and
+                 choice types, must) take modifiers which are enclosed in
+                 brackets. The following are valid modifiers:
+
+                   String (NN)            : Where NN represents the length of
+                                            the field.
+
+                   Numeric (NN)           : Integer field, length NN
+                   Numeric (NN,D)         : Floating point field, NN long with
+                                            D decimal places.
+
+                   Date                   : Date field
+                   Date (DayFirst)        : Date has day number first (default)
+                   Date (MonthFirst)      : Date has month number first
+
+                   Logical                : Logical field
+                   Logical (YesNo)        : Use Yes/No mnemonics
+                   Logical (TrueFalse)    : Use True/False mnemonics
+                   Logical (OnOff)        : Use On/Off mnemonics
+                   Logical (Full)         : Use full mnemonic, not just single
+                                            letter. The 'Full' keyword may be
+                                            used with one of the other options
+                                            as in 'Logical (OnOff, Full)'
+
+
+                   Choice (NN) = "<list>" : Where NN represents the length of
+                                            the field. List represents the
+                                            list of choices using the '|'
+                                            character as a separator.
+                                            E.G.  Choice(6)="One|Two|Three"
+
+                   Button = "<name>"      : Where <name> represents the name
+		                            displayed for the button in the
+					    form. 
+
+                 Attributes relate to field initial values, ranges and string
+                 templates.  The following are valid attributes:
+
+                   Range (<minimum>,<maximum>)
+
+                     Valid only for Numeric and Date fields. If either the
+                     minimum or maximum (but not both!) are omitted, there
+                     will be no check at this end of the range. The specified
+                     values must be of the type of the field.  For date
+                     ranges, the keywords 'Yesterday', 'Today' and 'Tomorrow'
+                     are valid, as in:
+
+                        Field = @3,3; Date (MonthFirst); Range (,Today)
+
+                   Value=<value>
+
+                     Sets an initial value for the field.  This is valid for
+                     all types, and the specified value must be of the type
+                     of the declared field.  String values must be enclosed
+                     in quotes.  If a range is specified, it must be first,
+                     and the value must be within the specified range. For
+                     Choice types the value is an integer specifying the
+                     ordinal choice number, i.e. 3 represents the third
+                     item in the choice list.
+
+                   Template=<template-string>
+
+                     Sets a template for a string field. A template defines
+                     the valid characters at the corresponding positions in
+                     the string. The following template characters are valid:
+
+                        'a'  :  Allows alphanumeric characters only
+                        'A'  :  As 'a', but forces alphabetic characters to
+                                uppercase.
+                        '!'  :  Allow any character, but force alphabetic
+                                characters to uppercase.
+                        '#'  :  Allow only numeric characters and '.' and '-'
+                        ' '  :  Allow any character.
+
+                                Any other character will appear as a fixed
+                                part of the input string and may not be
+                                altered during data input.
+
+                     Character deletion and insertion may not be performed in
+                     a portion of a string field where a template applies.
+                     This means that a template of "!!!!" will not allow the
+                     insertion or deletion of characters in the first 4
+
+                     positions. If the input field is larger that the template
+                     insertion and deletion may be performed in the positions
+                     after the template length.
+
+                     The template string must be enclosed in quotes.
+
+                   Colour = <foreground>/<background>
+
+                      Sets the field colour to the new colour instead of the
+                      default set with the 'INPUT=' keyword.
+
+                   EditColour = <foreground>/<background>
+
+                      These colours are used when the field is selected for
+                      edit.
+
+                   Confirm
+
+                      Sets RETURN key only confirmation. Normally when a field
+                      if left by moving to another field with the mouse of one
+                      of the arrow keys, the previous field is validated and
+                      entered. If RETURN key confirmation is on, ONLY the
+                      RETURN key enters the data into the field. The other
+                      keys move to the new field but leave the old data in
+                      the previous one.
+
+                   NoEcho
+
+                      Switches off echo for the field. This is useful for
+                      password entry, for example.
+
+                   NoEdit
+
+                      Forces the field to be read-only. Read-only mode allows
+                      'tcu_put_field' calls into the field but disables the
+                      interactive entry of data.
+
+                   NoEnter
+
+                      Sets the field as read-only by disabling the edit
+                      cursor entering the field. May be changed with the
+                      'set_field_mode' function.
+
+      REPEAT = <repeat_count>
+      ENDREPEAT
+
+                 The REPEAT/ENDREPEAT statements allow repetition of a block
+                 of form declarations. This is particularly useful for tables
+                 and other structures which require repeated fields and/or
+                 text. The first entry following the REPEAT is used to
+                 determine the starting row of the repetitions. Rows are
+                 incremented automatically by 1 implying that all repeated
+                 fields must be on the same line. If the fields require names,
+                 the symbol '##' may be inserted into the name.  This will be
+                 replaced with the repetition number during compilation.  The
+                 following is an example repeat section:
+
+
+                      REPEAT = 10
+                         TEXT  = @10,5; "Entry :"
+                         FIELD = @18,5; Name=ENTRY_##; Numeric(2)
+                      ENDREPEAT
+
+                 This extract would produce ten fixed text fields and ten
+
+                 numeric input fields named ENTRY_01 to ENTRY_10.
+
+                 Repeat clauses may not be nested, and each REPEAT must have
+                 a corresponding ENDREPEAT.
+
+
+Error Report
+------------
+
+The following is a complete list of compile-time errors and a description of
+the meaning.
+
+
+Message:   '=' sign expected
+
+Meaning:   Each identifier in the CUF form is followed by a '=' sign according
+           to the syntax described in the above section.
+
+
+Message:   Bad or missing button select text
+
+Meaning:   The button select text was either not present or not enclosed in
+           quotes.
+
+
+Message:   Bad or missing choice field length
+
+Meaning:   The length of a choice field was not specified or specified
+           incorrectly.
+
+
+Message:   Bad or missing choice selectors in choice type declaration
+
+Meaning:   A choice type does not contain a valid list of selectors, or the
+           selector string is incorrectly delimited, i.e. not quoted.
+
+
+Message:   Bad or missing numeric field length
+
+Meaning:   A numeric field must have its length specified.  A line in the
+           source file violated this rule.
+
+
+Message:   Bad or missing repetition count in REPEAT statement
+
+Meaning:   A REPEAT clause was specified with an invalid or missing repetition
+           count.
+
+
+Message:   Bad or missing string field length
+
+Meaning:   All string fields must specify a length.  A line in the source file
+           violated this rule.
+
+
+Message:   Bad or missing text literal in TEXT specification
+
+Meaning:   A TEXT specification requires a screen location and a text literal
+           (in quotes).  A line in the source file was found to be missing the
+           literal, or the literal was invalid.
+
+
+Message:   Choice type option is too large for specified field size
+
+Meaning:   A choice selector item is longer than the specified field size for
+           the field.
+
+
+Message:   COLOUR or INPUT identifier not specified before FIELD or TEXT
+
+Meaning:   The colours must be specified fully before the first FIELD or TEXT
+           keyword.
+
+Message:   ENDREPEAT without REPEAT
+
+Meaning:   An ENDREPEAT statement was encountered when no REPEAT block was
+           active.
+
+Message:   Error opening form CUF file for Input
+
+Meaning:   The CUF file could not be opened.  This normally indicates that the
+           specified file does not exist, though it could indicate a problem
+           with the media.
+
+
+Message:   Field name already defined
+
+Meaning:   A field name has already been given to the field.  A second
+           definition is not permitted.
+
+
+Message:   Field name is already defined for another field
+
+Meaning:   Another field has already been defined with the name field name.
+           A field name is 1-8 characters, case insensitive.
+
+
+Message:   Field name too long (>8 characters)
+
+Meaning:   A field name may be from 1 to 8 characters in length.
+
+Message:   Field position (@x,y) not first specifier in declaration
+
+Meaning:   The location of a field in a form must be the first specification
+           in the source line after the FIELD= or TEXT= keywords.
+
+
+Message:   Field size is too large for choice type field
+
+Meaning:   The specified field size is too large for a choice type, i.e.
+           more than 20 characters.
+
+
+Message:   Field type not specified
+
+Meaning:   All FIELD operation lines must contain a specification of the type
+           of the field.
+
+
+Message:   Field value specified in VALUE lies outside valid user range
+
+Meaning:   An initial value (if present) must be valid according to the user
+           specified range.
+
+
+Message:   Field would lie outside form area
+
+Meaning:   The positioning and length of the field would cause at least part
+           of the field to lie outside the form area.
+
+
+Message:   Form title string too large for form width
+
+Meaning:   The form title string is too large for the width specification
+           made with the SIZE keyword.  It may be a maximum of 6 characters
+           less than the form width.
+
+
+Message:   Illegal syntax in range parameter(s)
+
+Meaning:   Syntax error in RANGE specification.  See description of CUF source
+           format above.
+
+
+Message:   Invalid date constant specified in VALUE declaration
+
+Meaning:   The date constant specified in the VALUE section is invalid.  Check
+           date keywords such as 'DayFirst' and 'MonthFirst'.
+
+
+Message:   Invalid date specified in range
+
+Meaning:   The date constant specified in the RANGE section is invalid.  Check
+           date keywords such as 'DayFirst' and 'MonthFirst'.
+
+
+Message:   Invalid form type in TYPE specifier
+
+Meaning:   Form type may be SINGLE or DOUBLE.  An invalid type was specified.
+
+
+Message:   Invalid integer specified in VALUE declaration
+
+Meaning:   The integer specified for a VALUE is invalid.  Check against the
+           specified field length, remembering possible negative values.
+
+
+Message:   Invalid logical constant specified in VALUE declaration
+
+Meaning:   A logical value is invalid.  Check that the value specification
+           matches with the logical mode.  For example, a value of TRUE may
+           not be assigned to a logical field of type YESNO.
+
+
+Message:   Invalid string syntax for specification of form title
+
+Meaning:   The string specified for the form title is of an invalid length or
+           is not enclosed in quotes.
+
+
+Message:   Invalid VALUE for choice item or out of range of choices
+
+Meaning:   The initial VALUE specified for a choice type is invalid. It was
+           either incorrectly specified or is out of range for the number of
+           selectors available.
+
+
+Message:   Maximum range specification too large for field
+
+Meaning:   The maximum value in the RANGE specification is too large for the
+           field size.
+
+
+Message:   Maximum range value is smaller than minimum
+
+Meaning:   The maximum value in the RANGE specification is smaller that the
+           minimum value.
+
+
+Message:   Minimum range specification too large for field
+
+Meaning:   The minimum value in the RANGE specification is too large for the
+           field size.
+
+
+Message:   Minimum range specification too small for field
+
+Meaning:   The minimum value in the RANGE specification is too small for the
+           field size.
+
+
+Message:   Missing COLOUR or INPUT specification
+
+Meaning:   The COLOUR and/or INPUT specifications were found to be missing and
+           the defaults could not be located.
+
+
+Message:   Missing field position specifier
+
+Meaning:   The field position specifier (@X,Y) is not present.  This must
+           follow the FIELD and TEXT keywords directly.
+
+
+Message:   Missing form size (SIZE) specification
+
+Meaning:   A size specification must be present in every form.  It is missing
+           from this form definition.
+
+
+Message:   Missing or illegal colour in colour specification
+
+Meaning:   A colour specification for COLOUR or INPUT is invalid.  Either no
+           colours have been specified, or those which are given are invalid.
+
+
+Message:   Missing or illegal colour in field colour specification
+
+Meaning:   A colour specification in a field definition is invalid.  Either no
+           colours have been specified, or those which are given are invalid.
+
+
+Message:   Missing parameter(s)
+
+Meaning:   General syntax error indicated that expected parameters are not
+           specified.  Check the syntax.
+
+
+Message:   Missing value in VALUE specification
+
+Meaning:   A VALUE specification must contain an initial value.
+
+
+Message:   No more space for choice strings
+
+Meaning:   Too many or too large choice selectors have been specified. They
+           must be reduced or abbreviated.
+
+
+Message:   No range specified with RANGE
+
+Meaning:   A RANGE specification must contain one or both of minimum and
+           maximum values.  A comma must separate them, even if one is not
+           specified.
+
+
+Message:   Not string field type in attempt to declare TEMPLATE
+
+Meaning:   The TEMPLATE keyword has been used for a field of a type other than
+           String.  This is invalid.
+
+
+Message:   Out of memory
+
+Meaning:   Insufficient memory was available to compile the form.
+
+
+Message:   Range not permitted for specified field type
+
+Meaning:   Ranges have no meaning for String or Logical fields.
+
+
+Message:   Redefinition of field range
+
+Meaning:   The RANGE keyword was used more than once for a single field.
+
+
+Message:   Redefinition of field type
+
+Meaning:   The field type has been specified more than once for a single
+           field.
+
+
+Message:   REPEAT blocks may not be nested
+
+Meaning:   A REPEAT statement was encountered inside an already active REPEAT
+           block, i.e. no ENDREPEAT had been met.
+
+
+Message:   REPEAT without ENDREPEAT
+
+Meaning:   A REPEAT statement had no matching ENDREPEAT statement when the
+           end of file was reached.
+
+
+Message:   Repetition count in REPEAT is out of range
+
+Meaning:   The repetition count specified in the REPEAT statement was either
+           0 or too large.
+
+
+Message:   SIZE specification must appear before first FIELD or TEXT
+
+Meaning:   The form SIZE keyword must appear before any active FIELD or TEXT
+           items.
+
+
+Message:   String literal longer than field length
+
+Meaning:   A string literal value may not exceed the field size in length.
+
+
+Message:   String literal not in quotes
+
+Meaning:   All string literals must be enclosed in quotes (", NOT ')
+
+
+Message:   Syntax error in ENDREPEAT statement
+
+Meaning:   The ENDREPEAT statement was followed by some unexpected text.
+
+
+Message:   Syntax error in field option specification
+
+Meaning:   A field option must be enclosed in parentheses and conform to the
+           syntax outlined in the previous section.
+
+
+Message:   Too many fields in form
+
+Meaning:   Too many fields have been specified in the form - Each TEXT and
+           each FIELD counts as a field to the compiler.  Reduce the number,
+           possibly by combining TEXT items which will on the same screen row.
+
+
+Message:   Too many parameters specified
+
+Meaning:   Too many parameters were specified for an element.  Check the
+           syntax.
+
+
+Message:   Unrecognised CUF identifier
+
+Meaning:   An invalid CUF file identifier was encountered, i.e. not one of
+           BUTTON, CHOICE, COLOUR, CONFIRM, DATE, FIELD, INPUT, LOGICAL,
+           NAME, NOECHO, NOEDIT, NOENTER, NUMERIC, TCOLOUR, TEXT, TITLE,
+           TYPE, RANGE, SIZE, STRING, TEMPLATE, VALUE, '@'.
+
+
+Message:   VALUE specified for button type field
+
+Meaning:   A VALUE clause is invalid for button type fields.
+

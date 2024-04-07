@@ -1,0 +1,78 @@
+This program is designed for putting some 'sophisticated' images in Turbo C.
+
+It is very difficult to draw some images in Turbo C just using its own
+provided functions like bar(), and i think no one will use such functions
+to complete a game or an assignment.
+
+So i develop the program BMP2IMC (IMC stands for IMage in C) to capture an
+area in BMP file and i also develop a function used by C named imc() to
+display such a IMC file in everywhere anytime you like.
+
+But of course, since Turbo C EGA/VGA just support 16 colors, we can just
+display 16 colors BMP and then 16 colors IMC file. But i think it is enough
+to complete some simple games and graphics assignments.
+(Actually it is desinged for graphics assignments, since i want to draw some
+icons and develop my own beautiful windows!)
+
+In my demo.c, i just use other program to capture some characters in BMP
+and then use Paintbrush to make some corrections to the BMP, then use the
+program BMP2IMC to convert the motion of the characters in IMC format and
+display them again. You're better to have a look of demo.c.
+
+Since some IMC files maybe too large to display(>64k), if in
+this case, you must program in large model.
+The library for large model is also included.
+
+Here are the lists and uses of the programs:
+BMP2IMC.EXE    -    capture a part in BMP and convert it in the format IMC.
+SHOWIMC.EXE    -    show the *.imc image
+IMCS.LIB       -    library file for small model
+IMCL.LIB       -    library file for large model
+DEMO.EXE       -    just a demo file for displaying the IMC files.
+DEMO.C         -    source code of DEMO.EXE
+*.IMC          -    IMC files. You can display them using SHOWIMC
+
+
+e.g. BMP2IMC sango.bmp
+     SHOWIMC panda.imc
+     tcc -ms demo.c imcs.lib  (dont forget to include lib while compiling)
+
+
+     To use the function imc(char*) provided in the library, you must fisrt
+     declare the extern function imc(), then a same pointer type of imc() :
+
+     
+extern void far* imc(char*);
+
+main()
+{    ..
+     ..
+     ..
+     void far* bitmap;
+     ..
+     ..
+
+     ....
+     ....
+     bitmap=imc("panda.imc");
+     ....
+     ....
+     putimage(0,0,bitmap,COPY_PUT);
+     ....
+     ....
+     farfree(bitmap);
+}
+
+     You're better to look the demo.c as an example.
+
+P.S. If you have any comments and opinions, i'm very happy to receive your
+     messages in BBS (named Leung Tail) and any e-mail :
+     email     : kwleung2@se.cuhk.hk
+
+     Since this is the first program i write to BBS, i'm very eagar to get
+     any opinions and share our experience in programming.
+
+     Wait for your echo!
+
+Leung Ka Wai
+2/94

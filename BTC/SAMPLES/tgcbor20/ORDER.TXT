@@ -1,0 +1,54 @@
+                TEGL SYSTEMS CORPORATION - ORDER FORM.
+
+TEGL WINDOWS TOOLKIT II, Release 2.0 - includes ALL source code
+  [ ] $99 version for Turbo Pascal 5.0/5.5/6.0, Stonybrooke Pascal+
+  [ ] $99 version for Turbo C 2.0, C++ 1.0, Quick C 2.0, Microsoft C 5.1,
+          Watcom C8.0, and JPI Topspeed C
+TEGL GAMES TOOLKIT II, Release 2.0 - source code for all 5 games
+  [ ] $50 version for Turbo Pascal 5.0/5.5/6.0, Quick Pascal 1.0
+
+COMPLETE GAMES TOOLKIT II - includes TEGL WINDOWS TOOLKIT II
+                            and TEGL GAMES TOOKIT II
+  [ ] $139 version for Turbo Pascal 5.0/5.5/6.0, Stonybrooke Pascal+
+
+TEGL Windows Toolkit II - Introductory Packages are $10 (no source code)
+  [ ] for Turbo Pascal 5.5                   (shipping included)
+  [ ] for Turbo Pascal 6.0  [ ] StoneyBrook Pascal+
+  [ ] for Turbo C 2.0       [ ] Watcom C8.0           [ ] JPI Topspeed C
+  [ ] for Quick C 2.0       [ ] for Microsoft C 5.1
+
+GAMES - executable only, no source code (shipping included)
+  [ ] $15 TEGL Mahjong Solitaire   [ ] $15 TEGL Mille Bornes
+  [ ] $15 TEGL Big2                [ ] $15 TEGL Klondike Solitaire
+  [ ] $15 TEGL Monopoly
+  [ ] or send $35 for The Big Games Package (all 5 games).
+
+UPGRADES -
+  [ ] $50 TEGL Windows Toolkit II R 1.1 to TEGL Windows Toolkit II R 2.0.
+  [ ] $50 The Complete Games Toolkit II Release 1.1 to Release 2.0
+  [ ] $10 TEGL Games Toolkit II R 1.1 to Release 2.0
+
+
+ ________  Add $10 shipping & handling (for Toolkits) $20 (outside CANADA
+ ________  Subtotal                                           & USA)
+ ________  B.C. Residents add 6% sales tax.
+ ________  Canadian Residents add 7% GST.
+$________  TOTAL
+
+Check disk size - [ ] 5.25" 360K  [ ] 5.25" HD [ ] 3.5" 720K [ ] 3.5" HD
+Check Method of payment - [ ] Cheque or Money order [ ] VISA [ ] Mastercard
+VISA & Mastercard orders call: (604) 669-2577 - 9:00 am to 5:00 pm PST.
+Or fax your order to: (604) 688-9530
+
+Name ___________________________________  MAIL ORDER TO:
+
+Address ________________________________    TEGL Systems Corporation
+                                            Suite 780, 789 West Pender Street
+City ________________ Prov/State _______    Vancouver, British Columbia
+                                            Canada,  V6C 1H2
+Country ___________ Postal/Zip _________
+
+CARD NUMBER ____________________   Expiry date _____________
+                                                 (credit card orders
+Signature ______________________________________  must be signed).
+

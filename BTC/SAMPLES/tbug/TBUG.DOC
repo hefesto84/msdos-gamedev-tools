@@ -1,0 +1,28 @@
+For those of you (like myself) who aren't C experts, here are a few notes
+on the use of TBUG.
+
+To incorporate the debugger into your code just include the line:
+
+                            debug_init ();
+
+It can be most anywhere in the code, but Gary Mellor (the author) suggests
+putting the line near the beginning of the program.
+
+I used the command line version with the following parameters to include the
+debugger in HELLO.C. This assumes that you've set up the directory structure
+as recommended in the TurboC manual. If you've used different names for the
+include and lib subdirectories, make the appropriate changes in the following
+command line:
+
+        C:\TURBOC>tcc -y -ms -M -I.\include -L.\lib hello tbug.obj
+
+If you want to make any changes to the debugger, recompile it to .OBJ with
+the following line:
+
+        C:\TURBOC>tcc -y -ms -c -I.\include -L.\lib tbug
+
+Your new version of TBUG.OBJ will then be ready for use.
+
+Enjoy!
+Larry Fogg - Micro Cornucopia
+

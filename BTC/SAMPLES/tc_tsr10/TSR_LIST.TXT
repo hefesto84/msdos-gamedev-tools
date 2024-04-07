@@ -1,0 +1,167 @@
+TSR_LIST.TXT
+
+Here is some documentation I wrote some time ago. Hope it's useful, but,
+
+     The author shall not be liable to the user for any direct, indirect or
+     consequential loss arising from the use of, or inability to use, any
+     program or file howsoever caused. No warranty is given that the programs
+     will work under all circumstances.
+
+Sherif
+
+/*--------------------------------------------------------------------------*
+ | Sherif El-Kassas        .       :.                                       |
+ | EB dept           \_____o__/ __________                                  |
+ | Eindhoven U of Tec       .. /                                            |
+ | The Netherlands            /             Email: elkassas@eb.ele.tue.nl   |
+ *--------------------------------------------------------------------------*/
+
+
+TSR LIST
+
+Sherif El-Kassas
+February 1989
+
+
+Memory resident utilities are among the most popular applications used on
+MS-DOS based machines.
+However, not all implementations of TSR (Terminate but Stay Resident) programs
+are completely safe to use. Loading some TSRs in the wrong sequence can result
+in a system crash, which means you will have to reboot, thus loosing any data
+stored in RAM. Even with the most robust TSRs, attempting to uninstall memory
+resident applications in the wrong sequence will leave your system in a
+unpredictable (messy) state.
+
+[
+For example try the following:
+
+ C> LIGHT      (load Turbo Lightening)
+ C> SK         (load SideKick)
+ C> LIGHT /K   (uninstall Turbo Lightening)
+
+Now try activating SideKick (by pressing it's hot-key), or even reloading a
+new copy of SideKick into RAM.  You will find that SideKick detects that it's
+already loaded, and therefor refuses to reload, on the other hand it dos not
+respond to the hot-key !.  Obviously any unsaved data in SideKick's notepad is
+lost.
+]
+
+So it's helpful to know which TSRs are currently loaded, the sequence of
+loading, and which interrupt vectors are used by them, before
+loading/unloading a TSR.
+
+TSR_LIST is a utility - written in Turbo C - that prints a list of programs
+that are currently loaded in your PC's memory.  It also prints a list of the
+interrupt vectors used (disabled) by each program.
+
+
+PREPARING TSR_LIST
+
+After you type the C source code (i.e. TSR_LIST.C) compile it using the
+following commands:
+
+    C> TCC TSR_LIST
+
+Then to run the program simply type TSR_LIST and press enter.
+
+
+HOW TSR_LIST WORKS
+
+TSR_LIST performs three main tasks:
+
+o Finding the resident program;
+o Locating and printing it's name (it's not always possible); and
+o Printing the used interrupt vectors.
+
+
+FINDING THE RESIDENT PROGRAM
+
+MS-DOS divides memory into a group of blocks, each block is preceded with a 16
+byte header called a memory control block (also called an arena header). A MCB
+(Memory Control Block) contains three important fields:
+
+o A byte indicating whether this MCB is/isn't the last MCB in the chain
+  ('M' -> part of the chain, 'Z' -> end of the chain);
+o A word indicating the owner of the block (the owner's PSP address); and
+o A word indicating the size of the block in paragraphs.
+
+When MS-DOS loads a program into memory, it allocates two memory blocks for
+it. The first is for the program's environment space, and the second is for
+the program itself. The owner fields in the two MCBs point to the program's
+PSP (i.e. a program's MCB owns its self). Therefore finding a resident program
+means scanning all valid MCBs until we find a MCB that owns its self.
+
+
+LOCATING AND PRINTING THE PROGRAM'S NAME
+
+The program's environment block contain a series of ASCIIZ strings (an ASCIIZ
+string is a null terminated character string). The end of the set of strings
+is indicated by an additional null character. Under MS-DOS versions 3.0 and
+higher, two additional fields are added to the environment block. The first is
+a word count field, and the second is the full path and name of the program.
+The address of the environment block is kept at offset 0x2C of the program's
+PSP.
+
+
+PRINTING THE USED INTERRUPT VECTORS
+
+The first 1K bytes of RAM are called the interrupt vector table. Each entry in
+the table is 4 bytes long, and contains the segment and offset of the
+interrupt service routine (00 to 0xFF).  So finding the used interrupts means
+scanning the interrupt table for an address that lies in the range occupied by
+the resident program.
+
+
+So TSR_LIST scans the chain of MCBs, whenever it finds a program (a block that
+owns its self) it first gets the program's name from it's environment space,
+and then scans the interrupt vector table (at 0:0) to find the used
+interrupts.
+
+
+
+PSP                                   Environment Segment
+00 +-----------------------+         +-------------------+
+:  |                       |    +--->|VAR1=STRING <null> |
+2C +-----------------------|    |    |VAR2=STRING <null> |
+   |Environment Segment    +----+    |:                  |
+2E +-----------------------|         |:                  |
+:  |                       |         |VARn=STRING <null> |
+:  +-----------------------|         |<null> <num words> |
+:  |                       |         |PROGRAM NAME <null>|
+FF +-----------------------+         |                   |
+                                     +-------------------+
+
+            FIG.1 RELEVANT PARTS PSP AND ENVIRONMENT SPACE STRUCTURE
+
+
+PSP (program name is c:\utils\sk\sk.com)
+
+   cs:0000 CD 20 00 A0 00 9A F0 FE 1D F0 60 03 83 59 2D 03 M    .p~ p` Y-
+   cs:0010 83 59 2F 02 B2 5E C5 44 01 01 01 0 +--+--+ F FF .Y/ 2^+D     ...
+   cs:0020 FF FF FF FF FF FF FF FF FF FF FF F |86|83| 0 B1 ................
+   :                                          +--+--+
+   :                                             |
+   cs:00F0 0A 90 F0 B3 00 00 14 B3 18 00 DA 5B 0A|90 20 B3 .p|  .|  +[. |
+                                                 |
+Dump of Environment Space                        |
+   +---------------------------------------------+
++--+-+
+|8386:0000 43 4F 4D 53 50 45 43 3D 43 3A 5C 43 4F 4D 4D 41  COMSPEC=C:\COMMA
++----+0010 4E 44 2E 43 4F 4D 00 50 41 54 48 3D 43 3A 5C 44  ND.COM PATH=C:\D
+ 8386:0020 4F 53 00 50 52 4F 4D 50 54 3D 24 50 24 4 |00|00| OS PROMPT=$P$G
+ 8386:0030|01|00|43 3A 5C 55 54 49 4C 53 5C 53 4B 5 +--+--+|  C:\UTILS\SK\SK |
+ 8386:004 +--+--+ F 4D 00                              |   |.COM             |
+             |                             +-----------+   +-------+---------+
+             |                             |                       |
+     Number of words field      Two zero bytes indicating      Program name
+                                end of environment variables
+
+
+                FIG.2 ACTUAL DUMP OF PSP AND ENVIRONMENT SPACE
+
+
+REFERENCES
+1. Ray Duncan, "Advanced MS-DOS", MicroSoft press 1986.
+2. Robert L. Hummel, "A Memory Mapping Utility", PC Magazine, August 1987.
+3. Jeff Prosise, "Instant Access To Directories", PC Magazine, April 1987.
+

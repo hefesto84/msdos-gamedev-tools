@@ -1,0 +1,15 @@
+Packing list for mouse driver routines
+
+MAKEFILE           Makefile to generate .OBJ files
+MOUSE    H         C header file for mouse routines
+MOUSE    HPP       C++ header file for mouse routines
+MOUSE    TXT       Excerpt of calls from Ralf Brown
+MOUSE_H  OBJ       Object file, huge memory model
+MOUSE_L  OBJ       Object file, large memory model
+MOUSE_M  OBJ       Object file, medium memory model
+MOUSE_S  OBJ       Object file, small memory model
+TEST     CPP       C++ example file
+TEST     EXE       Example file, executable
+README   TXT       Readme file for this package
+BGI      HPP       C++ header file for BGI graphics
+

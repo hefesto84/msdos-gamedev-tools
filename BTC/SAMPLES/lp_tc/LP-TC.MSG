@@ -1,0 +1,22 @@
+Path: samsung!emory!dixie.com!jgd
+Date: 9 Apr 91 16:23:20 GMT
+From: jgd@Dixie.Com (John G. DeArmond)
+Newsgroups: alt.sources
+Subject: PC printer port bi-directional driver
+
+This archive contains the code needed to drive PC parallel ports.  It was
+written as part of our Printer Nidget development project.  I have been
+able to drive over 30k/second from a 16 mhz 386 using the test routines
+built in.  Inspiration came from John Foster at Annabooks who has an
+EXCELLENT PC and AT bios available in C source.  For about $60, highly
+recommended. 
+
+This code is written for Borland C and includes a project file.
+
+Enjoy,
+John
+-- 
+John De Armond, WD4OQC        | "Purveyors of speed to the Trade"  (tm)
+Rapid Deployment System, Inc. |  Home of the Nidgets (tm)
+Marietta, Ga                  | 
+jgd@dixie.com                 |"Politically InCorrect.. And damn proud of it  

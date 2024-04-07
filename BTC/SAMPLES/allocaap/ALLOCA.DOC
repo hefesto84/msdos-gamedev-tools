@@ -1,0 +1,123 @@
+alloca() by Alexander Pruss for Turbo C
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+email: pruss@uwo.ca  // internet
+       pruss@uwovax  // bitnet
+       pruss@ria     // uucp
+
+Released into the public domain with the restriction that the acknowledgements
+to Alexander Pruss are preserved.
+
+
+Warranty: NONE!  This has undergone considerable testing, but it is likely
+          not to work in many cases.  It may cause damage to your system if
+          it fails in a particularly nasty way.  USE AT YOUR OWN RISK!
+
+
+A few words about stack frames.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+alloca() needs a real stack frame in the function that calls it.
+This means that the function must begin with an ENTER (or push bp; mov bp,sp)
+and end with a LEAVE (or mov sp,bp; pop bp).  Just setting the compiler -k
+(standard frame) switch is not enough as the LEAVE is then changed into a
+straight pop bp.
+
+The correct stack frame will be inserted provided the compiler cannot
+make all the local variables into registers.  Thus if the calling function
+has more than two integer auto variables or it has a noninteger and nonfloat
+auto variable (a near pointer we consider an integer, but not a far pointer)
+then it will have a stack frame.
+
+I.e. the functions below have a stack frame:
+f(a)  { int x; int y; int z; ... }  /* 3 integer vars */
+g(a)  { char x; ... }               /* noninteger var */
+h(a)  { char far *x; ... }          /* far pointer    */
+i(a)  { { char dummy; dummy=dummy; } }  /* more about this later on */
+
+and the functions below may or may not have a proper stack frame:
+F(a)  { int x; int y; ... }
+G(a)  { int x; ... }
+H(a)  { char near *x; int y; ... }
+I(a)  { float x; double y; ... }    /* floats might go on 8087 stack */
+
+You can force a stack frame by inserting somewhere in the function, where
+the flow of execution will reach it, the line:
+  { char dummy; dummy=dummy; }
+
+
+How to use alloca().
+~~~~~~~~~~~~~~~~~~~~
+#include "alloca.h"
+
+now you can use alloca() as:
+        void *alloca(unsigned size);
+
+alloca() is a replacement for malloc() which allocates space which will
+be deallocated upon return from the calling routine.
+
+You must link in the appropriate version unless you are using INLINE_ALLOCA
+(see below):
+
+memory model      object file
+~~~~~~~~~~~~      ~~~~~~~~~~~
+tiny, small       alloca.obs
+medium            alloca.obm
+compact           alloca.obc
+large, huge       alloca.obl
+
+Options:
+ If you insert #define INLINE_ALLOCA before #include'ing alloca.h, then you
+ will have a much faster (but larger) inline version.  You need no longer
+ link in the object file.
+
+ If you insert #define FORCE_STACK, then a stack frame is forced onto the
+ function automatically.  This is done as alloca() is defined to be
+ alloca(); { char dummy; dummy=dummy; }
+ This means, however, that lexically all calls to alloca() must be of the
+ following form:
+  xxx alloca(yyy);
+ where xxx and yyy are arbitrary things (conforming to C syntax).  Thus,
+  x = 3+(char *)alloca(y); is allowed, while
+  x = (char *)alloca(y) + 3; is illegal.  (And will likely produce a
+ compiler error.)
+
+Compiler
+~~~~~~~~
+Tested under Turbo C 2.0.
+
+Bugs
+~~~~
+If the alloca()'d pointer is assigned to z and z is unitialized, the compiler
+may generate a `possible use before definition' error for z.  Ignore this
+error.  I have yet to find out what causes it, but the assembly output is
+O.K. even if the error occurs.
+
+The function must have a proper stack frame.  (See above).
+
+alloca() in FORCE_STACK mode must be called lexically as xxx alloca(yyy);
+(see above)
+
+alloca() will not work in a long and complicated expression or in the middle
+of a function call as at that time the stack may be screwed up.  It is safe
+to use alloca() as the last argument to a function call, so:
+ z=f(alpha,alloca(100)); is O.K. (unless in FORCE_STACK mode), while:
+ z=F(alloca(100),alpha); is illegal and will likely crash.  (compiler error
+is generated in FORCE_STACK mode).
+Long arithmetic expressions may save intermediate results on the stack.  This
+will cause alloca() to screw up, so do not do more than a few simple operations
+on the return value.  You should use alloca() mainly as z=alloca(y); which will
+work unless y is a long and complex expression.
+In FORCE_STACK mode some long arithmetic expressions may generate compiler errors
+but normally if alloca() screws up the compiling will be O.K., just the
+program will crash.
+
+Stack overflow is not checked, so alloca() will always work.
+
+I haven't time to test as thoroughly as I wish to.
+
+News!
+~~~~~
+I got it to work with TC++ 1.00.  I had to change the FORCE_STACK method.
+Chars can now be made into register variables, so g() and i() defined above
+in the stack frame section do not have stack frames.  Now the stack is forced
+by using a long.  See alloca.h for more information.

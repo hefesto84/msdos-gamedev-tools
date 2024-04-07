@@ -1,0 +1,83 @@
+;
+; alloca.8 begins
+; source for a86 assembler
+; released into the public domain with the restriction that the
+; acknowledgement below be preserved:
+;   ...  This alloca() for Turbo C is by Alexander Pruss  ...
+;
+; Assemble via:
+;  A86 +oc =__<MODEL-IDENTIFIER>__ alloca.8
+; Note that the HUGE alloca = LARGE alloca and that TINY alloca = SMALL alloca
+;
+#if __MEDIUM__
+L_CODE = 1
+#elseif __COMPACT__
+L_DATA = 1
+#elseif __LARGE__
+L_DATA = 1
+L_CODE = 1
+#elseif __HUGE__
+L_DATA = 1
+L_CODE = 1
+#endif
+
+#if L_CODE
+ALLOCA_TEXT     segment byte public 'CODE'
+#else
+TEXT            segment byte public 'CODE'
+#endif
+
+@alloca_buffer dw ?
+
+public __alloca
+;; void *_alloca(unsigned size) ;;
+__alloca:
+        pop      bx                     ; Return address
+#if L_CODE
+        pop      es                     ; into [ES:]BX
+#endif
+        pop      cx                     ; Data size.  (Argument to alloca)
+
+        pop      dx                      ; Store some
+        pop      ax
+#if L_DATA
+        pop      cs:@alloca_buffer       ; data from caller's stack
+        push     cs:@alloca_buffer       ; (DS,SI,DI--some may not be necessary)
+#endif                                   ; DS unnecessary for small data models
+        push     ax                      ; we put it back after reading
+        push     dx
+        inc      cx                     ; Round CX to even.  (SP must be even,
+                                        ; else performance degrades)
+        shr      cx,1
+ 	shl	 cx,1     
+        sub      sp,cx                  ; Allocate the space
+
+#if L_DATA
+        push     cs:@alloca_buffer      ; make a copy of the possible data
+#endif
+        push     ax                     ; (DS,SI,DI) on the caller's stack
+        push     dx
+
+        mov      ax,sp                  ; Return value.
+#if L_DATA
+        add      ax,8                   ; remember we put 3 words on the stack
+                                        ; and the stack points to a free word
+#else
+        add      ax,6                   ; 2 words for small data models only
+#endif
+        push     cx                     ; put the size back on the stack
+#if L_CODE
+        push     es                     ; high order return address
+#endif
+        push     bx                     ; low order return address
+#if L_DATA
+        mov      dx,ss                  ; high order return value
+#endif
+#if L_CODE
+        retf                            ; out we go!
+#else
+        ret
+#endif
+
+ALLOCA_TEXT     ends
+	end

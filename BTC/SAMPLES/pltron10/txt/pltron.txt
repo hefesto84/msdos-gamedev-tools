@@ -1,0 +1,3444 @@
+                PLATFORMTRON game library version 1.00
+                    Copyright 1997 Liouros Thanasis.
+
+
+PLATFORMTRON GAME LIBRARY IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT WILL THE
+AUTHOR OR THE COPYRIGHT HOLDER BE LIABLE FOR ANY DAMAGES CAUSED BY THE USE
+OR INABILITY TO USE, OF PLATFORMTRON GAME LIBRARY.
+
+PLATFORMTRON game library may only be used under the terms of the PLATFORMTRON
+game library license, LICENSE.TXT. By continuing to use PLATFORMTRON game
+library you indicate that you have read the license and understand and accept
+it fully. If you do not have the license or have problems understanding it or
+fulfilling its requirements you must contact me.
+
+PLATFORMTRON game library may freely be copied and distributed in its
+original, unmodified form as long as no fee is charged for the PLATFORMTRON
+game library itself. When ever the PLATFORMTRON game library is distributed,
+this license must be included in unmodified form, and all files must contain
+their original copyright notices.
+
+Contact addresses:
+E-mail:
+        p3940042@dias.aueb.gr
+
+Snail: (from August 26 to June 25)
+        Liouros Thanasis
+        Ioanni Drosopoulou 84
+        Kipseli, TK 112 57
+        Athens, Greece
+
+Snail: (from June 26 to August 25)
+        Liouros Thanasis
+        Xorio Spartilas
+        TK 491 00
+        Kerkira, Greece
+
+
+
+
+                              CONTENTS:
+1.0  Glossary
+
+2.0  Description of PLATFORMTRON
+  2.1 Anatomy of a program based on PLATFORMTRON
+  2.2 Layers
+  2.3 Bitmaps, subbitmaps & frame descriptors
+  2.4 Draw methods
+  2.5 Sprites & action functions
+  2.6 Object lists & priority lists
+  2.7 PLATFORMTRON kernel
+  2.8 World Data Description file
+  2.9 Restrictions
+
+3.0 TOworld description
+  3.1 TOworld fields
+  3.2 Tile functions
+      - maketiles()
+      - destroytiles()
+      - settileno()
+      - tileto4planes()
+  3.3 Layer functions
+      - setdimensions()
+      - makelayer()
+      - destroylayer()
+      - setlayer()
+      - getattrxy()
+      - getforexy()
+      - getbackxy()
+      - setbackxy()
+      - setforexy()
+      - setattrxy()
+      - putbackxy()
+      - putforexy()
+      - setbackprior()
+      - setforeprior()
+  3.4 Bitmaps
+      - Bitmaps storage formats
+      - struct Tbitmap
+      - makebitmaps()
+      - destroybitmaps()
+      - setbitmapi()
+      - storebitmap()
+      - freeemsbitmaps()
+      - getbitmapdataptr
+      - bitmapto4planes()
+  3.5 Sprite frame descriptor functions
+      - makeframedescrs()
+      - destroyframedescrs()
+      - getdescrmem()
+      - freedescrmem()
+      - setsubbitmap()
+      - makeframecolidmask()
+      - make1bitmapdescr()
+      - sprintfdescr()
+      - setframedisplacement()
+  3.6 Object lists
+      - addobj()
+      - removelistobj()
+      - removeobjid()
+      - removeobj()
+      - getlistobjpointer()
+      - getobjpointer()
+  3.7 Collision detection and sprites<->background interaction.
+      - collision()
+      - howfarU()
+      - howfarD()
+      - howfarL()
+      - howfarR()
+  3.8 Misc functions
+      - pageswap()
+      - sethpel()
+      - setsadr()
+      - refreshpal()
+      - animate()
+      - callactionfunctions()  (private)
+      - drawsprites()          (private)
+      - loadlevel()
+      - scrollR()
+      - scrollD()
+      - rgbset()
+      - ~TOworld()
+      - jumpto()
+      - refresh()
+      - M2Vsolid()
+      - M2Vthru()
+
+4.0 TOsprite description
+  4.1 TOsprite fields
+  4.2 TOsprite functions
+      - TOobject::init()
+      - TOsprite::init()
+      - callnext()
+
+5.0 Misc, vga and raw buffer functions
+    - pl_is386()
+    - pl_isvga()
+    - mx320x200()
+    - pl_setvideomode()
+    - pl_pixel()
+    - pl_horline()
+    - pl_verline()
+    - pl_line()
+    - pl_thruclip()
+    - pl_solidclip()
+    - makecolidmask()
+    - rawto4planes()
+
+6.0 The low level keyboard handler
+    - pl_installkeys()
+    - pl_keysdone()
+    - pl_testkey(unsigned char makecode)
+
+7.0 The timers
+  7.1 The system timer handler 
+      - pl_dtime[]
+      - pl_inittimer()
+      - pl_timerdone()
+      - pl_getactualHz()
+      - pl_getTimerCount()
+  7.2 the RTC (Real Time Clock) handler
+      - pl_RTCinittimer()
+      - pl_RTCtimerdone()
+
+
+
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+S1.0                            Glossary:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+action function:
+  A function that belongs to a sprite and specify a part of its behaviour.
+  In PLATFORMTRON ,action function is a function of type TPaction.
+  (typedef void (*TPaction)(TOobject *obj);)
+
+active action function:
+   The action function to be called in the next frame.
+
+background:
+  In PLATFORMTRON this term means everything that is displayed on the screen
+  except the sprites and the foreground. This term is often used to describe
+  both background and foreground. (everything except sprites)
+
+bitmap:
+  A rectangular image.
+
+collision mask:
+  A special data block that corresponds to a sprite frame and used for pixel
+  precise collision detection of that sprite frame with another one. The size
+  of the collision mask is always 2*(len+hei), where len the length of
+  the sprite frame and hei its height.
+
+FALSE:
+  The value zero.
+
+foreground:
+  Everything that is displayed on the screen except the sprites and the
+  background. The foreground is always displayed over the background.
+
+frame:
+  A cycle. PLATFORMTRON runs at 70 frames/sec
+
+layer:
+  It is a two dimensional array that contains unsigned integer values.
+  If we assume that the background is divided into a grid then
+  the array position layer[i,j] corresponds to the position [i,j] on
+  the grid. The value in position layer[i,j] specifies a small image (tile
+  16x16) that will be put on grid position [i,j]. That way
+  we compress the background data and we save space because we can
+  put the same tile in different positions.
+
+  Usually in games we use more than one layers so we can have a complicated
+  background. The layers are displayed on screen one after another starting
+  with the first one.
+
+modeX:
+  A special non-standard VGA video-mode that is used internally
+  by PLATFORMTRON. It should work perfectly on any VGA card.
+
+object:
+  Synonymous to sprite.
+
+priority list:
+  A list that holds sprites with the same priority number.
+  All the sprites with priority number n are handled after all the
+  sprites with smaller priority numbers have been handled.
+
+raw buffer:
+  a buffer that is used to store the data of an image in RAW format.
+  A raw buffer does not hold the length and the height of the image.
+
+see-thru image:
+  an image that is treated in a special way. Every pixel in the image
+  with color value 0 is transparent.
+
+solid image:
+  an image that is treated as a solid block ;without transparent parts.
+
+sprite:
+  A character of the game. Sprites usually are made up from a lot of images
+  that are displayed very fast and give the observer the illusion of
+  movement. In PLATFORMTRON sprites are intelligent objects with their own
+  functions that specify their behaviour.
+
+sprite box:
+  the smallest box in which a specific sprite frame can fit.
+
+sprite frame:
+  A sprite image. A sprite frame may consist from more than one bitmaps.
+
+sprite frame descriptor:
+  A special data block used to store information about a sprite frame.
+
+tile:
+  It is a very small image ( 16x16 pixels in PLATFORMTRON). That image is
+  used to construct the background in conjunction with other tiles. This
+  way we can save space because we use the same image many times, it is
+  a way to compress the background data. See also layer.
+
+TRUE:
+  Any value not equal to zero.
+
+world:
+  It is a large rectangle area in which all the action of the game takes
+  place. It is the gamefield, the background and the foreground,
+  anything except sprites. In PLATFORMTRON world has a wider meaning.
+  It means a smart object, that has the ability to show a part of the
+  background in a window, to draw the sprites, to clip them, to let
+  the sprites interact with the bacgkground and generally do all
+  the 'dirty' work.
+
+
+
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+S2.0                 Description of PLATFORMTRON:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+PLATFORMTRON is a game library for use with Borland C++ and Turbo C++
+(in its current version). It was compiled with Turbo C++ version 3.1 for
+the large memory model and requires at least 386 compatible processor and VGA
+video card. 486 with VLB or PCI card is suggested.
+
+PLATFOMRTRON was designed to be easy in use but still powerfull.
+It is written in c++ but you don't have to know too many things about c++
+to use it. See the examples and everything will become clear.
+
+PLATFORMTRON cannot be used to develop any type of game. It can be used only
+for 2-dimensional "platform" or "action arcade " games.
+
+
+Some of PLATFORMTRON features are:
+
+- 320x200x256 modex graphic mode
+- smooth animation at 70 frames/sec
+- smooth scrolling to a maximum of 280 pixels/sec in each direction.
+- extendable from the user (c++)
+- complete 'world' support which includes:
+  - built in scrolling routines
+  - multiple layers for easy background creation
+  - built in background<->sprites interaction support
+  - full sprites support , automating clipping ,drawing and handling
+  - sprites pseudo layers
+  - collision detection routine
+  - high transparency to the user
+- complete sprites/objects support:
+  - action functions for easy and fast animation.
+  - various flags that can alter the sprite activity
+  - fully customizable behaviour that can perform any activity related
+    to sprites or not
+- excellent low level keyboard handler
+- excellent timer handlers
+- various vga routines
+- WINDOWS 95 compatibility
+- EMS support
+
+
+This document is a reference not a tutorial. If you dont want to get lost,
+first try reading the following:
+
+- Glossary
+- the rest of this section (section 2) except
+    PLATFORMTRON kernel & World Data Description file
+- Tile functions (in TOworld description)
+- Bitmaps
+- TOworld fields
+- TOsprite fields
+
+If you cannot understand something ,while reading this document, then dont
+worry ;the answer to your question is somewhere in this document. Just
+search.
+
+
+While reading this document please remember that my English is not so
+good, but you will propably be able to understand it. :-)
+
+
+
+S2.1            Anatomy of a program based on PLATFORMTRON:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+PLATFORMTRON consists of 2 large classes ( actually structures).
+The first one, the TOworld structure takes care of every detail related
+to the game world and the second (TOobject) is a simple but
+powerfull enough general sprite object. You may extend this object to meet
+your needs.
+There is also the TOsprite structure. TOsprite is a descendant of TOobject.
+The difference between the two structures is that TOobject cannot have
+sprite frames (it is not displayable) while TOsprite can.
+
+In TOworld there are arrays of pointers to the tiles, the layers, the
+bitmaps and the frame descriptors.
+
+TOworld also contains lists for the sprites. Each sprite in the world must
+be in exactly 2 lists in TOworld: In 1 object list and in 1 priority list.
+Thus the object lists contain the same set of sprites as the priority lists.
+
+To get a first idea of how a typical PLATFORMTRON program looks like
+here is its anatomy:
+
+TOworld myworld;
+TOobject exitobj;
+
+void animateexitaction(TOobject *obj)
+{
+ if (kbhit())
+ if ( getch()=='q')          // if 'q' was pressed then
+ obj->owner->exitbit=1;      // set exitbit of TOworld owner to 1
+                             // to make TOworld::animate() finish
+}
+
+
+
+void main()
+{
+
+
+//-------------------- tiles & layers ----------------------------------
+  myworld.maketiles(...);
+
+.. // here load the tiles from the disk and call settileno() once or more
+.. // to set the tiles.
+
+// set the dimensions of the world
+  myworld.setdimensions(.....);
+
+  // for, at least, the background and foreground layers
+  .. // call makelayer() to let PLATFOMRTON reserve memory for the layer
+  .. // or setlayer() to set the layer pointer to your own array.
+  .. // call setattrxy(), setforexy(), setbackxy() to set values in the
+  .. // layers
+
+//------------------------------------------------------------------------
+
+// as an alternative you may call loadlevel() to load both tiles and layers
+// from a World Data Description file.
+
+
+//--------------------- bitmaps --------------------------------------------
+// reserve memory for the bitmap pointers
+ myworld.makebitmaps(...);
+ .. // here load your bitmaps from the disk and call setbitmapi() once
+ .. // or more to set the bitmap pointers in myworld.bitmaps array.
+
+//--------------------- sprite frame desciptors ----------------------------
+// reserve memory for the frame descriptor pointers
+  myworld.makeframesdescrs(...);
+   // try to build the frame descriptors
+   .. // if your frame descriptor consists of a single subframe (bitmap) use
+   .. // make1bitmapdescr();
+   .. // else use sprintfdescr() and makeframecolidmask() (if you like)
+
+//-------------------- objects -----------------------------
+
+// initialize the exit object
+ exitobj.init(.....);
+// set the active action function of the object
+ exitobj.nextaction=animateexitaction;
+// add the exit object to myworld
+// object list number 0, priority list number 0
+// (you may choose different list numbers, of course )
+ myworld.addobj(0,&exitobj,0);
+
+
+ .. // initialize the rest of your objects, through TOsprite::init() or TOobject::init()
+ .. // set the active action function for each object
+ .. // add each object to the world
+
+
+ mx320x200(44);           // set modex
+ myworld.jumpto(0,0);     // jump to position (0,0) in the world
+ myworld.animate();       // AND GO!!!!!!
+
+ pl_setvideomode(3);      // set text mode.
+
+}
+
+
+Have a look at example program 1 to see some of PLATFOMRTON features in
+action.
+
+
+S2.2                         Layers:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+There are two graphic layers and a special layer in PLATFORMTRON.
+The two graphic layers are called background layer and foreground layer.
+These 2 layers contain unsigned short values that each refers to a tile
+pointer in the TOworld::Ptiles array.
+The exact format of those (unsigned short) values is:
+bits 0-14             tile number (cell number in TOworld::Ptiles array)
+bit  15               if set, then PLATFORMTRON draws the tile according to
+                      priority TOworld::backprior ,for the background layer
+                      and TOworld::foreprior ,for the foreground layer
+                      else
+                      the tile is always drawn before all the sprites.
+                      (priority   -1)
+
+When working with the graphic layers you must have in mind the following
+things:
+1. The foreground layer is always displayed over the background layer.
+2. A foreground layer tile is always displayed as a see-thru tile.
+   while a background layer tile is always displayed as a solid tile.
+3. the default value for TOworld::backprior and TOworld::foreprior
+   is PRIORITIESNO-1==14. Thus tiles with the high bit set (in background
+   and foreground layers) are drawn last (over every sprite).
+   You can change the default values with TOworld::setbackprior()
+   and TOworld::setforeprior().
+    - foreprior can never be less than backprior
+    - Sprites that belong to priority lists 0..backprior are drawn first
+      Then background tiles with the high bit 1 are drawn
+      Then if backprior < foreprior the sprites that belong to priority
+      lists backprior+1..foreprior are drawn.
+      Then foreground tiles with the high bit set are drawn
+      And finally if foreprior+1<=PRIORITIESNO-1 the sprites that belong
+      to priority lists foreprior+1..PRIORITIESNO-1 are drawn.
+4. If a background layer tile has its high bit 1 then the corresponding
+   foreground layer tile must also have its high bit 1, else the latter
+   wont be displayed at all when a sprite comes into the tile's
+   area.
+   ( That's because of note 1.)
+5. The following applies to all layers:
+   Layers in PLATFORMTRON are one-dimension arrays although they represent
+   a 2-dimension scenery. For example the background layer tile with
+   coordinates (i,j) is mapped on the position j*TOworld::length + i of
+   the Pbacklayer layer , where TOworld::length is the length of the world
+   in tiles. You must remember that; if you want to alter directly the
+   contents of the layers. As an alternative you may always use the
+   TOworld::setbackxy(), .... etc  functions.
+
+The third layer (the special one) is called background attributes layer.
+It also contains unsigned short values but unlike the other layers it
+has nothing to do with what is displayed on the screen. This layer holds
+,for each tile, 16 bits of attribute information. Attribute information can
+be used as you like. However there are 4 PLATFORMTRON functions that use
+the high 4 bits of the attribute word for their own purposes.
+These functions are:
+
+TOworld::howfarU(): uses bit 14 to determine if the bottom side of
+                    the tile is walkable or not
+TOworld::howfarD(): uses bit 15 to determine if the top side of
+                    the tile is walkable or not
+TOworld::howfarL(): uses bit 12 to determine if the right side of
+                    the tile is walkable or not
+TOworld::howfarR(): uses bit 13 to determine if the left side of
+                    the tile is walkable or not
+
+The rest of the bits (0-11) are available to the user.
+
+functions related to the graphic layers:
+TOworld::getbackxy(), TOworld::getforexy(),
+TOworld::setbackxy(), TOworld::setforexy(),
+TOworld::putbackxy(), TOworld::putforexy()
+
+functions related to the background attributes layer:
+TOworld::getattrxy(), TOworld::setattrxy(),
+TOworld::howfarU(), TOworld::howfarD(),
+TOworld::howfarL(), TOworld::howfarR()
+
+function related to the layers, generally:
+TOworld::makelayers(), TOworld::destroylayers()
+TOworld::loadlevel()
+
+
+
+
+S2.3               Bitmaps, subbitmaps & frame descriptors:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+When you look at a sprite, animating on the screen, what you actually see is
+a sequence of images which are displayed one after another very fast.
+Those images are called sprite frames, in PLATFORMTRON terminology.
+- So a sprite animation consists of sprite frames, which are images.
+In many cases it would be useful to divide a sprite frame into smaller
+pieces (smaller images). This concept is implemented in PLATFORMTRON.
+Each piece of a sprite frame is called subbitmap or subframe.
+
+There are many advantages with this aproach:
+1. we can easily draw each subframe with a different draw method.
+2. we dont need to store 2 or more times a subframe that remains the same
+   during the animation. We must store only a reference to that subframe.
+3. we can easily change the appearance of a sprite frame by changing
+   only the reference to a bitmap not the bitmap data themself.
+
+There is also a disandvantage and that is , a little extra overhead. But it
+is surely worth it.
+
+Every subbitmap in a sprite frame refers to a bitmap in the TOworld::bitmaps
+array. For more information see struct Tbitmap.
+
+Every sprite frame in the world has its own unique sprite frame descriptor.
+The frame descriptors contain all the necessary information about the sprite
+frames, that is:
+- how many subbitmaps are in the sprite frame.
+- what is the bitmap number (cell number in TOworld::bitmaps array) assigned
+  to each subbitmap and what is the position of each subbitmap in the sprite
+  frame.
+- what is the total length and height of the sprite frame.
+- what is the collision mask for the sprite frame.
+
+Because it can be tricky to alter the values in a frame descriptor directly,
+i wont discuss the Tframedescr structure. But i will discuss how to use
+the functions which are dedicated to that purpose.
+Lets see an example:
+ TOworld myworld;
+
+Assume that the maximum number of sprite frames that you may need
+in your world is 500. The first thing you have to do is to reserve
+memory for 500 pointers to sprite frame descriptors:
+
+myworld.makeframesdescrs(500);
+( In a real program you must always check what the function returns)
+
+Note that this command wont reserve memory for the frame descriptors,
+it will only create an array of pointers to frame descriptors.
+
+
+First, lets see the simple case.
+If your sprite frame consists of a single subbitmap , then use
+make1bitmapdescr()
+
+myworld.make1bitmapdescr(0, 12, TRUE );
+
+The last function call builds (reserves memory for) the first frame
+descriptor, assigns the bitmap number 12 to the single subbitmap of the
+sprite frame and requests a collision mask for the sprite frame.
+
+That's all.
+
+
+Now lets see what happens if you have more than 1 subbitmaps in a spite
+frame:
+Suppose that you want to build a new descriptor and say that this
+decriptor is the first one (cell number 0) in the array
+that makeframedescrs() made.
+
+Say also that:
+- You want to put 3 subbitmaps in the descriptor and
+- The corresponding sprite frame will have length 27 and height 19.
+
+The following function call will make a descriptor with those specifications:
+myworld.getdescrmem(0, 27, 19 , 3);
+
+You still have to tell PLATFORMTRON which of the bitmaps in the TOworld::bitmaps
+array will be assigned to each of the 3 subbitmaps of the sprite frame and
+what the relative coordinates of those subbitmaps are.
+
+Suppose that bitmap number 23 will be assigned to subbitmap number 0
+ "        "          "     12    "     "          "          "     1
+ "        "          "     00    "     "          "          "     2
+
+Say also that subbitmap 0 will be put at pos (00,00) in the sprite frame area
+       "        "       1            "       (08,05)       "     "       "
+       "        "       2            "       (18,16)       "     "       "
+
+myworld.setsubbitmap(0,0,23, 00,00);
+myworld.setsubbitmap(0,1,12, 08,05);
+myworld.setsubbitmap(0,2,00, 18,16);
+
+
+         Sprite frame area
+(0,0)
+ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³          ³                      ³
+³          ³                      ³
+³    (8,5) ³                      ³
+³       ÚÄÄÅÄÄÄÄÄÄÄÄÄ¿            ³
+³bitmap ³  ³         ³            ³
+³  23   ³  ³         ³            ³
+ÃÄÄÄÄÄÄÄÅÄÄÙ         ³            ³
+³       ³            ³            ³
+³       ³   bitmap   ³            ³
+³       ³     12     ³            ³
+³       ³            ³            ³
+³       ³            ³            ³
+³       ³            ³            ³
+³       ³            ³            ³
+³       ÀÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                    ³            ³
+³                    ³   bitmap 0 ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÙ(26,18)
+
+
+
+Be carefull with setsubbitmap().  If a bitmap doesnt fit in the sprite frame
+area then setsubbitmap() will return ERR_BITMAPNOTFIT. It is your
+responsibility to use bitmaps that fit in the sprite frame area or make the
+sprite frame area large enough.
+As an alternative you may use sprintfdescr() to build a frame descriptor
+in a very sophisticated way.
+See the description of this function for more details.
+
+sprite frame area
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³               ³
+³               ³
+³               ³
+³               ³
+³               ³     <-------  NOT ALLOWED
+³   bitmap      ³
+³   ÚÄÄÄ¿       ³
+³   ³   ³       ³
+³   ³   ³       ³
+³   ³   ³       ³
+ÀÄÄÄÅÄÄÄÅÄÄÄÄÄÄÄÙ
+    ³   ³
+    ³   ³
+    ÀÄÄÄÙ
+
+Now you have built a new sprite frame. You may optionally request a collision
+mask for that sprite frame. Call TOworld::makeframecolidmask() with the number
+of the corresponding frame descriptor as an argument. A collision mask will
+be built and put in the frame descriptor.
+
+
+See also:
+Bitmaps
+Sprite frame descriptor functions
+
+
+
+S2.4                        Draw methods:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+PLATFOMRTRON can draw your bitmaps with 2 different methods:
+
+Solid drawing:
+When using this method PLATFOMRTRON assumes that the bitmap is solid, that is
+it does not contain holes or transparent parts. So when your bitmap is drawn
+on the screen it is always displayed as a rectangular.
+Note that this method requires your bitmaps to be stored in 4PLANES format.
+
+
+See-thru drawing:
+When using this method PLATFORMTRON assumes that some points of the bitmap
+are totally transparent. So your bitmap can have any shape and any number
+of holes. When it is to be displayed, the transparent parts will NOT be drawn
+at all and so your bitmap will be displayed correctly.
+All the points of the bitmap with color value 0 are assumed to be transparent.
+That means you cannot use color 0 for any other purpose.
+Note that this method requires your bitmaps to be stored in RAW format.
+The only exception is the tiles. The tiles are always stored in 4PLANES format
+
+
+
+
+S2.5                   Sprites & action functions:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+A sprite that cannot move in the world, or generally do something is not
+very useful. So every sprite must have some kind of behaviour. In PLATFORMTRON
+every sprite may have its own behaviour which implemented through action
+functions.
+ An action function is a function that takes a single argument:
+ a pointer to a TOobject object.
+ Here is an example of an action function which increases the x coordinate
+ of a TOobject object and thus moves the object to the right one pixel (point)
+
+  void myaction(TOobject *myobject)
+  {
+    myobject->x++;
+  }
+
+
+Here are some very important details about action functions:
+- Each sprite can have as many action functions as you like.
+- The fact that every action function takes as an argument a pointer
+  to a TOobject object does not mean that it cannot take a pointer
+  to a TOsprite object or any other object derived from the basic (TOobject)
+  or its descendants. ( a real powerfull aspect of object oriented programming)
+- You dont use action functions only to move sprites on the screen. You
+  can do what ever you like with them.
+- For each sprite:
+  you cannot have more than one action functions executed per frame, but
+  you can have one action function executed more than one frames.
+
+Lets see an example:
+ Suppose that you have a sprite named enemie1:
+
+  TOsprite enemie1;
+
+ and the following 2 action functions:
+
+ void enemieinit(TOobject *obj)
+ {
+   obj->dx=1;
+   obj->x=10;
+   obj->y=10;
+   obj->nextaction=enemierun;
+  }
+
+ void enemierun(TOobject *obj)
+ {
+   if ( (obj->x>90) || (obj->x < 10) ) obj->dx=-obj->dx;
+   obj->x+=obj->dx;
+ }
+
+
+ Now tell the enemie1 object which function will be called first:
+
+ enemie1.nextaction=enemieinit;  // start with enemieinit();
+
+ TOworld::animate() will execute enemieinit() at the next frame.
+ enemieinit() will initialize some values of enemie1 object and then
+ it will set nextaction to enemierun. That means enemierun() will
+ be executed in the next frame.
+ enemierun() doesnt change the nextaction field of enemie1 so this function
+ will keep being executed at the next frames.
+
+ That was a very simple example and maybe it is not so clear why you have
+ to use action functions. See the demo program for more details.
+
+
+S2.6                   Object lists & priority lists:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+PLATFORMTRON uses internally double linked lists to store every object
+in the world. There are 15 object lists and 15 priority lists.
+Each object belongs to one object list and one priority list exactly.
+The object lists are used to logically seperate the objects to categories
+and can be used as you like.
+The priority lists are a mechanism to implement sprite pseudo-layers.
+An object in priority list number n is always drawn after all
+objects in priority lists 0..(n-1) have been drawn.
+Also an object in priority list number n is always handled ( that is
+its active action function is called ) after all objects in priority
+lists 0..(n-1) have been handled.
+
+for example:
+suppose that you want to have a sprite that is always displayed over all
+the rest of the sprites. ( a score sprite )
+You can insert this object in priority list PRIORITIESNO-1 and the rest objects in
+priority lists 0..PRIORITIESNO-2
+Now you can be sure that there is no posibility for a sprite to be drawn
+over your score sprite.
+
+There are some TOsprite fields you may need to use:
+TOsprite::type       it is the number of the object list that owns the sprite
+TOsprite::priority   it is the number of the priority list that owns the sprite
+TOsprite::Pnext      points to the next  entry in the object list
+TOsprite::Pprev      points to the previous entry in the object list
+TOsprite::Pnext2     points to the next entry in the priority list
+TOsprite::Pprev2     points to the previous entry in the priority list
+
+You must never change any of these fields directly. Use instead the functions
+TOworld::addobj(), TOworld::removeobj() etc.
+
+Whenever an object is to be handled TOworld::animate() calls the active
+action function of the object and passes as argument a pointer to the
+object itsself
+
+for example:
+
+TOsprite mysprite1,mysprite2;
+TOworld myworld;
+
+void myaction(TOobject *obj)
+{
+ ...                // an action function
+ ...
+}
+
+void main()
+{
+
+ ..     // initialize mysprite1,mysprite2
+
+ mysprite1.makeactions(10);
+ mysprite1.setactioni(0,myaction)
+ mysprite1.nextaction=0;            //active action function: 0 (myaction())
+ addobj(0,mysprite1,1);   // add mysprite1 in object list: 0, priority list: 1
+
+ mysprite2.makeactions(6);
+ mysprite2.setactioni(0,myaction)
+ mysprite2.nextaction=0;            //active action function: 0 (myaction())
+ addobj(0,mysprite2,1);   // add mysprite2 in object list: 0, priority list: 1
+ ..
+ ..
+ myworld.animate();
+ ..
+ ..
+}
+
+
+myworld.animate() will call the active action function of mysprite1 as:
+
+  myaction(mysprite1);
+
+Also animate() will call the active action function of mysprite2 as:
+
+  myaction(mysprite2);
+
+
+
+You can have dynamically allocated objects in any of PLATFORMTRON lists.
+But you must remember that whenever you call any of removeXXXXXX() functions
+to remove an object from the lists it belongs to, the memory which is
+reserved for the object will not be freed. Use a delete command to do that.
+for example:
+
+
+void Spriteactiondie(TOobject *obj)
+{
+ TOworld *theworld;
+
+ theworld=obj->owner;
+ theworld->removeobj(obj);
+ delete obj;
+}
+
+
+- Dont try to delete an object without first removing it from the world
+- Dont try to delete an object which was not dynamically allocated (through
+  C++ new operator )
+
+If your object is displayable (has got sprite frames) then it is not a good
+idea to remove it from the world by calling removeobj() because animate()
+wont' be able to restore the background at the sprite position. Instead
+set TOobject::deletebit to 1. This will remove the sprite in the next frame
+and will also free the memory which is reserved by the sprite, and thus animate()
+will be able to restore the background.
+
+for example:
+void Spriteactiondie(TOobject *obj)
+{
+ obj->deletebit=1; // tell PLATFORMTRON to remove (by calling TOworld::removeobj()
+                   //  and delete (via C++ delete operator) the sprite in
+                   // the next frame (not the current)
+}
+
+
+If your sprite is not dynamically allocated or for some reason you dont want
+to free the memory reserved for that then set removebit to 1:
+
+void Spriteactiondie(TOobject *obj)
+{
+ obj->removebit=1;  // just remove the sprite from the world through removeobj()
+                    // in the next frame
+}
+
+
+
+
+S2.7                      PLATFORMTRON kernel:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+The topic discussed here applies to advanced users.
+If you like to link a music library to your program to be able to play music
+in the background, you will soon encounter screen synchronization problems.
+The scrolling and the animation of the sprites or the playback of the music
+will be jerky and the result wont be impressive at all.
+In that case you must change PLATFORMTRON kernel.
+
+PLATFORMTRON kernel is a sequence of commands that affect the hadrware of
+the VGA card and it is used internally by PLATFORMTRON to perform some very
+important tasks.
+
+PLATFROMTRON kernel exists in TOworld::animate() function and by default
+it is the following sequence:
+
+1  asm cli
+2  pageswap();
+3  setsadr();
+4  pl_retrace();
+5  sethpel(hpel);
+6  refreshpal();
+7  asm sti
+
+
+-command 1 deactivates the interrupts because nothing must interrupt the
+ next commands until command 6
+-command 2 swaps the offsets of the draw and the show pages.
+ ( PLATFROMTRON uses page flipping for smooth animation.)
+-command 3 sets the start address register of the vga card to the
+ appropriate value
+-command 4 waits for the next vertical retrace to start.
+-command 5 puts the appropriate value in the horizontal pel panning
+ register of the vga card.
+-command 6 refreshes the palette if it has changed.
+-finally command 7 activates the interrupts again.
+
+This sequence works very well when no music is played in the background
+but if you decide to use a music library one of the following things will
+happen:
+i)  An interrupt must be triggered to be handled by the music library when
+    the kernel sequence is executed. The problem is that the interrupt cannot
+    be triggered because of command 1. So the music library will lose one
+    cycle and the music will be jerky.
+ii) Suppose that you remove commands 1 and 6. Now during execution of kernel
+    sequence, a music (timer) interrupt is triggered. The problem is that
+    execution of the interrupt handler takes too much time. So PLATFORMTRON
+    may lose one retrace and the animation will be jerky in that case.
+
+The solution is somehow complicated but it works.
+The music library (not PLATFORMTRON) must sychronize its activity to the
+vertical retrace, and have 3 functions called:
+the first just before vertical retrace starts (lets call this preVR() )
+,the second immediately after vertical retrace has started (immVR())
+and the last during the vertical retrace ( inVR() )
+
+Here is the solution:
+
+volatile int framecount=0,oldframecount=0;
+volatile char frameready =1;
+TOworld world;
+
+
+void preVR()
+{
+ if (!frameready) return;
+ framecount++;
+ world.pageswap();
+ world.setsadr();
+}
+
+void immVR()
+{
+ if (!frameready) return;
+ world.sethpel();
+}
+
+void inVR()
+{
+ if (!frameready) return;
+ world.refreshpal();
+ frameready=0;              // set frameready to zero , a new frame will be built
+}
+
+
+
+short mykernel(TOworld *w)
+{
+ for (;framecount==oldframecount;);
+ oldframecount=framecount;
+ return 0;
+}
+
+
+void main(void)
+{
+   ..
+   ..
+   ..     // initialization code
+
+  // tell PLATFORMTRON to set frameready=1 each time a frame has been prepared
+   world.Pframeready=&frameready;
+  // Override the default kernel sequence with mykernel()
+   world.Pkernelproc=mykernel;
+
+ mx320x200(44);  // setup the desired video mode
+(tell the music library to sychronize its activity to the retrace)
+(tell the music library to call preVR() just before retrace)
+(tell the music library to call immVR() just after retrace has started)
+(tell the music library to call inVR()  during retrace )
+
+  world.animate(); // run
+  ..
+  ..  // shut down code
+}
+
+
+Lets see how the code works:
+* pageswap() and setsadr() must always be executed before the retrace.
+  That's why they are in preVR().
+* sethpel() must always be executed after the retrace has started
+  That's why it is in immVR().
+* refreshpal() must always be executed during the retrace
+  That's why it is in inVR()
+* Now the kernel sequence is the function mykernel()
+  mykernel() actually waits for the pageswap() command to be executed.
+  That happens when the framecounter changes inside preVR().
+* the frameready variable is used for safety reasons. If there is a lot
+  of animation on the screen, PLATFORMTRON will propably need more than one
+  retraces to prepare a frame. So pageswap(),setsadr() and sethpel()
+  execution must be postponed until the frame is prepared. Otherwise the
+  results will be unpredictable.
+
+I have succesfully used this method to make PLATFORMTRON cooperate with
+MIDAS music library. See the example program for more details.
+
+
+
+
+
+S2.8                  World Data Description file:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+In this paragraph i will describe the format of the file that
+TOworld::loadlevel() takes as an argument:
+offset              length
+     0                28    The signature of the file. This signature is the
+                            string "World Data Description file" followed by
+                            ascii character #26. (Ctrl-Z)
+    28               768    The pallete data.
+   796                2     TOworld::length
+   798                2     TOworld::height
+   800                2     number of tiles in the world (TOworld::tilesno)
+   802                1     if TRUE then there is a background attributes
+                            layer (TOworld::Pbackattr) else no Pbackattr layer
+   803         tilesno*256  The tile data (256 byte for each tile)
+next byte  length*height*2  The data of the background layer
+                            (TOworld::Pbacklayer)
+next byte  length*height*2  The data of the foreground layer
+                            (TOworld::Pforelayer)
+(
+if there is a background attributes layer then the data of that layer are next:
+next byte  lenght*height*2  The data of the background attributes layer
+                            (TOworld::Pbackattr)
+)
+
+So the total length of the file in bytes is:
+803 + tilesno*256 + (length*height*2)*2 if there is no Pbackattr layer
+or
+803 + tilesno*256 + (length*height*2)*3 if there is Pbackattr layer
+
+
+
+
+S2.9                        Restrictions:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Maximum layer size:              MAXLAYERSIZE==65536 bytes (32768 shorts)
+Maximum number of tiles:         65536 / 4 = 16384
+Maximum size of a bitmap:        65000 bytes
+Maximum number of EMS handles:   256
+Maximum amount of EMS memory:    256*PAGESPERHANDLE*16k = 24576K
+Maximum length of a sprite
+frame with collision mask:       255
+Maximum height of a sprite
+frame with collision mask:       255
+
+
+
+
+
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+S3.0                   TOworld description:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+S3.1                       TOworld fields:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+unsigned short length;
+  READ ONLY
+  The length of the world in tiles. It must be at least 22.
+
+unsigned short height;
+  READ ONLY
+  The height of the world in tiles. It must be at least 15.
+
+unsigned short x;
+  READ ONLY
+  The upper left corner x-coordinate of the view window, in pixels.
+
+unsigned short y;
+  READ ONLY
+  The upper left corner y-coordinate of the view window, in pixels.
+
+unsigned short tilesno;
+  READ ONLY
+  The number of cells in Ptiles array.
+
+char **Ptiles;
+  READ ONLY
+  An array of pointers to the tile data.
+  It has got tilesno pointers and each one points to a 256 byte-data tile.
+  example:
+          Ptiles[0] is the pointer to the first tile
+
+unsigned short  *Pbacklayer;
+  READ ONLY
+  The background layer. An array of length*height cells.
+  This array has got one dimension although it represents a two dimensional
+  scenery. To see how you get the value for the tile [i,j] have a look at
+  getbackxy() function or better use that function.
+  See also:
+  layers, layers: data format
+
+unsigned short  *Pforelayer;
+  READ ONLY
+  The foreground layer. See "*Pbacklayer" and "layers" for more information.
+
+unsigned short  *Pbackattr;
+  READ ONLY
+  The backgound attributes layer. A special layer different from background
+  and foreground layers. See layers for more details.
+
+char windowsbit;
+  READ ONLY
+  TRUE             program is running under windows
+  FALSE            program is not running under windows
+
+char attrbit;
+  READ ONLY
+  TRUE             background attribute layer exists.
+  FALSE            background attribute layer does not exist.
+  There are games that don't use attribute layer at all.
+  See layers for more details.
+
+char exitbit;
+  READ / WRITE
+  TRUE             TOworld::animate() will return in the next frame
+  FALSE            TOworld::animate() will keep running
+  Set this bit to 1 to exit.
+  See TOworld::animate()
+
+char palettechanged;
+  READ / WRITE
+  TRUE             palette has changed in the last frame
+  FALSE            palette has not changed in the last frame
+  when you change directly the palette ( you put values in palette[] array)
+  you must also set this flag to TRUE if you want PLATFORMTRON to
+  refresh the palette
+  See also
+  TOworld::rgbset(), palette[],
+
+unsigned short bitmapsno;
+ READ ONLY
+ The number of cells in bitmaps array.
+
+TPbitmap *bitmaps;
+  READ ONLY
+  It is the array that holds every sprite bitmap in the world.
+  It contains pointers to structures of Tbitmap type.
+
+TOobject *objs[LISTSNO];
+  READ ONLY
+  The heads (first elements) of the object lists.
+  i.e. TOworld::objs[0] is the head of the list no 0.
+
+TOobject *priorities[PRIORITIESNO];
+  READ ONLY
+  The heads of the priority lists.
+
+char palette[768];
+  READ / WRITE
+  Holds the palette data for the 256 color of the vga card.
+  If you change directly the palette you must also set palettechanged to 1
+  to let PLATFORMTRON know that the palette has changed.
+  As an alternative you can always use the rgbset() function to
+  change the palette.
+
+  See also:
+  palettechanged, TOworld::rgbset()
+
+
+char *Pframeready;
+ READ / WRITE
+ If you set this pointer to a char variable (a value not NULL) then,
+ PLATFORMTRON will set *Pframeready (not Pframeready) to 1 every time
+ a frame is ready. PLATFORMTRON will NEVER set that variable to 0.
+ You must do that. This field is used in conjuction with (*Pkernelproc)()
+ See PLATFORMTRON kernel for more details.
+
+
+short (*Pkernelproc)(TOworld *w);
+ READ / WRITE
+ If you set this pointer to one of your functions then that function
+ will be executed in stead of PLATFORMTRON default kernel command
+ sequence.
+ See PLATFORMTRON kernel for more details.
+
+
+char backprior;
+ READ ONLY
+ The priority number of all background tiles which have their high bit = 1
+ See layers for more details
+
+char foreprior;
+ READ ONLY
+ The priority number of all foreground tiles which have their high bit = 1
+ See layers for more details
+
+unsigned char xspace,yspace;
+ READ / WRITE
+ horizontal and vertical spacing between bitmaps for sprintfdescr()
+ See sprintfdescr() for more details
+
+
+
+
+S3.2                     TOworld tile functions:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+short TOworld::maketiles(unsigned short tilesno0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Allocates memory for the Ptiles array.
+
+arguments:
+tilesno0             the number of tiles in the world
+
+returns:
+ERR_TILESMADE        tiles already made,you have already called maketiles()
+ERR_ZEROMEMALLOC     attempt to reserve 0 bytes of memory. tilesno0 must not
+                     be zero
+ERR_OUTOFMEM         not enough memory
+ERR_NOERR            success
+
+
+
+short TOworld::destroytiles();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Frees the memory allocated with TOworld::maketiles()
+If internaltilesloader==1 this function will also free
+the memory for the tile data before destroy the Ptiles array.
+
+returns:
+ERR_TILESNOTMADE      you havent called TOworld::maketiles()
+ERR_NOERR             success
+
+
+
+char *TOworld::settileno(unsigned short tileno0,char *tiledata);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Replaces a tile in the Ptiles array with a new one.
+
+arguments:
+tiledata         pointer to the new tile
+tileno0          The number of the tile you want to replace
+
+returns:
+A pointer to the replaced tile
+on error returns:
+NULL          (you havent called maketiles()) or
+              (tileno0>=tilesno)
+
+notes:
+NULL means that an error may have occured. The function could also
+return NULL if there was no tile associated with the number tilesno0
+before the call. (that is Ptiles[tileno0] was NULL)
+
+
+
+
+short TOworld::tileto4planes(char *tile);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Uses rawto4planes() to convert a tile from RAW format to 4PLANES format
+
+arguments:
+tile             a pointer to 256 bytes
+
+returns:
+ERR_OUTOFMEM      not enough memory (256 bytes required)
+ERR_NOERR         success
+
+notes:
+The tile data must be always in 4PLANES format, so you will use this
+function frequently.
+
+
+
+S3.3                   TOworld layer functions:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+short TOworld::setdimensions(unsigned short len0,unsigned short hei0)
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Sets the dimensions of the world area.
+
+Arguments:
+len0           length of world in tiles (TOworld::length)
+hei0           height of world in tiles (TOworld::height)
+
+returns:
+ERR_LAYEREXISTS    you tried to change the dimensions while a layer
+                   has been already made with TOworld::makelayer()
+ERR_LAYERTOBIG     layer size exceeds MAXLAYERSIZE
+ERR_TOOSMALLDIM    length must be at least 22 and height at least 15
+ERR_NOERR          success
+
+notes:
+Call this function before try to call makelayer()
+
+
+
+short TOworld::makelayer(unsigned char layerid);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Allocates memory for a specific layer.
+
+arguments:
+layerid         it can be one of:
+                LAY_BACK:  represents the background layer
+                LAY_FORE:  represents the foreground layer
+                LAY_ATTR:  represents the background attributes layer
+
+returns:
+ERR_OUTOFRANGE      layerid is not valid
+ERR_LAYERMADE       the specified layer has been already made
+ERR_OUTOFMEM        out of memory
+ERR_NOERR           success
+
+
+
+short TOworld::destroylayer(unsigned char layerid);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Frees the memory allocated with TOworld::makelayer()
+
+arguments:
+layerid         it can be one of:
+                LAY_BACK:  represents the background layer
+                LAY_FORE:  represents the foreground layer
+                LAY_ATTR:  represents the background attributes layer
+
+returns:
+ERR_OUTOFRANGE      layerid is not valid
+ERR_LAYERNOTMADE    memory has not been reserved for that layer with makelayer()
+ERR_NOERR           success
+
+
+
+short TOworld::setlayer(unsigned short layerid,unsigned short *newlayer);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Sets one of the layer pointers (TOworld::Pbacklayer,TOworld::Pforelayer,
+TOworld::Pbackattr) to a user layer.
+
+arguments:
+layerid         it can be one of:
+                LAY_BACK:  represents the background layer
+                LAY_FORE:  represents the foreground layer
+                LAY_ATTR:  represents the background attributes layer
+newlayer        a pointer to the user layer.
+
+returns:
+ERR_OUTOFRANGE      layerid is not valid
+ERR_NOERR           success
+
+notes:
+If makelayer() has been called to make the layer with id layerid then
+setlayer() will first destroy that layer and then set the layer pointer.
+
+
+
+unsigned short TOworld::getattrxy(unsigned short bx,unsigned short by);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Returns the value of the background attributes layer at a specific location
+
+
+arguments:
+bx               the x coordinate of the tile
+by               the y coordinate of the tile
+
+returns:
+the attributes word of the tile in question.
+
+
+notes:
+- Pbackattr is a 1-dimension array although it represents a 2-dimension
+  layer. So you cant say Pbackattr[by][bx]. You must say
+  Pbackattr[by* TOworld::length + bx] or better use this function.
+  The same is true for the other layers too.
+- the 4 highest bits of the attributes word are used by
+  howfarL(),howfarR(),howfarU() and howfarD() functions to determine
+  if a tile is solid or not.
+  the highest bit (15) corresponds to the top side of the tile
+              bit  14  corresponds to the bottom side of the tile
+              bit  13  corresponds to the left  side of the tile
+              bit  12  corresponds to the right side of the tile
+  The rest of the bits can be used as you like.
+
+
+
+
+unsigned short TOworld::getforexy(unsigned short fx,unsigned short fy);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Returns the value of the foreground layer at a specific location.
+
+arguments:
+fx               the x coordinate of the tile
+fy               the y coordinate of the tile
+
+returns:
+the foreground layer word of the tile in question.
+
+notes:
+the format of the foreground layer word is the following:
+- if (foreground word) == 65535 then dont display anything on the screen
+  (an empty tile)
+  else
+  - bits 0-14      the number of the tile to be displayed (the cell number
+                   in Ptiles array, you can have up to 32767 tiles for the
+                   foreground layer)
+  - bit 15         if set, then this tile will be drawn according to
+                   priority TOworld::foreprior (see Layers for more info)
+
+The tile is always displayed as a see-thru tile.
+
+
+
+
+unsigned short TOworld::getbackxy(unsigned short bx,unsigned short by);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Returns the value of the background layer at a specific location.
+
+arguments:
+bx               the x coordinate of the tile
+by               the y coordinate of the tile
+
+returns:
+the background layer word of the tile in question.
+
+notes:
+the format of the background layer word is the following:
+- if (background word) == 65535 then dont display anything on the screen
+  (an empty tile)
+  else
+  - bits 0-14      the number of the tile to be displayed (the cell number
+                   in Ptiles array, you can have up to 32767 tiles for the
+                   background layer)
+  - bit 15         if set, then this tile will be drawn according to
+                   priority TOworld::backprior (see Layers for details)
+
+The tile is always displayed as a solid tile, you can't have see-thru tiles
+in the background layer.
+
+
+
+
+
+void TOworld::setbackxy(unsigned short bx,unsigned short by,
+                        unsigned short newvalue);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Puts a new value at a specific location of the background layer.
+
+arguments:
+bx               the x coordinate of the tile
+by               the y coordinate of the tile
+newvalue         the new tile number ( the cell number in Ptiles array)
+
+
+notes:
+If you want to change a layer tile at run time and see the new tile displayed
+on the screen then you must use TOworld::putbackxy(). That function will put
+the new value in the background layer and will make sure that the new tile
+will be refreshed if its location is inside the current view window.
+setbackxy() will NOT do that.
+
+
+
+
+void TOworld::setforexy(unsigned short fx,unsigned short fy,
+                        unsigned short newvalue);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Puts a new value at a specific location of the foreground layer.
+
+arguments:
+fx               the x coordinate of the tile
+fy               the y coordinate of the tile
+newvalue         the new tile number ( the cell number in Ptiles array)
+
+notes:
+If you want to change a layer tile at run time and see the new tile displayed
+on the screen then you must use TOworld::putforexy(). That function will put
+the new value in the foreground layer and will make sure that the new tile
+will be refreshed if its location is inside the current view window.
+setforexy() will NOT do that.
+
+
+
+
+void TOworld::setattrxy(unsigned short ax,unsigned short ay,
+                        unsigned short newvalue)
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Puts a new value at a specific location of the background attributes layer.
+
+
+arguments:
+ax               the x coordinate of the tile
+ay               the y coordinate of the tile
+newvalue         the new attributes word of the tile
+
+
+
+void TOworld::putbackxy(unsigned short bx,unsigned short by,
+                        unsigned short newvalue);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Puts a new value at specific location of the background layer and if that
+location is inside the view window refreshes the tile.
+
+
+arguments:
+bx               the x coordinate of the tile
+by               the y coordinate of the tile
+newvalue         the new tile number ( the cell number in Ptiles array)
+
+
+
+
+void TOworld::putforexy(unsigned short fx,unsigned short fy,
+                        unsigned short newvalue);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Puts a new value at specific location of the foreground layer and if that
+location is inside the view window refreshes the tile.
+
+arguments:
+fx               the x coordinate of the tile
+fy               the y coordinate of the tile
+newvalue         the new tile number ( the cell number in Ptiles array)
+
+
+
+
+short TOworld::setbackprior(unsigned char pno);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Assigns a new priority to the tiles which have the highest bit 1 in
+the background layer.
+
+arguments:
+pno           the new priority number
+
+returns:
+ERR_OUTOFRANGE      0<=pno<=PRIORITIESNO-1
+ERR_NOERR           success
+
+notes:
+- the default priority number is PRIORITIESNO-1 ,so background layer tiles
+  with bit 15==1 are drawn last (over all sprites)
+- TOworld::backprior is not allowed to be greater than TOworld::foreprior
+  if that happens this function sets
+  TOworld::backprior = TOworld::foreprior = pno
+
+See also:
+Layers
+
+
+short TOworld::setforeprior(unsigned char pno);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Assigns a new priority to the tiles which have the highest bit 1 in
+the foreground layer.
+
+arguments:
+pno           the new priority number
+
+returns:
+ERR_OUTOFRANGE      0<=pno<=PRIORITIESNO-1
+ERR_NOERR           success
+
+notes:
+- the default priority number is PRIORITIESNO-1 ,so foreground layer tiles
+  with bit 15==1 are drawn last (over all sprites)
+- TOworld::foreprior is not allowed to be less than TOworld::backprior
+  if that happens this function sets
+  TOworld::foreprior = TOworld::backprior = pno
+
+See also:
+Layers
+
+
+
+
+S3.4                     TOworld bitmaps:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+Bitmap storage formats:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+There are 2 formats currently supported by PLATFORMTRON
+I have tried to keep them as simple as possible to make your job easier.
+
+RAW format:
+ This is the simplest format.
+ Assume you have a bitmap with length l and height h.
+
+
+
+     Bitmap                                Bitmap data
+ ÚÄÄÄÄÂÄÄÄÄÂ    ÂÄÄÄÄ¿
+ ³0,0 ³0,1 ³    ³    ³ (0,l-1)
+ ÃÄÄÄÄÅÄÄÄÄÅ .  ÅÄÄÄÄ´
+ ³    ³    ³    ³    ³
+ ÃÄÄÄÄÅÄÄÄÄÅ .  ÅÄÄÄÄ´               ÚÄÄÄÄÂÄÄÄÄÂ     ÂÄÄÄÄÂÄÄÄÄ¿
+ . . . . . . . . . .                 ³ 0  ³ 1  ³ . . ³    ³    ³ l*h-1
+                                     ÀÄÄÄÄÁÄÄÄÄÁ     ÁÄÄÄÄÁÄÄÄÄÙ
+ ÃÄÄÄÄÅÄÄÄÄÅ    ÅÄÄÄÄ´
+ ³    ³x,y ³ .  ³    ³
+ ÃÄÄÄÄÅÄÄÄÄÅ    ÅÄÄÄÄ´
+ ³    ³    ³ .  ³    ³ (l-1,h-1)
+ ÀÄÄÄÄÁÄÄÄÄÁ    ÁÄÄÄÄÙ
+
+
+ The point (x,y) of the bitmap corresponds to point (y*l+x) in the bitmap
+ data array. So points are stored in sequence on after another, starting
+ from the upper left corner and going from left to right and from top to
+ bottom.
+
+
+
+4PLANES format:
+ This format is a little bit more complicated.
+ All points (x,y) where x mod 4 = 0 are stored first. Then all points (x,y)
+ with x mod 4=1 are stored then those with x mod 4 = 2 and last those
+ with x mod 4=3.
+
+ So the point (x,y) of the bitmap corresponds to the point:
+ y* ( (l-1-(x % 4)) / 4 + 1 ) + x/4 + PlaneStartAddress
+
+ Here is how PlaneStartAddress is calculated:
+
+ PlaneStartAddress=0;
+ for (int i=0;i< (x%4);i++)
+  PlaneStartAddress+=h*(l-1-(i%4)) /4+1);
+
+ You dont have to understand how this works. You can always have
+ your bitmaps stored in RAW format and every time you need a 4PLANES
+ represenation of a bitmap use the bitmapto4planes() function.
+
+
+
+
+
+struct Tbitmap
+       {  unsigned short len;
+	  unsigned short hei;
+	  unsigned char drawmethod;
+          unsigned char emsbit;
+          unsigned long emsptr;
+          char data[65000];  };
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+This is the stucture used to store a bitmap.
+fields:
+len            the length of the bitmap.
+hei            the height of the bitmap.
+drawmethod     can be one of DR_SOLID and DR_THRU
+               When it is DR_SOLID the bitmap data must be stored in
+               4PLANES format otherwise the data must be stored in RAW format
+emsbit         when it is TRUE the bitmap is stored in EMS memory
+emsptr         a special pointer that has to do with EMS memory
+data           len*hei bytes. The data of the bitmap.
+
+notes:
+- To reserve memory for a bitmap with length l and height h use:
+    TPbitmap mybitmap = (TPbitmap) malloc(sizeof(Tbitmap)-65000+l*h);
+  Another way (not so ANSI C) is:
+    mybitmap = (TPbitmap) malloc(10+l*h);
+- emsbit and emsptr fields are used by PLATFORMTRON. You should not
+  disturb them.
+- it is your responsibility to set values for the fields len,hei,drawmethod
+  and data, before PLATFORMTRON can use your Tbitmap structure.
+- if data is in RAW format ,while you want them to be in 4PLANES format
+  you can use bitmapto4planes().
+
+
+See also:
+Draw methods
+Bitmaps Storage formats
+
+
+short TOworld::makebitmaps(unsigned short bitmapsno0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Allocates memory for the bitmaps pointers.
+
+Arguments:
+bitmapsno0         the number of bitmaps you want to reserve memory for.
+
+returns:
+ERR_BITMAPSMADE    You have already called makebitmaps()
+                   To call makebitmaps() again you must first call destroybitmaps()
+ERR_ZEROMEMALLOC   Attemp to reserve a memory block of 0 bytes
+                   bitmapsno0 must be greater than 0
+ERR_OUTOFMEM       Not enough memory
+ERR_NOERR          success
+
+
+
+
+
+short TOworld::destroybitmaps();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Deallocates the memory that makebitmaps() reserved.
+ example:
+          makebitmaps(200);  // reserve space for 200 bitmaps
+                             // (200 pointers to bitmaps data)
+          .
+          .                  // allocate memory for the bitmaps data
+          .                  // do stuff
+          .
+          destroybitmaps();  // deallocate the memory of the 200 pointers
+
+
+returns:
+ERR_BITMAPSNOTMADE      To call this function you must have called makebitmaps() first
+ERR_NOERR               success
+
+
+
+
+TPbitmap TOworld::setbitmapi(unsigned short i,TPbitmap pbitmap);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Replaces a bitmap in the TOworld::bitmaps array.
+
+Arguments:
+i              The number of the bitmap you want to replace
+pbitmap        The new bitmap that will be assigned to number i
+
+returns:
+a pointer to the replaced bitmap
+on error retuns
+NULL              (you haven't called makebitmaps()) or
+                  (i is out of range (i>=bitmapsno))
+
+notes:
+- NULL means that an error may have occured. The function could also
+  return NULL if there was no bitmap associated with number i before the
+  call or there was a bitmap, but it was stored in EMS memory.
+- This function does NOT copy the bitmap. It simply sets
+  TOworld::bitmaps[i]=pbitmap. So you cant free the memory, reserved for
+  pbitmap, after the call because that memory is actually used by
+  PLATFORMTRON.
+
+
+
+long TOworld::storebitmap(unsigned short bitmapno,TPbitmap bitmap)
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Stores a bitmap in EMS memory.
+
+Arguments:
+bitmapno         The bitmap number which will be assigned to the
+                 bitmap in EMS
+bitmap           A pointer to a bitmap that is stored in conventional
+                 memory
+
+returns:
+ERR_OUTOFRANGE       bitmapno >= TOworld::bitmapsno
+ERR_OUTOFMEM         not enough memory
+ERR_NOEMS            no EMS memory present
+ERR_ZEROMEMALLOC     you tried to allocate 0 bytes of EMS memory
+                     (bitmap->len*bitmap->hei==0)
+ERR_EMSOUTOFMEM      not enough EMS memory
+ERR_EMSOUTOFHANDLES  No more handles, you cannot reserve EMS memory anymore
+ERR_NOERR            success
+It may also returns EMS specific error codes (actually the opposite numbers
+, -(EMS error) ). Consult the EMS specification if you like to handle those
+errors
+
+
+notes:
+- This function will copy the bitmap bitmap from conventional memory to
+  EMS memory. A new Tbitmap structure will be built and put in position
+  bitmapno of TOworld::bitmaps array. That structure contains information
+  about the EMS data (emsptr,emsbit) of the bitmap not the actual data.
+- If this funtions returns ERR_NOERR then you may deallocate the memory
+  reserved for bitmap bitmap, since this memory is not used by PLATFORMTRON
+- PLATFORMTRON uses a very simple heap manager to handle the EMS memory.
+  This manager requests a handle of PAGESPERHANDLE==6 pages each time
+  it needs more EMS memory. If less than PAGESPERHANDLE pages exist
+  then storebitmap() will return ERR_EMSOUTOFMEM
+- Since the heap manager is very simple you cannot deallocate the EMS
+  memory you reserved for individual bitmaps. You can deallocate the
+  memory reserved for all bitmaps with TOworld::freeemsbitmaps()
+- To avoid wasting EMS memory keep your bitmaps smaller than 48K.
+
+
+
+void TOworld::freeemsbitmaps();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Frees any reserved EMS memory and sets to NULL every TOworld::bitmaps[]
+pointer that has to do with a bitmap stored in EMS.
+
+notes:
+In normal cases you dont have to call this function because it is called
+automatically by TOworld::destroybitmaps().
+But if you want to free the EMS memory and load new bitmaps in EMS
+without disturbing the bitmaps stored in conventional memory then
+you should use this function.
+
+
+long TOworld::getbitmapdataptr(unsigned short bitmapno,char * &bdata);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Remaps the EMS page frame so the bitmap data of a specific bitmap can be
+inside the page frame and returns a conventional pointer to the bitmap data.
+
+Arguments:
+bitmapno    the number of the bitmap you want to bring in the EMS page frame
+bdata       a pointer in the page frame to the bitmap data
+
+returns:
+ERR_OUTOFRANGE      bitmapno>=TOworld::bitmapsno
+ERR_NULLBITMAP      TOworld::bitmaps[bitmapno] is NULL
+ERR_NOEMSBITMAP     TOworld::bitmaps[bitmapno] is not a bitmap stored in EMS
+ERR_NOERR           success
+
+It may also returns EMS specific error codes (actually the opposite numbers
+, -(EMS error) ). Consult the EMS specification if you like to handle those
+errors
+
+notes:
+- Usually you dont have to use this function.
+  But if you want , for some reason, to access the bitmap data after you
+  have loaded them into EMS memory then you should use this function.
+- The pointer bdata is a valid conventional pointer, and can be used
+  to access the bitmap data in EMS, directly, as long as the mapping of the
+  page frame remains the same.
+- Nothing guarantees that the mapping of the page frame will remain the same.
+  PLATFORMTRON changes the mapping frequently especially if you have too many
+  EMS bitmaps.
+
+
+
+
+
+
+
+short TOworld::bitmapto4planes(TPbitmap map);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+This function uses rawto4planes() to convert a bitmap from RAW format to
+4PLANES format
+
+Arguments:
+map          Pointer to the bitmap which will be converted to 4planes format
+
+returns:
+ERR_OUTOFMEM            not enough memory (map->len*map->hei bytes required)
+ERR_NULLBITMAP          map is NULL
+ERR_NOERR               success
+
+
+notes:
+the function affects map->data.
+
+
+
+S3.5           TOworld sprite frame descriptor functions:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+short TOworld::makeframesdescrs(unsigned short framesdescrno0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Allocates memory for the sprite frame descriptors pointers.
+
+Arguments:
+framesdescrno0    the number of frame descriptors you want to reserve memory for
+
+returns:
+ERR_DESCRSMADE     You have already called makeframedescrs()
+                   To call makeframedescrs() again you must first call destroyframedescrs()
+ERR_ZEROMEMALLOC   Attemp to reserve a memory block of 0 bytes
+                   framesdescrno0 must be greater than 0
+ERR_OUTOFMEM       Not enough memory
+ERR_NOERR          success
+
+
+
+short TOworld::destroyframesdescrs();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Deallocates all the memory reserved for the sprite frame
+descriptors pointers and the sprite frame descriptors data
+as well.
+
+returns:
+ERR_DESCRSNOTMADE       you cannot call this function if you haven't called
+                        makeframesdescrs() before.
+ERR_NOERR               success
+
+
+
+
+short TOworld::getdescrmem(unsigned short descrno,unsigned short len0,
+                           unsigned short hei0,unsigned short subbitmapsno,
+                           unsigned char xdisplacement=0,
+                           unsigned char ydisplacement=0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Allocates memory for a frame descriptor
+
+arguments:
+descrno        The number of the frame descriptor you want to allocate
+               memory for
+len0           the total length of the sprite frame
+hei0           the total height of the sprite frame
+subbitmapsno   the number of subbitmaps in the sprite frame
+xdisplacement  how many points the sprite frame will be displaced,
+               to the right.The sprite frame is drawn starting from
+               TOobject::x + xdisplacement horizontal coordinate.
+ydisplacement  how many points the sprite frame will be displaced, downwards.
+               The sprite frame is drawn starting from TOobject::y +
+               ydisplacement vertical coordinate.
+
+
+returns:
+ERR_DESCRSNOTMADE    You haven't called TOworld::makeframedescrs()
+ERR_OUTOFRANGE      the descrno argument is too large ( >=framedescrno)
+ERR_NOTNULLDESCR    descriptor is not NULL
+                    that means you have already reserved memory for
+                    this descriptor through a call to this function
+ERR_OUTOFMEM        not enough memory
+ERR_NOERR           success
+
+
+
+
+short TOworld::freedescrmem(unsigned short descrno);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Deallocates the memory for a desciptor that was previously reserved through
+a call to TOworld::getdescrmem().
+
+arguments:
+descrno          The number of the frame descriptor
+
+returns:
+ERR_DESCRSNOTMADE   You haven't called TOworld::makeframedescrs()
+ERR_OUTOFRANGE      the descrno argument is too large ( >=framedescrno)
+ERR_NULLDESCR       descriptor is allready NULL
+                    You have either already freed the memory of this decriptor
+                    through a call to this function or
+                    you have never allocated memory for this descriptor
+                    through a call to TOworld::getdescrmem()
+ERR_NOERR           success
+
+
+
+
+short TOworld::setsubbitmap(unsigned short descrno,
+                   unsigned short descrsubbitmapno,unsigned short bitmapno,
+                   unsigned short bitx,unsigned short bity);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Replcaces a subbitmap in a frame descriptor with a new one.
+
+Arguments:
+descrno           The number of the sprite frame descriptor that contains the
+                  subbitmap to be replaced
+descrsubbitmapno  the number of subbitmap to be changed
+bitmapno          the number of the new bitmap in the bitmaps array that
+                  will replace the old subbitmap in the frame descriptor.
+bitx,bity         the coordinates of the subbitmap
+                  These coordinates are always relative to the start
+                  of the whole frame. So if you set these coordinates
+                  to (0,0) the subbitmap will always be displayed at
+                  the upper left corner of the whole frame
+
+
+
+returns:
+ERR_OUTOFRANGE      if descno>=framedescrno
+ERR_NULLDESCR       if descriptor with number descrno is a NULL descriptor
+ERR_SUBBITMAPRANGE  descrsubbitmapno >= (the numbers of subbitmaps in the descriptor)
+ERR_BITMAPNOTFIT    if the subbitmap exceeds the area of the sprite frame.
+                    That area is always a rectangle and its dimensions are
+                    those in the frame desciptor (the parameters of getdescrmem())
+ERR_NOERR           success
+
+
+
+
+short TOworld::makeframecolidmask(unsigned short descrno);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Makes a collision mask for the specified descriptor.
+
+arguments:
+descrno        the number of the frame descriptor.
+
+returns:
+ERR_OUTOFMEM    not enough memory
+ERR_NOERR
+
+notes:
+This function first checks if a collision mask has already been made.
+If that's the case then the contents of the old mask are replaced
+else
+ makeframecolidmask() reserves an apropriate amount of memory and
+ then builds the collision mask.
+ (flen+fhei)*2 bytes are required for the mask
+ where flen: total len of the corresponding sprite frame
+       fhei: total hei of the corresponding sprite frame
+       (arguments to TOworld::getdescrmem())
+
+
+
+
+short TOworld::make1bitmapdescr(unsigned short descrno,
+                unsigned short bitmapno,char colidmask,
+                unsigned char xdispl=0, unsigned char ydispl=0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Reserves memory for a frame descriptor that consists of a single bitmap.
+
+arguments:
+descrno          The number of the sprite frame descriptor
+bitmapno         the number of the bitmap (cell number in TOworld::bitmaps array)
+colidmask        a boolean variable,
+                 if TRUE, make1bitmapdescr() will build a collision mask
+                 for the bitmap bitmapno and will set the collision mask
+                 pointer of the descriptor to that mask.
+                 if FALSE, make1bitmapdescr() will set the collision mask
+                 pointer of the descriptor to NULL
+xdispl           how many points the sprite frame will be displaced,
+                 to the right.The sprite frame is drawn starting from
+                 TOobject::x + xdispl horizontal coordinate.
+ydispl           how many points the sprite frame will be displaced, downwards.
+                 The sprite frame is drawn starting from TOobject::y + ydispl
+                 vertical coordinate.
+
+
+returns:
+the same error codes that TOworld::getdescrmem() returns.
+
+notes:
+This function is an abbreviation for many of the descriptor functions.
+This function is used very usually, because descriptors with a single
+subbitmap is the most ordinary case.
+The function calls the following functions to achieve its goal:
+ TOworld::getdescrmem();
+ TOworld::setsubbitmap();
+ TOworld::makecollidemask();
+ TOworld::setcollidemask();
+
+
+
+
+short TOworld::sprintfdescr(unsigned short descrno,long basebitmapno,char *st
+                            unsigned char xdispl=0,unsigned char ydispl=0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Builds a descriptor by interpreting a command string.
+
+arguments:
+descrno         the number of the descriptor to be built.
+                if a descriptor with this number already exists it will be
+                replaced with the new one
+basebitmapno    the base bitmap number to which some elements of the string
+                refer. (See notes)
+st              the command string (See notes)
+xdispl          how many points the sprite frame will be displaced,
+                to the right.The sprite frame is drawn starting from
+                TOobject::x + xdispl horizontal coordinate.
+ydispl          how many points the sprite frame will be displaced, downwards.
+                The sprite frame is drawn starting from TOobject::y + ydispl
+                vertical coordinate.
+
+
+
+returns:
+ERR_DESCRSNOTMADE      you havent called TOworld::makeframesdescrs()
+ERR_OUTOFRANGE         descrno is out of range or some of the bitmap numbers
+                       in the command string are out of range
+ERR_OUTOFMEM           not enough memory
+any positive value p   means a syntax error at position p in the string st.
+ERR_NOERR              success
+
+
+notes:
+it is easier to understand how this function works through an example.
+Suppose that in the first 256 positions of the TOworld::bitmaps array
+you have stored the images of the 256 ascii characters. Now you want to build
+a descriptor to display the string "hello, how are you". If you had to
+use the TOworld::setsubbitmap() function for this purpose then that task would
+be a real headache.
+But you can say:
+ sprintfdescr(12,0,"hello, how are you");
+This way the descriptor 12 will be built in a very sophisticated way.
+Lets see how sprintfdescr() interprets the command string:
+
+First it takes the value of the first character ('h') and adds this value
+to basebitmapno. The result is the number of the bitmap (in TOworld::bitmaps)
+that will be put at current coordinates (0,0 initially) in the sprite frame.
+
+So for subbitmap 0 of frame descriptor 12:
+ bitmap (basebitmapno+'h'=0+104=104) will be put at (0,0)
+
+Then sprintfdescr() adds the length of bitmap 104, to the current x coordinate
+plus TOworld::xspace and goes to the second character.
+( the current coordinates indicate where the next subbitmap will be put
+  and they are relative to the start of the sprite frame)
+
+The second character is 'e' so
+ for subbitmap 1 of frame descriptor 12:
+ bitmap (basebitmapno+'e'=0+101=101) will be put at
+ ( (length of bitmap 104)+TOworld::xspace,0)
+
+Then current x coordinate increases (lenght of bitmap 101) plus TOworld::xspace
+points and sprintfdescr() continues with the next character.
+
+The same procedure continues until the end of the string.
+
+If you have more than one fonts stored in TOworld::bitmaps array, you can
+supply a different basebitmapno and have a different representation of the
+string.
+ Of course you can have what ever bitmaps you want, not only ASCII character
+images.
+
+That is the main purpose of sprintfdescr():
+To build descriptors which are used to display a string.
+But sprintfdescr() can be used also to build descriptors generally
+as a replacement to getdescrmem() and setsubbitmap() functions.
+
+Before start using sprintfdesc() you must know some other things too:
+There are some special characters that dont be interpreted as already
+described.
+These characters are:
+#        This character starts and ends an absolute bitmapno command block
+         the block has the following anatomy:
+              # number #
+         where number is any unsigned short number that indicates an absolute
+         bitmap number (not relative to basebitmapno)
+
+         for example:
+
+          sprintfdescr(11,232,"#34#a# 23 #");
+        that means; build descriptor 11 and:
+        put bitmap number 34      at (0,0)
+  then  put bitmap number 232+'a' at (len of bitmap 34+xspace,0)
+  then  put bitmap number 23      at ( len of bitmap 34+len of bitmap 232+'a'
+                                      +2*xspace,0)
+
+
+%       This character starts and ends a current coordinates command block
+        the block has the following anatomy:
+            % xcoordinate , ycoordinate %
+        xcoordinate and ycoordinate are unsigned values and set new values
+        for the current coordinates.
+
+        for example:
+
+         sprintfdescr(2,33,"a%53,34 %#23#f");
+       that means; build descriptor 2 and:
+       put bitmap number 33+'a' at (0,0)
+  then put bitmap number 23     at (53,34)
+  then put bitmap number 33+'f' at (53+lenght of bitmap 23+xspace,34)
+
+
+\n     This character is also used to change the
+       current coordinates ,but in a special way.
+       The x coordinate is set to the x coordinate of the first subbitmap
+       of the current line.
+       The y coordinate is set to the y coordinate of the current line plus
+       the height of the heighest bitmap in the current line
+       plus TOworld::yspace.
+       A new line starts every time a %x,y % command block is encountered or
+       a \n character is encountered.
+
+
+The metacharacters # and % loose their special meaning if they are about
+to start a command block and there are two consecutive same characters
+of them.
+
+for example:
+     sprintfdescr(3,2,"##");
+     that means:
+     build descriptor 3 and:
+     put bitmap number 2+'#' at (0,0)
+
+     sprintfdescr(3,2,"%4,3%%%");
+     that means:
+     build descriptor 3 and:
+     put bitmap number 2+'%' at (4,3)
+
+Note that sprintfdescr() cannot handle more than 80 subbitmaps.
+
+
+
+short TOworld::setframedisplacement(unsigned short frameno,unsigned char dx,
+                                    unsigned char dy);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Sets the displacement values for a specific sprite frame.
+
+Arguments:
+frameno           the number of the corresponding spite frame descriptor
+dx                the new x displacement value
+dy                the new y displacement value
+
+returns:
+ERR_OUTOFRANGE       frameno>=TOworld::framedescrno
+ERR_NULLDESCR        descriptor number frameno is a NULL descriptor
+ERR_NOERR            success
+
+notes:
+- the sprite frame is drawn on the screen starting from TOobject::x + dx
+  horizontal coordinate and TOsprite::y + dy vertical coordinate.
+- Also TOworld::collision() uses (dx,dy) to displace the sprite frame
+  before try to detect a collision.
+
+
+
+
+
+
+S3.6                  TOworld object lists:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+short TOworld::addobj(unsigned char listno,TOobject *obj,
+                          unsigned char priority);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Adds an object to an object list.
+
+arguments:
+listno         the number of the list
+               There are 6 lists at the moment ,lists 0..5
+obj            pointer to the object that will be added to the list
+priority       The priority of the object. There are PRIORITIESNO priorities
+               Objects with priority 0 are handled first while objects with 
+	         priority PRIORITIESNO-1 are handled last
+
+returns:
+ERR_OUTOFRANGE    listno or priority is out of range
+ERR_NOERR         success
+
+
+
+
+TOobject *TOworld::removelistobj(unsigned char listno,unsigned short id0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Removes an object from a list.
+
+arguments:
+listno            the number of the list, (0<=listno<=5)
+id0               the id of the object
+
+returns:
+a pointer to the object that was removed from the list
+on error returns
+NULL        out of range (listno >= 6)
+
+notes:
+NULL means that an error may have occured. The function could also
+return NULL if no object with id id0 was found.
+
+
+TOobject *TOworld::removeobjid(unsigned short id0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Searches all of the lists to find an object and remove it.
+
+arguments:
+id0                the id of the object
+
+returns:
+a pointer to the object that was removed from one of the lists.
+if the object was not found in any of the lists then it returns NULL.
+
+
+
+short TOworld::removeobj(TOobject *obj);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Removes an object from the list it belongs to.
+
+arguments:
+obj           a pointer to the object
+
+returns:
+ERR_NULLOBJ       if obj==NULL
+ERR_OUTOFRANGE    if obj->type >=6
+ERR_NOERR         success
+
+
+
+
+TOobject *TOworld::getlistobjpointer(unsigned char listno,unsigned short id0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Searches a specific list to find an object with a specific id
+
+arguments:
+listno          the number of the list, (0<=listno<=5)
+id0             the id of the object
+
+returns:
+a pointer to the object
+on error returns
+NULL            listno>=6
+
+notes:
+NULL means that an error may have occured. The function could also
+return NULL if no object with id id0 was found.
+
+
+
+TOobject *TOworld::getobjpointer(unsigned short id0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Searches all of the lists to find an object with a specific id
+
+arguments:
+id0             the id of the object
+
+returns:
+a pointer to the object.
+if an object with id id0 was not found it returns NULL.
+
+
+
+
+S3.7   TOworld collision detection and sprites<->background interaction:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+char TOworld::collision(TOobject *spr1,TOobject *spr2);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Checks if 2 specific sprites collide.
+
+arguments:
+spr1           pointer to the first sprite
+spr2           pointer to the second sprite
+
+returns:
+TRUE           there is a collision
+FALSE          no collision
+
+notes:
+-  if any of the sprites has not sprite frames (its framesbit is zero) then
+   this functions assumes that its length is spr->slen and its height
+   is spr->shei and uses the sprite boxes to decide if there is a collision
+-  if one of the sprites has not sprite frames then this function treats the
+   other sprite like it has not frames too.
+-  if any of the sprite has not collision mask ( that is the current frame
+   descriptor of the sprite has not collision mask) then this function
+   uses the sprite boxes to decide if there is a collision.
+-  Only in the case that both sprites have collision masks the function will
+   use them to find out if there is a collision
+   This is the case that the collision detection is more precice than other
+   cases
+
+
+
+short TOworld::howfarU(TOobject *spr,unsigned short howmany);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Scans the world to the up direction and finds out how many steps an object
+can move to that direction without hitting a bottom-side-solid tile or getting
+out of the world.
+
+arguments:
+howmany         The maximum number of steps that the function will scan.
+spr             a pointer to the object.
+
+returns:
+how many steps the object can move up.
+
+notes:
+- The scanning begins at the current position of the object. The sprite
+  is treated as a single point positioned in the middle of the top side
+  of the sprite box.
+  See howfarL() for more details.
+- each step is 1 point
+- A tile is bottom-side-solid if the bit 14 of the corresponing word in
+  the background attributes layer is 1.
+- This function assumes that the dimensions of the sprite box are
+  always spr->slen,spr->shei
+
+
+example:
+assume that your sprite is positioned at (17,20), the tile (1,0) is
+bottom-side-solid and you want to move 6 pixels up. Then use howfarU()
+as below:
+
+int actualstepsize = howfarU(spr,6);  // request 6 pixels movement to the up
+spr->y-=actualstepsize;  // if you cant move 6 pixels then move as much as
+                         // you can up to 6 pixels
+
+actualstepsize will be 4 because the sprite can move up, up to pos (17,16).
+If it moves one more step it will hit the solid tile (1,0)
+
+
+
+short TOworld::howfarD(TOobject *spr,unsigned short howmany);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Scans the world to the down direction and finds out how many steps an object
+can move to that direction without hitting an top-side-solid tile or getting
+out of the world.
+
+arguments:
+howmany         The maximum number of steps that the function will scan.
+spr             a pointer to the object.
+
+returns:
+how many steps the object can move down.
+
+notes:
+- The scanning begins at the current position of the object. The sprite
+  is treated as a single point positioned in the middle of the bottom side
+  of the sprite box.
+  See howfarL() for more details.
+- each step is 1 point
+- A tile is top-side-solid if the bit 15 of the corresponing word in
+  the background attributes layer is 1.
+- This function assumes that the dimensions of the sprite box are
+  always spr->slen,spr->shei
+
+
+
+short TOworld::howfarL(TOobject *spr,unsigned short howmany);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Scans the world to the left direction and finds out how many steps an object
+can move to that direction without hitting a right-side-solid tile or getting
+out of the world.
+
+arguments:
+howmany         The maximum number of steps that the function will scan.
+spr             a pointer to the object.
+
+returns:
+how many steps the object can move left.
+
+
+notes:
+- The scanning begins at the current position of the object.
+  In this function the sprite is treated as the left vertical line segment
+  of the sprite box.
+  To understand better what this means here is a characteristic case:
+
+           ÚÄÄÄ¿
+right      ³   ³
+side solid ³ 1 ³  -               ÚÄÄ¿
+           ÀÄÄÄÙ  ^               ³  À¿
+           ÚÄÄÄ¿                  ³   ³
+not right  ³   ³                 ÚÙ  ÚÙ
+side solid ³ 2 ³                 ³ S À¿   the sprite
+           ÀÄÄÄÙ                 À¿   ³
+           ÚÄÄÄ¿  v              ÚÙ   ³
+right side ³   ³  -              ÀÄÄÄÄÙ
+solid      ³ 3 ³
+           ÀÄÄÄÙ
+
+  The sprite S that is going to left ,cannot pass between tiles 1 and 3 because
+  these tiles are right solid and the sprite is very tall.
+  But if we treated the sprite as a single point somewhere in the middle of
+  it, then howharL() would only check tile 2 and would say that the sprite can
+  pass between tiles 1 and 3 although it is too tall for this.
+  That is the way howfarU() and howfarD() work.
+  howfarR() works as howfarL().
+- each step is 1 point
+- A tile is right-side-solid if the bit 13 of the corresponing word in
+  the background attributes layer is 1.
+- This function assumes that the dimensions of the sprite box are
+  always spr->slen,spr->shei
+
+
+short TOworld::howfarR(TOobject *spr,unsigned short howmany);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Scans the world to the right direction and finds out how many steps an object
+can move to that direction without hitting a left-side-solid tile or getting
+out of the world.
+
+arguments:
+howmany         The maximum number of steps that the function will scan.
+spr             a pointer to the object.
+
+returns:
+how many steps the object can move right.
+
+
+notes:
+- The scanning begins at the current position of the object.
+  In this function the sprite is treated as the right vertical line segment
+  of the sprite box.
+- each step is 1 point.
+- A tile is left-side-solid if the bit 12 of the corresponing word in
+  the background attributes layer is 1.
+- This function assumes that the dimensions of the sprite box are
+  always spr->slen,spr->shei
+
+
+
+
+
+
+S3.8                   TOworld misc functions:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+
+char pl_is386();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+returns:
+TRUE       if the main processor is 80386 compatible
+FALSE      if else
+
+
+
+inline void TOworld::pageswap();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Swaps the draw and show page of PLATFORMTRON.
+You dont need to know what that means. There are cases that you
+might need to use this function, especially if you want to link a
+music library to your game.
+Look at PLATFORMTRON kernel for more details.
+
+
+inline void TOworld::sethpel();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Sets the horizontal pel panning register of the vga to the appropriate value.
+You dont need to know what that means. There are cases that you
+might need to use this function, especially if you want to link a
+music library in your game.
+Look at PLATFORMTRON kernel for more details.
+
+
+inline void TOworld::setsadr();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Sets the start address register of the vga to the appropriate value.
+You dont need to know what that means. There are cases that you
+might need to use this function, especially if you want to link a
+music library in your game.
+Look at PLATFORMTRON kernel for more details.
+
+
+inline void TOworld::refreshpal();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Sends the contents of the TOworld::palette[] array out to the vga DAC
+so the vga palette changes. There are cases that you might need to use
+this function, especially if you want to link a music library in your game.
+Look at PLATFORMTRON kernel for more details.
+
+
+
+short TOworld::animate();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+This function is the heart of PLATFORMTRON.
+animate() handles every detail of TOworld.
+You must call it once after TOworld::jumpto() is called.
+To exit from animate you must set TOworld::exitbit to 1 from inside
+an action function.
+
+
+void TOworld::callactionfunctions();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+It is used internally by PLATFORMTRON to call the active action functions
+of some objects.
+
+This functions will only call the active action functions of all the objects
+that have:
+( (visbit!=VIS_INVISIBLE) or (activebit==1) ) and (deadbit==0)
+
+notes:
+you cannot call this function directly (private)
+
+
+
+void TOworld::drawsprites();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+It is used internally by PLATFORMTRON.
+
+This function performs the following procedures:
+- Clips every object against the view window and sets its visbit accordingly
+- Draws every visible sprite on the draw screen page.
+  The sprites with priority 0 are drawn first, while sprites with priority
+  PRIORITIESNO-1 are drawn last.
+
+notes:
+you cannot call this function directly (private)
+
+
+short TOworld::loadlevel(char *filename);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Loads a level from a specific file.
+
+arguments:
+filename               the filename of the level file
+
+returns:
+ERR_FOPEN              Could not open file for some reason
+ERR_FTELL              ftell() returned an error
+ERR_INVFILEFORMAT      The level file has not the appropriate format
+ERR_OUTOFMEM           not enough memory
+ERR_NOERR              success
+it can also return error codes that functions maketiles() and makelayers()
+return.
+
+
+notes:
+- If you use this function you have not to call makelayers() or maketiles()
+  before. These functions are called from within loadlevel()
+- On success internaltilesloader will be set to 1.
+  That means that loadlevel() has reserved memory for the tile data
+  and has loaded the tiles into the Ptiles array. That means also that if
+  you call destroytiles() then that function will free the memory
+  for the Ptiles array AND the tile data.
+
+
+
+short TOworld::scrollR(signed char dx);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Moves the view window to the right.
+
+arguments:
+dx            how many pixels (points) the view window will move to the
+              right.
+
+notes:
+- This function is also used to scroll the move window to the left
+  Simply supply a negative dx
+- -4 <= dx <= 4
+- You cannot call this function more than once per frame
+  So you have a maximum scroll rate of 4*70=280 pixels per second,
+  because PLATFORMTRON runs at 70 frames/sec
+
+
+
+short TOworld::scrollD(signed char dy);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Moves the view window down.
+
+arguments:
+dy            how many pixels (points) the view window will move down.
+
+notes:
+- This function is also used to scroll the move window up
+  Simply supply a negative dy
+- -4 <= dy <= 4
+- You cannot call this function more than once per frame
+  So you have a maximum scroll rate of 4*70=280 pixels per second,
+  because PLATFORMTRON runs at 70 frames/sec
+
+
+
+void TOworld::rgbset(unsigned char i,unsigned char r,unsigned char g,
+                     unsigned char b)
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Sets the red,green and blue components of a specific color.
+
+arguments:
+i               the color number     0<=i<=255
+r,g,b           red,green and blue components between 0 and 63
+
+notes:
+- This function alters the TOworld::palette[]
+  array not the vga dac registers.
+- When you call this function palettechanged is set to 1 so PLATFORMTRON
+  will call refreshpal() to refresh the palette in the next cycle.
+
+
+destructor TOworld::~TOworld();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Shuts down the world.
+
+This function calls the following functions:
+TOworld::destroytiles();
+TOworld::destroylayers();
+TOworld::destroybitmaps();
+TOworld::destroyframedescrs();
+
+This function is called automatically.
+
+
+
+short TOworld::jumpto(unsigned short newx,unsigned short newy);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Jumps to a new location in the world.
+
+arguments:
+newx,newy      The new coordinates of the upper left corner of
+               the view window.
+
+returns:
+ERR_OUTOFRANGE   if (newx >= (length<<4) -319)  or (newy>= (height<<4)-199)
+ERR_NOERR        success
+
+
+notes:
+Moving the view window to a new location is not a simple as setting
+TOworld::x and TOworld::y to the new coordinates. There are many other
+things that have to be done. So always use this function to jump
+correctly to the new location.
+
+
+
+
+void TOworld::refresh();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Refreshes the view window.
+
+notes:
+PLATFORMTRON uses an intelligent algorithm, for the scrolling, to avoid
+refreshing the view every frame. If the view window gets corrupted some how
+then use this function to refresh the view.
+(it is imposible for the view window to get corrupted but you never know)
+
+
+
+constructor TOworld::TOworld()
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Initializes the variables of the TOworld object.
+
+
+
+
+void TOworld::M2Vsolid(char *data,unsigned char vx, unsigned char vy,
+		       unsigned short cliplen,unsigned short cliphei,
+		       unsigned short startx, unsigned short starty,
+                       unsigned short totallen,unsigned short totalhei);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Copies and clips a 4PLANES data block from conventional ram to video ram.
+The data block is handled as a solid one (cannot contain transparent parts)
+
+arguments:
+data            pointer to the 4PLANES data
+vx              starting horizontal coordinate on the screen (not the world)
+vy              starting vertical coordinate on the screen
+cliplen         the length of the part that will be copied to video ram
+cliphei         the height of the part that will be copied to video ram
+startx          the start horizontal coordinate in the data block where
+                copying will begin from
+starty          the start vertical coordinate in the data block where
+                copying will begin from
+totallen        the total length of the data block
+totalhei        the total height of the data block
+
+
+notes
+- make sure that startx+cliplen does not exceed totallen, also
+  make sure that starty+cliphei does not exceed totalhei.
+- M2Vsolid() and M2Vthru are the only functions that let you write directly
+  in the video ram
+- You may use this function from inside an action function to get control,
+  display ,for example, a menu on the screen ,do some task and then return
+  control to PLATFORMTRON
+- Before return control call TOworld::refresh() to let TOworld::animate()
+  refresh the view in the next frame.
+
+
+
+void TOworld::M2Vthru(char *data,unsigned char vx, unsigned char vy,
+		       unsigned short cliplen,unsigned short cliphei,
+		       unsigned short startx, unsigned short starty,
+                       unsigned short totallen);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Copies and clips a RAW data block from conventional ram to video ram.
+The data block is handled as a see-thru one (can contain transparent parts)
+
+arguments:
+data            pointer to the RAW data
+vx              starting horizontal coordinate on the screen (not the world)
+vy              starting vertical coordinate on the screen
+cliplen         the length of the part that will be copied to video ram
+cliphei         the height of the part that will be copied to video ram
+startx          the start horizontal coordinate in the data block where
+                copying will begin from
+starty          the start vertical coordinate in the data block where
+                copying will begin from
+totallen        the total length of the data block
+
+
+notes
+- make sure that startx+cliplen does not exceed totallen, also
+- M2Vsolid() and M2Vthru are the only functions that let you write directly
+  in the video ram
+- You may use this function from inside an action function to get control,
+  display ,for example, a menu on the screen ,do some task and then return
+  control to PLATFORMTRON
+- Before return control call TOworld::refresh() to let TOworld::animate()
+  refresh the view in the next frame.
+
+
+
+
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+S4.0                     TOsprite description:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+S4.1                        TOsprite fields:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+TOsprite is a descendant of TOobject.  The difference between the two
+structures is that TOobject cannot have sprite frames (it is not displayable)
+while TOsprite can.
+
+
+
+TOworld *owner;
+ READ ONLY
+ A pointer to the TOworld object that owns the sprite.
+
+char framesbit;
+ READ ONLY
+ TRUE        the sprite has frames (it is displayable on the screen)
+ FALSE       the sprite has not frames (it is not displayable. Those sprites
+             are used to change the palette or activate a procedure when
+             a specific condition becomes true. e.g open the door if the main
+             character is on tile (19,20))
+
+char visbit;
+ READ ONLY
+ This variable is not a boolean variable although it has the suffix "bit".
+ Actually it can take 3 values:
+ VIS_INVISIBLE =  0x0f    the sprite is totally outside of the view window.
+ VIS_FULL      =  0xf0    the sprite is totally inside the view window.
+ VIS_PARTIAL   =  0xff    the sprite is partially in view.
+ When checking for collisions you can easily discard the cases where:
+ (visbit of first sprite) & (visbit of second sprite) == 0
+ because in those cases one of the sprites is totally out of the view while
+ the other is totally in the view, so they cannot collide.
+
+char activebit;
+ READ / WRITE
+ FALSE            PLATFORMTRON will call the active action function of the
+                  sprite only if the sprite is in the view. If the sprite
+                  is totally out of the view then its activity will freeze.
+ TRUE             PLATFORMTRON will always call the active action function
+                  of the sprite, regardless it is in the view or not.
+
+char deadbit;
+ READ / WRITE
+ TRUE             The sprite activity will freeze and the sprite won't be
+                  drawn on the screen. PLATFORMTRON will ignore the sprite.
+ FALSE            PLATFORMTRON will handle the sprite normally.
+
+char removebit;
+ READ / WRITE
+ TRUE             PLATFORMTRON will remove the sprite from the world in the
+                  next frame. (it will call removeobj() in the next frame).
+                  It is not the same as calling removeobj() because removeobj()
+                  will remove the sprite in the current frame not the next.
+                  See object lists & priority lists for more details.
+
+char deletebit;
+ READ / WRITE
+ TRUE             PLATFORMTRON will remove the sprite from the world and free
+                  the memory reserved by the sprite in the next frame.
+                  (TOworld::removeobj() and C++ delete operator will be called.)
+                  See object lists & priority lists for more details.
+
+unsigned char type;
+ READ ONLY
+ Holds the number of the list (0..LISTSNO-1) that owns the sprite.
+
+unsigned short id;
+ READ / WRITE
+ The identification word of the sprite. You must be sure that this number
+ is unique. Dont assign the same id to 2 or more different sprites.
+
+unsigned char priority;
+ READ ONLY
+ Holds the number of the priority list that owns the sprite.
+
+unsigned short x,y;
+ READ / WRITE
+ Current coordinates of the sprite in the world.
+
+signed char dx,dy;
+ READ / WRITE
+ Current speed in each axis. PLATFORMTRON doesn't use these variables
+ so you may use them as you like.
+
+signed char gx,gy;
+ READ / WRITE
+ Current acceleration in each axis. PLATFORMTRON doesn't use these variables
+ so you may use them as you like.
+
+unsigned short time;
+ READ / WRITE
+ A time counter.
+ PLATFORMTRON doesn't use this variable so you may use it as you like.
+
+TPaction nextaction;   // void (*TPaction)(TOobject *obj);
+ READ / WRITE
+ A pointer to the active action function. (the action function that will be
+ executed in the next frame).
+
+unsigned short slen,shei;
+ READ / WRITE
+ Static dimensions of the sprite.
+ These dimensions define the sprite box.
+ For a sprite without frames the sprite box is used in collision()
+ routine and the howfarU(), howfarD(), howfarL() and  howfarR() routines.
+ For a sprite with frames the sprite box is used only in howfarU(), howfarD(),
+ howfarL() and  howfarR() routines.
+
+
+The following 2 fields exist only in TOsprite
+unsigned short framebase;
+
+
+signed short framenow;
+ READ / WRITE
+ These variables are used to specify the current sprite frame descriptor.
+ framebase+framenow is the number of the current sprite frame descriptor.
+
+
+
+S4.2                        TOsprite functions:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+
+void TOobject::init(unsigned char id0,unsigned short x0,
+                    unsigned short y0,unsigned short slen0,
+                    unsigned short shei0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Initializes a TOobject object.
+
+arguments:
+id0             identification of the object
+x0,y0           initial coordinates of the object
+slen0,shei0     static dimensions of the object
+
+
+See also:
+TOsprite::init()
+
+
+
+
+
+void TOsprite::init(unsigned char id0,unsigned short x0,
+                    unsigned short y0,unsigned short slen0,
+                    unsigned short shei0,
+                    signed short framenow0,unsigned short framebase0 = 0);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Initializes a TOsprite object.
+
+arguments:
+id0             identification of the sprite
+x0,y0           initial coordinates of the sprite
+slen0,shei0     static dimensions of the sprite
+framenow0,
+framebase0      framebase0+framenow0 the number of the current sprite
+                frame descriptor number.
+
+See also:
+TOobject::init()
+
+
+
+
+void TOobject::callnext();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+This function is used internally by PLATFORMTRON to call the active action
+function of the sprite.
+
+notes:
+You dont have to use this function.
+
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+S5.0                  Misc vga and raw buffer functions:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+char pl_isvga();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+returns:
+TRUE       if the video card is VGA compatible
+FALSE      if else
+
+
+
+void mx320x200(unsigned char linesize);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+Initializes a 320x200x256 modeX video mode.
+
+Arguments:
+linesize        (virtual line size of the screen in pixels) / 8
+                This value is always 44 for PLATFORMTRON
+
+notes:
+Use this function at the beginning of your program to set the appropriate
+mode for PLATFORMTRON. Always call the function as:
+
+mx320x200(44);
+
+
+
+
+void pl_setvideomode(unsigned char mode);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Initializes a standard BIOS video mode.
+
+Arguments:
+mode           the number of the mode you want to set
+
+Usually you will use this function at the end of your program to restore
+the original video mode.
+
+example:
+        pl_setvideomode(3);
+
+
+
+
+void  pl_pixel(short x,short y,char col,char *buf,unsigned short buflen);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Plots a pixel at a specific position of a raw buffer.
+
+arguments:
+x,y             the coordinates of the pixel
+col             the color of the pixel
+buf             a pointer to a raw buffer
+buflen          the length of the raw buffer
+
+notes:
+the function call pl_pixel(x,y,col,buf,buflen) is equivalent
+to the command buf[y*buflen+x]=col;
+
+example:
+ char *buf=(char *)MK_FP(0xa000,0);
+ pl_setvideomode(0x13);
+ pl_pixel(100,20, 45 ,buf,320);
+
+ a pixel will be plotted at pos (100,20) on the screen
+
+
+
+
+void  pl_horline(short x,short y,short len,char color,void *buf,
+                 unsigned short buflen);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Draws a horizontal line in a raw buffer.
+
+arguments:
+x,y          the coordinates of the leftmost point of the line
+len          the length of the line
+color        the color of the line
+buf          a pointer to a raw buffer
+buflen       the length of the raw buffer
+
+
+
+
+void  pl_verline(short x,short y,short hei,char color,void *buf,
+                  unsigned short buflen);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Draws a vertical line in a raw buffer.
+
+arguments:
+x,y          the coordinates of the topmost point of the line
+hei          the height of the line
+color        the color of the line
+buf          a pointer to a raw buffer
+buflen       the length of the raw buffer
+
+
+
+
+void pl_line(short x1,short y1,short x2, short y2,
+	  char  color ,char *buf,unsigned short buflen);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Draws a line in a raw buffer
+
+arguments:
+x1,y1       the coordinates of the first  extreme of the line
+x2,y2       the coordinates of the second extreme of the line
+color       the color of the line
+buf         a pointer to a raw buffer
+buflen      the length of the raw buffer
+
+
+
+
+void pl_thruclip(char *fromp,unsigned short l,unsigned short clipl,
+                 unsigned short cliph,     unsigned short sx,
+                 unsigned short sy,        unsigned short tox,
+                 unsigned short toy,       char *buf,
+                 unsigned short buflen);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Copies a raw bitmap to a raw buffer. It also clips the bitmap and
+treats the bitmap as a transparent one.
+
+arguments:
+fromp           a pointer to the source raw buffer (bitmap)
+l               the length of the source bitmap
+clipl           the length of the part of the source bitmap that will be
+                copied to the destination buffer
+cliph           the height of the part of the source bitmap that will be
+                copied to the destination buffer
+sx,sy           relative coordinates (to the upper left corner of the source
+                bitmap) of the part to be copied
+tox,toy         coordinates in the destination buffer that copying will begin
+                to.
+buf             a pointer to the destination buffer
+buflen          the length of the destination buffer
+
+
+notes:
+Take care so that clipl+sx is never greater than l. If that happens the
+results will be undefined.
+
+
+
+
+void pl_solidclip(char *fromp,unsigned short l,unsigned short clipl,
+                  unsigned short cliph,     unsigned short sx,
+                  unsigned short sy,        unsigned short tox,
+                  unsigned short toy,       char *buf,
+                  unsigned short buflen);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Copies a raw bitmap to a raw buffer. It also clips the bitmap and
+treats the bitmap as a solid one. (without transparent parts)
+
+
+arguments:
+fromp           a pointer to the source raw buffer (raw bitmap)
+l               the length of the source bitmap
+clipl           the length of the part of the source bitmap that will be
+                copied to the destination buffer
+cliph           the height of the part of the source bitmap that will be
+                copied to the destination buffer
+sx,sy           relative coordinates (to the upper left corner of the source
+                bitmap) of the part to be copied
+tox,toy         coordinates in the destination buffer that copying will begin
+                to.
+buf             a pointer to the destination buffer
+buflen          the length of the destination buffer
+
+
+notes:
+Take care so that clipl+sx is never greater than l. If that happens the
+results will be undefined.
+
+
+void makecolidmask(char *pdata,short sprlen, short sprhei,char *mask);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Makes a collision mask from a raw buffer
+
+Arguments:
+pdata       a pointer to the raw buffer.
+sprlen      the length of the buffer
+sprhei      the height of the buffer
+mask        the pointer to the collision mask
+            you must allocate 2*(sprlen+sprhei) bytes for
+            the mask data before call this function.
+
+example:
+            char *mask=(char *)malloc( (10+20)<<1);
+            // Tbitmap mybitmap;
+            makecolidmask(mybitmap.data,10,20,mask);
+
+notes:
+You dont have to use this function directly. You can always use
+TOworld::makeframecolidmask() or TOworld::make1bitmapdescr() to
+get a collision mask for a sprite frame descriptor
+
+See also:
+Bitmap storage formats
+
+
+
+
+char *rawto4planes(char *inmap,char *outmap,unsigned short len,
+                   unsigned short hei);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Converts some RAW data to 4PLANES format
+
+arguments:
+inmap          a pointer to the data to be converted
+outmap         a pointer to the output data
+               if this pointer is NULL then rawto4planes() will try to
+               reserve len*hei bytes of memory,
+               else it will use outmap.
+len            the length of the data
+hei            the height of the data
+
+returns:
+NULL           Not enough memory (in the case that outmap==NULL)
+else returns a pointer to the output data
+
+notes:
+Usually you will not use this function. Instead you will use the more
+sophisticated TOworld::bitmapto4planes() and TOworld::tileto4planes()
+functions.
+
+
+
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+S6.0                  The low level keyboard handler
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+In every serious game you will need a low level keyboard handler.
+Fortunately PLATFORMTRON has one included. There are 3 routines that
+are related to  the keyboard handler:
+
+
+
+char pl_installkeys();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Installs the keyboard handler.
+
+returns:
+TRUE (!=0) success
+FALSE (0)  if the keyboard handler has already been installed
+
+
+notes:
+The new keyboard handler allows you to check for multiple key presses
+through pl_testkey();
+
+
+
+
+char pl_keysdone();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Uninstalls the low level keyboard handler an restores the original.
+
+returns:
+TRUE      success
+FALSE     the keyboard handler cannot be uninstalled because it hasn't
+          been installed. You haven't called installkeys()
+
+
+
+
+char pl_testkey(unsigned char makecode);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Checks whether a key is pressed or not.
+
+arguments:
+makecode       the make code of the key that has to be checked
+
+returns:
+TRUE           key is down
+FALSE          key is up
+
+notes:
+-  Use the mcXXXXX constants (they are in the plkeys.h) as parameters:
+   e.g.   testkey(mcESC) will return TRUE if <ESC> is down
+          else it will return FALSE
+-  The handler ignores the <pause> and the <Print Screen> keys
+-  many keys that exist two times on the keyboard are identical to the handler
+
+    These keys are:
+    left control,   right control
+    left alt    ,   right alt
+    grey enter  ,   enter
+    Page up     ,   numeric pageup/9
+    pagedown    ,   numeric pagedown/3
+    home        ,   numeric home/7
+    end         ,   numeric end/1
+    insert      ,   numeric insert/0
+    delete      ,   numeric delete/.
+    slash       ,   numeric slash
+    arrow keys  ,   numeric arrow keys
+    e.g.   testkey(mcALT) will return TRUE if you have the left alt or the
+           right alt pressed (or both).
+
+- The keyboard handler will work perfectly on any AT keyboard. On other
+  keyboards it should NOT work. But i think that this is not a problem
+  since all the keyboards out there are AT keyboards.
+
+- When you have the keyboard handler installed you cannot use the bios
+  to get keyboard input from the user. If you want to do so, call keysdone().
+
+
+
+
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+S7.0                         The timer
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Timing stuff is a "must" in game programming.
+So, PLATFORMTRON supply you with 2 different timer handlers.
+One for the system timer and one for the Real Time Clock.
+There are 3 variables that relate to both timer handlers:
+
+
+unsigned long pl_dtime[3]
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+Every time one of the timer handlers is called, the values pl_dtime[0],
+pl_dtime[1], pl_dtime[2] increase by one ,but that happens only if you
+didnt supply a not NULL userroutine pointer when you called pl_inittimer()
+or pl_RTCinittimer(). You can use pl_dtime[] variables to do whatever
+timing you like. Feel free to change them (usually initialize them to 0 )
+whenever you need to.
+
+See also pl_inittimer() and pl_RTCinittimer()
+
+
+
+
+S7.1                  The system timer handler       
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+There are 4 functions related to the system timer handler:
+
+
+
+short pl_inittimer(float rate,void (*userroutine)()=NULL);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Installs the system timer handler.
+
+arguments:
+rate         how many times/sec the handler will be called.
+             rate can be any float value between MINHZ and MAXHZ
+userroutine  An optional pointer to a user's function.
+             if this pointer is NOT NULL then userroutine() will be called
+             each time the timer handler is called
+             else
+             the timer handler will simply increase the three variables
+             pl_dtime[0], pl_dtime[1], pl_dtime[2]
+
+returns:
+FALSE       if rate is out of range or the handler is already installed
+TRUE        success
+
+notes:
+- pl_inittimer() replaces int 08 with the new timer handler but it also calls
+  the old bios handler whenever it needs to be called.
+- if you have some music library chained to int 08 you CANNOT use
+  this timer handler. Instead use the RTC timer.
+  
+
+
+short pl_timerdone();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Uninstalls the system timer handler and restores the original
+
+returns
+FALSE      if the handler has not been installed so it cannot be uninstalled
+TRUE       success
+
+
+
+float pl_getactualHz();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+returns:
+             how many times/sec the system timer handler is called.
+
+This value can be different from the value rate (the argument of inittimer)
+That may happen because the precision of the timer is not infinite.
+For example, if you say inittimer(90.0000002) it will propably be impossible
+for the timer handler to be called exactly 90.0000002 times/sec.
+So the value rate is rounded to the nearest allowed value.
+getactualHz returns that value which is always equal to
+PITHz / getTimerCount(), except when it is zero which means that the timer
+handler has not been installed.
+
+Normally you will not use this function.
+
+See also getTimerCount() bellow
+
+
+
+long pl_getTimerCount();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+returns:
+            the value that is stored in PIT (programmable internal timer)
+            system clock timer.
+
+Normally you won't need to use this routine.
+The PIT chip has got 3 timers.
+One of the timers is the one which is used to call the timer handler.
+That timer has got a 2-byte counter. The counter is loaded with a value
+( that value is actually returned by getTimerCount() ) and every time
+the PIT generates a pulsation ( PITHz pulsations/sec are generated) the
+counter is decreased by one. When it reaches zero the timer handler is
+called. getTimerCount is always equal to (long) (PITHz / rate) except when
+it is zero which means that the timer handler has not been installed.
+
+
+
+
+
+
+S7.2                   The RTC (Real Time Clock) handler.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+If for some reason you cannot use the system timer (e.g. a music library is
+already using it) then you may use the RTC handler. But be carefull.
+Although the RTC handler works perfectly under plain DOS, it is unreliable
+under windows 95, so avoid using it if you want your program to be able to
+run in a dos box under windows 95.
+
+
+
+
+short pl_RTCinittimer(char rate,void (*userroutine)()=NULL);
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Installs the RTC timer handler.
+
+arguments:
+rate         2^rate: how many times/sec the handler will be called.
+                     for example if rate==6 then the handler will
+                     be called 2^6=64 times per second.
+                     1<=rate<=11
+userroutine  An optional pointer to a user's function.
+             if this pointer is NOT NULL then userroutine() will be called
+             each time the RTC handler is called
+             else
+             the timer handler will simply increase the three variables
+             pl_dtime[0], pl_dtime[1], pl_dtime[2]
+
+returns:
+FALSE       if rate is out of range or the handler is already installed
+            or the RTC battery is dead.
+TRUE        success
+
+notes:
+- pl_RTCinittimer() replaces int 70h with the new timer handler.
+  So you should not use any bios function that has to do with the
+  real time clock.
+- Be carefull when you call pl_RTCinittimer(). The RTC handler will be
+  called 2^rate times/sec not simply rate times/sec.
+- You can install both RTC handler and system timer handler. But if you
+  you dont supply a user routine in both pl_inittimer() and pl_RTCinittimer()
+  the variables pl_dtime[] will be increased by both timer handlers.
+
+
+
+short pl_RTCtimerdone();
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Uninstalls the RTC handler and restores the original
+
+returns
+FALSE      if the handler has not been installed so it cannot be uninstalled
+TRUE       success
+
+

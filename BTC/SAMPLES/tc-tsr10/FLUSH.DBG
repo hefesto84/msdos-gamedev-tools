@@ -1,0 +1,11 @@
+a
+mov ax,ff00
+int 17
+int 20
+
+rcx
+7
+nflush.com
+w
+q
+

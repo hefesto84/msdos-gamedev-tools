@@ -1,0 +1,39 @@
+! BIOS interrupt 67h function list.
+! Reference: MS-DOS Extensions Quick Reference Guide by Ray Duncan
+! Microsoft Press  ISBN #1-55615-212-4
+!
+67 EMS Services
+!
+40 get status
+41 get page frame addr
+42 get number of pages
+43 alloc handle & pages
+44 map exp memory page
+45 rel handle & memory
+46 get version
+47 save page map
+48 restore page map
+49 reserved
+4A reserved
+4B get handle count
+4C get handle pages
+4D get pages all handls
+4E page map functions
+4F page map functions
+50 map multiple pages
+51 reallocate pages 
+52 handle attribute
+53 handle name
+54 handle name funcs
+55 map pages & jump
+56 map pages & call
+57 memory regions
+58 mappable pages
+59 get hardware config
+5A alloc handle & page
+5B register set funcs
+5C EMM warm boot
+5D EMM op sys funcs
+!
+! end of int 67h function list
+

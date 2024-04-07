@@ -1,0 +1,11 @@
+LIB=\turboc\lib\cs
+OBJ= ibmcomt.obj ibmcom.obj
+
+ibmcomt.exe: $(OBJ)
+  tlink \turboc\lib\c0s $(OBJ),ibmcomt.exe,,$(LIB)
+
+.c.obj:
+  tcc -ms -c -d -G -O $<
+
+ibmcomt.obj:	ibmcomt.c	ibmcom.h
+ibmcom.obj:	ibmcom.c	ibmcom.h

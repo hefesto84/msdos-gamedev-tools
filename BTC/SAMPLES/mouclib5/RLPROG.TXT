@@ -1,0 +1,132 @@
+*******************************************************************************
+*                                 RLPROG.TXT                                  *
+* Ron Loewy's Programs on the Public-domain, Freeware & Shareware markets.    *
+* Last Update : Sep. 08, 1991.                                                *
+*******************************************************************************
+
+General
+-------
+
+  This file contains a list of the current RL products available, with a
+ description of functionality, and the version available at the moment.
+
+Contact
+-------
+
+  If you want to contact me, please call my address at :
+
+          Loewy Ron,                            Loewy Ron
+          9 Haneveem st.            Or          20 Smolanskin st.
+          Herzeliya, 46465,                     Haifa, 34366,
+          Israel.                               Israel.
+
+  TEL : 972-52-547127
+        972-4-256914
+
+Availability
+------------
+
+  My packages are loaded regulary to my "home" BBS, and to archive sites on
+ international WANs. You can contact me by e-mail as :
+
+ Loewy Ron, on the Satalite Bird BBS, 1:405/51.
+ 
+ Internet Gateway - You can contact me in my address at :
+
+ Loewy_Ron@f51.n405.z2.fidonet.org 
+
+Applications
+------------
+
+  General Applications include :
+
+  TXS25 - Text Search Program, Uses existential dictionaries and logic 
+ operators to allow FAST, SMART searches on text files. CUA interface, 
+ Mouse & Kbd support. Support Exclude words dictionaries. 
+ Currently at version 2.5.
+
+  APP25 - Application Programmable Pilot - a professional menu system that
+ supports an unlimited number of menu entries, through linked menus, 2 levels
+ of users, password protection, CUA interface, Mouse & Keyboard support,
+ pull down menus, multiple command line windows, calculator windows, 
+ date manipulation, customized menu system, display file options,
+ logging facility, and desktop design. Now with floating menu windows.
+ Currently at version 2.5.
+
+  JM10 - Jumpin' Math - A Pop-up scientific calculator that supports many 
+ functions, and provides the ability to paste calculation results to the 
+ applications currently executing.
+ Currently at version 1.0.
+
+  RSS11 - Ron's Smart Search - A command line extention of TXS to allow 
+ FAST, SMART, LOGIC searches on multy - variable - record files. Supports
+ keys, seperators etc.., Used to scan mail files, problem indexes, etc..
+ Currently at version 1.1.
+
+  XCD20 - Command Line Search on TXS dictionaries. Allows the use of command
+ line queries on TXS dictionaries using the same LOGIC query language as TXS
+ and RSS.
+ Currently at version 2.0.
+
+  RPTP13 - Ron's Print To Printer - A text file formatter and printer support
+ program. Supports page breaks, line numbering, standard and customizeable
+ headers and footers, any combination of page length and page width etc..
+ Currently at version 1.3.
+
+  WRPTP13 - or RPTPwin - RPTP for Windows 3.0. 
+ Currently at version 1.3.
+
+  RFFSRT20 - Ron's Flexible Fast Sort - Command line sort program for HUGE
+ files, supporting text and Fixed sized records, up to 10 sort keys.
+ Currently at version 2.0.
+
+  RLIST15 - Ron's List program - CUA like, mouse supported text file viewer,
+ supports multiple windows, automatic file load on startup, etc..
+ Currently at version 1.5.
+
+  mcbList - A public domain MCB chain viewer. Includes C code.
+ Currently at version 1.0.
+
+  devList - A public domain device and block device viewer. Includes C code.
+ Currently at version 1.0.
+
+  FL12 - FiLter UN*X -> M*-DOS - Translate CR to CR/LF.
+ Currently at version 1.2.
+
+  3D100 - Public domain 3D animation package with a translator to 
+ Turbo Pascal code. Demo of the WWToolKit. 
+ ( ** Next version will probably run on Windows **)
+ Currently at version 1.0.
+
+
+  Programming Units include :
+
+  mousLib5 - Turbo Pascal event driven mouse library. Supports most of the 
+ mouse API, plus extentions for event driven programming.
+ Currently at version 5.0.
+
+  mouCLib5 - Turbo C, C++, Borland C++ port of mousLib%, by Ran Cohen.
+ Currently at version 5.0.
+  
+  parse10 - Turbo Pascal math. expressio parser unit. Supports many functions,
+ natural expressions, constants and normal 5 math. operators.
+ Currently at version 1.0.
+
+  WWToolKit - A OOPS GUI library for Turbo Pascal.
+ Currently at version 1.1. ( ** No extention is planned ! **)
+
+  kbdHdr30 - A Keyboard header, one function call for all key combinations,
+ simple ungetch() like function for Turbo Pascal. 
+ Currently at version 3.0.
+
+  tpDESQ11 - A DESQview interface unit for Turbo Pascal.
+ Currently at version 1.1.
+
+  WINTEXT - An OOPS interface library for Turbo Pascal. Used to Create TXS,
+ APP, RLIST etc.., Like Turbo Vision. Has better features at some parts, 
+ does not match (yet .. ) Turbo Vision at others. Includes Source Code. 
+ (like all of RL's libraries).
+ Currently at version 2.0. Available only from the author. 
+
+  xmsLibr1 - XMS API implementation for Turbo Pascal 6.0. 
+ Currently at version 1.0.

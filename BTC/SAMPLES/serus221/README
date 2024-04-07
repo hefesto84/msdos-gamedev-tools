@@ -1,0 +1,21 @@
+The file  SERUS221.ZIP  contains 6 files:
+
+   README          -- This file.
+
+   SERIOUS.SYS     -- The  SERIOUS  device driver.
+
+   SERIOUS.DOC     -- Users guide for  SERIOUS .
+
+   SERFACE.C       -- C interface routines for  SERIOUS .
+
+   SERFACE.H       -- Include file for  serface.c .
+
+   SERDEMO.C       -- A dumb terminal, to be linked with
+                      the routines of  serface.c .
+
+   This is version  2.21  of  SERIOUS  , and is implemented as a  DOS
+   installable device driver.
+
+
+
+

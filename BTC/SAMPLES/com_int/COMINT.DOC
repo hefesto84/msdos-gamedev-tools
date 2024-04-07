@@ -1,0 +1,123 @@
+       ****************************************************************
+
+                             COMMUNICATION INTERRUPTS
+
+                                September 5th, 1987
+
+                                   By Dale Loftis
+
+       ****************************************************************
+
+This archive should contain the following files:
+
+        COMINT.C                Test program and queue routines.
+        COMINT.PRJ              Turbo C project link list.
+        INT3.ASM                COM 2 interrupt assembly language routines.
+        INT4.ASM                COM 1 interrupt assembly language routines.
+
+       ****************************************************************
+
+After finding a need for RS232 interrupt routines and not being able to locate
+anything suitable on any BB's, I decided to write these routines and put them
+on the service for others.
+
+The INT3 and INT4 routines are the real heart of the routines as they place
+the incoming and outgoing characters in the proper places.
+
+I have succesfully run programs using these routines up to 9600 baud on a AT
+and had no problems with losing characters.
+
+If you decide to alter these routines be aware that using INTerrupts to place
+the characters in queues like these routines do,  it is imperative that you
+act upon the characters by bumping the appropriate pointers depending on 
+whether your transmitting or receiving.
+
+       ****************************************************************
+
+com1_set_interrupt(parameters);  initializes port and sets interrupt vector
+com2_set_interrupt(parameters);  initializes port and sets interrupt vector
+
+com1_restore_interrupt();   restores interrupt vector in disables interrupts
+com2_restore_interrupt();   restores interrupt vector in disables interrupts
+
+       ****************************************************************
+
+The com_status() routine displays the status of the program as it runs on the
+line 24 of the screen and is formatted as follows:
+
+      aaaa - bbbb   cccc - dddd  ee  ff  gggg - hhhh  iiii - jjjj  kk  ll
+
+where -
+                                 RECEIVE
+   aaaa =  *   COM 1 in  queue pointer   (count of characters received)
+   bbbb =  *   COM 1 out queue pointer   (count of received chars acted upon)
+
+                                TRANSMIT
+   cccc =  *   COM 1 in  queue pointer   (count of chars to be transmitted)
+   dddd =  *   COM 1 out queue pointer   (count of chars that were transmitted)
+
+                               INT STATUS
+    ee  =      COM 1 last interrupt status
+                    00 = modem status interrupt
+                    01 = xmit holding register empty interrupt
+                    02 = data received interrupt
+                    03 = reception error interrupt
+
+                               PORT STATUS
+    ff  =      COM 1 modem status register status
+                    bit 7   1 = "data carrier detect"
+                    bit 6   1 = "ring indicator"
+                    bit 5   1 = "data set ready"
+                    bit 4   1 = "clear to send"
+                    bit 3   1 = change in "data carrier detect"
+                    bit 2   1 = change in "ring indicator"
+                    bit 1   1 = change in "data set ready"
+                    bit 0   1 = change in "clear to send"
+
+       ****************************************************************
+
+                                RECEIVE
+   gggg =  *   COM 2 in  queue pointer   (count of characters received)
+   hhhh =  *   COM 2 out queue pointer   (count of received chars acted upon)
+
+                                TRANSMIT
+   iiii =  *   COM 2 in  queue pointer   (count of chars to be transmitted)
+   jjjj =  *   COM 2 out queue pointer   (count of chars that were transmitted)
+
+                               INT STATUS
+    kk  =      COM 2 last interrupt status
+                    00 = modem status interrupt
+                    01 = xmit holding register empty interrupt
+                    02 = data received interrupt
+                    03 = reception error interrupt
+
+                               PORT STATUS
+    ll  =      COM 2 modem status register status
+                    bit 7   1 = "data carrier detect"
+                    bit 6   1 = "ring indicator"
+                    bit 5   1 = "data set ready"
+                    bit 4   1 = "clear to send"
+                    bit 3   1 = change in "data carrier detect"
+                    bit 2   1 = change in "ring indicator"
+                    bit 1   1 = change in "data set ready"
+                    bit 0   1 = change in "clear to send"
+
+       ****************************************************************
+        Items marked with a "*" are the actual offsets into the xmit and 
+     receive queues and wrap back to zero when the queue sizes are reached.
+       ****************************************************************
+
+The variables com1_rs232_error and com2_rs232_error contain the status from a
+reception error interrupt and is the line status register, formatted as:
+
+                    bit 7   1 = time-out (off-line)
+                    bit 6   1 = xmit shift register empty
+                    bit 5   1 = xmit holding register empty
+                    bit 4   1 = break detect
+                    bit 3   1 = framing error (transmission is out of sync)
+                    bit 2   1 = parity error
+                    bit 1   1 = received data overrun (char not read in time)
+                    bit 0   1 = byte of data has been received
+
+       ****************************************************************
+

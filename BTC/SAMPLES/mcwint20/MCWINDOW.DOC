@@ -1,0 +1,6535 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   MC-WINDOW
+
+                    WINDOWS AND QUICK WRITE UTILITIES FOR C
+
+                             by Michael G. Mlachak
+
+                                      and
+
+                               Brian L. Cassista
+
+
+
+
+                                 January 1988
+
+                                  Version 2.0
+
+
+
+
+      (C) Copyright 1987, 1988 by Michael G. Mlachak & Brian L. Cassista
+                              All Rights Reserved
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                             LICENSE AGREEMENT
+    __________________________________________________________________________
+
+
+     CAREFULLY READ ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT PRIOR
+     TO USING THE ENCLOSED SOFTWARE. USING THE ENCLOSED ROUTINES INDICATES
+     YOUR ACCEPTANCE OF THESE TERMS AND CONDITIONS.
+
+        1. LICENSE: You have the non-exclusive right to use the enclosed
+     routines. Programs that you write and compile using these routines
+     may be used, given away or sold without additional license or fees.
+     These routines can only be used on a single computer or network node.
+     You may physically transfer these routines from from one computer to
+     another provided that the routines are used on only one computer or
+     network node at a time. You may not distribute copies of these routines
+     or documentation to others. You may not modify or translate these
+     routines or related documentation without the prior written consent
+     of Michael G. Mlachak and Brian L. Cassista. The sample programs
+     included provide a demonstration of how to use these routines. They
+     are intended for educational purposes only. As a registered owner,
+     you have the right to edit or modify these sample programs for your
+     own use, but you may not give away or sell them, alone or as part of
+     any program, in executable, object or source code form. You may,
+     however, incorporate miscellaneous sample routines into your programs,
+     as long as your resulting programs do not substanstially duplicate
+     all or part of a sample program in appearance or functionality.
+
+        2. BACKUP AND TRANSFER: You may make as many copies of these
+     routines as you want, soley for backup purposes. You must reproduce
+     and include the copyright notice on all backup copies. You may not
+     transfer or license these routines to another party.
+
+        3. COPYRIGHT: These routines and their related documentation
+     are copyrighted. You may not copy these routines or its documentation
+     except for backup purposes. All other copies of these routines and
+     their documentation are in violation of this agreement.
+
+        4. TERM: This license is effective until terminated. You may
+     terminate it by destroying the program and documentation and all
+     copies thereof. This license will also terminate if you fail to
+     comply with any term or condition of this Agreement. You agree, upon
+     termination, to destroy all copies of these routines and documentation.
+
+        5. LIMITED WARRANTY: THE ROUTINES ARE PROVIDED "AS IS" WITHOUT
+     WARRANTY OF ANY KIND. THE ENTIRE RISK AS TO THE RESULTS AND
+     PERFORMANCE OF THESE ROUTINES IS ASSUMED BY YOU. SHOULD THESE
+     ROUTINES PROVE DEFECTIVE, YOU (NOT MICHAEL G. MLACHAK AND/OR BRIAN
+     L. CASSISTA) ASSUME THE ENTIRE COST OF ALL NECESSARY SERVICING,
+     REPAIR OR CORRECTION. FURTHER, MICHAEL G. MLACHAK OR BRIAN L.
+     CASSISTA DO NOT WARRANT, GUARANTEE, OR MAKE ANY REPRESENTATIONS
+     REGARDING THE USE OF, OR THE RESULTS OF THE USE OF, THESE ROUTINES
+     IN TERMS OF CORRECTNESS, ACCURACY, RELIABLITY, CURRENTNESS, OR
+     OTHERWISE; AND YOU RELY ON THESE ROUTINES AND RESULTS SOLELY AT
+     YOUR OWN RISK.
+        Michael G. Mlachak and Brian L. Cassista do warrant to the original
+     licensee that the disk(s) on which these routines were recorded be
+
+
+         MC-WINDOW                                                           1
+
+
+
+
+
+
+
+    LICENSE AGREEMENT
+    __________________________________________________________________________
+
+     free from defects in materials and workmanship under normal use and
+     service for a period of 90 days from the date of delivery as evidenced
+     by a copy of your receipt. Michael G. Mlachak's and Brian L. Cassista's
+     entire liability and your exclusive remedy shall be replacement of the
+     disk not meeting the limited warranty and which is returned to either
+     Michael G. Mlachak or Brian L. Cassista with a copy of your receipt.
+     If failure of the disk has resulted from accident, abuse, or
+     misapplication of the product, then Michael G. Mlachak and Brian L.
+     Cassista shall have no responsibility to replace the disk under this
+     limited warranty.
+        THE ABOVE IS THE ONLY WARRANTY OF ANY KIND, EITHER EXPRESSED OR
+     IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
+     MERCHANTABILITY AND FITNESS FOR A PARTICULIAR PURPOSE THAT IS MADE
+     BY MICHAEL G. MLACHAK AND BRIAN L. CASSISTA ON THESE ROUTINES.
+
+        6. UPDATE POLICY: In order to be able to obtain updates of these
+     routines, the licensee in accordance with this agreement must
+     complete and return the attached registration form to either Michael
+     G. Mlachak or Brian L. Cassista. IF THIS REGISTRATION FORM HAS NOT
+     BEEN RECEIVED BY MICHAEL G. MLACHAK OR BRIAN L. CASSISTA THEY ARE
+     NOT UNDER ANY OBLIGATION TO MAKE AVAILABLE ANY UPDATES EVEN THOUGH
+     PAYMENT OF THE APPLICABLE UPDATE FEE HAS BEEN MADE.
+
+        7. ACKNOWLEDGEMENT: YOU ACKNOWLEDGE THAT YOU HAVE READ THIS
+     AGREEMENT, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS AND
+     CONDITIONS. YOU ALSO AGREE THAT THIS AGREEMENT IS THE COMPLETE
+     AND EXCLUSIVE STATEMENT OF AGREEMENT BETWEEN THE PARTIES AND
+     SUPERCEDES ALL PROPOSALS OR PRIOR AGREEMENTS, VERBAL OR WRITTEN,
+     AND ANY OTHER COMMUNICATIONS BETWEEN THE PARTIES RELATING TO
+     THE SUBJECT MATTER OF THIS AGREEMENT.
+        Should you have any questions concerning this Agreement, please
+     contact:
+
+                 Michael G. Mlachak           Brian L. Cassista
+                 4318 Stewart Court           165 South Floyd Lane
+                 E. Chicago, IN. 46312        Chicago Heights, IL. 60411
+                 (219)-397-4066               (312)-756-3567
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         MC-WINDOW                                                           2
+
+
+
+
+
+
+
+
+    __________________________________________________________________________
+
+
+     Information in this document is subject to change without notice and
+     does not represent a commitment on the part of Michael G. Mlachak or
+     Brian L. Cassista.  The software described in this document is
+     furnished under a license agreement or nondisclosure agreement.  The
+     software may be used or copied only in accordance with the terms of
+     the agreement.  No part of this manual may be reproduced or transmitted
+     in any form or by any means, electronic or mechanical, including
+     photocopying and recording, for any purpose other than the purchaser's
+     personal use without the written permission of Michael G. Mlachak and
+     Brian L. Cassista.
+
+
+
+      (C) Copyright 1987, 1988 by Michael G. Mlachak & Brian L. Cassista
+                              All Rights reserved
+
+
+
+
+
+
+     Microsoft C 5.0, Microsoft Macro Assembler 4.0, Microsoft Macro
+     Assembler 5.0 ,Microsoft Quick-C 1.0 are registered trademarks of
+     Microsoft Corporation.
+
+     IBM is a registered trademark of the the International Business
+     Machines Corporation.
+
+     Turbo-C, Turbo Pascal are a registerd trademark of Borland International
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         MC-WINDOW                                                           3
+
+
+
+
+
+
+
+    REGISTRATION FORM
+    __________________________________________________________________________
+
+
+
+
+
+
+
+
+
+                               REGISTRATION FORM
+
+
+     Please print:
+
+     NAME: ______________________________________________________________
+
+     COMPANY: ___________________________________________________________
+
+     SHIPPING ADDRESS: __________________________________________________
+
+     CITY: ______________________________________________________________
+
+     STATE: ___________________________ ZIP: ____________________________
+
+     PHONE: (WORK) _______________________ (HOME) _______________________
+
+     SERIAL NUMBER: _____________________________________________________
+
+     COMPILER SUPPORT: MSC 5.0 & Quick-C___  MSC 4.0 ___  TURBO-C ___
+
+
+     REGISTRATION TYPE: (See section 1.4.2 Obtaining the Latest Source
+                                Code and Libraries)
+
+        Full Registration    ____
+
+        Novice Registration  ____
+
+        Other                ____
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         MC-WINDOW                                                           4
+
+
+
+
+
+
+
+                                                             TABLE OF CONTENTS
+    __________________________________________________________________________
+
+
+     ü PART 1 OVERVIEW
+
+       1.1     INTRODUCTION................................................ 9
+
+       1.1.1   About the Windows and Qwik Write Utilities..................10
+
+       1.2     USING THE WINDOWS AND QWIK WRITE ROUTINES...................11
+
+       1.2.1   Introduction................................................12
+       1.2.2   Memory Model Support........................................12
+       1.2.3   Global Variables and Types..................................13
+       1.2.4   Including Files.............................................16
+       1.2.5   Declaring Functions.........................................17
+       1.2.6   Argument-Type Checking......................................17
+       1.2.7   Error Handling..............................................17
+       1.2.8   Compiling and Linking.......................................18
+
+       1.3     RUN-TIME ROUTINES BY CATEGORY...............................24
+
+       1.3.1   Introduction................................................25
+       1.3.2   Screen Filling..............................................25
+       1.3.3   Screen Initialization.......................................25
+       1.3.4   Screen I/O..................................................26
+       1.3.5   Screen Manipulation.........................................26
+       1.3.6   Screen Storing and Restoring................................26
+       1.3.7   Screen Paging...............................................26
+       1.3.8   Screen Writing..............................................27
+       1.3.9   Windowing...................................................27
+       1.3.10  Menuing.....................................................28
+       1.3.11  Miscellaneous...............................................28
+
+       1.4    COMPILING THE SOURCE CODE AND BUILDING LIBRARIES.............30
+
+       1.4.1  Introduction.................................................31
+       1.4.2  Obtaining the Latest Source Code and Libraries...............31
+       1.4.3  Microsoft 5.0 Compiler.......................................31
+       1.4.4  Microsoft Quick-C 1.0 Compiler...............................32
+       1.4.5  Microsoft 4.0 Compiler.......................................33
+       1.4.6  Turbo-C  1.0 Compiler........................................33
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         MC-WINDOW                                                           5
+
+
+
+
+
+
+
+    TABLE OF CONTENTS
+    __________________________________________________________________________
+
+
+     ü PART 2 REFERENCE....................................................35
+
+       cursorchange...................35    qstore.........................63
+       delete.........................36    qwrite.........................65
+       egacheck.......................37    qwritec........................66
+       get_integer....................38    qwritef........................67
+       get_menu.......................39    qwritelv.......................69
+       get_string.....................42    qwritepage.....................70
+       get_video_mode.................44    remove_all_windows.............72
+       getkey.........................45    remove_windows.................73
+       gotorc.........................46    removewindow...................74
+       initwindow.....................47    scrollwindow...................75
+       insert.........................48    titlewindow....................77
+       makewindow.....................49    vwrite.........................79
+       qattr..........................51    where_col......................80
+       qattrc.........................52    where_row......................81
+       qbox...........................54    wiattr.........................82
+       qfill..........................56    window_bios_scroll.............83
+       qfillc.........................57    window_printf..................84
+       qinit..........................59    window_write...................86
+       qpage..........................60    wsleep.........................88
+       qrestore.......................61    wsound.........................89
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         MC-WINDOW                                                           6
+
+
+
+
+
+
+
+                                                             TABLE OF CONTENTS
+    __________________________________________________________________________
+
+
+     ü APPENDIX............................................................90
+
+       Function Names and Modules..........................................91
+       Module Names and Functions..........................................92
+
+     ü INDEX...............................................................93
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         MC-WINDOW                                                           7
+
+
+
+
+
+
+
+    PART 1 OVERVIEW
+    __________________________________________________________________________
+
+
+
+
+
+
+     The first part of this manual provides information common to all of
+     the Windows and Qwik Write Utilities.
+
+     Here you'll find definitions for global variables, data types, and
+     include files, and useful background information on the different
+     categories of run-time routines.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         MC-WINDOW                                                           8
+
+
+
+
+
+
+
+                                                                     CHAPTER 1
+    __________________________________________________________________________
+
+
+
+     1.1 INTRODUCTION
+
+       1.1.1   About the Windows and Qwik Write Utilities..................10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         MC-WINDOW                                                           9
+
+
+
+
+
+
+
+    INTRODUCTION
+    __________________________________________________________________________
+
+
+
+     1.1.1 ABOUT THE WINDOWS AND QWIK WRITE UTILITIES
+
+
+     WINDOW ROUTINES
+
+        These routines create incredibly quick multi-level windows as
+        library calls in C programs, for the IBM PC/XT/AT and 100%
+        compatibles.  They work on MDA, CGA, and EGA, adapters in any
+        column mode (40/80,etc).  The window routines use the Qwik
+        Utlities for screen writing and are also available in library
+        form.  The Qwik Utilities were translated from TURBO PASCAL
+        inline assembly to external assembly that is recognizeable by C.
+
+
+        To take a test drive and see how powerful, fast and easy to use
+        these window routines are compile and run the WTUTOR20.C file. A
+        compiled demo WTUTOR20.EXE is also supplied for your convenience.
+
+
+     QWIK WRITE UTILITIES
+
+        The Qwik Write Utilities permit fast screen writing on IBM and
+        100% compatibles with MDA, CGA, or EGA adapters without "snow"
+        or flicker. These routines work with any column format on any
+        video page.  Written in Microsoft macro-assembler, these
+        routines are lightning fast.  The code has been optimized as
+        much as possible without sacrificing any speed.
+
+
+        To take a test drive and see how powerful, fast and easy to use
+        these Qwik routines are compile and run the QDEMO20.C file. A
+        compiled demo QDEMO20.EXE is also supplied for your convenience.
+
+
+        Many thanks go to Jim LeMay whose routines these are based upon.
+                 (Turbo Pascal version (C) 86,87 Jim H. LeMay)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           10
+
+
+
+
+
+
+
+                                                                     CHAPTER 2
+    __________________________________________________________________________
+
+
+
+     1.2 USING THE WINDOWS AND QWIK WRITE ROUTINES
+
+       1.2.1   Introduction................................................12
+       1.2.2   Memory Model Support........................................12
+       1.2.3   Global Variables and Types..................................13
+       1.2.4   Include Files...............................................16
+       1.2.5   Declaring Functions.........................................17
+       1.2.6   Argument-Type Checking......................................17
+       1.2.7   Error Handling..............................................17
+       1.2.8   Compiling and Linking.......................................18
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           11
+
+
+
+
+
+
+
+    USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+
+
+     1.2.1 Introduction
+
+
+     To use a Window or Qwik Write routine, simply call it in your program,
+     just as if the routine were defined in your program. The Window and
+     Qwik Write Utilities are stored in compiled form in the library files
+     accompanying this disk. Only registered users will have access to
+     all memory model support libraries for a specific compiler. (See
+     section 1.2.2 for more info)
+
+     At link time, your program must be linked with the appropriate library
+     file(s) to resolve the references to the library functions and
+     provide the code for the called library functions.  The procedures
+     for linking with the library are dicussed in detail section 1.2.8.
+
+     In most cases you must prepare for the call to the run-time library
+     function by performing one or both of these steps.
+
+        1. Include a given file in your program. Many routines require
+           definitions and declarations that are provided by an include
+           file.  (See 1.2.4)
+
+        2. Provide declarations for library functions that return values
+           of any type but int.  (See 1.2.5)
+
+
+     1.2.2 Memory Model Support
+
+
+     The following libraries are available for registered users of a
+     specific compiler:
+
+          Compiler                 Model         Library Name 
+
+        Microsoft 5.0*            Small          m5swin20.lib
+        Microsoft 5.0             Compact        m5cwin20.lib
+        Microsoft 5.0             Medium         m5mwin20.lib
+        Microsoft 5.0             Large          m5lwin20.lib
+        Microsoft 4.0*            Small          m4swin20.lib
+        Microsoft 4.0             Compact        m4cwin20.lib
+        Microsoft 4.0             Medium         m4mwin20.lib
+        Microsoft 4.0             Large          m4lwin20.lib
+        Microsoft Quick-C*        Small          q1swin20.lib
+        Microsoft Quick-C         Compact        q1cwin20.lib
+        Microsoft Quick-C         Medium         q1mwin20.lib
+        Microsoft Quick-C         Large          q1lwin20.lib
+        Microsoft Quick-C**       Medium         q1mwin20.qlb
+        Turbo-C   1.0*            Small          t1swin20.lib
+        Turbo-C   1.0             Compact        t1cwin20.lib
+        Turbo-C   1.0             Medium         t1mwin20.lib
+        Turbo-C   1.0             Large          t1lwin20.lib
+
+
+        MC-WINDOW                                                           12
+
+
+
+
+
+
+
+                                     USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+
+
+     If this is a distribution only copy of the routines you should
+     find one of the libraries on the disk that is marked with an
+     asterik (*).
+
+     This library is need for linking from within the Quick-C 1.0
+     environment (**).
+
+     See section 1.4.2 for information on how to order another memory
+     model, this documentation, or become a registered user.
+
+
+     1.2.3 Global Variables and Types
+
+
+     The Window and Qwik Write Utility library xxxwin20.lib contains
+     definitions for a number of variables and types used by the
+     library routines.  You can access these variables and types by
+     including in your program the files in which they are declared
+     (See section 1.2.4) or by giving appropriate declarations in your
+     program, as shown in the following explanations.
+
+
+     Global Variables and Constants 
+
+     MAXWNDOW                  - maximum number of windows that the library
+                                 routines can handle. Do not change this value
+                                 unless you are rebuilding the library.
+
+     unsigned page0seg         - global variable used to hold the active
+                                 screen segment of the Qwik Write Utility page
+                                 we are on. This variable is initialized by a
+                                 call to qinit() and should only be modified
+                                 by a call to qwritepage(), which changes the
+                                 page the Qwik Write Utilities writes on.
+
+     unsigned qseg             - global variable used to hold the base
+                                 address of the screen segment. This address
+                                 is also reset on any subsequent call to
+                                 qinit() or initwindow(). This variable could
+                                 be manually set if the user so desires.
+
+     int maxpage               - global variable used to hold the maximum
+                                 number of video pages that a monitor can
+                                 support. This variable is also set by qinit()
+                                 and can range from 0-7.
+
+     int cardwait              - global variable used to check to see if a
+                                 monitor needs to wait for the video retrace
+                                 signal. It may be modified after a call to
+                                 qinit() which sets it to 1 for retrace or
+                                 0 for no retrace.
+
+
+        MC-WINDOW                                                           13
+
+
+
+
+
+
+
+    USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+
+     int qwait                 - same as cardwait, but used externally by
+                                 the assembler modules.
+
+     int zoomeffect            - global variable that turns on the exploding
+                                 box effect. This variable may be set to
+                                 TRUE (1) any time before a makewindow()
+                                 command is executed. It remains in effect
+                                 until explicitly turned off.
+
+     int zoomdelay             - global variable used to compensate for fast
+                                 exploding windows. If you find that your boxes
+                                 are exploding faster than you like them, try
+                                 experimenting with this value. It defaults to
+                                 11 milliseconds, which is perfect for a MDA
+                                 monitor.
+
+     int oldcursor             - global variable used to store the current
+                                 cursor shape. Can be used anywhere in program
+                                 and has a default value of 8192 (invisible).
+
+     int active_window_row     - global variable used by the qwritef() ,
+                                 window_write() and window_printf() functions.
+                                 this variable holds the position of the last
+                                 row in the window that was written to. It may
+                                 be modified at any time prior to any of the
+                                 above window calls.
+
+     int active_window_col     - global variable used by the qwritef() ,
+                                 window_write() and window_printf() functions.
+                                 this variable holds the position of the last
+                                 column in the window that was written to. It
+                                 may be modified at any time prior to any of
+                                 the above window calls.
+
+
+     enum DIRTYPE shadoweffect - global enumerated type variable that
+                                 holds the type of shadow effect that is
+                                 placed around the borders of a window.
+                                 This must be set to the proper type
+                                 before makewindow() is called. It
+                                 defaults to no effect. (See next
+                                 paragraph for type explanation)
+
+
+     TYPES 
+
+
+     enum BORDERS { nobrdr,blankbrdr,singlebrdr,doublebrdr,mixedbrdr,
+                    solidbrdr,evensolidbrdr,thinsolidbrdr,lhatchbrdr,
+                    mhatchbrdr,hhatchbrdr,userbrdr
+                  };
+
+
+
+        MC-WINDOW                                                           14
+
+
+
+
+
+
+
+                                     USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+     Used for type of border on makewindow() and qbox():
+
+                    nobrdr     - no border
+                    blankbrdr  - no border
+                    singlebrdr - single border
+                    doublebrdr - double border
+                    mixedbrdr  - single sides, double top and bottom
+                    solidbrdr  - inverted space for all borders
+                    evensolid  - even solid border
+                    thinsolid  - thin solid border
+                    lhatchbrdr - low intensity hatch border
+                    mhatchbrdr - medium intensity hatch border
+                    hhatchbrdr - high intensity hatch border
+                    userbrdr   - user defined border (same as nobrdr)
+
+        enum DIRTYPE { nodir,up,down,cleartop,clearbottom,clearleftside,
+                       clearrightside, topleft,topright,topcenter,bottomleft,
+                       bottomright,bottomcenter,leftside,rightside,left,right
+                     };
+
+        Has various uses depending on the function called or variable used:
+
+        titlewindow():
+
+                    topleft         - top line, left justified
+                    topcenter       - top line, center justified
+                    topright        - top line, right justified
+                    bottomleft      - bottom line, left justified
+                    bottomcenter    - bottom line, center justified
+                    bottomright     - bottom line, right justified
+                    clearbottom     - clear bottom line by placing
+                                      the current bottom character there.
+                    cleartop        - clear top line by placing
+                                      the current top character there.
+                    clearleftside   - clear left side line by placing
+                                      the current left side character there.
+                    clearrighttside - clear right side line by placing
+                                      the current right side character there.
+                    leftside        - left side of window centered
+                    rightside       - right side of window centered
+
+        scrollwindow():
+
+                    up   - scroll window up
+                    down - scroll window down
+
+        shadoweffect: (see above)
+
+                    bottomleft  - shadowfill on the left and bottom
+                    bottomright - shadowfill on the right and bottom
+                    topleft     - shadowfill on left and top
+                    topright    - shadowfill on right and top
+
+
+
+        MC-WINDOW                                                           15
+
+
+
+
+
+
+
+    USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+
+     1.2.4 Include Files
+
+     The xxxwin20.lib routines use constants, variables and types that
+     are defined in three separate include files. A fourth file is
+     included that contains color constants. Each is explained in
+     detail below.
+
+     w.h        - contains the enumerated types needed by the window routines,
+                  the window data structures, the border structure and
+                  miscellaneous window pointers, variables and types. This
+                  include file is only needed if you plan to recompile the
+                  window routines and rebuild a specific library.
+
+     w1.h       - contains the enumerated types needed by the window routines.
+                  If you use any of the window routines this include file
+                  must be at the top of your program.
+
+     windprot.h - contains the prototypes for the functions in the
+                  xxxwin20.lib. It also includes the global variables
+                  that are needed to resolve references at link time.
+                  Use this file always, especially if you want strong
+                  type checking on parameters passed to the xxxwin20.lib
+                  routines. (See 1.2.6)
+
+     color.h    - contains the color constants that can be used by
+                  the attribute function wiattr(), etc.
+
+     A global constant USE_LOCAL should be defined before any of the
+     above include files if the module you are compiling contains
+     the main() function. Otherwise all references to the global
+     variables defined in section 1.2.3 will be external. An example
+     follows.
+
+     Setup for main module 
+
+     #define USE_LOCAL
+     #include <w1.h>                      /* define those types, if needed */
+     #include <windprot.h>                /* invoke type checking */
+     <your other include files go here>
+                :
+                :
+     initwindow();                        /* if window routines used ,else */
+     qinit();                             /* only if Qwik- utils used      */
+     <main and it's code goes here>
+                :
+                :
+                :
+
+
+     Setup for another module - All references are external 
+
+     #include <w1.h>                 /* define those types ,if needed */
+
+
+        MC-WINDOW                                                           16
+
+
+
+
+
+
+
+                                     USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+     #include <windprot.h>           /* invoke type checking */
+     <other include files go here>
+                :
+                :
+     <main and it's code goes here>
+                :
+                :
+                :
+
+
+     1.2.5 Declaring Functions
+
+
+     Whenever you call a routine in the xxxwin20.lib that returns any
+     type of value but an int, you should make sure that the function
+     is declared before it is called. The easiest way to do this is to
+     include the file containing declarations for the xxxwin20.lib
+     functions (windprot.h), causing the appropriate declarations to
+     be placed in your program.
+
+     The windprot.h include file declares both the return type and
+     the argument-type list for the xxxwin20.lib. This include file
+     will allow you argument-type checking, (See 1.2.6) which is
+     highly recommended, since type mismatches between a function's
+     arguments and formal parameters can cause serious and possible
+     hard to detect errors.
+
+
+     1.2.6 Argument-Type Checking
+
+
+     The compilers that were used to compile these routines offer a
+     type-checking feature for the arguments in a function call.
+     Type checking is performed whenever an argument-type list is
+     present in a function declaration and the declaration appears
+     before the definition or use of the function in a program. To
+     invoke this feature on your compiler include the windprot.h
+     header file at the top of your program and the compiler will
+     do the rest, flagging errors as it goes along. (See example
+     of sample setup in section 1.2.4)
+
+
+     1.2.7 Error Handling
+
+
+     Most of the xxxwin20.lib routines do minimal error checking. Only
+     the most fatal errors are trapped for and are considered to be
+     fatal enough to cause HAVOC if further processing continues. In all
+     of these cases a message is printed on the screen with printf() and
+     the user is returned to DOS.  (See Part2, "Reference", on each
+     individual function for the specific amount of error checking). The
+     following errors are considered to be fatal:
+
+
+
+        MC-WINDOW                                                           17
+
+
+
+
+
+
+
+    USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+     Windows 
+
+        removewindow() - Attempt to remove a window that does not exist.
+                         Possible call to removewindow() without a
+                         makewindow. For every makewindow() there must
+                         be a removewindow().
+
+        makewindow()   - Maximum window count of xx exceeded. xx defaults
+                         to 30 in all versions of the xxxwin20.lib. Possible
+                         fix is to recompile source with MAXWNDW set to
+                         some other constant.
+
+                       - Not enough heap space for window xx. Not enough
+                         heap space was available for allocation of the
+                         window. Possible fix is to reduce the available
+                         stack or move to the next higher memory model.
+
+        scrollwindow() - Not enough heap space in Qscroll. Not enough
+                         heap space  was avialble for allocation of the
+                         window needed for scrolling. Possible fix is to
+                         reduce the available stack or move to the next
+                         higher memory model.
+
+
+     1.2.8 Compiling and Linking
+
+
+     To compile a module that uses the xxxwin20.lib routines, include
+     the proper xxxwin20.lib header files and compile like you would
+     compile any other C module. When it comes time to link make sure
+     you have the right xxxwin20.lib library for the memory model and
+     compiler you are using. If your compiler has environment variables
+     you may want to use them to keep all your header files and library
+     files in a separate directory. (See examples below)
+
+     NOTE: Some advanced users of (C) and their compilers will set up
+           make files for their programming chores. For more information
+           on how to set up a make file see the documentation in your
+           programming manual.
+
+     Below is a sample program, and an explanation of how to compile
+     and link it in the SMALL memory model for the following compilers:
+     Microsoft 5.0, Microsoft 4.0, Turbo-C 1.0, and Quick-C 1.0. The sample
+     program will be used for all 4 compilers. It explodes a window on the
+     screen with a YELLOW on BLUE inside,a WHITE on RED double sided border,
+     and a shadow on the top right. The window will start at row 4, column 1
+     and end at row 25, col 74. Once the window is created it will then
+     be removed and the program will terminate.
+
+     Sample Program- sample.c 
+
+     #define USE_LOCAL
+     #define WATTR 31                 /* window inside attribute */
+
+
+        MC-WINDOW                                                           18
+
+
+
+
+
+
+
+                                     USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+     #define BATTR 79                 /* border attribute        */
+
+     #include <w1.h>
+     #include <windprot.h>
+     #include <stdio.h>
+
+     int main(int,char *[]);          /* prototype for error checking */
+
+     int main(argc, argv)
+       int argc;
+       char *argv[];
+     {
+        int index;                    /* for delay */
+
+        if ((argc != 1) && (argv[1] != NULL)) /* simple error check  */
+           return(-1);
+        initwindow(79,1);             /* initialize window routines */
+        zoomeffect = 1;               /* turn expoding effect on    */
+        shadoweffect = topright;      /* select shadow effect       */
+        makewindow(4,1,21,74,WATTR,BATTR,doublebrdr);  /* window */
+        for (index = 0; index < 30000; index++);       /* delay  */
+        removewindow();               /* remove the window */
+        return(0);
+     } /* of main */
+
+
+     Compile and Link Microsoft 5.0 
+
+
+     Assumptions - Compilation and link takes place on a hard disk
+                   machine drive C:. On this drive the default setup
+                   was used to install the compiler.
+
+                 - The following path variables are set:
+
+                     PATH = c:\msc5\bin
+                     INCLUDE = c:\msc5\include
+                     LIBRARY = c:\msc5\lib
+                     TMP = c:\msc5\tmp
+
+                 - The include files were copied from the distribution
+                   disk to the c:\msc5\include subdirectory.
+
+                 - The library file m5swin20.lib was copied off the
+                   distribution disk to the c:\msc5\lib subdirectory.
+
+                 - The active directory is c:\msc5\source. This is where
+                   the sample program resides.
+
+     Process - Invoke the compiler and have it call the linker to
+               resolve our window function declarations. The sample.exe
+               file will be in the current directory c:\msc5\source.
+               Notice floating point emulation has been chosen (FPc) and
+
+
+        MC-WINDOW                                                           19
+
+
+
+
+
+
+
+    USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+               strong type checking has been enabled with the most
+               severe warning messages (W3 DLINT_ARGS) for the small
+               memory model (AS).
+
+               CL /AS /FPc /W3 /DLINT_ARGS sample.c /link m5swin20
+
+
+     Compile and Link Microsoft 4.0 
+
+
+     Assumptions - Compilation and link takes place on a hard disk
+                   machine drive C:. On this drive the default setup
+                   was used to install the compiler.
+
+                 - The following path variables are set:
+
+                     PATH = c:\msc4\bin
+                     INCLUDE = c:\msc4\include
+                     LIBRARY = c:\msc4\lib
+                     TMP = c:\msc4\tmp
+
+                 - The include files were copied from the distribution
+                   disk to the c:\msc4\include subdirectory.
+
+                 - The library file m4swin20.lib was copied off the
+                   distribution disk to the c:\msc4\lib subdirectory.
+
+                 - The active directory is c:\msc4\source. This is where
+                   the sample program resides.
+
+     Process - Invoke the compiler and call the linker to resolve our
+               window function declarations. The sample.exe file will
+               be in the current directory c:\msc4\source. Notice floating
+               point emulation has been chosen (FPc) and strong type
+               checking has been enabled with the most severe warning
+               messages (W3 DLINT_ARGS) for the small memory model (AS).
+
+               MSC /AS /FPc /W3 /DLINT_ARGS sample.c
+
+               LINK sample,sample,NUL,m4swin20.lib;
+
+
+     Compile and Link Quick-C 1.0 
+
+
+     Assumptions - Compilation and link takes place on a hard disk
+                   machine drive C:. On this drive the default setup
+                   was used to install the compiler.
+
+                 - The following path variables are set :
+
+                        PATH = c:\msc5\bin
+                        INCLUDE = c:\msc5\include
+
+
+        MC-WINDOW                                                           20
+
+
+
+
+
+
+
+                                     USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+                        LIBRARY = c:\msc5\lib
+                        TMP = c:\msc5\tmp
+
+                 - The include directory is c:\msc5\include and the
+                   header files from the window distribution disk were
+                   copied here.
+
+                 - The library directory is c:\msc5\lib and the library
+                   files from the window distribution disk were copied
+                   here.
+
+                 - The active directory is c:\msc5\source. This is where
+                   the sample program resides.
+
+     Process - (A)  Invoke the compiler from the interactive environment
+                    with the environment set to the above subdirectories.
+                    Make sure that q1mwin20.lib and q1mwin20.qlb reside
+                    in the library directory. Load Quick-C with the
+                    following command:
+
+                        qc /l q1mwin20 sample.c
+
+                    Choose the FILE option "Set Program List". At the
+                    filename prompt enter the following:
+
+                        sample.mak <CR>
+
+                    You are then prompted to create the file, select YES.
+                    At the filename prompt enter the following:
+
+                        sample.c <CR>
+                        c:\msc5\lib\q1mwin20.lib <CR>
+
+                    Now save the list by hitting the TAB key till
+                    Save List is hilighted, then hit return. Next select
+                    the RUN option Compile, and set the following options:
+
+                        - Warning : level 3
+                        - Output  : EXE
+                        - Misc    : Stack Checking
+                        - Misc    : Language Extensions
+
+                    Hilight the Build Program selection and hit return
+                    to build the program.
+
+               (B)  Invoke the compiler from the command line by issuing
+                    the following command. Notice the following options:
+
+                        /AS         - small model
+                        /DLINT_ARGS - enable argument checking
+                        /W3         - set maximum warning level
+                        /link       - specify the library to use in
+                                      addition to the standard libraries.
+
+
+        MC-WINDOW                                                           21
+
+
+
+
+
+
+
+    USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+
+                    The last item on the command line MUST be a semi colon.
+
+                        qcl /AS /DLINT_ARGS /W3 sample.c /link q1swin20;
+
+
+     Compile and Link Turbo-C 1.0 
+
+
+     Assumptions - Compilation and link takes place on a hard disk
+                   machine drive C:. On this drive the default setup
+                   for Turbo-C was used.
+
+                 - The following path variables are set:
+
+                    PATH = c:\turboc
+
+                 - The include directory is c:\turboc\include and the
+                   header files from the window distribution disk were
+                   copied here.
+
+                 - The library directory is c:\turboc\lib and the library
+                   files from the window distribution disk were copied
+                   here.
+
+                 - The active directory is c:\turboc and this is where
+                   the source (sample.c) and the executable versions of the
+                   interactive and command line version of the Turbo-C
+                   compiler reside.
+
+     Process - (A) Invoke the compiler from the interactive environment
+                   with the environment set to the above subdirectories.
+                   Create the following PRJ file (sample.prj).
+
+                        sample.c  (w1.h, windprot.h)
+                        c:\turboc\lib\t1swin20.lib
+
+                   Load this file into the interactive environment
+                   with the PROJECT option (main menu). Next load the
+                   sample.c source file into the environment with the
+                   FILE option on the main menu . All you do now is
+                   hit the F9 key. This will make the file and do all
+                   the linking. When it is done your sample.exe will be
+                   in the directory specified in the environment option
+                   output directory (OPTIONS on the main menu).
+
+               (B) Invoke the compiler from the command line by issuing
+                   the following command. Notice the syntax is spread out
+                   over two lines. This is for display purposes only and
+                   when this line is typed in at the DOS level it all
+                   should be on one line. (There should be a space at
+                   the end of the first line). Notice the following options:
+
+
+
+        MC-WINDOW                                                           22
+
+
+
+
+
+
+
+                                     USING THE WINDOWS AND QWIK WRITE ROUTINES
+    __________________________________________________________________________
+
+                      -Ixxx - include directory
+                      -ixxx - maximum variable length
+                      -w    - enable all warnings and invoke type checking
+                      -ms   - small model
+                      -Lxxx - library subdirectory for TURBO-C libraries
+
+                      The last line at the end is our window library, and
+                      you must prefix it with a path or the TURBO linker
+                      will not be able to find it.
+
+                   tcc -Ic:\turboc\include\ -i35 -w -ms -Lc:\turboc\lib\
+                        sample.c c:\turboc\lib\t1swin20.lib
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           23
+
+
+
+
+
+
+
+    CHAPTER 3
+    __________________________________________________________________________
+
+
+
+     1.3 RUN-TIME ROUTINES BY CATEGORY
+
+       1.3.1   Introduction................................................25
+       1.3.2   Screen Filling..............................................25
+       1.3.3   Screen Initialization.......................................25
+       1.3.4   Screen I/O..................................................26
+       1.3.5   Screen Manipulation.........................................26
+       1.3.6   Screen Storing and Restoring................................26
+       1.3.7   Screen Paging...............................................26
+       1.3.8   Screen Writing..............................................27
+       1.3.9   Windowing...................................................27
+       1.3.10  Menuing.....................................................28
+       1.3.11  Miscellaneous...............................................28
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           24
+
+
+
+
+
+
+
+                                                 RUN-TIME ROUTINES BY CATEGORY
+    __________________________________________________________________________
+
+
+
+     1.3.1 Introduction
+
+
+     This chapter describes the major categories of routines included in
+     the xxxwin20.lib run-time libraries. The discussions of these
+     categories are intended to give a brief overview of the capabilities
+     of the run-time library. For a complete description of the syntax and
+     use of each routine, see Part 2, "Reference."
+
+
+     1.3.2 Screen Filling
+
+
+     Routine              Use
+     ___________________________________________________________________________
+     qattr                Fills a region of the screen starting at a certain
+                          position with a color attribute. Original text is
+                          left unchanged.
+
+     qattrc               Fills a region of the screen starting at a certain
+                          position with a color attribute while centering
+                          between two specific column positions. Original text
+                          is left unchanged.
+
+     qfill                Fills a region of the screen starting at a certain
+                          position with a color attribute and a specific
+                          character.
+
+     qfillc               Fills a region of the screen starting at a certain
+                          position with a color attribute and a specific
+                          character while centering between two specific
+                          column positions.
+
+
+     1.3.3 Screen Initialization
+
+
+     Routine              Use
+     ___________________________________________________________________________
+     initwindow           Initializes the window structures, sets the
+                          screen address and clears the initial screen
+                          if so desired. This routine calls qinit(), and
+                          should only be called once at the beginning of
+                          a program if any of the window routines are
+                          called. (See Section 1.3.9)
+
+     qinit                Initializes the screen address, sets the number
+                          of video pages, and determines if we need to wait
+                          for retrace. This routine should only be called if
+                          the Qwik Write Utilities are used alone without
+                          the window routines, otherwise call initwindow().
+
+
+        MC-WINDOW                                                           25
+
+
+
+
+
+
+
+    RUN-TIME ROUTINES BY CATEGORY
+    __________________________________________________________________________
+
+
+
+     1.3.4 Screen I/O
+
+
+     Routine              Use
+     ___________________________________________________________________________
+     get_integer          Gets an integer value from the console at a
+                          specific position with various validation
+                          capabilities.
+
+     get_string           Gets a string value from the console at a
+                          specific position with various validation
+                          capabilities.
+
+
+     1.3.5 Screen Manipulation
+
+
+     Routine              Use
+     ___________________________________________________________________________
+     cursorchange         Changes the cursor shape of the cursor on the
+                          current video page.
+
+     gotorc               Position the cursor at a specific row and column
+                          on the current video page.
+
+     where_col            Get the value of the present column position
+                          on the current video page.
+
+     where_row            Get the value of the present row position
+                          on the current video page.
+
+
+     1.3.6 Screen Storing and Restoring
+
+
+     Routine              Use
+     ___________________________________________________________________________
+     qrestore             Restore a region of the screen from a character
+                          array or character pointer that holds the
+                          character and attribute byte pairs for each
+                          position.
+
+     qstore               Store a region of the screen into a character
+                          array or a character pointer that was allocated.
+                          Both character and attribute byte for each
+                          position will be stored.
+
+
+     1.3.7 Screen Paging
+
+
+
+
+        MC-WINDOW                                                           26
+
+
+
+
+
+
+
+                                                 RUN-TIME ROUTINES BY CATEGORY
+    __________________________________________________________________________
+
+     Routine              Use
+     ___________________________________________________________________________
+     qpage                Changes the current video page to a new page
+                          and makes that page active. In order for the
+                          Qwik Write Utilities to recognize this as the
+                          new page qwritepage() must be called.
+
+     qwritepage           Changes the current Qwik Write Utility page to
+                          a new page and makes it active.
+
+
+     1.3.8 Screen Writing
+
+
+     Routine              Use
+     ___________________________________________________________________________
+     qwrite               Writes a null terminated string to the screen at
+                          a specific position with an attribute.
+
+     qwritec              Writes a null terminated string to the screen at
+                          a specific position, centered between two columns,
+                          with an attribute.
+
+     qwritef              Writes a string to the screen at a specific position
+                          with an attribute in printf() like style format.
+                          Any valid printf() format is available. Wrapping
+                          takes place at end of lines, only if the \n option
+                          is used. No scrolling takes place at the end of the
+                          screen. Other special characters \b, \r, \t are
+                          also supported.
+
+     qwritelv             Writes a string of a specific length to the screen
+                          at a specific position with an attribute.
+
+     vwrite               Writes a null terminated string to the screen
+                          vertically at a specific position with an
+                          attribute. No wrapping takes place at end of
+                          the current screen.
+
+
+     1.3.9 Windowing
+
+
+     Routine              Use
+     ___________________________________________________________________________
+     makewindow           Creates a window on the screen at a specific
+                          position. Various types of borders are allowed
+                          along with attributes for window and border
+                          colors. Optional global variables can be set
+                          to explode the box and set shadow effects.
+                          (See section 1.2.3)
+
+     remove_all_windows   Removes all of the windows that are on the screen,
+
+
+        MC-WINDOW                                                           27
+
+
+
+
+
+
+
+    RUN-TIME ROUTINES BY CATEGORY
+    __________________________________________________________________________
+
+                          restoring the screen under each one.
+
+     remove_windows       Removes a specific number of windows from the
+                          screen. The screen contents under these windows
+                          are restored.
+
+     removewindow         Removes the last created window from the screen.
+                          The screen contents under this window are restored.
+
+     scrollwindow         Scrolls a window a specific number of lines in
+                          an upward or downward direction.
+
+     titlewindow          Place a title on a window border with a specific
+                          justification and attribute.
+
+     window_bios_scroll   Scrolls a region of the screen upward using BIOS
+                          services. The scrolled region is replaced with
+                          a blank line that has a specific attribute.
+
+     window_printf        Writes a string to the current window with an
+                          attribute in printf() like format. All printf()
+                          formats are supported as well as the special
+                          characters \n, \b, \r, \t.
+
+     window_write         Writes a null terminated string to the current
+                          window using successive calls to qwrite().
+
+
+     1.3.10 Menuing
+
+
+     Routine              Use
+     ___________________________________________________________________________
+     get_menu             Places a menu on the screen by drawing a
+                          box (optional) around the users choices. The menu
+                          may be vertical or horizontal, have attributes, and
+                          even invoke other functions if a special
+                          terminating key sequence is hit. The vertical
+                          menu supports multiple pages, while the horizontal
+                          menu supports 144 choices. The parameter list is
+                          quite lengthy for this function, so to make sure
+                          you have the proper types, try to invoke type-
+                          checking during your compile.
+
+
+     1.3.11 Miscellaneous
+
+
+     Routine              Use
+     ___________________________________________________________________________
+
+     delete              Remove the specified number of characters
+                         starting at a specified position from a string.
+
+
+        MC-WINDOW                                                           28
+
+
+
+
+
+
+
+                                                 RUN-TIME ROUTINES BY CATEGORY
+    __________________________________________________________________________
+
+                         The resulting string is the string minus the
+                         deleted characters.
+
+     egacheck            Check to see if an EGA card is present in the
+                         system.
+
+     getkey              Get a keystroke from the keyboard returning the
+                         character and scan code. CTRL-C is locked out.
+
+     get_video_mode      Gets the current video mode for display purposes.
+
+     insert              Inserts a single character at the specified
+                         position in a string.
+
+     qbox                Draw a box around a region with optional borders.
+                         The inside of the box is cleared to a specific
+                         attribute.
+
+     wiattr              Determine the attribute byte given a foreground
+                         and background masking off background color high
+                         bits.
+
+     wsleep              Suspend processing for a specified number of timer
+                         ticks.
+
+     wsound              Make a sound at a specified frequency for a
+                         specific number of timer ticks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           29
+
+
+
+
+
+
+
+    CHAPTER 4
+    __________________________________________________________________________
+
+
+
+     1.4 COMPILING THE SOURCE CODE AND BUILDING LIBRARIES
+
+       1.4.1  Introduction.................................................31
+       1.4.2  Obtaining the Latest Source Code and Libraries...............31
+       1.4.3  Microsoft 5.0 Compiler.......................................31
+       1.4.4  Microsoft Quick-C 1.0 Compiler...............................32
+       1.4.5  Microsoft 4.0 Compiler.......................................33
+       1.4.6  Turboc-C  1.0 Compiler.......................................33
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           30
+
+
+
+
+
+
+
+                              COMPILING THE SOURCE CODE AND BUILDING LIBRARIES
+    __________________________________________________________________________
+
+
+
+
+     1.4.1 Introduction
+
+
+     This chapter explains how to compile the source code and build it
+     into a library. This is necessary if the user wishes to add or modify
+     an existing function. The steps that are necessary for each compiler
+     are explained in detail. It also tells how to obtain the latest source
+     code and the pricing scheme for each item.
+
+
+     1.4.2 Obtaining the Latest Source Code and Libraries
+
+
+     The latest source code and libraries for each compiler are available
+     immediately. Simply fill out the ORDER FORM at the back of this manual
+     and you will be shipped the latest source code or libraries: The current
+     prices are as follows:
+
+        Registered user:      $55.00, Entitles you complete source code for
+                              a specific compiler, with pre-compiled ready
+                              to run libraries for all memory models and a
+                              printed bound manual.
+
+        Novice registration:  $35.00, Entitles you to pre-compiled ready
+                              to run libraries for all memory models of a
+                              specific compiler, and a printed bound manual.
+
+        Other:                Source code alone             - $25.00
+
+                              Any compiler supported,
+                              Specific memory model library - $10.00
+
+                              Printed bound manual          - $10.00
+
+        Updates:              All registered users will be entitled to updates
+                              for minimal charges. All other users will be
+                              charged an update fee plus the cost of the item
+                              desired.
+
+
+     1.4.3 Microsoft 5.0 Compiler
+
+
+     The following are needed to compile the MSC 5.0 version of these
+     utilities:
+
+        - MASM 4.0 or MASM 5.0
+        - Microsoft MAKE utility
+        - Microsoft LIB utility
+        - Microsoft 5.0 C compiler
+
+
+        MC-WINDOW                                                           31
+
+
+
+
+
+
+
+    COMPILING THE SOURCE CODE AND BUILDING LIBRARIES
+    __________________________________________________________________________
+
+        - Touch Utility
+
+     Process 
+
+        - You must be pathed to the MASM 4.0 or MASM 5.0 assembler
+        - You must be pathed to the LIB, MAKE, & 5.0 compiler
+        - You must have your environment variables set for the compiler
+        - Copy all the C (.C) files from the distribution disk to your
+          source directory
+        - Copy all the header (.H) files from the distribution disk to your
+          include directory
+        - Copy all of the (.EXE) & (.MK) files from the distribution disk
+          to your source directory.
+        - Edit the (.MK) files to make sure your include directory is
+          correct.  Look for the line that says INCLUDE = xxxxxx, and
+          change it to what ever your include directory is.
+     (A)- Run the COMPILE.EXE program choosing the compiler and memory
+          model you want to use. Only one model can be compiled at a
+          time.
+        - Library will exist in the source directory. (See section
+          1.2.2 for the actual library naming conventions).
+        - To build another, touch the .C files or delete all
+          of the m5xwin20.lib (.objs), then go to step (A). A list of the
+          (.C) & (.ASM) files appears in appendix A.
+
+
+     1.4.4 Microsoft Quick-C 1.0 Compiler
+
+
+     The following are needed to compile the Quick-C 1.0 version of these
+     utilities:
+
+        - MASM 4.0 or MASM 5.0
+        - Microsoft MAKE utility
+        - Microsoft LIB utility
+        - Microsoft Quick-C 1.0 compiler
+        - Touch utility
+
+     Process 
+
+        - You must be pathed to the MASM 4.0 or MASM 5.0 assembler
+        - You must be pathed to the LIB, MAKE, & Quick-C compiler
+        - You must have your environment variables set for the compiler
+        - Copy all the C (.C) files from the distribution disk to your
+          source directory
+        - Copy all the header (.H) files from the distribution disk to your
+          include directory
+        - Copy all the (.EXE) & (.MK) files from the distribution disk
+          to your source directory
+        - Edit the (.MK) files to make sure your include directory is
+          correct. Look for the line that says INCLUDE = xxxxxx, and
+          change it to whatever your include directory is.
+     (A)- Run the COMPILE.EXE program, choosing the compiler and memory
+
+
+        MC-WINDOW                                                           32
+
+
+
+
+
+
+
+                              COMPILING THE SOURCE CODE AND BUILDING LIBRARIES
+    __________________________________________________________________________
+
+          model you want to use. Only one model can be compiled at a time.
+        - Library will exist in the source directory. (See section
+          1.2.2 for the actual library naming conventions).
+        - To build another, touch the .C files or delete all
+          of the q1xwin20.lib (.objs), then go to step (A). A list of the
+          .C files appears in appendix A.
+
+
+     1.4.5 Microsoft 4.0 Compiler
+
+
+     The following are needed to compile the MSC 4.0 version of these
+     utilities:
+
+        - MASM 4.0 or MASM 5.0
+        - Microsoft MAKE utility
+        - Microsoft LIB utility
+        - Microsoft 4.0 C compiler
+        - Touch Utility
+
+     Process 
+
+        - You must be pathed to the MASM 4.0 or MASM 5.0 assembler
+        - You must be pathed to the LIB, MAKE, & 4.0 compiler
+        - You must have your environment variables set for the compiler
+        - Copy all the C (.C) files from the distribution disk to your
+          source directory
+        - Copy all the header (.H) files from the distribution disk to your
+          include directory
+        - Copy all of the (.EXE) & (.MK) files from the distribution disk
+          to your source directory.
+        - Edit the (.MK) files to make sure your include directory is
+          correct.  Look for the line that says INCLUDE = xxxxxx, and
+          change it to what ever your include directory is.
+     (A)- Run the COMPILE.EXE program choosing the compiler and memory
+          model you want to use. Only one model can be compiled at a
+          time.
+        - Library will exist in the source directory. (See section
+          1.2.2 for the actual library naming conventions).
+        - To build another, touch the .C files or delete all
+          of the m4xwin20.lib (.objs), the go to step (A). A list of the
+          (.C) & (.ASM) files appears in appendix A.
+
+
+     1.4.6 Turbo-C 1.0 Compiler
+
+
+     The following are needed to compile the Turbo-C 1.0 version of these
+     utilities:
+
+        - MASM 4.0 or MASM 5.0
+        - Microsoft MAKE utility
+        - Microsoft LIB utility
+
+
+        MC-WINDOW                                                           33
+
+
+
+
+
+
+
+    COMPILING THE SOURCE CODE AND BUILDING LIBRARIES
+    __________________________________________________________________________
+
+        - Turbo-C 1.0 C compiler
+        - Touch Utility
+
+     NOTE: Some users may wish to edit the t1win20.mk file so that it
+           works with the Turbo-C MAKE Utility.
+
+     Process 
+
+        - You must be pathed to the MASM 4.0 or MASM 5.0 assembler
+        - You must be pathed to the LIB, MAKE, & Turbo-C (TCC.EXE) compiler
+        - Copy all the C (.C) files from the distribution disk to your
+          source directory
+        - Copy all the header (.H) files from the distribution disk to your
+          include directory
+        - Copy all of the (.EXE) & (.MK) files from the distribution disk
+          to your source directory.
+        - Edit the (.MK) files to make sure your include directory is
+          correct.  Look for the line that says INCLUDE = xxxxxx, and
+          change it to what ever your include directory is.
+     (A)- Run the COMPILE.EXE program choosing the compiler and memory
+          model you want to use. Only one model can be compiled at a
+          time.
+        - Library will exist in the source directory. (See section
+          1.2.2 for the actual library naming conventions).
+        - To build another, touch the .C files or delete all
+          of the t1xwin20.lib (.objs), the go to step (A). A list of the
+          (.C) & (.ASM) files appears in appendix A.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           34
+
+
+
+
+
+
+
+                                                                  CURSORCHANGE
+    __________________________________________________________________________
+
+
+     ü NAME           cursorchange - change size of cursor (qcursor.asm)
+
+     ü USAGE          int cursorchange(new_type);
+                      int new_type - new value for cursor
+
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The cursorchange function changes the physical shape
+                      of the cursor, while returning the original shape.
+
+                      Works only on the current video page.
+
+                       SHAPE: Monochrome - top row = 0; bottom row = 13;
+                                           (DEFAULT is 12,13)
+                              CGA        - top row = 0; bottom row = 7;
+                                           (DEFAULT is 6,7)
+                       INVISIBILITY:     - set top row = 32 (bits 5,6,7 = 01)
+                                         - setting top row > bottom also works
+                       BLINKING:         - set top row + 96 (bits 5,6 = 11)
+                                         - also try top row << 8 + bottom
+                       OTHER:            - block cursor, set new_type = 13
+                                         - invisible, set new_type = 8192
+
+     ü RETURN VALUE   (int) - Old cursor shape
+
+     ü SEE ALSO
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for cursorchange  */
+
+       #define INVISIBLE 8192    /* invisible cursor constant   */
+
+       int old_cursor;           /* saved cursor value          */
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+
+          old_cursor = cursorchange(INVISIBLE);   /* save old cursor and set  */
+                 :                                /* it to an invisible state */
+                 :
+          cursorchange(old_cursor);               /* restore to original      */
+
+       }
+
+
+
+
+
+
+        MC-WINDOW                                                           35
+
+
+
+
+
+
+
+    DELETE
+    __________________________________________________________________________
+
+
+     ü NAME           delete - delete characters from a string
+                               (getstr.c)
+
+     ü USAGE          void delete(str,pos,howmany);
+                      char *str   - string to be altered
+                      int pos     - position in string where deletion is to
+                                    occur
+                      int howmany - number of characters to delete
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The delete function removes the specified number
+                      of characters starting at the specified position.
+                      The resulting string is the original string minus
+                      the deleted characters. Position starts at 0 and
+                      goes to length of the string.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       insert
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <stdio.h>        /* for printf function */
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for delete */
+
+       void main(void);
+
+       char *test= "this is not a normal string";
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+          delete(test,8,4);      /* make string normal           */
+          printf("new string is %s\n",test);
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           36
+
+
+
+
+
+
+
+                                                                      EGACHECK
+    __________________________________________________________________________
+
+
+     ü NAME           egacheck - check for EGA monitor (qpage.asm)
+
+     ü USAGE          int egacheck(void);
+
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The egacheck function checks for the presence
+                      of an EGA card. Used by qinit() to set number
+                      of active video pages for EGA.
+
+     ü RETURN VALUE   (int) 0 - EGA card is not present
+                      (int) 1 - EGA card is present
+
+     ü SEE ALSO
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <stdio.h>        /* for printf function */
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for egacheck */
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+          if (egacheck())
+             printf("EGA Monitor is present\n");
+          else
+             printf("EGA Monitor is not present\n");
+
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           37
+
+
+
+
+
+
+
+    GET_INTEGER
+    __________________________________________________________________________
+
+
+     ü NAME           get_integer - get an integer (getint.c)
+
+     ü USAGE          int get_integer(def, row, col, attr, min,
+                                      max, prompt, tstr, &tchar);
+                      int   def      - default integer
+                      int   row, col - position coordinates
+                      int   attr     - color attribute
+                      int   min      - minimum integer value
+                      int   max      - maximum integer value
+                      char *prompt   - string to prompt for integer with
+                      char *tstr     - characters that will terminate
+                                       get_integer()
+                      int  *tchar    - character that terminated get_integer()
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    Get an integer from the console with various
+                      validation capabilties. Input is handle the same way
+                      that a calculator handles it, pushing the numbers
+                      to the left.
+
+                      The maximum value that get_integer() can handle is
+                      32767
+
+     ü RETURN VALUE   Integer entered at console or default if abnormal
+                      termination.
+
+     ü SEE ALSO       get_string
+
+     ü EXAMPLE
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for get_integer    */
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+          char  term_string[2];  /* terminating string           */
+          int   term_char,       /* char that terminated         */
+                my_integer;      /* integer to get               */
+
+          my_integer  = 123;     /* set default value            */
+          sprintf(term_string, "%c", 59);  /* F1 will terminate  */
+          /* get an integer with a white on red attribute (79)   */
+          my_integer = get_integer(my_integer, 5, 5, 79, 0, 900,
+                                   "Enter a value between 0 and 900 : ",
+                                   term_string, &term_char);
+                  :
+                  :
+          printf("my integer = %d\n", my_integer);
+       }
+
+
+
+        MC-WINDOW                                                           38
+
+
+
+
+
+
+
+                                                                      GET_MENU
+    __________________________________________________________________________
+
+
+     ü NAME           get_menu - display a vertical or horizontal menu
+                                   (gmenu.c)
+
+     ü USAGE          int get_menu(row, col, rows, cols, attr, inv_attr,
+                                        brd_attr, items, tstr, spacing,
+                                        vertical, bord_type, title_pos,
+                                        &last_item, clear_win, special);
+                      int   row, col         - window coordinates
+                      int   rows, cols       - height and width of window
+                      int   attr             - color attribute
+                      int   inv_attr         - inverse screen attribute for
+                                                highlighting
+                      int   brd_attr         - color attribute for the window
+                                                border
+                      char *items[]          - array of item names to be
+                                                displayed and/or selected.
+                                                The last item in the array
+                                                will appear at the bottom
+                                                of the window, the second to
+                                                the last will be the title
+                                                line of the window(top).
+                                                If either of these two is
+                                                not wanted just set that
+                                                item to ONE character.
+                      char *tstr             - characters that will call a
+                                                function from within get_menu()
+                      int   spacing          - number of spaces between items
+                      int   vertical         - boolean for forcing into one
+                                                column or not
+                      enum BORDERS bord_type - border type if any for drawing
+                                                window
+                      enum DIRTYPE title_pos - positioning of the window title
+                      int  *last_item        - the array omdex of the item
+                                                highlighted when ENTER was hit
+                      int   clear_win        - boolean for removing window on
+                                                exit or not
+                      int (*)() special      - function to be called when a
+                                                character in tstr is
+                                                encountered. This function
+                                                should be declared as follows:
+                                                    int special(int, int *);
+                                                where:
+                                                    the first int is the char
+                                                     int tstr that caused
+                                                     special() to be called.
+                                                    the second int * is the
+                                                     done boolean that
+                                                     indicates whether to
+                                                     continue in get_menu or
+                                                     terminate.
+                                                special() should return the
+                                                value that the program calling
+
+
+        MC-WINDOW                                                           39
+
+
+
+
+
+
+
+    GET_MENU
+    __________________________________________________________________________
+
+                                                get_menu() expects.
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    Displays items to the screen in vertical or
+                      horizontal fashion allowing cursor movement to
+                      item. The window depth is dynamically built based
+                      on the number of items and number of columns to
+                      be displayed.
+
+                      The function special() must be declared in the
+                      calling program.
+
+                      The items array MUST have a NULL string as the
+                      very last char * in the array
+
+                      Last_item MUST be initialized to a valid array
+                      index before the call to get_menu().
+
+     ü RETURN VALUE   The ascii value of the character that terminated
+                      get_menu().
+
+     ü SEE ALSO
+
+     ü EXAMPLE
+
+       #define TRUE      1
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for get_menu       */
+
+       static char *display[6] = { "test1", "test2", "test3",
+                                   "title", "bottom", ""};
+       void main(void);
+       int  my_function(int, int *);
+
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+          char  term_string[2];  /* terminating string           */
+          int   term_char;       /* terminating character        */
+          int   norm_attr, inv_attr, brdr_attr;   /* menu colors */
+
+          sprintf(term_string, "%c", 59);  /* F1 will terminate  */
+          term_char = get_menu(5, 5, 15, 50, norm_attr, inv_attr, brdr_attr,
+                               display, term_string, 2, TRUE, doublebrdr,
+                               topcenter, &disp_index, TRUE, my_function);
+                  :
+                  :
+       }
+
+       int my_function(int chr, int *end_get_menu) {
+         if (chr == 59)     /* F1 key was hit , so termninate */
+           *end_get_menu = TRUE;
+         else
+           *end_get_menu = FALSE;
+
+
+        MC-WINDOW                                                           40
+
+
+
+
+
+
+
+                                                                      GET_MENU
+    __________________________________________________________________________
+
+       }  /* my_function() */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           41
+
+
+
+
+
+
+
+    GET_STRING
+    __________________________________________________________________________
+
+
+     ü NAME           get_string - get a string (getstr.c)
+
+     ü USAGE          char *get_string(def, row, col, attr, maxlen,
+                                        upcase, legal_set, display,
+                                        tstr, padchar, &tchar);
+                      char *def       - default string
+                      int   row, col  - position coordinates
+                      int   attr      - color attribute
+                      int   maxlen    - maximum string length
+                      int   upcase    - force uppercase conversion boolean
+                      int   legal_set - indicates valid characters
+                      int   display   - show string or asterisks boolean
+                      char *tstr      - characters that will terminate
+                                         get_string()
+                      char  padchar   - character to pad string with.
+                                         (usually underscore or space)
+                      int  *tchar     - character that terminated get_string()
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    Get a string from the console with various
+                      validation capabilties.
+
+                      The default must have space allocated for it and be
+                      initialized before the call to get_string()
+
+     ü RETURN VALUE   String entered at console or default if abnormal
+                      termination.
+
+     ü SEE ALSO       get_integer
+
+     ü EXAMPLE
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for get_string           */
+
+       #define ALPHA_NUMERIC  3  /* allows a-z,A-Z, 0-9, & punctuation */
+       #define MAX_LEN        79 /* max length for the string          */
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific       */
+          char  term_string[2];  /* terminating string                 */
+          int   term_char,       /* char that terminated               */
+                my_string;       /* string to get                      */
+
+          /* allocate space and initialize my_string */
+          my_string = (char *)calloc(1, (80 * sizeof(char)));
+
+          sprintf(term_string, "%c", 59);  /* F1 will terminate        */
+
+          /* get a string with a yellow on blue attribute (30)         */
+
+
+        MC-WINDOW                                                           42
+
+
+
+
+
+
+
+                                                                    GET_STRING
+    __________________________________________________________________________
+
+          my_string = get_string(my_string, 5, 5, 30, MAX_LEN, TRUE,
+                                   ALPHA_NUMERIC, TRUE, term_string,
+                                   (char)'_', &term_char);
+                  :
+                  :
+          printf("my string = %s\n", my_string);
+          free(my_string);
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           43
+
+
+
+
+
+
+
+    GET_VIDEO_MODE
+    __________________________________________________________________________
+
+
+     ü NAME           get_video_mode - get the current video mode for
+                                       display purposes (wind20.c)
+
+     ü USAGE          int get_video_mode(void);
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The get_video_mode function gets the current
+                      video mode for the display.
+
+     ü RETURN VALUE   (int) display mode
+
+                      0 - 40x25 black & white text, color adapter
+                      1 - 40x25 color text
+                      2 - 80x25 black & white text
+                      3 - 80x25 color text
+                      7 - Monochrome adapter text display
+     ü SEE ALSO
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <stdio.h>        /* for printf function */
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for get_video_mode */
+
+       void main(void);
+
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+          int mode;
+
+          mode = get_video_mode();  /* get_video mode            */
+          printf("mode =  %d\n",mode);
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           44
+
+
+
+
+
+
+
+                                                                        GETKEY
+    __________________________________________________________________________
+
+
+     ü NAME           getkey - get a character and its scan code
+                               from the keyboard. (getstr.c)
+
+     ü USAGE          int getkey(scancode);
+                      int *scancode - scan code of the key pressed.
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The getkey function gets a keystroke from the
+                      keyboard. The ascii character is returned as an
+                      integer,as well as the scan code of the key.
+
+     ü RETURN VALUE   (int) character that was typed
+
+     ü SEE ALSO
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <stdio.h>        /* for printf function */
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for getkey */
+
+       void main(void);
+
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+          int scancode,key;
+
+          key = getkey(&scancode);  /* get a key            */
+          printf("key as int is %d, scancode is %d\n",key,scancode);
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           45
+
+
+
+
+
+
+
+    GOTORC
+    __________________________________________________________________________
+
+
+     ü NAME           gotorc -  go to a specific position (qcursor.asm)
+
+     ü USAGE          void gotorc(row,col);
+                      int row - row to position cursor (1 based)
+                      int col - col to position cursor (1 based)
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The gotorc function positions the cursor at
+                      the defined row and column on the current
+                      active video page. Top left corner of the
+                      screen is 1,1 and bottom right corner of
+                      the screen is 25,80. No error checking is
+                      done for invalid coordinates.
+
+                      Works only on the current video page.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <stdio.h>        /* for printf */
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for gotorc */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          gotorc(12,40);          /* position cursor in center of screen */
+          printf("MC-WINDOWS\n"); /* print a message */
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           46
+
+
+
+
+
+
+
+                                                                    INITWINDOW
+    __________________________________________________________________________
+
+
+     ü NAME           initwindow -  initialize window routines (wind20.c)
+
+     ü USAGE          void initwindow(wattr,clear_screen);
+                      int wattr        - attribute for initial window
+                      int clear_screen - boolean to clear the screen
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The initwindow function initializes the window
+                      structures and if clear_screen is set, clears the
+                      the whole screen with the attribute wattr.  If
+                      the screen under the very first screen needs to be
+                      saved use qstore() and store its contents for use
+                      later (see example). All other screens are saved
+                      dynamically.
+
+                      NOTE:This routine must be called only once before any
+                           of the window routines are used.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qstore, qrestore
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for initwindow */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          char first_screen[2000]; /* size of screen, chars and attr */
+
+          initwindow(79,1);       /* clear whole screen with red on white */
+          qstore(1,1,25,80,first_screen); /* save 1st screen */
+                 :
+                 :
+          qrestore(1,1,25,80,first_screen); /* restore 1st screen */
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           47
+
+
+
+
+
+
+
+    INSERT
+    __________________________________________________________________________
+
+
+     ü NAME           insert - insert a character at a specified position
+                               in a string (getstr.c)
+
+     ü USAGE          void insert(ch,str,pos);
+                      int ch    - character to be inserted
+                      char *str - string to be altered
+                      int pos   - position in string where insertion is to
+                                  occur
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The insert function inserts the specified
+                      character starting at the specified position into
+                      the string. The resultant string is the original
+                      string plus the inserted character. Position starts
+                      at 0 and goes to length of the string.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       delete
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <stdio.h>        /* for printf function */
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for insert */
+
+       void main(void);
+
+       char *test= "this is a abnormal string";
+       void main (void) {          /* MSC 5.0 and Turbo-C specific */
+          insert(110,test,9);      /* correct string               */
+          printf("new string is %s\n",test);
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           48
+
+
+
+
+
+
+
+                                                                    MAKEWINDOW
+    __________________________________________________________________________
+
+
+     ü NAME           makewindow -  create a window (wind20.c)
+
+     ü USAGE          void makewindow(row,col,rows,cols,wattr,battr,brdsel);
+                      int row             - row to start window, (1 based)
+                      int col             - column to start window,
+                                            (1 based)
+                      int rows            - number of rows in window,
+                                            (1 based)
+                      int cols            - number of columns in window,
+                                            (1 based)
+                      int wattr           - attribute for inside of window
+                      int battr           - attribute for border of window
+                      enum BORDERS brdsel - border selection:
+
+                        nobrdr     - no border
+                        blankbrdr  - no border
+                        singlebrdr - single border
+                        doublebrdr - double border
+                        mixedbrdr  - single sides, double top and bottom
+                        solidbrdr  - inverted space for all borders
+                        evensolid  - even solid border
+                        thinsolid  - thin solid border
+                        lhatchbrdr - low intensity hatch border
+                        mhatchbrdr - medium intensity hatch border
+                        hhatchbrdr - high intensity hatch border
+                        userbrdr   - user defined border (same as nobrdr)
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The makewindow function creates a window on the
+                      screen with optional border type. In addition, the
+                      global variables shadoweffect and zoomeffect can be
+                      set to effect the look of the window as follows:
+
+                         zoomeffect   : 1 - windows will explode from center
+                                            to their full dimension.
+                                        0 - no explosion takes place
+
+                         shadoweffect : bottomleft  - shadowfill on the left
+                                                      and bottom
+                                        bottomright - shadowfill on the right
+                                                      and bottom
+                                        topleft     - shadowfill on left and
+                                                      top
+                                        topright    - shadowfill on right and
+                                                      top
+
+                      The two global variables defined above would remain
+                      in effect until they are changed, so sucessive calls
+                      to makewindow would also use these defined values.
+
+
+
+        MC-WINDOW                                                           49
+
+
+
+
+
+
+
+    MAKEWINDOW
+    __________________________________________________________________________
+
+                      If there is not enough memory or the maximum allowable
+                      number of windows is exceeded, an error is printed and
+                      the user is returned to DOS. No error checking is
+                      done on the row,col,rows or cols coordinates.
+
+                      NOTE:The routine initwindow() must be called before
+                           using this function.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       removewindow,titlewindow,remove_windows,
+                      remove_all_windows
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for makewindow */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          char first_screen[2000]; /* size of screen, chars and attr */
+
+          initwindow(79,1);       /* clear whole screen with red on white */
+          qstore(1,1,25,80,first_screen); /* save 1st screen */
+          /*=======================================================*/
+          /* Create a window in the upper half of the screen with  */
+          /* a BLUE background and YELLOW foreground, a RED on     */
+          /* WHITE double lined border. Also explode the window    */
+          /* and set a shadow on the bottom right                  */
+          /*=======================================================*/
+          zoomeffect = 1;
+          shadoweffect = bottomright;
+          makewindow(1,1,11,76,31,79,doublebrdr);
+                 :
+                 :
+          removewindow();  /* get rid of the window */
+          qrestore(1,1,25,80,first_screen); /* restore 1st screen */
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           50
+
+
+
+
+
+
+
+                                                                         QATTR
+    __________________________________________________________________________
+
+
+     ü NAME           qattr -  fill an area of with attribute (qfill.asm)
+
+     ü USAGE          void qattr(row,col,rows,cols,attr);
+                      int row  - row to start attribute fill, (1 based)
+                      int col  - col to start attribute fill, (1 based)
+                      int rows - number of rows to attribute fill
+                      int cols - number of columns to attribute fill
+                      int attr - attribute to use for fill
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qattr function fills a region of the screen
+                      with an attribute. The text, if any ,that is present
+                      on the screen is unchanged. The region is defined by:
+                      starting position: row,col
+                      ending position:   row+rows,col+cols
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place. Error
+                      checking is done on the row,col parameters to
+                      ensure they are greater than zero. If they are not
+                      the function just exits and does nothing.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qattrc
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qattr */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          qinit();                /* initialize screen, etc */
+          qattr(1,1,25,80,79);   /* change whole screen to RED on WHITE */
+                 :
+                 :
+       }
+
+
+
+
+
+
+
+        MC-WINDOW                                                           51
+
+
+
+
+
+
+
+    QATTRC
+    __________________________________________________________________________
+
+
+     ü NAME           qattrc -  fill an area (self centered) with
+                                  attribute (qfill.asm)
+
+     ü USAGE          void qattrc(row,colL,colR,rows,cols,attr);
+                      int row       - row to start attribute fill,
+                                      (1 based)
+                      int colL,colR - columns to center attribute,
+                                      (1 based)
+                      int rows      - number of rows to attribute fill
+                      int cols      - number of columns to attribute fill
+                      int attr      - attribute to use for fill
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qattrc function centers a region of the screen
+                      with an attribute. The region between colL and colR
+                      is centered for the number of columns specified in
+                      the cols parameter. This process is repeated for
+                      the number of rows in the rows parameter starting
+                      at row.  The text, if any, that is present on
+                      the screen is left unchanged.
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place. Error
+                      checking is done on the row,col parameters to
+                      ensure they are greater than zero. If they are not
+                      the function just exits and does nothing.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qattr
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qattrc */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+
+          qinit();                /* initialize screen, etc */
+          /*=====================================================*/
+          /* Change the attribute of the region centered by      */
+          /* column 2 and 77 for 10 columns and 7 rows starting  */
+
+
+        MC-WINDOW                                                           52
+
+
+
+
+
+
+
+                                                                        QATTRC
+    __________________________________________________________________________
+
+          /* at row 2 to RED on WHITE.                           */
+          /*=====================================================*/
+          qattrc(2,2,77,7,10,79);
+                 :
+                 :
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           53
+
+
+
+
+
+
+
+    QBOX
+    __________________________________________________________________________
+
+
+     ü NAME           qbox -  draw a box with border type (wind20.c)
+
+     ü USAGE          void qbox(row,col,rows,cols,box_attr,battr,brdsel);
+                      int row             - row to start window,
+                                            (1 based)
+                      int col             - column to start window,
+                                            (1 based)
+                      int rows            - number of rows in window,
+                                            (1 based)
+                      int cols            - number of columns in window,
+                                            (1 based)
+                      int box_attr        - attribute for inside of box
+                      int battr           - attribute for border of box
+                      enum BORDERS brdsel - border selection:
+
+                        nobrdr     - no border
+                        blankbrdr  - no border
+                        singlebrdr - single border
+                        doublebrdr - double border
+                        mixedbrdr  - single sides, double top and bottom
+                        solidbrdr  - inverted space for all borders
+                        evensolid  - even solid border
+                        thinsolid  - thin solid border
+                        lhatchbrdr - low intensity hatch border
+                        mhatchbrdr - medium intensity hatch border
+                        hhatchbrdr - high intensity hatch border
+                        userbrdr   - user defined border (same as nobrdr)
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qbox function draws a box on the screen with
+                      optional border type. No part of the active screen
+                      is saved, and no error checking is done for valid
+                      screen coordinates.
+
+                      If box_attr or battr is less than 0 the current
+                      screen attribute will be used in its place.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       makewindow
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+
+
+        MC-WINDOW                                                           54
+
+
+
+
+
+
+
+                                                                          QBOX
+    __________________________________________________________________________
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qbox */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          /*=======================================================*/
+          /* Draw a box around the whole screen with the inside    */
+          /* YELLOW on BLUE with a thin solid RED on WHITE BORDER  */
+          /*=======================================================*/
+          qinit();
+          qbox(1,1,25,80,31,79,thinsolid);
+                   :
+                   :
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           55
+
+
+
+
+
+
+
+    QFILL
+    __________________________________________________________________________
+
+
+     ü NAME           qfill -  fill an area of with a character
+                               (qfill.asm)
+
+     ü USAGE          void qfill(row,col,rows,cols,attr,char1);
+                      int row             - character fill start row, (1 based)
+                      int col             - character fill start col, (1 based)
+                      int rows            - number of rows to fill
+                      int cols            - number of columns to fill
+                      int attr            - attribute to use for fill
+                      unsigned char char1 - charcter to use
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qfill function fills a region of the screen
+                      with a character and attribute. The region is defined
+                      by:
+
+                      starting position : row,col
+                      ending position   : row+rows,col+cols
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place. Error
+                      checking is done on the row,col parameters to
+                      ensure they are greater than zero. If they are not
+                      the function just exits and does nothing.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qfillc
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+       #define CLEAR   ' '
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qfill */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          qinit();                /* initialize screen, etc */
+          qfill(1,1,25,80,79,CLEAR);   /* clear whole screen to RED on WHITE */
+                 :
+                 :
+       }
+
+
+
+        MC-WINDOW                                                           56
+
+
+
+
+
+
+
+                                                                        QFILLC
+    __________________________________________________________________________
+
+
+     ü NAME           qfillc -  fill an area (self centered) with
+                                  attribute and character (qfill.asm)
+
+     ü USAGE          void qfillc(row,colL,colR,rows,cols,attr,char1);
+                      int row             - row to start character attribute
+                                            fill, (1 based)
+                      int colL,colR       - columns to center attribute
+                                            fill, (1 based)
+                      int rows            - number of rows to character
+                                            attribute fill
+                      int cols            - number of columns to character
+                                            attribute fill
+                      int attr            - attribute to use for character
+                                            fill
+                      unsigned char char1 - charcter to use
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qfillc function centers a region of the screen
+                      with a character & attribute. The region between colL
+                      and colR is centered for the number of columns specified
+                      in the cols parameter. This process is repeated for
+                      the number of rows in the rows parameter starting
+                      at row.  The text, if any, that is present on
+                      the screen is changed.
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place. Error
+                      checking is done on the row,col parameters to
+                      ensure they are greater than zero. If they are not
+                      the function just exits and does nothing.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qfill
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+       #define CAPITAL_A  65
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qfillc */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+
+
+        MC-WINDOW                                                           57
+
+
+
+
+
+
+
+    QFILLC
+    __________________________________________________________________________
+
+          qinit();                /* initialize screen, etc */
+          /*==============================================================*/
+          /* Change the text and attribute of the region centered by      */
+          /* column 2 and 77 for 10 columns and 7 rows starting           */
+          /* at row 2 to RED on WHITE capital A's                         */
+          /*==============================================================*/
+          qfillc(2,2,77,7,10,79,CAPITAL_A);
+                 :
+                 :
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           58
+
+
+
+
+
+
+
+                                                                         QINIT
+    __________________________________________________________________________
+
+
+     ü NAME           qinit -  initialize Qwik - Utilities
+
+     ü USAGE          void qinit(void);
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qinit function initializes all of the local and
+                      external variables used by the Qwik - Utilities.
+                      The following get initialized:
+
+                      unsigned page0seg - screen segment of current video
+                                          page (local).
+                      unsigned qseg     - screen segment of current page
+                                          (global).
+                      int qwait         - video retrace global variable
+                      int cardwait      - video retrace local variable
+                      int maxpage       - maximum video pages monitor
+                                          supports:
+
+                                    MDA - 0
+                                    CGA - 3
+                                    EGA - 7
+
+                      NOTE:The routine qinit() must be called before using
+                           any Qwik - Utility functions. If you plan to use
+                           the window routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       initwindow
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qinit */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          qinit();                /* initialize screen, etc */
+             :
+             :
+             :
+       }
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           59
+
+
+
+
+
+
+
+    QPAGE
+    __________________________________________________________________________
+
+
+     ü NAME           qpage -  change active video page  (qpage.asm)
+
+     ü USAGE          void qpage(new_page);
+                      int new_page - new page for display
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qpage function changes the active video page.
+                      The default is page 0. New_page can support the
+                      following pages:
+
+                             EGA - 0-maxpage (7)
+                             CGA - 0-maxpage (3)
+                             MDA - 0
+
+                      Error checking is performed based on the monitor type.
+                      Values of less than zero and greater than maxpage
+                      are igmored.  Maxpage is set by calling qinit() or
+                      the initwindow() function. If you use this function
+                      to change pages make sure you return it to video
+                      page zero before leaving your application, or all
+                      subsequent commands will affect only the last active
+                      video page.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qwritepage
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+       #define VIDEO_PAGE_ONE   1
+       #define VIDEO_PAGE_ZERO  0
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qpage */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          qinit();                /* initialize screen, etc */
+          qpage(VIDEO_PAGE_ONE);  /* change to video page one */
+             :
+             :
+          qpage(VIDEO_PAGE_ZERO); /* change back to zero for DOS, etc */
+       }
+
+
+
+        MC-WINDOW                                                           60
+
+
+
+
+
+
+
+                                                                      QRESTORE
+    __________________________________________________________________________
+
+
+     ü NAME           qrestore -  restore buffer to screen  (qstore.asm)
+
+     ü USAGE          void qrestore(row,col,rows,cols,buffer);
+                      int row      - row to start restore, (1 based)
+                      int col      - col to start restore, (1 based)
+                      int rows     - number of rows to restore
+                      int cols     - number of columns to restore
+                      char *buffer - buffer to restore to screen
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qrestore function restores a region of the screen
+                      from the character variable buffer.  Buffer holds the
+                      character and attribute pairs for the region defined,
+                      usually from a previous call to qstore(). Buffer can be
+                      a character array of the defined dimensions or a
+                      allocated pointer (see example);
+
+                      No error checking is done on boundary conditions.
+                      This function only works on the current active video
+                      page.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qstore
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <stdio.h>
+       #include <malloc.h>       /* MSC5, TURBO-C = alloc.h */
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qrestore */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          char first_screen[2000]; /* size of screen, chars and attr */
+          char *screen;            /* pointer to store screen to */
+
+          initwindow(79,1);       /* clear whole screen with red on white */
+          screen = (char *)calloc(1,2000*sizeof(char));
+          if (screen == NULL)
+             exit(3);             /* not enough heap space , so exit */
+          qstore(1,1,25,80,first_screen); /* save 1st screen */
+          qstore(1,1,25,80,screen);       /* save 1st screen using pointer */
+
+
+        MC-WINDOW                                                           61
+
+
+
+
+
+
+
+    QRESTORE
+    __________________________________________________________________________
+
+          qfill(1,1,25,80,31,' ');    /*clear screen with YELLOW on BLUE */
+                 :
+                 :
+          qrestore(1,1,25,80,first_screen); /* restore 1st screen */
+          qrestore(1,1,25,80,screen); /* restore 1st screen using pointer
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           62
+
+
+
+
+
+
+
+                                                                        QSTORE
+    __________________________________________________________________________
+
+
+     ü NAME           qstore -  store buffer to screen  (qstore.asm)
+
+     ü USAGE          void qstore(row,col,rows,cols,buffer);
+                      int row      - row to start store, 1 based
+                      int col      - col to start sore, 1 based
+                      int rows     - number of rows to store
+                      int cols     - number of columns to store
+                      char *buffer - buffer to store screen to
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qstore function stores a region of the screen
+                      to the character variable buffer.  Buffer will hold the
+                      character and attribute pairs for the region defined,
+                      and can be restored with a call to qrestore().  Buffer
+                      can be a character array of the defined dimensions or a
+                      allocated pointer (see example);
+
+                      No error checking is done on boundary conditions.
+                      This function only works on the current active video
+                      page.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qrestore
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <stdio.h>        /* for NULL */
+       #include <malloc.h>       /* MSC5, TURBO-C = alloc.h */
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qstore  */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          char first_screen[2000]; /* size of screen, chars and attr */
+          char *screen;            /* pointer to store screen to */
+
+          initwindow(79,1);       /* clear whole screen with red on white */
+          screen = (char *)calloc(1,2000*sizeof(char));
+          if (screen == NULL)
+             exit(3);             /* not enough heap space , so exit */
+          qstore(1,1,25,80,first_screen); /* save 1st screen */
+          qstore(1,1,25,80,screen);       /* save 1st screen using pointer */
+
+
+        MC-WINDOW                                                           63
+
+
+
+
+
+
+
+    QSTORE
+    __________________________________________________________________________
+
+          qfill(1,1,25,80,31,' ');    /*clear screen with YELLOW on BLUE */
+                 :
+                 :
+          qrestore(1,1,25,80,first_screen); /* restore 1st screen */
+          qrestore(1,1,25,80,screen); /* restore 1st screen using pointer
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           64
+
+
+
+
+
+
+
+                                                                        QWRITE
+    __________________________________________________________________________
+
+
+     ü NAME           qwrite -  write a string to the screen (qwrite.asm)
+
+     ü USAGE          void qwrite(row,col,attr,string);
+                      int row      - row to start write, (1 based)
+                      int col      - col to start write, (1 based)
+                      int attr     - attribute to write string in
+                      char *string - string to write to screen
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qwrite function writes a null terminated string
+                      on the screen at a specified position with a specific
+                      attribute.
+
+                      This function only works on the active video page and
+                      no error checking is done on boundary conditions. If the
+                      string reaches the end of the current line it wraps back
+                      to column 1 of the same line.
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qwritec, qwritelv, qwritef
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals  */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qwrite          */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+
+         qinit();                 /* initialize screen, etc       */
+         qwrite(12,1,79,"HELLO"); /* write hello in RED on WHITE  */
+       }                          /* on line 12 column 1          */
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           65
+
+
+
+
+
+
+
+    QWRITEC
+    __________________________________________________________________________
+
+
+     ü NAME           qwritec -  write a string to the screen
+                                 self centered (qwrite.asm)
+
+     ü USAGE          void qwritec(row,colL,colR,attr,string);
+                      int row        - row to start write, (1 based)
+                      int colL,colR  - columns to center the string write,
+                                       (1 based)
+                      int attr       - attribute to write string in
+                      char *string   - string to center on screen
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qwritec function writes a null terminated string
+                      centered on the screen at a specified position with a
+                      specific attribute. The string is centered between colL
+                      and colR.
+
+                      This function only works on the active video page and
+                      no error checking is done on boundary conditions. If the
+                      string reaches the end of the current line it wraps back
+                      to column 1 of the same line.
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qwrite, qwritelv, qwritef
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals       */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qwrite               */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific      */
+
+         qinit();                 /* initialize screen, etc            */
+         qwritec(12,1,80,79,"HELLO"); /* center hello in RED on WHITE  */
+       }                              /* on line 12                    */
+
+
+
+
+
+
+        MC-WINDOW                                                           66
+
+
+
+
+
+
+
+                                                                       QWRITEF
+    __________________________________________________________________________
+
+
+     ü NAME           qwritef -  write a string to the screen
+                                 with printf like format (qprint.c)
+
+     ü USAGE          int qwritef(row,col,attr,format, ....);
+                      int row      - row to start the string write,
+                                     (1 based)
+                      int col      - column to start the string write,
+                                     (1 based)
+                      int attr     - attribute to write string in
+                      char *format - printf like format for string
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qwritef function writes a string to the screen
+                      at row, col with an attribute in printf like style
+                      format. Any valid format that can be supported by
+                      printf() , is acceptable here. See the reference
+                      section of your C manual for the various printf()
+                      formats.
+
+                      This function only works on the active video page and
+                      no error checking is done on boundary conditions. If the
+                      string reaches the end of the current line it wraps back
+                      to column 1 of the same line. The standard C extensions
+                      of \t, \b, \n, \r are supported. If the string reaches
+                      the end of current page no scrolling will take place.
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       window_printf
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals       */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qwritef              */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific      */
+
+         register int index;
+         qinit();                 /* initialize screen, etc            */
+
+
+        MC-WINDOW                                                           67
+
+
+
+
+
+
+
+    QWRITEF
+    __________________________________________________________________________
+
+         /*=============================================*/
+         /* Display this is row number xx for each of   */
+         /* first 12 lines...                           */
+         /*=============================================*/
+         for (index = 1; index < 12; index++)
+           qwritef(index,1,79,"This is row number:[%d]",index);
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           68
+
+
+
+
+
+
+
+                                                                      QWRITELV
+    __________________________________________________________________________
+
+
+     ü NAME           qwritelv -  write a string to the screen
+                                  of a specified length (qwrite.asm)
+
+     ü USAGE          void qwritelv(row,col,attr,length,string);
+                      int row      - row to start write, (1 based)
+                      int col      - col to start write, (1 based)
+                      int attr     - attribute to write string in
+                      int length   - how many characters to write
+                      char *string - string to write to screen
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qwritelv function writes a null terminated string
+                      on the screen at a specified position with a specific
+                      attribute for only length number of characters.
+                      Only length characters will be displayed.
+
+                      This function only works on the active video page and
+                      no error checking is done on boundary conditions. If the
+                      string reaches the end of the current line it wraps back
+                      to column 1 of the same line.
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qwritec, qwritev, qwritef, window_write
+
+     ü EXAMPLE
+
+       #define USE_LOCAL                    /* used for resolving externals  */
+
+       #include <w1.h>
+       #include <windprot.h>                /* prototype for qwritelv        */
+
+       void main(void);
+       void main (void) {                   /* MSC 5.0 and Turbo-C specific */
+
+         qinit();                           /* initialize screen, etc       */
+         qwritelv(12,1,79,5,"HELLO WORLD"); /* write hello in RED on WHITE  */
+       }                                    /* on line 12 column 1          */
+
+
+
+
+
+
+        MC-WINDOW                                                           69
+
+
+
+
+
+
+
+    QWRITEPAGE
+    __________________________________________________________________________
+
+
+     ü NAME           qwritepage -  change active video page
+                                    of the Qwik - Utilities  (qpage.asm)
+
+     ü USAGE          void qwritepage(new_page);
+                      int new_page - new page for display of the
+                                     Qwik - Utilities
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The qwritepage function changes the active video page
+                      to be written to by the Qwik - Utilities.  All of the
+                      Qwik - Utilities only write to the page defined by this
+                      procedure.  The default is page 0. New_page can
+                      support the following pages:
+
+                             EGA - 0-maxpage (7)
+                             CGA - 0-maxpage (3)
+                             MDA - 0
+
+                      Error checking is performed based on the monitor type.
+                      Values of less than zero and greater than maxpage
+                      are igmored.  Maxpage is set by calling qinit() or
+                      the initwindow() function. If you use this function
+                      to change pages make sure you return it to Qwik -
+                      Utilty page zero before leaving your application,
+                      or all subsequent commands will affect only the last
+                      active Qwik - Utility page.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qpage
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+       #define VIDEO_PAGE_ONE   1
+       #define VIDEO_PAGE_ZERO  0
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qwritepage */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          qinit();                /* initialize screen, etc */
+          qpage(VIDEO_PAGE_ONE);  /* change to video page one */
+          qwritepage(VIDEO_PAGE_ONE);  /* now Q -Utils can write to 1 */
+
+
+        MC-WINDOW                                                           70
+
+
+
+
+
+
+
+                                                                    QWRITEPAGE
+    __________________________________________________________________________
+
+             :
+             :
+          qpage(VIDEO_PAGE_ZERO); /* change back to zero for DOS, etc */
+          qwritepage(VIDEO_PAGE_ZERO);  /* now Q -Utils can write to 0 */
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           71
+
+
+
+
+
+
+
+    REMOVE_ALL_WINDOWS
+    __________________________________________________________________________
+
+
+     ü NAME           remove_all_windows - remove all windows currently
+                                           allocated (wind20.c)
+
+     ü USAGE          void remove_all_windows(void);
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    Removes all windows from the screen.
+
+                      All limitations of removewindow apply here.
+
+     ü RETURN VALUE   Nothing.
+
+     ü SEE ALSO       initwindow, makewindow, titlewindow,
+                      removewindow, remove_windows, scrollwindow
+
+     ü EXAMPLE
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for remove_all_windows  */
+
+       #define TRUE    1
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific      */
+
+          initwindow(31, TRUE);
+          makewindow(1, 1, 25, 80, 31, 31, doublebrdr);
+          makewindow(2, 2, 24, 79, 30, 30, singlebrdr);
+          makewindow(3, 3, 23, 78, 112, 112, nobrdr);
+                  :
+                  :
+          remove_all_windows();
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           72
+
+
+
+
+
+
+
+                                                                REMOVE_WINDOWS
+    __________________________________________________________________________
+
+
+     ü NAME           remove_windows - remove the specified number
+                                       of windows (wind20.c)
+
+     ü USAGE          void remove_windows(number);
+                      int number - number of windows to remove
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    Removes the number of windows specified from
+                      the screen.
+
+                      All limitations of removewindow apply here.
+                      If you try to remove too many windows an error
+                      message will be displayed and the program terminated.
+
+     ü RETURN VALUE   Nothing.
+
+     ü SEE ALSO       initwindow, makewindow, titlewindow,
+                      remove_all_windows, removewindow, scrollwindow
+
+     ü EXAMPLE
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for remove_windows */
+
+       #define TRUE    1
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+
+          initwindow(31, TRUE);
+          makewindow(1, 1, 25, 80, 31, 31, doublebrdr);
+          makewindow(2, 2, 24, 79, 30, 30, singlebrdr);
+          makewindow(3, 3, 23, 78, 112, 112, nobrdr);
+                  :
+                  :
+          remove_windows(3);
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           73
+
+
+
+
+
+
+
+    REMOVEWINDOW
+    __________________________________________________________________________
+
+
+     ü NAME           removewindow - remove a window (wind20.c)
+
+     ü USAGE          void removewindow(void);
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    Removes the active window from the screen.
+                      To get back to the original screen, there must
+                      be as many removewindow(s) as there are makewindow(s).
+
+                      There must be a window to remove or removewindow
+                      terminates the program.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       initwindow, makewindow, titlewindow,
+                      remove_all_windows, remove_windows, scrollwindow
+
+     ü EXAMPLE
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for removewindow   */
+
+       #define TRUE    1
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+
+          initwindow(31, TRUE);
+          makewindow(1, 1, 25, 80, 31, 31, nobrdr);
+                  :
+                  :
+          removewindow();
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           74
+
+
+
+
+
+
+
+                                                                  SCROLLWINDOW
+    __________________________________________________________________________
+
+
+     ü NAME           scrollwindow -  scroll a window (wind20.c)
+
+     ü USAGE          void scrollwindow(rowbegin,rowend,dir);
+                      int rowbegin     - starting row in window for scroll
+                      int rowend       - ending row in window for scroll
+                      enum DIRTYPE dir - direction for scroll:
+
+                        up   - scroll window upward
+                        down - scroll window downward
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The scrollwindow function scrolls a window on the
+                      current active video page.  Only the lines from
+                      rowbegin to rowend are scrolled. The window must be
+                      created with a makewindow() command, and no error
+                      checking is done for valid row coordinates. The
+                      window is scrolled with the current windows atttibute.
+
+                      NOTE:The routine initwindow() must be called before
+                           using this function.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       makewindow,removewindow,titlewindow,
+                      removewindows, remove_all_windows
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for scrollwindow */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          char first_screen[2000]; /* size of screen, chars and attr */
+
+          initwindow(79,1);       /* clear whole screen with red on white */
+          qstore(1,1,25,80,first_screen); /* save 1st screen */
+          /*=======================================================*/
+          /* Create a window in the upper half of the screen with  */
+          /* a BLUE background and YELLOW foreground, a RED on     */
+          /* WHITE double lined border. Also explode the window    */
+          /* and set a shadow on the bottom right. Scroll the      */
+          /* window contents up 1 row.                             */
+          /*=======================================================*/
+          zoomeffect = 1;
+          shadoweffect = bottomright;
+          makewindow(1,1,11,76,31,79,doublebrdr);
+          scrollwindow(1,11,up);
+
+
+        MC-WINDOW                                                           75
+
+
+
+
+
+
+
+    SCROLLWINDOW
+    __________________________________________________________________________
+
+                 :
+                 :
+          removewindow();  /* get rid of the window */
+          qrestore(1,1,25,80,first_screen); /* restore 1st screen */
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           76
+
+
+
+
+
+
+
+                                                                   TITLEWINDOW
+    __________________________________________________________________________
+
+
+     ü NAME           titlewindow -  title a window (wind20.c)
+
+     ü USAGE          void titleindow(justify,title,tattr);
+                      enum DIRTYPE justify - type of justification:
+
+                        topleft         - top line left justified
+                        topcenter       - top line center justified
+                        topright        - top line right justified
+                        bottomleft      - bottom line left justified
+                        bottomcenter    - bottom line center justified
+                        bottomright     - bottom line right justified
+                        clearbottom     - clear bottom line by placing
+                                          the current bottom character
+                                          there.
+                        cleartop        - clear top line by placing
+                                          the current top character there.
+                        clearleftside   - clear left side line by placing
+                                          the current left side character
+                                          there.
+                        clearrighttside - clear right side line by placing
+                                          the current right side character
+                                          there.
+                        leftside        - left side of window centered
+                        rightside       - right side of window centered
+
+                      char *title       - title to display
+                      int tattr         - attribute to use for title
+
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The titlewindow function places a justified
+                      title at the top, bottom or sides of a window
+                      using tattr as the attribute. A window must be
+                      created with the makewindow() function before
+                      calling this function. No error checking is done
+                      on the length of title, so it is possible for it
+                      to extend beyond the borders, if you are not
+                      careful.
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place.
+
+                      NOTE:The routine initwindow() must be called before
+                           using this function.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       removewindow,makewindow,remove_windows,
+                      remove_all_windows
+
+
+
+        MC-WINDOW                                                           77
+
+
+
+
+
+
+
+    TITLEWINDOW
+    __________________________________________________________________________
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for makewindow */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific */
+          char first_screen[2000]; /* size of screen, chars and attr */
+
+          initwindow(79,1);       /* clear whole screen with red on white */
+          qstore(1,1,25,80,first_screen); /* save 1st screen */
+          /*=======================================================*/
+          /* Create a window in the upper half of the screen with  */
+          /* a BLUE background and YELLOW foreground, a RED on     */
+          /* WHITE double lined border. Also explode the window    */
+          /* and set a shadow on the bottom right. Place a title   */
+          /* on the top line and center it using the current       */
+          /* attribute.                                            */
+          /*=======================================================*/
+          zoomeffect = 1;
+          shadoweffect = bottomright;
+          makewindow(1,1,11,76,31,79,doublebrdr);
+          titlewindow(topcenter,"< TOP BORDER (CENTERED) >",-1);
+                 :
+                 :
+          removewindow();  /* get rid of the window */
+          qrestore(1,1,25,80,first_screen); /* restore 1st screen */
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           78
+
+
+
+
+
+
+
+                                                                        VWRITE
+    __________________________________________________________________________
+
+
+     ü NAME           vwrite -  write a string to the screen
+                                vertically (qprint.c)
+
+     ü USAGE          void vwrite(row,col,attr,string);
+                      int row      - row to start vertical write, (1 based)
+                      int col      - col to start vertical write, (1 based)
+                      int attr     - attribute to write vertical string in
+                      char *string - string to write vertical to screen
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The vwrite function writes a null terminated string
+                      vertically on the screen at a specified position with
+                      a specific attribute for the length of the string.
+
+                      This function only works on the active video page and
+                      no error checking is done on boundary conditions. If the
+                      string reaches the end of the screen it wraps back
+                      to the same column of the same line.
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place.
+
+                      NOTE:The routine qinit() must be called before using
+                           this function, if no other window routines
+                           are used. If you plan to use the window
+                           routines call initwindow() instead.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qwritec, qwritelv, qwritef, qwrite
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals     */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for qwrite             */
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific    */
+
+         qinit();                 /* initialize screen, etc          */
+         vwrite(10,40,79,"HELLO"); /* write hello in RED on WHITE    */
+       }                           /* vertically centered on screen  */
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           79
+
+
+
+
+
+
+
+    WHERE_COL
+    __________________________________________________________________________
+
+
+     ü NAME           where_col - get current column (qcursor.asm)
+
+     ü USAGE          char where_col(void);
+
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The where_col function gets the current column
+                      position of the cursor on the current video page.
+
+                      Works only on the current video page.
+
+
+     ü RETURN VALUE   (char) - cursor column position
+
+     ü SEE ALSO       where_row
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for where_col         */
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+          char old_column;       /* saved column value           */
+
+          old_column = where_col();   /* save old column            */
+                 :
+                 :
+                 :
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           80
+
+
+
+
+
+
+
+                                                                     WHERE_ROW
+    __________________________________________________________________________
+
+
+     ü NAME           where_row - get current row (qcursor.asm)
+
+     ü USAGE          char where_row(void);
+
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The where_row function gets the current row
+                      position of the cursor on the current video page.
+
+                      Works only on the current video page.
+
+
+     ü RETURN VALUE   (char) - cursor row position
+
+     ü SEE ALSO       where_col
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for where_row         */
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+          char old_row;          /* saved row value              */
+
+          old_row = where_row();   /* save old row                  */
+                 :
+                 :
+                 :
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           81
+
+
+
+
+
+
+
+    WIATTR
+    __________________________________________________________________________
+
+
+     ü NAME           wiattr - calculate attribute byte (wind20.c)
+
+     ü USAGE          int wiattr(foreground,background);
+                      int foreground - foreground color
+                      int background - background color
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The wiattr function converts the foreground and
+                      background colors into an attribute value,masking off
+                      the background color high bits.
+
+     ü RETURN VALUE   (int) - calculated attribute
+
+     ü SEE ALSO
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for wiattr         */
+       #include <color.h>        /* for color constants          */
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+          /*==================================================*/
+          /* Calculate color attribute for WHITE on RED and   */
+          /* use it to center a message on the screen.        */
+          /*==================================================*/
+          qinit();              /* for initialization */
+          qwritec(12,1,80,wiattr(WHITE,RED),"MESSAGE IS WHITE ON RED");
+                 :
+                 :
+                 :
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           82
+
+
+
+
+
+
+
+                                                            WINDOW_BIOS_SCROLL
+    __________________________________________________________________________
+
+
+     ü NAME           window_bios_scroll - define and scroll a window
+                                           using BIOS services.
+                                           (qcursor.asm)
+
+     ü USAGE          void window_bios_scroll(ucol,urow,bcol,brow,attr);
+                      int ucol - upper left column of window  (1 based)
+                      int urow - upper left row of window     (1 based)
+                      int bcol - bottom right col of window   (1 based)
+                      int brow - bottom right row of window   (1 based)
+                      int attr - attribute to use for scrolled line
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The window_bios_scroll function defines a window
+                      and uses BIOS to scroll the window up a single line ,
+                      replacing the last line with a blank line of type
+                      attr. No error checking is performed on boundary
+                      conditions, and attr must be supplied for this
+                      function to work properly.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       Scrollwindow
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for window_biso_scroll */
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+          /*==================================================*/
+          /* Scroll the whole screen up one line and replace  */
+          /* the last line with WHITE on RED.                 */
+          /*==================================================*/
+          window_bios_scroll(1,1,80,25,79);
+                 :
+                 :
+                 :
+       }
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           83
+
+
+
+
+
+
+
+    WINDOW_PRINTF
+    __________________________________________________________________________
+
+
+     ü NAME           window_printf -  write a string to the current window
+                                       with printf like format (qprint.c)
+
+     ü USAGE          int window_printf(attr,format, ....);
+                      int attr     - attribute to write in
+                      char *format - printf like format for string
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The window_printf function writes a string to the
+                      current window with an attribute in printf like style
+                      format. Any valid format that can be supported by
+                      printf() , is acceptable here. See the reference
+                      section of your C manual for the various printf()
+                      formats.
+
+                      Two global variables active_window_row and
+                      active_window_col are set and used for the
+                      active window. These may be changed at will if
+                      the user wishes to place text at some other
+                      window position. (see example)  The standard C
+                      extensions will change these global variables.
+                      These global variables only retain there values
+                      for the current active window. Calling removewindow()
+                      will reset the global variables to their prior states.
+
+                      This function only works on the active video page and
+                      no error checking is done on boundary conditions. If the
+                      string reaches the end of the current line it wraps back
+                      to column 1 of the same line. The standard C extensions
+                      of \t, \b, \n, \r are supported. If the string reaches
+                      the end of current page no scrolling will take place.
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place.
+
+                      NOTE:The routine initwindow() must be called before using
+                           this function.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qwritef, window_write
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals       */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for window_printf        */
+
+       void main(void);
+
+
+        MC-WINDOW                                                           84
+
+
+
+
+
+
+
+                                                                 WINDOW_PRINTF
+    __________________________________________________________________________
+
+       void main (void) {         /* MSC 5.0 and Turbo-C specific      */
+
+         register int index;
+         initwindow(79,1);        /* initialize screen, etc            */
+         /*=============================================*/
+         /* Create a window on the screen, start to     */
+         /* display text 5 lines down with an attribute */
+         /* of WHITE on RED.                            */
+         /*=============================================*/
+         makewindow(1,1,25,80,31,31,doublebrdr);
+         active_window_row = 5;
+         window_printf(79,"This is row number:[%d]",active_window_row);
+                 :
+                 :
+         removewindow();          /* remove the window */
+                 :
+                 :
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           85
+
+
+
+
+
+
+
+    WINDOW_WRITE
+    __________________________________________________________________________
+
+
+     ü NAME           window_write -  write a string to the current window
+                                      (qprint.c)
+
+     ü USAGE          int window_write(attr,string);
+                      int attr     - attribute to write in
+                      char *string - string to write to window
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    The window_write function writes a null
+                      terminated string to the current window with an
+                      attribute.
+
+                      Two global variables active_window_row and
+                      active_window_col are set and used for the
+                      active window. These may be changed at will if
+                      the user wishes to place text at some other
+                      window position. (see example)
+
+                      This function only works on the active video page and
+                      no error checking is done on boundary conditions. If the
+                      string reaches the end of the current line it wraps back
+                      to column 1 of the same line. No scrolling is supported
+                      on exceeding window boundaries.
+
+                      If the attribute is less than 0 the current screen
+                      attribute will be used in its place.
+
+                      NOTE:The routine initwindow() must be called before using
+                           this function.
+
+     ü RETURN VALUE   None
+
+     ü SEE ALSO       qwritef, window_printf
+
+     ü EXAMPLE
+
+       #define USE_LOCAL         /* used for resolving externals       */
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for window_write         */
+
+       static char *text[] = {
+              "This should be line 5",
+              "This should be line 6",
+              "This should be line 7"
+       };
+
+       void main(void);
+       void main (void) {         /* MSC 5.0 and Turbo-C specific      */
+
+
+
+        MC-WINDOW                                                           86
+
+
+
+
+
+
+
+                                                                  WINDOW_WRITE
+    __________________________________________________________________________
+
+         register int index;
+
+         initwindow(79,1);        /* initialize screen, etc            */
+         /*=============================================*/
+         /* Create a window on the screen, start to     */
+         /* display text 5 lines down with an attribute */
+         /* of WHITE on RED.                            */
+         /*=============================================*/
+         makewindow(1,1,25,80,31,31,doublebrdr);
+         active_window_row = 5;
+         for (index = 0; index < 3; index++)
+            window_write(79,"text[i]);          /* display the text    */
+                 :
+                 :
+         removewindow();          /* remove the window */
+                 :
+                 :
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           87
+
+
+
+
+
+
+
+    WSLEEP
+    __________________________________________________________________________
+
+
+     ü NAME           wsleep - suspend processing for specified duration
+                               (wsound.c)
+
+     ü USAGE          unsigned wsleep(period);
+
+                      unsigned period - number of timer ticks the process
+                                        is to be suspended.
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    suspends the processing for at least the number of
+                      requested. Because the function checks the system clock
+                      to determine if the period has transpired, the actual
+                      duration may be longer than that requested.
+
+                      On standard IBM PC's, timer ticks occur 1193180/65536
+                      (about 18.2) times per second.
+
+                      This function temporarily enables hardware interrupts,
+                      but restores the state of the interrupt flag before it
+                      returns.
+
+     ü RETURN VALUE   number of timer ticks the process was actually
+                      suspended.
+
+     ü SEE ALSO       wsound
+
+     ü EXAMPLE
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for wsleep         */
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific */
+
+                  :
+                  :
+          printf("\nToday is the first day of the rest of your life ...\n");
+          wsleep(75);            /* wait for 75 timer ticks      */
+                  :
+                  :
+       }
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           88
+
+
+
+
+
+
+
+                                                                        WSOUND
+    __________________________________________________________________________
+
+
+     ü NAME           wsound - make a sound (wsound.c)
+
+     ü USAGE          void wsound(freq, dura);
+
+                      unsigned freq - desired frequency
+                      unsigned dura - number of timer ticks to make sound
+
+     ü PROTOTYPE IN   #include <w1.h>
+                      #include <windprot.h>
+
+     ü DESCRIPTION    Make a sound at the requested frequency for the
+                      number of timer ticks specified.
+
+     ü RETURN VALUE   None.
+
+     ü SEE ALSO       wsleep
+
+     ü EXAMPLE
+
+       #include <w1.h>
+       #include <windprot.h>     /* prototype for wsound           */
+
+       void main(void);
+       void main (void) {        /* MSC 5.0 and Turbo-C specific   */
+
+                  :
+                  :
+          printf("Incorrect input\n");
+          wsound(450, 4);        /* make same sound as IBM PC bell */
+                  :
+                  :
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           89
+
+
+
+
+
+
+
+    APPENDIX
+    __________________________________________________________________________
+
+
+
+     Function Names and Modules.............................................91
+     Module Names and Functions.............................................92
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           90
+
+
+
+
+
+
+
+                                                                      APPENDIX
+    __________________________________________________________________________
+
+
+
+     Function Names and Modules
+
+
+                 Function                    Module Defined in
+
+               cursorchange................... (qcursor.asm)
+               delete......................... (getstr.c)
+               egacheck....................... (qpage.asm)
+               getkey......................... (getstr.c)
+               get_integer.................... (getint.c)
+               get_menu....................... (gmenu.c)
+               get_string..................... (getstr.c)
+               get_video_mode................. (wind20.c)
+               gotorc......................... (qcursor.asm)
+               initwindow..................... (wind20.c)
+               insert......................... (getstr.c)
+               makewindow..................... (wind20.c)
+               qattr.......................... (qfill.asm)
+               qattrc......................... (qfill.asm)
+               qbox........................... (wind20.c)
+               qfill.......................... (qfill.asm)
+               qfillc......................... (qfill.asm)
+               qinit.......................... (wind20.c)
+               qpage.......................... (qpage.asm)
+               qrestore....................... (qstore.asm)
+               qstore......................... (qstore.asm)
+               qwrite......................... (qwrite.asm)
+               qwritec........................ (qwrite.asm)
+               qwritef........................ (qprint.c)
+               qwritelv....................... (qwrite.asm)
+               qwritepage..................... (qpage.asm)
+               removewindow................... (wind20.c)
+               remove_all_windows............. (wind20.c)
+               remove_windows................. (wind20.c)
+               scrollwindow................... (wind20.c)
+               titlewindow.................... (wind20.c)
+               vwrite......................... (qprint.c)
+               where_col...................... (qcursor.asm)
+               where_row...................... (qcursor.asm)
+               wiattr......................... (wind20.c)
+               window_bios_scroll............. (qcursor.asm)
+               window_printf.................. (qprint.c)
+               window_write................... (qprint.c)
+               wsleep......................... (wsound.c)
+               wsound......................... (wsound.c)
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           91
+
+
+
+
+
+
+
+    APPENDIX
+    __________________________________________________________________________
+
+
+     Module Names and Functions
+
+
+               Module                 Functions Defined:
+
+              getint.c                  get_integer
+              getstr.c                  delete
+                                        insert
+                                        getkey
+                                        get_string
+              gmenu.c                   get_menu
+              qcursor.asm               cursorchange
+                                        gotorc
+                                        where_col
+                                        where_row
+                                        window_bios_scroll
+              qfill.asm                 qattr
+                                        qattrc
+                                        qfill
+                                        qfillc
+              qpage.asm                 egacheck
+                                        qpage
+                                        qwritepage
+              qprint.c                  qwritef
+                                        vwrite
+                                        window_printf
+                                        window_write
+              qstore.asm                qrestore
+                                        qstore
+              qwrite.asm                qwrite
+                                        qwritec
+                                        qwritelv
+              wind20.c                  get_video_mode
+                                        initwindow
+                                        makewindow
+                                        qinit
+                                        removewindow
+                                        remove_all_windows
+                                        remove_windows
+                                        scrollwindow
+                                        titlewindow
+              wsound.c                  wsleep
+                                        wsound
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           92
+
+
+
+
+
+
+
+                                                                         INDEX
+    __________________________________________________________________________
+
+
+      active_window_col, 14, 84, 86
+      active_window_row, 14, 84, 85, 86, 87
+      agreement, 1, 2, 3
+      backup, 1
+      border, 14, 15, 19, 27, 28, 39, 49, 50, 54, 55, 77, 78
+      cardwait, 13, 14, 59
+      color, 16, 25, 27, 29, 38, 39, 40, 42, 44, 82
+      compile, 1, 5, 10, 12, 17, 18, 19, 20, 21, 22, 30, 31, 32, 33
+      copyright, 1, 3
+      cursorchange, 6, 26, 35, 91, 92
+      declaration, 12, 13, 17, 19, 20
+      delete, 6, 28, 36, 48, 91, 92
+      demo, 1, 10
+      dirtype, 14, 15, 39, 75, 77
+      egacheck, 6, 29, 37, 91, 92
+      error, 5, 11, 17, 46, 50, 51, 52, 54, 56, 57, 60, 61, 63, 65,
+             66, 67, 69, 70, 73, 75, 77, 79, 83, 84, 86
+      error handling, 5, 11, 17
+      file, 5, 8, 10, 11, 12, 13, 16, 17, 18, 21
+      function, 5, 7, 11, 12, 14, 15, 16, 17, 19, 20, 28, 31, 35, 36,
+                90, 91, 92
+      getkey, 6, 29, 45, 91, 92
+      get_integer, 6, 26, 38, 42, 91, 92
+      get_menu, 6, 28, 39, 40, 41, 91, 92
+      get_string, 6, 26, 38, 42, 43, 91, 92
+      get_video_mode, 6, 29, 44, 91, 92
+      gotorc, 6, 26, 46, 91, 92
+      header, 17, 18, 21, 22, 32, 33, 34
+      include, 8, 11, 12, 16, 17, 18, 19, 20, 21, 22, 23, 25, 32, 33,
+               34, 44
+      initwindow, 6, 13, 16, 19, 25, 47, 50, 51, 52, 54, 56, 57, 59,
+                  60, 61, 63, 65, 66, 67, 69, 70, 72, 73, 74, 75, 77,
+                  78, 79, 84, 85, 86, 87, 91, 92
+      insert, 6, 29, 36, 48, 91, 92
+      lib, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 25, 32, 33, 34
+      libraries, 4, 5, 12, 13, 21, 23, 25, 30, 31, 32, 33, 34
+      library, 10, 12, 13, 16, 18, 19, 20, 21, 22, 23, 25, 31, 32, 33,
+               34, 94
+      license, 1, 2, 3
+      link, 12, 16, 18, 19, 20, 21, 22
+      make, 18, 31, 32, 33, 34
+      makewindow, 6, 14, 15, 18, 19, 27, 49, 50, 54, 72, 73, 74, 75,
+                  77, 78, 85, 87, 91, 92
+      manual, 3, 8, 18, 31, 94
+      masm, 31, 32, 33, 34
+      maxpage, 13, 59, 60, 70
+      maxwndow, 13
+      memory model support, 5, 11, 12
+      menuing, 5, 24, 28
+      microsoft, 3, 5, 10, 12, 18, 19, 20, 30, 31, 32, 33
+      miscellaneous, 1, 5, 16, 24, 28
+      old_cursor, 35
+
+
+        MC-WINDOW                                                           93
+
+
+
+
+
+
+
+    INDEX
+    __________________________________________________________________________
+
+      order, 13, 31, 94
+      page0seg, 13, 59
+      prototype, 16
+      qattr, 6, 25, 51, 52, 91, 92
+      qattrc, 6, 25, 51, 52, 53, 91, 92
+      qbox, 6, 15, 29, 54, 55, 91
+      qdemo20, 10
+      qfill, 6, 25, 56, 57, 62, 64, 91, 92
+      qfillc, 6, 25, 56, 57, 58, 91, 92
+      qinit, 6, 13, 16, 25, 37, 51, 52, 54, 55, 56, 57, 58, 59, 60,
+             61, 63, 65, 66, 67, 69, 70, 79, 82, 91, 92
+      qpage, 6, 27, 60, 70, 71, 91, 92
+      qrestore, 6, 26, 47, 50, 61, 62, 63, 64, 76, 78, 91, 92
+      qseg, 13, 59
+      qstore, 6, 26, 47, 50, 61, 63, 64, 75, 78, 91, 92
+      quick-c, 3, 4, 5, 12, 13, 18, 20, 21, 30, 32, 94
+      qwait, 14, 59
+      qwik write utilities, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                           18, 19, 20, 21, 22, 23, 25, 27, 59, 70
+      qwrite, 6, 27, 28, 65, 66, 79, 91, 92
+      qwritec, 6, 27, 65, 66, 69, 79, 82, 91, 92
+      qwritef, 6, 14, 27, 65, 66, 67, 68, 69, 79, 84, 86, 91, 92
+      qwritelv, 6, 27, 65, 66, 69, 79, 91, 92
+      qwritepage, 6, 13, 27, 60, 70, 71, 91, 92
+      registration, 2, 4, 31, 94
+      removewindow, 6, 18, 19, 28, 50, 72, 73, 74, 75, 76, 77, 78,
+                    84, 85, 87, 91, 92
+      remove_all_windows, 6, 27, 50, 72, 73, 74, 75, 77, 91, 92
+      remove_windows, 6, 28, 50, 72, 73, 74, 77, 91, 92
+      screen, 5, 10, 13, 17, 24, 25, 26, 27, 28, 39, 40, 46, 47, 49,
+              51, 52, 54, 56, 57, 59, 61, 63, 65, 66, 67, 69, 74, 79
+      screen filling, 5, 24, 25
+      screen i/o, 5, 24, 26
+      screen initialization, 5, 24, 25
+      screen manipulation, 5, 24, 26
+      screen paging, 5, 24, 26
+      screen storing and restoring, 5, 24, 26
+      screen writing, 5, 10, 24, 27
+      scrollwindow, 6, 15, 18, 28, 72, 73, 74, 75, 76, 83, 91, 92
+      shadoweffect, 14, 15, 19, 49, 50, 75, 78
+      source code, 1, 5, 30, 31, 32, 33, 34, 94
+      titlewindow, 6, 15, 28, 50, 72, 73, 74, 75, 77, 78, 91, 92
+      turbo-c, 3, 4, 5, 12, 18, 22, 23, 33, 34, 35, 94
+      type, 5, 8, 11, 12, 13, 14, 15, 16, 17, 20, 23, 27, 28, 54, 60
+      type checking, 5, 11, 16, 17, 20, 23
+      update, 2, 31
+      use_local, 16, 18
+      variable, 5, 8, 11, 13, 14, 15, 16, 18, 19, 20, 22, 23, 27, 32,
+                33, 49, 59, 61, 63, 84, 86
+      vwrite, 6, 27, 79, 91, 92
+      warranty, 1, 2
+      where_col, 6, 26, 80, 81, 91, 92
+      where_row, 6, 26, 80, 81, 91, 92
+
+
+        MC-WINDOW                                                           94
+
+
+
+
+
+
+
+                                                                         INDEX
+    __________________________________________________________________________
+
+      wiattr, 6, 16, 29, 82, 91
+      window, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+              22, 23, 24, 27, 39, 49, 50
+      windowing, 5, 24, 27
+      window_bios_scroll, 6, 28, 83, 91, 92
+      window_printf, 6, 14, 28, 67, 84, 85, 86, 91, 92
+      window_write, 6, 14, 28, 69, 84, 86, 87, 91, 92
+      wsleep, 6, 29, 88, 89, 91, 92
+      wsound, 6, 29, 88, 89, 91, 92
+      wtutor20, 10
+      zoomdelay, 14
+      zoomeffect, 14, 19, 49, 50, 75, 78
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        MC-WINDOW                                                           95
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               ORDER FORM 
+
+
+     NAME: ______________________________________________________________
+
+     COMPANY: ___________________________________________________________
+
+     SHIPPING ADDRESS: __________________________________________________
+
+     CITY: ______________________________________________________________
+
+     STATE: ___________________________ ZIP: ____________________________
+
+     PHONE: (WORK) _______________________ (HOME) _______________________
+
+     COMPILER SUPPORT: MSC 5.0 & Quick-C ___  MSC 4.0 ___  TURBO-C ___
+
+
+                           QUANTITY     PRICE       GROUP       TOTAL
+                                     (US Dollars)  DISCOUNT
+
+     Full Registration       ____   X   $55.00   -  _____  =   _______
+
+     Novice Registration     ____   X   $35.00   -  _____  =   _______
+
+     Source Code Only        ____   X   $25.00             =   _______
+
+     ________ Library Only   ____   X   $10.00             =   _______
+
+     Printed Bound Manual    ____   X   $10.00             =   _______
+
+     SUBTOTAL                                                 $_______
+
+     Sales Tax  (Illinois residents add 7%,
+                 Indiana residents add 5%)                     _______
+
+     Shipping (US Residents add $4.00, per copy
+               Foreign orders add $7.00, per copy)             _______
+
+     TOTAL  (Make Checks or Money Orders Payble to            $
+             Michael G. Mlachak or Brian L. Cassista)          =======
+
+
+     DISCOUNTS:  (Applies to registration orders only !!!)
+
+                   QUANTITY       DISCOUNT
+                     5-10           10%
+                    11-25           15%
+                    26-50           20%
+                    51-??           25%
+
+     Available only on 5 1/4 low density DS/DD diskettes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

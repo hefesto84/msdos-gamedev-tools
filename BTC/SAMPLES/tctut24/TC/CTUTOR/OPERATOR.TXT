@@ -1,0 +1,134 @@
+          MANIPULATING DATA IN C  -  OPERATORS.
+          ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+All languages provide the necessary operators for assignment of values to
+variables and for arithmetic and logical operations.  C provides these and
+many more.
+
+The Assignment Operator.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+In C, assignment is a single equal sign (=), with the variable on the left
+of the equal sign taking the value on the right .  e.g. x = 7;
+
+Assignments can be stacked as for example: a = b = c; In this case c is
+assigned to b, which in turn is assigned to a.
+
+Unary and Binary Operators.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+C supports the usual set of binary arithmetic operations:
+
+     Multiplication (*), division (/), modulus (%), addition (+) and
+     subtraction (-)
+
+C also supports the 'unary minus' (a + (-b)), which performs an arithmetic
+negation and the 'unary plus' (a + (+b)), as per the ANSI standard.
+
+Increment (++) and Decrement (--) Operators.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+The unary operators, increment (++) and decrement (--), are single
+operators that add or subtract 1 from any value.  The addition or
+subtraction can be done in the middle of an expression, either before or
+after the expression is evaluated.  The following examples illustrate the
+use of the increment operator:
+
+     sum = a + b++;
+
+This adds a and b together and assigns the result to sum and then
+increments b by 1.
+
+     sum = a + ++b;
+
+This increments b by 1, then adds a and b together and assigns the result
+to sum.
+
+The program INCDECOP.C (on diskette) illustrates the use of these operators.
+
+Bitwise Operators.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+The following bit-level operators can be used in C:
+
+     shift left (<<)   shift right (>>)
+     AND  (&)          OR  (|)            XOR (^)          NOT (~)
+
+These allow low-level operations on values, as shown in program BITWISE.C
+which can be run from the CTUTOR menu.
+
+
+Combined Operators.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+C allows a shorthand method of writing expressions that contain multiple
+operators.  The assignment operator (=) can be combined with the above
+operators (unary, binary, increment, decrement and bitwise).
+
+Most expressions of the form     <variable> = <variable> <operator> <exp>;
+can be replaced with             <variable> <operator> = <exp>;
+
+e.g.  a = a + b;     can be condensed to    a+=b;
+      a = a % b;                            a%=b;
+      a = a <<b;                            a<<=b;
+      a = a & b;                            a&=b;     etc.
+
+The += combined form is used in the example program MATRIX.C (on diskette).
+
+
+Address Operators.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+The address-of operator (&) returns the address of a given variable.  Thus
+&x is the address in memory of the variable x
+
+The indirection operator (*) gives the variable to which a pointer variable
+points.  Thus *ptr returns the character to which the pointer (ptr), of
+type char, points.
+
+These operators are fully discussed in the notes entitled 'Arrays and
+Pointers'.
+
+
+Relational Operators.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Relational operators allow the comparison of two values, yielding a result
+which depends on wether the comparison is true or false.  The result is 0
+if false and 1 if true. The relational operators are:
+
+     >   greater than                     <=  less than or equal to
+     >=  greater than or equal to         ==  equal to
+     <   less than                        !=  not equal to
+
+These operators are most frequently used in 'if' statements, which are
+fully described in the notes entitled 'Conditional Statements'.
+
+Logical Operators.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+There are three logical operators AND (&&), OR (||) and NOT (!), which
+perform differently from the bitwise operators previously described.
+
+These logical operators work with logical values (true and false) allowing
+the combination of relational expressions.
+
+The operators && and || will short circuit, so that once the truth or
+falsehood is established, the remaining expressions will not be evaluated.
+
+
+The Comma Operator.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+The comma operator is used between multiple expressions inside a set of
+parentheses.  These expressions are then evaluated from left to right and
+the entire expression assumes the value of the last one evaluated.  The
+example in the User's Guide on page 171 is as follows:
+
+If 'oldch' and 'ch' are both of type char, then the expression
+
+     (oldch = ch, ch = getch());
+
+assigns 'ch' to 'oldch', assigns the keyboard character to 'ch' so that
+'oldch' also assumes that same character.
+
+
+OPERATOR.TXT
+30.1.91
+
+

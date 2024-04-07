@@ -1,0 +1,56 @@
+SAVEINTS/REMOVE
+
+SAVEINTS and REMOVE are two utilities that can be used to remove TSRs from
+memory.
+
+SAVEINTS saves a picture of the interrupt table to a disk file. It takes one
+command line argument which is the file name.
+
+Example:
+C> saveints c:\intfile
+
+REMOVE removes a TSR. It takes two command line arguments. The first is the
+name of TSR to be removed (or an * to remove the last one), and the second is
+a file name which MUST contain the interrupt vectors to be loaded when the TSR
+is removed.
+
+REMOVE is simple and far from perfect (it works well for me :-), however). I
+think it might be useful as a learning tool, since it is available as C source
+code. It also has the advantage of not being a TSR!
+
+If you make any improvements please let me know about them.
+
+The files compile with Turbo C 2.0, and you need DOS 3.0 or later to support
+removal of programs by name, otherwise you can simply use an * instead of the
+program name.
+
+Example:
+
+C> saveints c:\intfile     | save interrupt table to file c:\intfile
+C> X                       | load TSR X
+C> Y                       | load TSR Y
+...                        |
+C> remove Y.COM c:\intfile | remove Y.COM and restore ints
+                           | from c:\intfile. At this point
+                           | X can't be used !! because
+                           | intfile was saved before X
+                           | was loaded !!.
+C> remove X.com c:\intfile | but at least you can still remove X.com :-)
+
+Hope that's useful, but,
+
+     The author shall not be liable to the user for any direct, indirect or
+     consequential loss arising from the use of, or inability to use, any
+     program or file howsoever caused. No warranty is given that the programs
+     will work under all circumstances.
+
+Sherif
+
+/*--------------------------------------------------------------------------*
+ | Sherif El-Kassas        .       :.                                       |
+ | EB dept           \_____o__/ __________                                  |
+ | Eindhoven U of Tec       .. /                                            |
+ | The Netherlands            /             Email: elkassas@eb.ele.tue.nl   |
+ *--------------------------------------------------------------------------*/
+ 
+

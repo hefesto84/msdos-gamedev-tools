@@ -1,0 +1,48 @@
+			USING THE MOUSE CURSOR DESIGN TOOL
+
+
+The Mouse Cursor Design Tool requires at least an EGA graphics card that can
+display 16 colors simultaneously and a Microsoft-compatible mouse.
+
+The mouse cursor design tool is very easy to use.  It has a built-in help
+feature that allows you to get help on any specific function you desire.
+To access this feature, click on the Help button, then click on any control
+panel button or area on the screen you would like help with.
+
+It would be a good idea to go through all of the important screen areas, as
+well as all of the control panel buttons using the help facility before you
+start designing cursors.  This way, you will be familiar with what the program
+does and what each control panel button can do for you.  Then, once you have
+a good idea about the program, you can get to work designing custom mouse
+cursors!
+
+You may use these cursors in any of your applications, including programs
+that you recieve renumeration for, provided you have the registered version
+of this program.  To find out how to register, as well as all of the things
+you will recieve as a registered user, please read the file ORDER.ME.
+
+
+Files you should have received with the shareware version are listed below:
+
+MCDT.EXE        The Mouse Cursor Design Tool program (shareware version)
+MCDT.DOC        This document
+ORDER.ME        Ordering information
+
+
+Some of the files you will receive with the registered version are:
+
+MCDT.EXE        A personalized, most up-to-date edition of the Mouse Cursor
+		   Design Tool.
+REFERENCE.DOC   A 2300+ line complete reference guide that shows you how 
+		   to use custom mouse support with your programs, including 
+		   generously commented example source code.
+REGMCDT.DOC     A complete document on disk that expands on the help
+		   provided with the on-line help feature in the MCDT.
+ORDER.ME        Ordering information (for your friends, etc.)
+*.CUR           One dozen pre-made mouse cursors, ready for use.
+EXAMPLE1.C      A program that shows you how to implement mouse interface 
+		   into your programs, as well as how to use the cursors 
+		   created by MCDT in your code.  A must!
+EXAMPLE1.EXE    The ready-to-run (already compiled) version of EXAMPLE1.C,
+		   compiled with debug information so that you can step 
+		   through the code to see what is going on!

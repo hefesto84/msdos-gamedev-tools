@@ -1,0 +1,165 @@
+                        MEMORY MODELS.
+                        賽賽賽賽賽賽賽
+
+Before discussing memory models, it is pertinent to appreciate the way in
+which the segment registers (see previous note) are used to calculate an
+address.  It is also necessary to understand the use of near, far and huge
+pointers.
+
+Address Calculation.
+컴컴컴컴컴컴컴컴컴컴
+
+In an 8086 machine with 1 MB of memory, the address must be 20 bits long
+(2 ^ 20 = 1048576 = 1 MB ).  Thus the complete address is composed of two
+16-bit values - the segment address and the offset.  To form the 20 bit
+address, the segment address is shifted 4 bits to the left, which is
+equivalent to one hex digit or multiplying by 16, and the offset is then
+added. An example is given on page 336 of the User's Guide (version 2.0).
+
+Although the starting address of a segment is always a 20-bit number, the
+bottom 4 bits are assumed to be zero, because the segment register only
+holds 16 bits.  Thus segments can only start every 16 bytes through memory,
+at an address where the last 4 bits, or last hex digit, are zero.  Since 16
+bytes are called a 'paragraph', a segment always starts on a paragraph
+boundary.
+
+The standard notation for an address takes the form 'segment:offset', but a
+given segment:offset pair is not unique.  The User's Guide gives several
+examples (on page 337) of segment:offset pairs which all refer to the same
+memory location, such as  0000:0123  and  0012:0003
+
+The different segments (CS, DS, SS, ES) may overlap and all could start at
+the same address, so that the entire program (code, data, stack) could be
+contained within 64K.
+
+
+Near, Far and Huge Pointers.
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+First, it should be remembered that a pointer contains the address of some
+memory location that holds information.  The three different pointers
+(near, far and huge) vary in the way that they determine that address.
+The type of memory model chosen will determine the default type of pointers
+used for code and data, but pointers, and functions, can be declared
+explicitly to be of a specific type, regardless of the model being used.
+
+Near Pointers.
+
+Near pointers are 16 bits long and rely on the value stored in one of the
+segment registers to calculate the full address.  Thus a pointer to a
+function adds its 16-bit value to the left-shifted contents of the code
+segment (CS) register.  Similarly a near data pointer contains the offset
+to the data segment (DS) register.
+
+Near pointers are easy to manipulate, since any arithmetic can be done
+without worrying about the segment.
+
+Far Pointers.
+
+Far pointers are 32 bits long and contain not only the offset within the
+segment (16 bits), but also the segment address (another 16 bits), which is
+then left-shifted and added to the offset.  Far pointers allow the use of
+multiple code segments and hence programs longer than the 64K limit of a
+single segment.  Similarly, far data pointers can address more than 64K of
+data.
+
+There are potential problems with far pointers, because many different
+segment:offset pairs refer to the same address.  Thus the two far pointers
+0000:0120 and 0010:0020 both resolve to the same 20-bit address but if
+designated the pointer variables a and b respectively, then a != b, and
+when making the comparison 'if (a > b)' this will be true, because only the
+offset, taken as an unsigned, is used for comparison purposes.  The equals
+(==) and not-equals (!=) operators use the 32-bit value as an unsigned
+long, whereas the comparison operators (<=, >=, < and >) use just the
+offset.
+
+Arithmetic operations with far pointers only affects the offset and any
+carry or borrow causes offset wrap and does not affect the segment value.
+Pointer comparisons are better made with huge pointers.
+
+Huge Pointers.
+
+Huge pointers are also 32 bits long and contain both the segment address
+and an offset.  They are however normalized, which means that as much as
+possible of the value is stored in the segment, so that the offset has only
+the last digit and therefore ranges in value from 0 to F (hex).
+
+Any segment:offset pair can be normalized by forming the 20-bit address and
+using the resultant 4 most significant hex digits as the segment and the
+remaining least-significant digit as the offset.  Thus 0000:0123 becomes
+0012:0003 etc. as shown on page 339 of the User's Guide.
+
+Thus any given memory address has only one segment:offset pair to define it
+and hence the == and != operators return correct answers with huge
+pointers.
+
+Unlike far pointers, arithmetic with huge pointers will cause a carry or
+borrow from the offset value to affect the segment value.  It is this
+aspect that allows the manipulation of data structures greater than 64K in
+size.  However, huge pointer arithmetic calls on special subroutines and is
+therefore significantly slower than that of near or far pointers.
+
+
+Memory Models.
+컴컴컴컴컴컴컴
+
+Turbo C allows choice from 6 possible models - tiny, small, medium,
+compact, large and huge - so that overheads (size and time) can be
+appropriately minimized.
+
+The six models are described in detail on pages 339-344 of the User's
+Guide, but can be summarized by the table on page 344, which is shown
+below:
+       ___________________________________________________________________
+       |           |                      Code Size                      | 
+       | Data Size | ----------------------------------------------------|  
+       |           |            64K           |          1 Mb            |  
+       |-----------------------------------------------------------------| 
+       |           |           TINY           |                          | 
+       |           |  data and code overlap   |                          | 
+       |           |   total size = 64K       |                          | 
+       |   64K     |                          |                          | 
+       |           |          SMALL           |         MEDIUM           | 
+       |           |        no overlap        |   small data, big code   | 
+       |           |   total size = 128K      |                          | 
+       |-----------------------------------------------------------------| 
+       |           |         COMPACT          |         LARGE            | 
+       |           |  big data, small code    |   big data and code      | 
+       |   1 Mb    |                          |                          | 
+       |           |                          |          HUGE            | 
+       |           |                          |   same as large but      | 
+       |           |                          |   static data > 64K      | 
+       |___________|__________________________|__________________________|    
+
+
+Tiny - CS, DS, SS, ES all same address.  Near pointers.
+
+Small - Code and data segments do not overlap, but SS and ES same as DS.
+        Near pointers.  Used for average applications.
+
+Medium - Far pointers for code (<= 1 Mb) but not for data (<= 64K).
+
+Compact - Far pointers for data (<= 1 Mb) but not for code (<= 64K).
+
+Large - Far pointers for both code and data. For very large applications.
+
+Huge - Far pointers for code and data and normal static data limit of 64K
+       can be exceeded.  Huge data pointers must be explicitly declared.
+
+
+Note. Static data refers to one of the data storages classes allowed in C.
+      The class determines how widely known a data item is to the functions
+      in a program and for how long it is kept in memory.
+      An automatic variable or array is one defined inside a function.
+      When a function finishes and returns to the caller, the space used
+      to hold its variables is freed.
+      External variables and arrays are defined outside a function and
+      are known to all following functions in a file. They persist as
+      long as the program runs and are initialized to zero by default.
+      Static variables, although local to the function, retain values
+      between function calls and are initialized to zero by default.
+
+
+MEMMODEL.TXT
+2.2.91
+

@@ -1,0 +1,2201 @@
+:abort
+    void abort()
+    - terminates process & calls exit(3)
+    - needs stdlib.h, process.h
+
+:abs
+    int abs(n)
+    int n;
+    - returns absolute value of int n
+    - needs stdlib.h
+
+:absread
+    int absread(drive,nsects,sectno,buffer)
+    int drive,int nsects,int sectno,void *buffer;
+    - reads disk absolute logical sectors
+    - drive  = 0(A), 1(B), etc
+    - nsects = # of sectors to read
+    - sectno = beginning logical sector number
+    - buffer = address of buffer
+    - returns 0 if OK; -1 on error; 'errno' = DOS error number
+    - needs dos.h
+
+:abswrite
+    int abswrite(drive,nsects,sectno,buffer)
+    int drive,int nsects,int sectno,void *buffer;
+    - writes disk absolute logical sectors
+    - drive  = 0(A), 1(B), etc
+    - nsects = # of sectors to write
+    - sectno = beginning logical sector number
+    - buffer = address of buffer
+    - returns 0 if OK; -1 on error; 'errno' = DOS error number
+    - needs dos.h
+
+:access
+    int access(filename,amode)
+    char *filename, int amode;
+    - checks 'filename' for existence & R/W access
+    - amode = 06 -- check for R/W permission
+              04 -- check for R
+              02 -- check for W
+              01 -- execute (ignored)
+              00 -- check if filename exists
+    - 'filename' can be directory
+    - returns 0 if OK; -1 on error; 'errno' = ENOENT if path or filename
+      not found & 'errno' = EACCES if permission denied
+    - needs io.h
+
+:acos
+    double acos(x)
+    double x;
+    - needs math.h
+
+:asctime
+   char *asctime(struct tm *tm)
+   - converts time in struct tm to 26-character string
+   - needs time.h
+   - returns pointer to string
+
+:allocmem
+    int allocmem(size,seg)
+    unsigned size, unsigned *seg;
+    - allocates memory in 'size' paragraphs, where 'seg' is pointer to
+      a word containing segment address
+    - returns -1 if ok, else largest available memory in paragraphs 
+    - needs dos.h
+
+:asctime
+    char *asctime(struct tm *tm)
+    - converts date & time to ASCII
+    - needs time.h
+
+:asin
+    double asin(x)
+    double x;
+    - needs math.h
+
+:assert
+    void assert(int test)
+    - if 'test' fails, prints error message & aborts program
+    - 'test' can be a condition
+    - needs assert.h
+
+:atan
+    double atan(x)
+    double x;
+    - needs math.h
+
+:atan2
+    double atan(y,x)
+    double y, double x;
+    - needs math.h
+
+:atexit
+    int atexit(atexit_t func)
+    - calls 'func' before exiting to DOS
+    - up to 32 functions can be called (32 atexit calls needed)
+    - should be located in 'main' & executed before anything else
+    - returns 0 if OK, else nonzero if no space to register function
+    - needs stdlib.h
+
+:atof
+    double atof(s)
+    char *s;
+    - needs math.h or stdlib.h
+
+:atoi
+    int atoi(s)
+    char *s;
+    - needs stdlib.h
+
+:atol
+    long atol(s)
+    char *s;
+    - needs stdlib.h
+
+:bdos
+    int bdos(dosfun, dosdx, dosal)
+    int dosfun, unsigned dosdx, unsigned dosal;
+    - make DOS system call for function 'dosfun', passing DX and AL
+      values via 'dosdx' and 'dosal'
+    - use only in small memory model
+    - needs dos.h
+    - returns value of AX set by system call
+
+:bdosptr
+    int bdosptr(dosfun, argument, dosal)
+    int dosfun, void *argument, unsigned dosal;
+    - make DOS system call for function 'dosfun', passing POINTER to
+      values via 'argument' and passing AL via 'dosal'
+    - use for small or large memory models
+    - needs dos.h
+    - returns value of AX set by system call if OK, else -1 on failure
+      (where 'errno' & '_doserrno' are then set)
+
+:bioscom
+    int bioscom(cmd,byte,port)
+    int cmd, char byte, int port;
+    - RS232 communications
+    - needs bios.h
+    - cmd = 0 to set comm parms to value in 'byte'
+            1 to send char in 'byte' out on RS232 line
+            2 to receive char
+            3 to return current port status
+    - port = 0 for COM1, 1 for COM2, etc
+    - byte = bitwise OR of following bits
+             0x02 for 7 data bits   0x00     1 stop bit
+             0x03     8 data bits   0x04     2 stop bits
+        0x00 == no parity; 0x08 == odd parity; 0x18 == even parity
+             0x00     110 bps       0x20     150 bps
+             0x40     300 bps       0x60     600 bps
+             0x80     1200 bps      0xa0     2400 bps
+             0xc0     4800 bps      0xe0     9600 bps 
+    - returns 16-bit integer, upper 8 bits are status & lower 8 bits
+      depend on 'cmd' sent
+        15 = timeout  14 = TSR empty  13 = THR empty  12 = break detect
+        11 = frame err  10 = parity err  09 = overrun err  08 = data rdy
+      'cmd' = 1 & bit 15 =1 ==> 'byte' was not transmitted
+      'cmd' = 2 ==> lower 8 bits = char received
+      'cmd' = 0 or 3, then lower 8 bits are:
+        07 = received line signal detect  06 = ring indicator
+        05 = DSR  04 = CTS  03 = delta receive line signal detect
+        02 = trailing edge ring detect  01 = delta DSR  00 = delta CTS
+
+:biosdisk
+    int biosdisk(cmd,drive,head,track,sector,nsects,buffer)
+    int cmd, drive, head, track, sector, nsects; 
+    void *buffer;
+    - issues interrupt 0x13 for BIOS disk operations
+    - needs bios.h
+    - drive = 0 (floppy drive 1), 1 (floppy drive 2), etc
+            = 0x80 (hard drive 1), 0x82 (hard drive 2), etc
+    - cmd = 0 - reset diskette system (hard disk drive reset)
+            1 - return status of last disk operation & other parms ignored
+            2 - read 'nsects' disk sectors, with starting sector defined
+                by 'head', 'track', & 'sector', reading 512 bytes per
+                sector into 'buffer'
+            3 - write 'nsects' disk sectors, with starting sector defined
+                by 'head', 'track', & 'sector', writing 512 bytes per
+                sector from 'buffer'
+            4 - verify 'nsects' disk sectors, with starting sector defined
+                by 'head', 'track', & 'sector'
+            5 - format a track defined by 'head' & 'track', where 'buffer'
+                points to a table of sector headers to be written
+       for XT or AT only:
+            6 - formats a track & sets bad sector flags
+            7 - formats drive beginning at specific track
+            8 - returns current drive parms in 'buffer' as 1st 4 bytes
+            9 - initializes drive-pair characteristics
+            10 - long read (512 + 4 extra bytes per sector)
+            11 - long write (512 + 4 extra bytes per sector)
+            12 - disk seek
+            13 - alternate disk reset
+            14 - reads sector buffer
+            15 - writes sector buffer
+            16 - tests if named drive is ready
+            17 - recalibrates drive
+            18 - controller ram diagnostic
+            19 - drive diagnostic
+            20 - controller internal diagnostic
+    - returns status byte equal to:
+      0x00 == OK             0x01 == bad cmd       0x02 == Addr mark not found
+      0x04 == rec not found  0x05 == reset failed  0x07 == drive parm failed
+      0x09 == DMA/64K error  0x0b == bad trk flag  0x10 == bad ECC on read
+      0x11 == ECC done (OK)  0x20 == ctrllr dead   0x40 == seek failed
+      0x80 == no response    0xbb == unknown error 0xff == sense op failed
+
+:biosequip
+    int biosequip()
+    - returns integer showing equipment in system
+    - needs bios.h
+    - values returned are:
+      bits 15,14 == no of printers bit 13 == not used
+      bit 12 == game port          bits 11,10,09 == no of RS232 ports
+      bit 08 == not used           bits 07,06 == no of diskettes
+                                   00 = 1 dr; 01 = 2 dr; 10 = 3 dr; 11 = 4 dr
+      bits 05,04 == init video mode (00=na; 01=40x25co; 10=80x25bw; 11=mono)
+      bits 03,02 == ram (00=16k; 01=32k; 10=48k; 11=64k)
+      bit 01 == 8087 installed     bit 00 == boot from diskette
+
+:bioskey
+    int bioskey(cmd)
+    int cmd;
+    - keyboard operations
+    - needs bios.h
+    - 'cmd' = 0 == return next keystroke (no echo); if extended, = 0
+            = 1 == test if key hit (0= no, else value)
+            = 2 == return shift key status, where value is OR of:
+                0x80 insert toggled   0x40 caps toggled  0x20 num lock toggled
+                0x10 scrl lck toggled 0x08 ALT down      0x04 CTRL down
+                0x02 left shift down  0x01 right shift down
+
+:biosmemory
+    int biosmemory()
+    - returns BIOS memory in 1K blocks
+    - needs bios.h
+
+:biosprint
+    int biosprint(cmd, byte, port)
+    int cmd, byte, port;
+    - outputs 'byte' to 'port'
+    - needs bios.h
+    - 'port' = 0 (LPT1), 1 (LPT2), etc
+    - 'cmd' = 0 (print 'byte'); 1 (init printer port); 2 (get LPT status)
+    - returns status of OR of:
+      0x01 time out (cmd=0 means output error)
+      0x08 I/O error   0x10 selected   0x20 out of paper
+      0x40 acknowledge 0x80 not busy
+
+:biostime
+    int biostime(cmd, newtime)
+    int cmd; 
+    long newtime;
+    - reads or sets BIOS timer
+    - needs bios.h
+    - cmd = 0 == returns current value of timer
+            1 == sets timer to value of 'newtime'
+
+:brk
+    int brk(endds)
+    void *endds;
+    - dynamically changes the amount of space allocated to the calling
+      program's data segment.  Amount of allocated space increases as
+      the break value increases. 
+    - returns 0 if OK; else -1 & 'errno' is set to ENOMEM
+
+:bsearch
+   void *bsearch(key,base,nelem,width,fcmp)
+   void *key, void *base, int *nelem, int width, int (*fcmp)();
+   - does binary search for items in a table which is ALREADY sorted in
+     ascending order
+   - 'base' points to 0th element of table
+   - 'nelem' points to integer containing number of entries in table
+   - 'width' contains number of bytes in each entry
+   - 'key' points to the search key
+   - 'fcmp' points to user-written comparison routine, where 'key' and
+     'elem' are passed to it as pointers.  'fcmp' returns integer < 0
+     if search key > *elem; integer = 0 if equal; else integer > 0
+     if search key < *elem
+   - returns 0 if no match found, else address of first entry that matches
+   - needs stdlib.h
+
+:cabs
+    double cabs(z)
+    struct complex z;
+    - returns absolute value of int n
+    - needs math.h
+
+:calloc
+    void *calloc(count, sizeEach)
+    unsigned count, sizeEach;
+    - allocates main memory
+    - stdlib.h & alloc.h
+    - see malloc
+
+:ceil
+    double ceil(x)
+    double x;
+    - rounds up 'x'
+    - math.h
+
+:cgets
+    char *cgets(s)
+    char *s;
+    - reads string from console, deletes CR & substitutes '\0' as tail
+    - CR/LF combination is replaced by '\0'
+    - conio.h
+    - see gets
+
+:chdir
+   int chdir(path)
+   char *path;
+   - changes current working directory to 'path'.  Drive can be specified
+     also.
+   - returns 0 if OK; else -1 with 'errno' set to ENOENT
+
+:_chmod
+   #include <dos.h>
+   int _chmod(char *filename, int func [,int attrib]);
+   - if 'func' = 0, returns access mode of file
+   - if 'func' = 1, sets access mode of file
+   - 'attrib' = FA_RDONLY, FA_HIDDEN, or FA_SYSTEM (defined in dos.h)
+   - if 'func' = 1, returns 0 if OK; else -1 & 'errno' set to ENOENT or EACCES
+   - if 'func' = 0, returns MSDOS attribute
+   - io.h
+
+:chmod
+   #include <sys\stat.h>
+   int chmod(char *filename, int permiss);
+   - changes access mode of file according to mask given by 'permiss', where
+     'permiss' = S_IWRITE, S_IREAD, or S_IWRITE | S_IREAD
+   - returns 0 if OK; else -1 & 'errno' set to ENOENT or EACCES
+   - io.h
+
+:_clear87
+    unsigned int _clear87()
+    - clears 8087/80287 status word & other exceptions
+    - float.h
+    - returns old status word
+
+:clearerr
+    #include <stdio.h>
+    void clearerr(FILE *stream);
+    - resets error indication
+    - stdio.h
+    - see ferror()
+
+:_close
+:close
+    int _close(int fd)
+    int close(int fd)
+    - closes file 'fd' where 'fd' is file handle from _creat(), creat(),
+      creatnew(), creattemp(), dup(), dup2(), _open(), or open().
+    - use fdopen() to change file handle to file stream.
+    - _close() does not write a CTL-Z to a text file on closing, while close()
+      does.
+    - returns 0 if OK; else -1 & 'errno' may be set of EBADF
+
+:coreleft
+    unsigned coreleft()  -- tiny, small, medium memory models
+    unsigned long coreleft() -- compact, large, huge memory models
+    - returns a measure of unused memory (see malloc())
+    - alloc.h
+
+:cos
+    double cos(x)
+    double x;
+    - math.h
+
+:cosh
+    double cosh(x)
+    double x;
+    - math.h
+
+:country
+    #include <dos.h>
+    struct country *country(int countrycode, struct country *countryp)
+    - returns country-dependent information
+
+:cprintf
+    int cprintf(char *format[,argument,...]);
+    - sends formatted output to the console
+    - conio.h
+
+:cputs
+    void cputs(s)
+    char *s;
+    - needs conio.h
+    - writes string 's' to console (not to stdout)
+
+:_creat
+   #include <dos.h>
+   int _creat(char *filename, int attrib);
+   - creates new file (overwrites existing file) of 'filename' with
+     file attribute 'attrib', for both read/write
+   - file is created set to '_fmode' (O_TEXT or O_BINARY)
+   - returns nonnegative integer if OK, else -1
+   - needs io.h
+
+:creat
+   #include <sys\stat.h>
+   int creat(filename,permis)
+   char *filename;
+   int  permis;
+   - creates new file (overwrites existing file) of 'filename' with 
+     access permission 'permis' which is S_IWRITE, S_IREAD, or
+     S_IWRITE | S_IREAD, for permission to write, read or read/write.
+   - file is created set to '_fmode' (O_TEXT or O_BINARY)
+   - needs io.h
+
+:creatnew
+   #include <dos.h>
+   int creatnew(filename,attrib)
+   char *filename;
+   int  attrib;
+   - creates new file 'filename' with file attribute 'attrib'
+   - returns nonnegative integer if OK, else -1
+   - returns error if 'filename' already exists
+   - file is created set to '_fmode' (O_TEXT or O_BINARY)
+   - needs io.h
+
+:creattemp
+   #include <dos.h>
+   int creattemp(char *filename, int attrib);
+   - creates new file (overwrites existing file) of 'filename' with
+     file attribute 'attrib', for both read/write
+   - 'filename' is a path name ending in a backslash (\); when file
+     is created, 'filename' has a unique path name
+   - file is created set to '_fmode' (O_TEXT or O_BINARY)
+   - returns nonnegative integer if OK, else -1
+   - needs io.h
+
+:cscanf
+   int cscanf(char *format[,argument,...])
+   - performs formatted input from console
+   - needs conio.h
+   - see scanf()
+
+:ctime
+   char *ctime(long *clock)
+   - converts date and time to a string
+   - 'clock' is a long integer (such as that returned by time())
+   - generates a 26-character string for date and time
+   - needs time.h
+   - returns pointer to string
+
+:ctrlbrk
+   void ctrlbrk(int (*fptr)(void))
+   - needs dos.h
+   - sets a new control-break handler function pointed to by 'fptr'
+   - if CNTL-C hit, then function pointed to by 'fptr' is called
+   - use longjmp() to return to a given point in the program
+
+:difftime
+   double difftime(time_t time2, time_t time1)
+   - returns (time2-time1) difference in seconds (double)
+   - needs time.h
+
+:disable
+   #include <dos.h>
+   void disable()
+   - disables all interrupts except NMI
+
+:dosexterr
+   #include <dos.h>
+   int dosexterr(struct DOSERR *eblkp)
+   - returns extended error information (unique to MSDOS 3.x)
+   - 'eblkp' is pointer to DOSERR structure (defined in dos.h)
+   - if 0 returned, previous DOS call did not result in error
+
+:dostounix
+   #include <dos.h>
+   long dostounix(struct date *dateptr,struct time *timeptr)
+   - converts date (as from getdate) and time (as from gettime) into
+     UNIX format
+
+:dup
+   int dup(int handle)
+   - needs io.h
+   - returns a new file handle that duplicates the old 'handle'
+   - returns -1 on error
+
+:dup2
+   int dup2(int oldhandle,int newhandle)
+   - needs io.h
+   - returns a new file handle that duplicates the old 'handle'
+     equal to 'newhandle'.  If 'newhandle' exists, the corresponding
+     file is closed.
+   - returns -1 on error
+
+:ecvt
+   char *ecvt(double value, int ndigit, int *decpt, int *sign)
+   - needs stdlib.h
+   - converts a floating pt number to a string of 'ndigit' digits,
+     returning pointer to that string
+   - 'decpt' is position of decimal point (negative value means to
+     left of returned digits) and 'sign' is 0 if positive, else negative
+
+:enable
+   #include <dos.h>
+   void enable()
+   - enables all interrupts
+
+:eof
+   int eof(handle)
+   int *handle;
+   - needs io.h
+   - returns 1 if end of file for file associated with 'handle',
+     else 0 if not end of file; else -1 if bad file number
+
+:exec...
+    int execl(pathname,arg0,arg1,arg2,...,argN,NULL);
+    int execle(pathname,arg0,arg1,arg2,...,argN,NULL,envp);
+    int execlp(pathname,arg0,arg1,arg2,...,argN,NULL);
+    int execlpe(pathname,arg0,arg1,arg2,....,argN,NULL,envp);
+    char *pathname,*arg0,*arg1,*arg2,....,*argN,*envp[];
+
+    int execv(pathname,arg,NULL);
+    int execve(pathname,arg,NULL,envp);
+    int execvp(pathname,arg,NULL);
+    int execvpe(pathname,arg,NULL,envp);
+    char *pathname,*arg[],*envp[];
+
+    - needs process.h
+    - loads and runs child processes
+    - 'pathname' search based on MS-DOS search algorithm
+      o if no extension or period - search for exact file name -
+        if not found, add .exe and search again
+      o if extension given, search only for exact file name
+      o if period given, search for file name with no extension
+    - arg0 can be the same as the 'pathname'
+    - at least one argument must be passed
+    - combined argument list cannot exceed 128 bytes
+    - execl..: arg0, arg1,...,argN are passed as SEPARATE arguments
+    - execv..: arg[0], arg[1],...,arg[N] are passed as ARRAYs of arguments
+    - execlp, execlpe, execvp, execvpe: search for child in DOS PATH
+    - returns no value if OK, else returns -1, and 'errno' set to E2BIG (too
+      many args), EACCES (permission denied), EMFILE (too many open files),
+      ENOENT (path or file not found), ENOEXEC (exec format error), or
+      ENOMEM (not enough memory).
+    - if successful, there is no return to the caller; the caller is
+      killed off
+
+:exit
+    void exit(completionCode)
+    int completionCode;
+    - needs process.h
+    - terminates program, closes all files, buffered output is written, and
+      any registered exit functions (via atexit()) are called
+
+:_exit
+    void _exit(completionCode)
+    int completionCode;
+    - needs process.h
+    - terminates program, BUT doesn't close all files, write out buffered 
+      output, and NO registered exit functions (via atexit()) are called
+
+:exp
+    double exp(x)
+    double x;
+    - needs math.h
+    - returns y = e**x or HUGE_VAL on error
+
+:fabs
+    double fabs(x)
+    double x;
+    - needs math.h
+    - returns absolute value of 'x'
+
+:farcalloc
+    void far *farcalloc(unsigned long nunits, unsigned long unitsz);
+    - needs alloc.h
+    - allocates memory from the far heap for an array of 'nunits' elements,
+      each 'unitsz' bytes long
+    - returns pointer to allocated block or NULL if not enough space left
+    - can allocate all of memory & chunks bigger than 64K
+    - must use far pointers
+
+:farcoreleft
+    long farcoreleft()
+    - needs alloc.h
+    - returns unused memory in bytes beyond highest allocated block
+
+:farfree
+    void farfree(void far *block)
+    - needs alloc.h
+    - frees block of previously allocated far memory ('block' must be
+      allocated by 'farcalloc')
+
+:farrealloc
+    void far *farrealloc(block,newsize)
+    void far *block;
+    unsigned long newsize;
+    - adjusts size of allocated block to 'newsize', copying contents to
+      a new location if necessary
+    - returns pointer to reallocated block or NULL on error
+
+:fcvt
+   char *fcvt(double value, int ndigit, int *decpt, int *sign)
+   - needs stdlib.h
+   - converts a floating pt number to a string of 'ndigit' digits,
+     returning pointer to that string
+   - correct digit is rounded for Fortran-F format output of the
+     number of digits equal to 'ndigit'
+   - 'decpt' is position of decimal point (negative value means to
+     left of returned digits) and 'sign' is 0 if positive, else negative
+
+:fclose
+    int fclose(fd)
+    FILE *fd;
+    - closes a file stream (see fdopen() to convert handle to stream)
+    - generally flushes buffers, too
+    - returns 0 on success or EOF on error
+
+:fcloseall
+    int fcloseall()
+    - closes all file streams except stdin & stdout
+    - returns 0 on success or EOF on error
+
+:fcvt
+    char *fcvt(value,ndigit,decpt,sign);
+    double value; 
+    int ndigit; 
+    int *decpt,*sign;
+    - converts floating point number to a string
+    - prototype in: stdlib.h
+    - see ecvt().
+
+:fdopen
+    #include <dos.h>
+    FILE *fdopen(handle,type)
+    int handle;
+    char *type;
+    - associates a file STREAM with a file HANDLE
+    - 'handle' is returned by creat(), dup(), dup2() or open()
+    - 'type' must match mode of the 'handle'
+    - see fopen() for 'type' descriptions
+    - returns file 'stream' or NULL on error
+
+:feof
+    #include <stdio.h>
+    int feof(FILE *stream);
+    - detects end of file on a file stream
+    - returns zero if NOT eof, else nonzero
+
+:ferror
+    #include <stdio.h>
+    int ferror(FILE *stream);
+    - tests 'stream' for read/write error, returns nonzero if error found
+    - error remains set until clearerr() or rewind() is called
+
+:fflush
+    int fflush(fd)
+    FILE *fd;
+    - writes contents of output buffers associated with 'fd' to 
+      stream and clears input buffer contents; 'fd' is NOT closed
+    - returns 0 on success or EOF on error
+
+:fgetc
+    int fgetc(fd)
+    FILE  *fd;
+    - function (not a macro) which gets character from stream (needs <stdio.h>)
+    - see getc()
+    - returns char (converted to an int) or EOF 
+
+:fgetchar
+    int fgetchar()
+    - gets character from stream (needs <stdio.h>)
+    - same as fgetc(stdin)
+    - see getc()
+    - returns char (converted to an int) or EOF 
+
+:fgets
+    char *fgets(s, size, fd)
+    char *s;
+    int size;
+    FILE *fd;
+    - gets a string from a stream, reading until 'size' - 1 characters
+      have been read or a newline is detected
+    - newline character is retained
+    - returns 's' argument if OK, else NULL on eof or error
+
+:filelength
+    long filelength(handle)
+    int handle
+    - prototype in: io.h
+    - gets file size in bytes for file associated with 'handle'
+    - returns -1L on error
+
+:fileno
+    #include <stdio.h>
+    int fileno(FILE *stream)
+    - gets file handle for the given 'stream'
+    - error return undefined
+
+:findfirst
+    #include <dir.h>
+    #include <dos.h>
+    int findfirst(pathname,ffblk,attrib)
+    char *pathname;
+    struct ffblk *ffblk;
+    int  attrib;
+    - gets disk directory via DOS 0x4E, where 'attrib' is FA_RDONLY, 
+      FA_HIDDEN, FA_SYSTEM, FA_LABEL, FA_DIREC, or FA_ARCH, or a logical
+      OR of same.
+    - struct ffblk is defined in <dir.h>
+    - findfirst sets DTA (use getdta() & setdta() if you need DTA address)
+    - returns 0 if OK, else -1 if no matching files found or on error
+
+:findnext
+    #include <dir.h>
+    #include <dos.h>
+    int findnext(ffblk)
+    struct ffblk *ffblk;
+    - gets next disk directory via DOS 0x4F (you call findfirst() first)
+    - struct ffblk is defined in <dir.h>
+    - findnext sets DTA (use getdta() & setdta() if you need DTA address)
+    - returns 0 if OK, else -1 if no matching files found or on error
+
+:floor
+    double floor(x)
+    double x;
+
+:flushall
+    int flushall()
+    - same as fflush() except ALL open file streams are done
+    - returns integer indicating number of open file streams
+
+:fmod
+    double fmod(x,y)
+    double x,y;
+    - calculates x modulo y, the remainder of x/y, returning the remainder
+    - prototype in math.h
+
+:fnmerge
+    #include <dir.h>
+    void fnmerge(path,drive,dir,name,ext)
+    char *path, *drive, *dir, *name, *ext;
+    - makes a file name ('path') from 'drive', 'dir', 'name', and 'ext'
+    - 'dir' can include subdirectories
+    - maximum sizes for these strings are:
+      MAXPATH  80   'path'
+      MAXDRIVE  3   'drive' - includes colon (:)
+      MAXDIR   66   'dir' - includes leading/traing backslashes
+      MAXFILE   9   'name'
+      MAXEXT    5   'ext', including leading dot (.)
+    - invertible with fnsplit()
+    
+:fnsplit
+    #include <dir.h>
+    void fnsplit(path,drive,dir,name,ext)
+    char *path, *drive, *dir, *name, *ext;
+    - splits a file name from 'path' into 'drive', 'dir', 'name', and 'ext'
+    - 'dir' can include subdirectories
+    - maximum sizes for these strings are:
+      MAXPATH  80   'path'
+      MAXDRIVE  3   'drive' - includes colon (:)
+      MAXDIR   66   'dir' - includes leading/traing backslashes
+      MAXFILE   9   'name'
+      MAXEXT    5   'ext', including leading dot (.)
+    - invertible with fnmerge()
+    
+:fopen
+    #include <stdio.h>
+    FILE *fopen(filename, type)
+    char *filename, *type;
+    [NOTES] type = "r" (read), "w" (write), "a" (append),
+                   "r+", "w+", "a+", "r+t", "w+t", "a+t",
+                   "r+b", "w+t", "a+t", "rt", "wt", "at",
+                   "rb", "wb", "ab"
+            read == read only (unless "r+")  write == create
+            append == seek to end of file or create file
+            "+" == allow update access
+            "t" == text file      "b" == binary file
+            Text file, on reading, will have CRs discarded
+     - returns stream or NULL on error
+
+:FP_OFF
+    #include <dos.h>
+    unsigned FP_OFF(void far *farptr);
+    - gets offset of far pointer 'farptr', returning unsigned integer value
+      
+:FP_SEG
+    #include <dos.h>
+    unsigned FP_SEG(void far *farptr);
+    - gets segment of far pointer 'farptr', returning unsigned integer value
+
+:_fpreset
+    void _fpreset()
+    - needs float.h
+    - resets floating point math package, usually used with signal(),
+      system(), exec..(), spawn..()
+    - should be called if using 8087/80287 after using above functions
+
+:fprintf
+    #include <stdio.h>
+    int fprintf(fd, format [, arg1, arg2, ...])
+    FILE *fd;
+    char *format, arg1, ...;
+
+:fputc
+    #include <stdio.h>
+    int fputc(c, fd)
+    int c;
+    FILE *fd;
+    - puts char 'c' to stream 'fd', returning 'c' on success, else EOF
+
+:fputs
+    #include <stdio.h>
+    int fputs(c, fd)
+    char *c;
+    FILE *fd;
+
+:fread
+    #include <stdio.h>
+    int fread(buf, size, count, fd)
+    void *buf;
+    int size, count;
+    FILE *fd;
+    - reads 'count' of data items, each item being 'size' bytes long,
+      from file stream 'fd'
+    - returns number of data items (not bytes) actually read
+    - returns 0 (or short count) on eof or error
+
+:free
+    int free(pseg)
+    void *pseg;
+    - prototypes in stdlib.h, alloc.h
+    - frees allocated block
+
+:freemem
+   int freemem(unsigned seg);
+   - prototype in: dos.h
+   - frees previously allocated DOS block defined by 'seg'
+
+:freopen
+    #include <stdio.h>
+    FILE *freopen(filename, type, fd)
+    char *filename, *type;
+    FILE *fd;
+    - substitutes named file in place of open 'fd' and closes original 'fd'
+    - useful for changing file attached to stdin, stdout, or stderr
+    - returns 'fd' on success or NULL on error
+    - see fopen() for 'type' descriptions
+
+:frexp
+    double frexp(value,eptr)
+    double value;
+    int	*eptr;
+    - needs math.h
+    - calculates mantissa x (a double < 1) and n (integer) such that
+      value = x * 2**n, storing n in word that eptr points to
+
+:fscanf
+    int fscanf(fd, format, arg1, arg2, ...)
+    FILE *fd;
+    char *format, arg1, arg2, ...;
+    - gets formatted inpu from a stream 'fd'
+
+:fseek
+    int fseek(fd, offset, mode)
+    FILE *fd;
+    int mode;
+    long offset;
+    - prototype in: stdio.h
+    - sets file pointer associated with 'fd' to position which is 'offset'
+      bytes beyond file location given by 'mode'
+    - mode is 0 (beginning of file or SEEK_SET), 1 (current position or
+      SEEK_CUR), or 2 (end of file or SEEK_END
+    - discards any character pushed back by ungetc()
+    - fseek() clears eof indicator but not file error indicator
+    - returns 0 if pointer moved OK, else nonzero
+
+:fstat
+    #include <sys\stat.h>
+    int fstat(handle, buff)
+    char *handle;
+    struct stat *buff
+    - see stat()
+
+:ftell
+    long ftell(FILE *fd)
+    - prototype in: stdio.h
+    - returns current file position in bytes from beginning of file 
+      or -1L on error
+    
+:fwrite
+    #include <stdio.h>
+    int fwrite(buf, size, count, fd)
+    void *buf;
+    int size, count;
+    FILE *fd;
+    - writes 'count' of data items, each item being 'size' bytes long,
+      to file stream 'fd'
+    - returns number of data items (not bytes) actually written
+    - returns short count on error
+
+:gcvt
+   char *gcvt(double value, int ndigit, char *buf)
+   - needs stdlib.h
+   - converts a floating pt number to a string of 'ndigit' digits,
+     storing string into 'buf' and returning pointer to that string
+   - output is in Fortran-F format if possible, else in Fortran-E format
+
+:geninterrupt
+   #include <dos.h>
+   void geninterrupt(int intr_num)
+   - traps interrupts of 'intr_num'
+   - see getvect()
+
+:getc
+    #include <stdio.h>
+    int getc(fd)
+    FILE *fd;
+    - macro which returns next character in file stream 'fd' or EOF on 
+      end of file or error
+
+:getcbrk
+    int getcbrk()
+    - prototype in: dos.h
+    - gets control-break setting (0 if cntl-C is off; else 1)
+
+:getch
+    #include <stdio.h>
+    int getch()
+    - function which returns next character from console without echoing
+
+:getchar
+    #include <stdio.h>
+    int getchar()
+    - macro which returns next character in file stream 'stdin' or EOF on 
+      end of file or error
+
+:getche
+    #include <stdio.h>
+    int getche()
+    - function which returns next character from console WITH echoing
+
+:getcurdir
+    int getcurdir(int drive, char *direc);
+    - get current directory for specified 'drive' (0=default, 1=A, etc)
+    - 'direc' will return directory name
+    - returns 0 if OK, else -1 on error
+    - needs dir.h.
+
+:getcwd
+    char *getcwd(char *buf,int n);
+    - gets full path name of current working directory up to 'n' bytes,
+      placed into 'buf'
+    - returns 'buf' pointer, else NULL
+    - needs dir.h
+
+:getdate
+    #include <dos.h>
+    void getdate(struct date *dateblk);
+    - gets MS-DOS date, filling it into 'dateblk'
+
+:getdfree
+    #include <dos.h>
+    void getdfree(int drive, struct dfree *dfreep);
+    - filles in 'dfreep' structure with disk characters
+      struct dfree {
+         unsigned df_avail;  /* available clusters */
+         unsigned df_total;  /* total clusters */
+         unsigned df_bsec;   /* bytes per sector */
+         unsigned df_sclus;  /* sectors per cluster */
+         };
+     - in event of error, 'df_sclus' is set to -1.
+
+:getdisk
+    int getdisk()
+    - needs dir.h
+    - returns integer = 0 (for A), 1 (for B), etc
+
+:getdta
+    char far *getdta()
+    - prototype in: dos.h
+    - returns current setting of the DTA as a far pointer
+
+:getenv
+    char *getenv(char *envvar);
+    - gets string from environment
+    - MSDOS environment consists of strings of form 'envvar=varvalue,...'
+    - returns 'varvalue' or 0 if 'envvar' not found in environment
+
+:getfat
+    #include <dos.h>
+    void getfat(int drive,struct fatinfo *fatblkp);
+    - returns information from the file allocation table for the specified
+      'drive' (0=default,1=A, etc) into 'fatblk'
+    - structure 'fatinfo' is defined in dos.h
+
+:getfatd
+    #include <dos.h>
+    void getfatd(struct fatinfo *fatblkp);
+    - returns information from the file allocation table for the DEFAULT 
+      drive into 'fatblk'
+    - structure 'fatinfo' is defined in dos.h
+
+:getftime
+    #include <dos.h>
+    int getftime(int handle,struct ftime *ftimep);
+    - retrieves file time and date for the file associated with 'handle'
+      into 'ftimep'
+    - structure ftime is defined in dos.h
+
+:getpass
+    char *getpass(char *prompt);
+    - prototype in: conio.h
+    - reads a password from system console after typing 'prompt', without
+      echoing
+    - password cannot exceed 8 characters (not counting null terminator)
+
+:getpsp
+    unsigned getpsp()
+    - prototype in: dos.h
+    - returns segment address of the PSP using DOS call 0x62
+    - valid only for DOS 3.x
+    - use global variable '_psp' to get PSP instead for DOS 2.X
+
+:gets
+    char *gets(s)
+    char *s;
+    - reads string from 'stdin' until newline character is read
+    - newline character is replaced by '\0'
+    - returns string or NULL on end-of-file or error
+
+:gettime
+    #include <dos.h>
+    void gettime(struct time *timep);
+    - gets MS-DOS time
+
+:getvect
+    void interrupt(*getvect(int intr_num))();
+    - prototype in dos.h
+    - reads the value of interrupt vector named by 'intr_num' 
+      (corresponds to 0-255 for MS-DOS)
+    - returns 4-byte value stored in MS-DOS interrupt table (far
+      pointer)
+
+:getverify
+    int getverify()
+    - returns current state of verify flag (0==off, 1==on)
+    - prototype in dos.h
+
+:getw
+    #include <stdio.h>
+    int getw(fd)
+    FILE *fd;
+    - gets integer from file stream 'fd'
+    - returns EOF (-1) on eof or error
+    - use feof() or ferror() to verify -1 is integer, not error return
+
+:gmtime
+   struct tm *gmtime(long *clock)
+   - 'clock' is a long integer (such as that returned by time())
+   - returns GMT time in struct tm (see time.h) correcting for time
+     zone and any daylight savings time
+   - global variable 'timezone' is difference in seconds between GMT
+     and local standard time
+   - needs time.h
+
+:gsignal
+    int gsignal(int sig);
+    int (*ssignal(int sig, int (*action)())();
+    - prototype in: signal.h
+    - ssignal() and gsignal() implement a software-signaling facility where
+      software signals are integers 1-15
+    - gsignal() raises the signal given by 'sig' and executes the action
+      routine
+    - ssignal() establishes an action routine for servicing a signal where
+      'sig' is associated with the 'action' routine
+    - ssignal() returns action previously established for ssignal() or SIG_DFL
+    - gsignal() returns value by action or SIG_IGN or SIG_DFL
+    - UNIX based
+
+:harderr
+    void harderr(int(*fptr)());
+    void hardresume(int rescode);
+    void hardretn(int errcode);
+    - prototype in: dos.h
+    - harderr() establishes a hardware error handler for current program,
+      invoked wherever interrupt 0x24 occurs
+    - function via 'fptr' is called when such an interrupt occurs
+    - handler function will be called with the follwing arguments=
+         handler(int errval, int ax, int bp, int si);
+      where 'errval' is error code in DI register by MS-DOS, and 'ax', 'bp',
+      'si" are values MS-DOS has in AX, BP, and SI registers
+    - 'ax' indicates if disk or other device error occurs - if 'ax' is not
+      negative, then disk error, else device error.  For disk error, 'ax' ANDed
+      with 0x00ff will give bad drive number
+    - 'bp' and 'si' together point to device driver header
+    - hardresume() may be called with 'rescode' to return to MS-DOS, where
+      'rescode' = 2 (for abort), 1 (retry) or 0 (ignore)
+    - hardrtn() may be called to return directly to the application program
+    - handler must return 0 for ignore, 1 for retry, or 2 for abort
+    - handler may issue bdos calls 1 through 0xC, but no others, and no C 
+      standard I/O or UNIX I/O calls may be used
+
+:hardresume
+    void harderr(int(*fptr)());
+    void hardresume(int rescode);
+    void hardretn(int errcode);
+    - prototype in: dos.h
+    - harderr() establishes a hardware error handler for current program,
+      invoked wherever interrupt 0x24 occurs
+    - function via 'fptr' is called when such an interrupt occurs
+    - handler function will be called with the follwing arguments=
+         handler(int errval, int ax, int bp, int si);
+      where 'errval' is error code in DI register by MS-DOS, and 'ax', 'bp',
+      'si" are values MS-DOS has in AX, BP, and SI registers
+    - 'ax' indicates if disk or other device error occurs - if 'ax' is not
+      negative, then disk error, else device error.  For disk error, 'ax' ANDed
+      with 0x00ff will give bad drive number
+    - 'bp' and 'si' together point to device driver header
+    - hardresume() may be called with 'rescode' to return to MS-DOS, where
+      'rescode' = 2 (for abort), 1 (retry) or 0 (ignore)
+    - hardrtn() may be called to return directly to the application program
+    - handler must return 0 for ignore, 1 for retry, or 2 for abort
+    - handler may issue bdos calls 1 through 0xC, but no others, and no C 
+      standard I/O or UNIX I/O calls may be used
+
+:hardrtn
+    void harderr(int(*fptr)());
+    void hardresume(int rescode);
+    void hardretn(int errcode);
+    - prototype in: dos.h
+    - harderr() establishes a hardware error handler for current program,
+      invoked wherever interrupt 0x24 occurs
+    - function via 'fptr' is called when such an interrupt occurs
+    - handler function will be called with the follwing arguments=
+         handler(int errval, int ax, int bp, int si);
+      where 'errval' is error code in DI register by MS-DOS, and 'ax', 'bp',
+      'si" are values MS-DOS has in AX, BP, and SI registers
+    - 'ax' indicates if disk or other device error occurs - if 'ax' is not
+      negative, then disk error, else device error.  For disk error, 'ax' ANDed
+      with 0x00ff will give bad drive number
+    - 'bp' and 'si' together point to device driver header
+    - hardresume() may be called with 'rescode' to return to MS-DOS, where
+      'rescode' = 2 (for abort), 1 (retry) or 0 (ignore)
+    - hardrtn() may be called to return directly to the application program
+    - handler must return 0 for ignore, 1 for retry, or 2 for abort
+    - handler may issue bdos calls 1 through 0xC, but no others, and no C 
+      standard I/O or UNIX I/O calls may be used
+
+:hypot
+    double hypot(double x,double y)
+    - prototype in math.h
+    - returns z where z**2 = x**2 + y**2, or HUGE_VAL on error
+
+:inport
+    #include <dos.h>
+    int inport(int port);
+    int inportb(int port);
+    void outport(int port, int word);
+    void outportb(int port, char byte);
+    - inport() reads word from input port 'port'
+    - inportb() is macro that reads byte from input port 'port'
+    - outport() writes 'word' to output port 'port'
+    - outportb() is macro that writes 'byte' to output port 'port'
+
+:inportb
+    #include <dos.h>
+    int inport(int port);
+    int inportb(int port);
+    void outport(int port, int word);
+    void outportb(int port, char byte);
+    - inport() reads word from input port 'port'
+    - inportb() is macro that reads byte from input port 'port'
+    - outport() writes 'word' to output port 'port'
+    - outportb() is macro that writes 'byte' to output port 'port'
+
+:int86
+    #include <dos.h>
+    int int86(int intr_num,union REGS *inregs, union REGS *outregs);
+    int int86x(int intr_num,union REGS *inregs, union REGS *outregs,
+               struct SREGS *segregs);
+    - Executes 8086 software interrupt specified by 'intr_num"
+    - Copies register values fron 'inregs' into the registers
+    - int86x() also copies segregs->x.ds and segregs->y.es into DS/ES
+    - if carry flag is set, an error has occurred
+
+:int86x
+    #include <dos.h>
+    int int86(int intr_num,union REGS *inregs, union REGS *outregs);
+    int int86x(int intr_num,union REGS *inregs, union REGS *outregs,
+               struct SREGS *segregs);
+    - Executes 8086 software interrupt specified by 'intr_num"
+    - Copies register values fron 'inregs' into the registers
+    - int86x() also copies segregs->x.ds and segregs->y.es into DS/ES
+    - if carry flag is set, an error has occurred
+
+:intdos
+    #include <dos.h>
+    int intdos(union REGS *inregs, union REGS *outregs);
+    int intdosx(union REGS *inregs, union REGS *outregs,
+               struct SREGS *segregs);
+    - Executes 8086 software interrupt 0x21
+    - Copies register values fron 'inregs' into the registers
+    - int86x() also copies segregs->x.ds and segregs->y.es into DS/ES
+    - if carry flag is set, an error has occurred
+
+:intdosx
+    #include <dos.h>
+    int intdos(union REGS *inregs, union REGS *outregs);
+    int intdosx(union REGS *inregs, union REGS *outregs,
+               struct SREGS *segregs);
+    - Executes 8086 software interrupt 0x21
+    - Copies register values fron 'inregs' into the registers
+    - int86x() also copies segregs->x.ds and segregs->y.es into DS/ES
+    - if carry flag is set, an error has occurred
+
+:intr
+    #include <dos.h>
+    void intr(int intr_num,struct REGPACK *preg);
+    - same as int86 except that 'preg' contains registers values both 
+      before & after executing interrupt
+
+:ioctl
+    int ioctl(int handle,int cmd[,int *argdx,int argcx]);
+    - prototype in io.h
+    - direct interface to MS-DOS call 0x44 (IOCTL)
+    - 'cmd' is: 0 - get device information
+                1 - set device information (in 'argdx')
+                2 - read 'argcx' bytes into addr given by 'argdx'
+                3 - write 'argcx' bytes from addr given by 'argdx'
+                4 - same as 2, except 'handle' treated as drive (0=default,
+                    1=A, etc)
+                5 - same as 3, except 'handle' treated as drive (0=default,
+                    1=A, etc)
+                6 - get input status
+                7 - get output status
+                8 - test removability (DOS 3.x)
+                11- set sharing conflict retry count (DOS 3.x)
+    - 'cmd'=0,1; returns device information (DX of IOCTL call)
+    - 'cmd'=2-5; returns count of bytes transferred
+    - 'cmd'=6,7; returns device status
+    - returns -1 on error & 'errno' = EINVAL, EBADF, or EINVDAT
+
+:is...
+    - prototype in: io.h
+    - 'c' below are int type
+    int isalnum(c)  - nonzero if letter or digit
+    int isalpha(c)  - nonzero if letter
+    int isascii(c)  - nonzero if in range 0-127
+    int iscntrl(c)  - nonzero if 0x7F, or 0x00-0x1F
+    int isdigit(c)  - nonzero if digit
+    int isgraph(c)  - nonzero if printable (0x21-0x7E) except space excluded
+    int islower(c)  - nonzero if lowercase
+    int isprint(c)  - nonzero if printable (0x20-0x7E)
+    int ispunct(c)  - nonzero if punctuation char (iscntrl or isspace)
+    int isspace(c)  - nonzero if space,tab, CR, LF, VT or FF
+    int isupper(c)  - nonzero if uppercase
+    int isxdigit(c) - nonzero if hexadecimal digit
+
+:isatty
+    int isatty(int handle)
+    - prototype in: io.h
+    - if 'handle' associated with character device (tty,console,printer,
+      or serial port) returns nonzero integer; else returns 0
+
+:itoa
+    char *itoa(int value,char *string,int radix);
+    - converts 'value' to 'string' where 'radix' specifies base (2-36) for
+      conversion
+
+:kbhit
+    int kbhit()
+    - prototype in: conio.h
+    - returns nonzero if keystroke available else 0
+
+:keep
+    void keep(int status, int size);
+    - prototype in: dos.h
+    - keep() returns to MS-DOS with exit status in 'status', retaining
+      current program resident in memory with 'size' paragraphs and rest
+      of memory freed
+    - uses DOS function 0x31
+
+:labs
+    long labs(long n);
+    - prototype in: stdlib.h
+    - returns absolute long value of 'n'
+
+:ldexp
+    double ldexp(double value,int exp);
+    - prototype in: math.h
+    - returns 'value' x 2**'exp'
+
+:lfind
+   void *lfind(key,base,nelem,width,fcmp)
+   void *key, void *base, int *nelem, int width, int (*fcmp)();
+   - does linear search for items in a table; table does not need to be
+     sorted
+   - 'base' points to 0th element of table
+   - 'nelem' points to integer containing number of entries in table
+   - 'width' contains number of bytes in each entry
+   - 'key' points to the search key
+   - 'fcmp' points to user-written comparison routine, where 'key' and
+     'elem' are passed to it as pointers.  'fcmp' returns integer != 0
+     if search key != *elem; integer = 0 if identical 
+   - returns 0 if no match found, else address of first entry that matches
+   - needs stdlib.h
+
+:localtime
+   struct tm *localtime(long *clock)
+   - 'clock' is a long integer (such as that returned by time())
+   - returns time in struct tm (see time.h) correcting for time
+     zone and any daylight savings time
+   - global variable 'timezone' is difference in seconds between GMT
+     and local standard time
+   - needs time.h
+
+:lock
+    int lock(int handle, long offset, long length);
+    int unlock(int handle, long offset, long length);
+    - lock() locks arbitrary, non-overlapping regions of any file (DOS 3.X), 
+      preventing reads/writes to those regions
+    - unlock() removes said locks
+    - returns 0 on success, else -1 on error
+
+:log
+    double log(x)
+    double x;
+    - needs math.h
+    - returns natural logarithm of 'x', or -HUGE_VAL on error
+
+:log10
+    double log10(x)
+    double x;
+    - needs math.h
+    - returns base 10 logarithm of 'x', or -HUGE_VAL on error
+
+:longjmp
+    #include <setjmp.h>
+    void longjmp(jmp_buf env, int id);
+    - call to longjmp() with 'env' restores task state (set by
+      setjmp()), returning value 'id'
+    - cannot return 0; if 'id' == 0, returns 1
+
+:lsearch
+   void *lsearch(key,base,nelem,width,fcmp)
+   void *key, void *base, int *nelem, int width, int (*fcmp)();
+   - does linear search for items in a table; table does not need to be
+     sorted
+   - 'base' points to 0th element of table
+   - 'nelem' points to integer containing number of entries in table
+   - 'width' contains number of bytes in each entry
+   - 'key' points to the search key
+   - 'fcmp' points to user-written comparison routine, where 'key' and
+     'elem' are passed to it as pointers.  'fcmp' returns integer != 0
+     if search key != *elem; integer = 0 if identical 
+   - returns 0 if no match found, else address of first entry that matches
+   - needs stdlib.h
+
+:lseek
+    long lseek(fd, offset, mode)
+    int fd, mode;
+    long offset;
+    - sets file associated with 'fd' to 'offset' from beginning of file 
+      ('mode' = 0 or SEEK_SET), current position ('mode' = 1 or SEEK_CUR),
+      or end of file ('mode' = 2 or SEEK_END)
+    - returns -1L on error
+
+:ltoa
+    char *ltoa(long value,char *string,int radix);
+    - converts 'value' to 'string' where 'radix' specifies base (2-36) for
+      conversion
+
+:malloc
+    void *malloc(size)
+    unsigned size;
+    - prototype in stdlib.h, alloc.h
+    - allocates memory of length 'size' in bytes
+    - returns pointer if successful, else NULL
+
+:_matherr
+    #include <math.h>
+    double _matherr(_mexcep why, char *fun, double *arg1p,
+                    double *arg2p, double retval);
+    - used with matherr(), calling matherr() and processes the return value
+      from matherr()
+    - floating point error handling routine
+
+:matherr
+    #include <math.h>
+    int matherr(struct exception *e);
+    - provided as customizable math error-handling routine
+
+:mem...
+    void *memccpy(void *destin,void *source,unsigned char ch,unsigned n);
+    void *memchr(void *s,char ch,unsigned n);
+    void *memcmp(void *s1,void *s2,unsigned n);
+    int  memicmp(void *s1,void *s2,unsigned n);
+    void *memmove(void *destin,void *source,unsigned n);
+    void *memcpy(void *destin,void *source,unsigned n);
+    void *memset(void *s,char ch,unsigned n);
+    - prototype in: string.h, mem.h
+    - memcpy copies 'n' bytes from 'source' to 'destin'; returns 'destin'
+    - memmove - same as memcpy
+    - memset sets all bytes of 's' to byte 'ch', with size of 's' = 'n';
+      returns value of 's'
+    - memcmp compares two strings 's1' & 's2' for length of 'n' bytes,
+      returning a value < 0 is 's1' < 's2', = 0 if 's1'='s2', and > 0 if
+      's1' > 's2', where compares is for unsigned chars.
+    - memicmp compares first 'n' bytes of 's1' & 's2', case insensitive
+    - memccpy copies from 'source' to 'destin' until 'ch' is copied or
+      'n' bytes have been done, returning pointer to byte in 'destin'
+      immediately following 'ch' or NULL
+    - memchr searches first 'n' bytes in 's' for 'ch', returning pointer
+      to first occurrence or NULL if not found
+
+:MK_FP
+    #include <dos.h>
+    void far *MK_FP(unsigned seg,unsigned off);
+    - returns a far pointer from offset 'off' and segment 'seg'      
+
+:mkdir
+    int mkdir(char *pathname);
+    - prototype in dir.h
+    - takes 'pathname' & creates new directory with that name 
+    - returns 0 if successful, else -1
+
+:mktemp
+    char *mktemp(char *template);
+    - prototype in dir.h
+    - replaces 'template' by unique file name & returns addr of 'template'
+      if successful
+    - 'template' should be null-terminated string with six trailing X's
+
+:modf
+    double modf(value,iptr)
+    double value, *iptr;
+    - splits 'value' in integer and fraction part, storing integer part
+      in area pointed to by 'iptr', returning the fractional part
+
+:movedata
+    void movedate(int segsrc,int offsrc,int segdest,int offdest,unsigned n);
+    - prototype in mem.h, string.h
+    - copies 'n' bytes from segsrc:offsrc to segdest:offdest
+
+:movmem
+    void movmem(void *source,void *destin,unsigned len);
+    - prototype in mem.h
+    - copies 'len' bytes from 'source' to 'destin'
+
+:_open
+    #include <fcntl.h>
+    int _open(char *pathname,int access);
+    - prototype in io.h
+    - see open()
+
+:open
+    #include <fcntl.h>
+    int open(filename, access[,permis])
+    char *filename;
+    int access,permis;
+    - prototype in io.h
+    - opens file 'pathname' with 'access' and optionally 'permis'
+    - 'access' is O_RDONLY, O_WRONLY, or O_RDWR, with O_APPEND, O_CREAT,
+      O_TRUNC (if file exists, truncate length to zero, but leave file
+      attributes unchanged), O_BINARY (binary mode), or O_TEXT (text mode).
+    - Additional not used (UNIX only): O_NDELAY, O_EXCL
+    - if O_BINARY nor O_TEXT is given, file is opened in translation mode
+      given by global variable _fmode
+    - if O_CREAT is used, 'permis' can be set to S_IWRITE, S_IREAD, or
+      S_IREAD|S_IWRITE
+    - Additional 'access' values for DOS 3.x
+    - fcntl.h and stat.h contain values for these
+    - returns nonnegative number as file HANDLE, or -1 on error
+
+:outport
+    #include <dos.h>
+    int inport(int port);
+    int inportb(int port);
+    void outport(int port, int word);
+    void outportb(int port, char byte);
+    - inport() reads word from input port 'port'
+    - inportb() is macro that reads byte from input port 'port'
+    - outport() writes 'word' to output port 'port'
+    - outportb() is macro that writes 'byte' to output port 'port'
+
+:outportb
+    #include <dos.h>
+    int inport(int port);
+    int inportb(int port);
+    void outport(int port, int word);
+    void outportb(int port, char byte);
+    - inport() reads word from input port 'port'
+    - inportb() is macro that reads byte from input port 'port'
+    - outport() writes 'word' to output port 'port'
+    - outportb() is macro that writes 'byte' to output port 'port'
+
+:parsfnm
+    #include <dos.h>
+    char *parsfnm(char *cmdline,struct fcb *fcbptr, int option);
+    - parses command line 'cmdline' for a file name, placing it into a
+      FCB as drive/filename/file ext, pointed to by 'fcbptr'
+    - 'option' is same as documented for AL in MS-DOS function call 0x29
+    - returns pointer to byte beyond end of filename, or 0 on error
+
+:peek
+    int peek(int seg,unsigned off);
+    - prototype in dos.h
+    - returns word found at seg:off
+
+:peekb
+    int peekb(int seg,unsigned off);
+    - prototype in dos.h
+    - returns byte found at seg:off
+
+:perror
+    void perror(char *string);
+    - prototype in stdio.h
+    - prints error message to stderr, describing most recent call found
+      in system call from current program 
+
+:poke
+    void poke(int seg,int off,int value);
+    - prototype in dos.h
+    - writes word 'value' to location seg:off
+
+:pokeb
+    void pokeb(int seg,int off,char value);
+    - prototype in dos.h
+    - writes byte 'value' to location seg:off
+
+:poly
+    double poly(double x,int n,double coeff[]);
+    - prototype in math.h
+    - generates polynominal in 'x' of degree 'n', with coefficients 'coeff',
+      returning the value of this polynominal evaluated for 'x'
+
+:pow
+    double pow(x,y)
+    double x,y;
+    - needs math.h
+    - returns p where p = x ** y or +/- HUGE_VAL on error
+
+:pow10
+    double pow10(x)
+    double x;
+    - need math.h
+    - returns y where y = 10 ** x or HUGE_VAL on overflow error
+
+:printf
+    void printf(format [, arg1, arg2, ...])
+    char *format;
+
+:putc
+    int putc(c, fd)
+    int c;
+    FILE *fd;
+    - puts char 'c' to stream 'fd', returning 'c' on success, else
+      returns EOF on error
+
+:putch
+    int putch(ch)
+    int ch;
+    - puts char 'ch' to console; putch returns nothing
+
+:putchar
+    putchar(c)
+    char c;
+    - same as putc(c,stdout)
+
+:putenv
+    int putenv(char *envvar);
+    - adds string to environment
+    - MSDOS environment consists of strings of form 'envvar=varvalue,...'
+    - returns 0 if OK, or -1 on failure (such as not enough environment space)
+
+:puts
+    void puts(string)
+    char *string;
+
+:putw
+    int putw(n, fd)
+    int n;
+    FILE *fd;
+    - puts integer word 'n' to stream 'fd'
+    - returns 'n' or EOF on error.  Use ferror() to verify if EOF is
+      returned, since -1 is a legitimate integer.
+
+:qsort
+    void qsort(array, elementCount, elementSize, compareFunc)
+    char *array;
+    int elementCount, elementSize, (*compareFunc)();
+    - 'compareFunc' is same as for bsearch()
+
+:rand
+    int rand()
+    void srand(unsigned seed);
+    - prototype in stdlib.h
+    - rand() returns pseudorandom numbers
+    - reinitialize with srand(1) or set to new starting point with
+      'seed' set other than to 1
+
+:randbrd
+    #include <dos.h>
+    int randbrd(struct fcb *fcbptr,int reccnt);
+    int randbrw(struct fcb *fcbptr,int reccnt);
+    - randbrd() reads 'reccnt' number of records using the open
+      FCB via 'fcbptr', as indicated by the disk record field of
+      the FCB (via DOS call 0x27).
+    - returns:
+      0 == all records read(written)
+      1 == EOF reached & last record read is complete
+      2 == reading records would have wrapped around address 0xffff
+      3 == EOF reached & last record is incomplete
+    - randbrw() returns 1 if there is not enough disk space to
+      write the records (no records are written)
+
+:randbrw
+    #include <dos.h>
+    int randbrw(struct fcb *fcbptr,int reccnt);
+    - see randbrd()
+
+:_read
+    int _read(int fd, void *buf, int size);
+    - see read()
+
+:read
+    int read(fd, buf, size)
+    int fd, size;
+    char *buf;
+    - prototype in io.h
+    - reads 'size' bytes from file handle 'fd' into 'buf'
+    - _read() is direct call to MS-DOS read system all
+    - read() removes CRs & reports EOF on a CNTL-Z for file
+      opened in text mode.  _read() does not.
+    - returns actual number of bytes read, 0 on EOF, or -1 on
+      error
+
+:realloc
+    void *realloc(pseg, size)
+    void *pseg;
+    unsigned size;
+    - prototype in stdlib.h & alloc.h
+    - see malloc()
+
+:rename
+    int rename(oldf, newf)
+    char *oldf, *newf;
+    - returns 0 if OK, else -1 on error
+
+:rewind
+    int rewind(FILE *fd)
+    - prototype in: stdio.h
+    - equivalent to fseek(fd,0L,0), except eof and error indicators 
+      are cleared
+    - returns 0 if pointer moved OK, else nonzero
+    
+:rmdir
+    int rmdir(char *pathname);
+    - prototype in dir.h
+    - takes 'pathname' & deletes directory with that name 
+    - returns 0 if successful, else -1
+
+:sbrk
+    int sbrk(incr)
+    int incr;
+    - dynamically changes the amount of space allocated to the calling
+      program's data segment.  Amount of allocated space is increased
+      by amount 'incr' (can be negative).
+    - returns 0 if OK; else -1 & 'errno' is set to ENOMEM
+
+:scanf
+    int scanf(format, arg1, arg2, ...)
+    char *format;
+    - accepts input from stdin
+
+:searchpath
+    char *searchpath(char *filename)
+    - prototype in dir.h
+    - attempts to locate 'filename' using MS-DOS path
+    - returns pointer to full pathname for 'filename' (in a static
+      array) or NULL if not found
+
+:segread
+    void segread(struct SREGS *segtbl);
+    - prototype in dos.h
+    - places current values of segment registers (SEGREGS) into
+      'segtbl'
+
+:setblock
+    int setblock(int seg,int newsize);
+    - prototype in dos.h
+    - modifies size of previously allocated DOS memory segment
+
+:setbuf
+    #include <stdio.h>
+    void setbuf(FILE *stream,char *buf);
+    int setvbuf(FILE *stream,char *buf,int type,unsigned size);
+    - causes 'buf' to be used for I/O bufferring instead of
+      automatically allocated buffer, and are used after given
+      'stream' is opened
+    - in setbuf, if 'buf' is NULL, I/O is unbuffered
+    - in setvbuf, if 'buf' is NULL, a buffer is allocated via
+      malloc()
+
+:setcbrk
+    int setcbrk(value)
+    int value;
+    - prototype in: dos.h
+    - sets control-break setting (0 to set cntl-C off; else 1)
+   
+:setdate
+    #include <dos.h>
+    void setdate(struct date *dateblk);
+    - sets MS-DOS date
+
+:setdisk
+    int setdisk(int drive)
+    - needs dir.h
+    - set current drive to 'drive' (0 for A, 1 for B, etc)
+    - returns total number of drives available
+
+:setdta
+    void setdta(char far *dta)
+    - prototype in: dos.h
+    - changes current setting of the DTA as given by 'dta'
+
+:setftime
+    #include <dos.h>
+    int setftime(int handle,struct ftime *ftimep);
+    - sets file time and date for the file associated with 'handle' as
+      defined by 'ftimep'
+    - structure ftime is defined in dos.h
+
+:setjmp
+    #include <setjmp.h>
+    int setjmp(jmp_buf env);
+    - captures caller's task state in 'env' and returns 0
+    - see longjmp()
+
+:setmem
+    void setmem(void *addr,int len,char value);
+    - prototype in mem.h
+    - sets 'len' bytes in 'addr' to 'value'
+
+:setmode
+    int setmode(int handle,unsigned mode);
+    - prototype in io.h
+    - sets 'mode' of file associated with 'handle' to binary
+     (O_BINARY) or text (O_TEXT) but not both
+    - returns 0 if successful, else -1 on error
+
+:settime
+    #include <dos.h>
+    void settime(struct time *timep);
+    - sets MS-DOS time
+
+:setvbuf
+    #include <stdio.h>
+    int setvbuf(FILE *stream,char *buf,int type,unsigned size);
+    - see sebuf()
+
+:setvect
+    void setvect(int intr_num),void interupt(*isr)());
+    - prototype in dos.h
+    - sets the value of interrupt vector named by 'intr_num' 
+      (corresponds to 0-255 for MS-DOS) in MS-DOS interrupt table (far
+      pointer) to far pointer 'isr' corresponding to a new interrupt function
+    - address of a C routine may be used only if it has been declared to be
+      an interrupt routine
+
+:setverify
+    int setverify(int value)
+    - sets current state of verify flag (0==off, 1==on) to 'value'
+    - prototype in dos.h
+
+:sin
+    double sin(x)
+    double x;
+
+:sinh
+    double sinh(x)
+    double x;
+
+:sleep
+    unsigned sleep(unsigned seconds);
+    - prototype in dos.h
+    - causes calling program to be suspended for 'seconds' of time
+    - accurate in seconds to limit of MS-DOS clock
+
+:spawn
+    int spawnl(mode,pathname,arg0,arg1,..,NULL)
+    int spawnle(mode,pathname,arg0,arg1,...,NULL,envp)
+    int spawnlp(mode,pathname,arg0,arg1,...,NULL)
+    int spawnlpe(mode,pathname,arg0,arg1,...,NULL,envp)
+    int spawnv(mode,pathname,argv)
+    int spawnve(mode,pathname,argv,envp)
+    int spawnvp(mode,pathname,argv)
+    int spawnvpe(mode,pathname,argv,envp)
+    int mode;
+    char *pathname,*arg0,*arg1,...,*envp[]'
+    - creates & runs child processes
+    - 'mode' is P_WAIT which puts parent process "on hold" until
+      child completes execution; P_NOWAIT which continues to run
+      parent while child runs (not supported yet); or P_OVERLAY
+      which overlays child in memory location formerly occupied
+      by parent (same as exec... call)
+    - see exec...
+    - use P_WAIT to perform a DOS shell
+
+:sprintf
+    int sprintf(s, format [, arg1, arg2, ...])
+    char *s, *format;
+
+:sqrt
+    double sqrt(x)
+    double x;
+    - needs math.h
+    - returns sqaure root of x, or 0 on error
+
+:srand
+    int rand()
+    void srand(unsigned seed);
+    - prototype in stdlib.h
+    - rand() returns pseudorandom numbers
+    - reinitialize with srand(1) or set to new starting point with
+      'seed' set other than to 1
+
+:sscanf
+    int sscanf(s, format, arg1, arg2, ...);
+    char *s, *format;
+    union datatype *arg1, *arg2, ...;
+
+:ssignal
+    int gsignal(int sig);
+    int (*ssignal(int sig, int (*action)())();
+    - prototype in: signal.h
+    - ssignal() and gsignal() implement a software-signaling facility where
+      software signals are integers 1-15
+    - gsignal() raises the signal given by 'sig' and executes the action
+      routine
+    - ssignal() establishes an action routine for servicing a signal where
+      'sig' is associated with the 'action' routine
+    - ssignal() returns action previously established for ssignal() or SIG_DFL
+    - gsignal() returns value by action or SIG_IGN or SIG_DFL
+    - UNIX based
+
+:stat
+    #include <sys\stat.h>
+    int stat(char *pathname,struct stat *buff);
+    int fstat(char *handle,struct stat *buff);
+    - stat() and fstat() store information about a given open file
+      (or directory) in the 'stat' structure (defined in stat.h)
+    - stat() gets information about the open file or directory,
+      while fstat() gets information about the open file associated
+      with 'handle'
+    - see stat.h for definition
+    - returns 0 if successful, else -1 on error
+
+:_status87
+    unsigned int _status87()
+    - prototype in float.h
+    - returns floating-point status word & other conditions detected
+      by 8087/80287 exception handler
+    - see float.h for definition of return word from _status87()
+
+:stime
+    int stime(long *tp);
+    - prototype in: time.h
+    - sets system time & date, where 'tp' to value of time in seconds
+      since 00:00:00 GMT Jan 1, 1970
+
+:str...
+    - string functions in Turbo C using prototype in string.h
+    - except where noted, all parameters are char pointers and
+      all returns are char pointers also
+
+    char *stpcpy(destin,source)
+    - copies 'source' into 'destin'
+    - returns 'destin'+strlen('source')
+
+    char *strcat(destin,source)
+    - appends 'source' to 'destin'
+
+    char *strchr(str,c)
+    - scans 'str' for first occurrence of 'c'
+    - returns pointer to 'c' in 'str', or NULL if not found
+
+    int  strcmp(str1,str2)
+    - compares 'str1' to 'str2'
+    - returns < 0 if str1 < str2, = 0 if str1 = str2, or
+      > 0 if str1 > str2, using a signed comparsion
+
+    char *strcpy(destin,source)
+    - copies 'source' into 'destin'
+    - returns 'destin'
+
+    int  strcspn(str1,str2)
+    - returns length of initial segment of 'str1' that consists
+      entirely of characters NOT from 'str2'
+
+    char *strdup(str)
+    - duplicates 'str', getting space with a call to malloc()
+    - returns pointer to duplicated string, or NULL if space
+      could not be allocated
+
+    int  stricmp(str1,str2)
+    - compares 'str1' to 'str2' without case sensitivity
+    - returns < 0 if str1 < str2, = 0 if str1 = str2, or
+      > 0 if str1 > str2, using a signed comparsion
+
+    unsigned strlen(str)
+    - returns number of characters in 'str', not counting the
+      null-terminating character
+
+    char *strlwr(str)
+    - converts 'str' to all lower case
+
+    char *strncat(destin,source,maxlen)
+    - appends up to 'maxlen' characters of 'source' to 'destin'
+      and then appends a null character
+
+    int  strncmp(str1,str2,maxlen)
+    - compares 'str1' to 'str2' up to 'maxlen' characters
+    - returns < 0 if str1 < str2, = 0 if str1 = str2, or
+      > 0 if str1 > str2, using a signed comparsion
+
+    char *strncpy(destin,source,maxlen)
+    - copies exactly 'maxlen' characters from 'source' to 'destin',
+      truncating or null-padding 'destin'
+    - 'destin' might NOT be null-terminated if length of 'source' is
+      'maxlen' or more
+
+    int  strnicmp(str1,str2,(unsigned)maxlen)
+    - compares 'str1' to 'str2' up to 'maxlen' characters
+    - case is ignored
+    - returns < 0 if str1 < str2, = 0 if str1 = str2, or
+      > 0 if str1 > str2, using a signed comparsion
+
+    char *strnset(str,ch,(unsigned)n)
+    - sets up to first 'n' bytes of 'str' to 'ch'
+    - if 'n' > strlen(str) then strlen(str) replaces 'n'
+
+    char *strpbrk(str1,str2)
+    - scans 'str1' for first occurrence of any character
+      appearing in 'str2'
+    - returns pointer to first occurrence, or NULL if not found
+
+    char *strrchr(str,c)
+    - scans a string in reverse direction, looking for specific
+      character 'c' -- so that strrchr finds the LAST occurrence
+      of 'c' in 'str'
+    - returns pointer to LAST occurrence, or NULL if not found
+
+    char *strrev(str)
+    - reverses all characters in 'str', except null terminator
+
+    char *strset(str,ch)
+    - sets all characters in 'str' to 'ch'
+
+    int  strspn(str1,str2)
+    - returns length of initial segment of 'str1' that consists
+      entirely of characters from 'str2'
+
+    char *strstr(str1,str2)
+    - scans 'str2' for first occurrence of substring 'str1'
+
+    double strtod(str,(char **)endptr)
+    - converts string 'str' to a double value
+    - stops reading at tfirst character that cannot be interpreted
+      as part of a double value, returning in *endptr
+    - 'str' must have format:
+       [ws][sn][ddd][.][ddd][fmt[sn]ddd]
+       where [ws] = optional whitespace
+             [sn] = optional sign (+-)
+             [ddd]= optional digits
+             [fmt]= option e or E
+             [.]  = optional decimal point
+
+    long   strtol(str,(char **)endptr,base)
+    - converts string 'str' to a long value
+    - stops reading at first character that cannot be interpreted
+      as part of a long value, returning in *endptr
+    - 'str' must have format:
+       [ws][sn][0][x][ddd]
+       where [ws] = optional whitespace
+             [sn] = optional sign (+-)
+             [0]  = optional zero
+             [x]  = optional x or X
+             [ddd]= optional digits
+     - 'base' is between 2 and 36; if 0, first few characters
+       of 'str' determines base to be used (oct,hex or dec); any
+       other value of 'base' is illegal
+
+    char *strtok(str1,str2)
+    - parses 'str1' for tokens and separators, where separators are
+      defined in 'str2'
+    - first call returns a pointer to the first character of the
+      first token in 'str1' and writes a null character into 'str1'
+      immediately following the returned token.  Subsequent calls
+      with NULL for the first argument will work through the string
+      'str1' in this way until no tokens remain.
+    - when tokens are exhausted, returns NULL
+
+    char *strupr(str)
+    - converts to all uppercase
+
+:strerror
+    char *strerror(char *str);
+    - prototype in string.h
+    - allows you to generate customized error messages, returning a
+      pointer to a null-terminated string containing an error message
+    - if 'str' is NULL, the return value contains the most recently
+      generated system error message; this string is null-terminated.
+    - if 'str' is not NULL, the return value contains 'str' (your
+      customized error message), a colon, a space, the most recently
+      generated system error message, and a newline; with length of
+      'str' being 94 characters or less
+    - nothing is printed automatically unlike perror()
+    - for accurate error-handling, strerror should be called as soon
+      as a library routine generates an error return
+
+:swab
+    void swab(char *from,char *to,int nbytes);
+    - prototype in stdlib.h
+    - copies 'nbytes' bytes from 'from' into 'to', with adjacent
+      even- and odd-byte positions being swapped; 'nbytes' should
+      therefore be even
+
+:system
+    int system(char *command);
+    - prototype in stdlib.h
+    - invokes MS-DOS COMMAND.COM to execute 'command', returning
+      exit status of COMMAND.COM.  The COMSPEC environment variable
+      is automatically searched if necessary.
+
+:tan
+    double tan(x)
+    double x;
+
+:tanh
+    double tanh(x)
+    double x;
+
+:tell
+    long tell(fd)
+    int fd;
+    - returns offset of file associated with 'fd' from beginning of file 
+    - returns -1L on error
+
+:time
+    longvoid times(long *tloc)
+    - prototype in time.h
+    - gives current time in seconds elapsed since 00:00:00 GMT,
+      January 1, 1970, and stores it into 'tloc'
+
+:toascii
+    int toascii(int c);
+    - prototype in ctype.h
+    - clears all but lower 7 bits in 'c', converting to ASCII
+
+:_tolower
+    #include <ctype.h>
+    int _tolower(c)
+    int c;
+    - converts 'c' to lowercase only if 'c' is known to be UPPER case
+    - use tolower() preferentially
+
+:tolower
+    int tolower(c)
+    int c;
+
+:_toupper
+    #include <ctype.h>
+    int _toupper(c)
+    int c;
+    - converts 'c' to UPPERcase only if 'c' is known to be lower case
+    - use toupper() preferentially
+
+:toupper
+    int toupper(c)
+    int c;
+
+:tzset
+    void tzset()
+    - included for UNIX time compatibility but does nothing in MS-DOS
+
+:ultoa
+    char *ultoa(unsigned long value,char *string,int radix);
+    - converts 'value' to 'string' where 'radix' specifies base (2-36) for
+      conversion
+
+:ungetc
+    void ungetc(c, fd)
+    int c;
+    FILE *fd;
+
+:ungetch
+    void ungetch(c)
+    int c;
+    - similar to ungetc() except pushes character back to keyboard
+      buffer
+
+:unixtodos
+    #include <dos.h>
+    void unixtodos(long utime,struct date *dateptr,struct time *timeptr);
+    - converts date & time to DOS format
+
+:unlink
+    int unlink(filename)
+    char *filename;
+    - prototype in dos.h
+    - returns 0 if successful, else -1
+
+:unlock
+    int lock(int handle, long offset, long length);
+    int unlock(int handle, long offset, long length);
+    - lock() locks arbitrary, non-overlapping regions of any file (DOS 3.X), 
+      preventing reads/writes to those regions
+    - unlock() removes said locks
+    - returns 0 on success, else -1 on error
+
+:va_...
+    #include <stdarg.h>
+    void va_start(va_list param,lastfix);
+    type va_arg(va_list param,type);
+    void va_end(va_list param);
+    - Some C functions, such as vfprintf and vprintf, take variable argument
+      lists in addition to taking a number of fixed (known) parameters.  The
+      va_... macros provide a protable to access these argument lists.  They
+      are used for stepping through a list of arguments when the called fun-
+      ction does not know the number and types of the arguments being passed.
+    - The header file stdarg.h declares one type (va_list) and three macros
+      (va_start, va_arg, and va_end).
+    - va_list: This array holds information needed by va_arg and va_end. When
+      a called function takes a variable argument list, it declares a variable
+      param of type va_list.
+    - va_start: This routine (implemented as a macro) sets 'param' to point
+      to the first of the variable arguments being passed to the function.
+      va_start must be used before the first call to va_arg or va_end.  It
+      takes two arguments: 'param' and 'lastfix'.  ('param' is explained
+      under va_list abofe; 'lastfix' is the name of the last fixed para-
+      meter being passed to the called function.)
+    - va_arg: This routine (also implemented as a macro) expands to an ex-
+      pression that has the same type and value as the next argument being
+      passed (one of the variable arguments).  The variable 'param' to
+      va_arg should be the same 'param' that va_start initialized.  The
+      first time va_arg is used, it returns the first argument in the list.
+      Each successive time va_arg is used, it returns the next argument in
+      the list.  It does this by first de-referencing 'param', and then in-
+      crementing 'param' to point to the following item.  va_arg uses the
+      type to both perform the de-reference and to locate the following
+      item.  Each successive time va_arg is invoked, it modifies 'param' to
+      point to the next argument in the list.
+    - va_end: This macros helps the called function perform a normal return.
+      va_end might modify 'param' in such a way that it cannot be used unless
+      va_start is re-called.  va_end should be called after va_arg has read
+      all the arguments: failure to do so might cause strange, undefined
+      behavior in your program.
+    - va_start and va_end return no values; va_arg returns the current argu-
+      ment in the list (the one that 'param' is pointing to).
+
+:vfprintf
+    #include <stdio.h>
+    #include <stdarg.h>
+    int vprintf(FILE *stream,char *format,va_list param);
+    - sends formatted output to a stream
+
+:vfscanf
+    int vfscanf(FILE *stream,char *format,va_list argp);
+    - like fscanf(), except arguments accepted from va_arg arrary from
+      va_list parm
+
+:vprintf
+    int vprintf(char *format,va_list param);
+    - prototype in stdio.h
+    - sends formatted output to stdout
+
+:vscanf
+    int vscanf(char *format,va_list argp);
+    - like scanf(), except arguments accepted from va_arg arrary from
+      va_list parm
+
+:vsprintf
+    int vsprintf(char *string,char *format,va_list param);
+    - prototype in stdio.h
+    - sends formatted output to a string
+
+:vsscanf
+    int vsscanf(char *string,char *format,va_list argp);
+    - like sscanf(), except arguments accepted from va_arg arrary from
+      va_list parm
+
+:write
+    int _write(fd, buf, count)
+    int write(fd, buf, count)
+    int fd, count;
+    char *buf;
+    - write() and _write() write a buffer 'buf' of data to file or
+      device named by 'fd', writing 'count' of bytes.
+    - for text files, write converts LF to CR-LF pair on output;
+      _write does not.
+    - returns count of bytes written out (excluding any CR's
+      generated for a text file), or -1 on error
+
+

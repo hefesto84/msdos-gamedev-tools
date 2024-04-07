@@ -1,0 +1,101 @@
+
+                           RIE - Rimrock Icon Editor
+                           -------------------------
+
+                                 Version 1.04
+                                 ------------
+
+                      DESCRIPTION AND AUTHOR INFORMATION
+                      ----------------------------------
+
+                        Last updated:  Febraury, 1992
+
+
+This file includes sample descriptions which you may use to describe the RIE 
+package. 
+
+Disk Vendors and Distributors please refer to the VENDOR.DOC text file. 
+
+----------------------------------------------------------------------
+                         Program Information:
+----------------------------------------------------------------------
+
+File Name(s) for BBSs:
+----------------------
+
+For consistency and to help users locate the files, please use the following 
+file name: 
+
+      RIE103.ZIP   Rimrock Icon Editor for TCXL
+
+   If the program is compressed using some other file compression method, then 
+   please use the name "RIE103" with the appropriate extension (PAK, ARC, LZH, 
+   ZOO, etc.). 
+
+Keywords:
+~~~~~~~~~
+   EGA VGA UTILITY RIE ICON EDITOR TCXL
+
+Category:
+~~~~~~~~~
+   EGA/VGA programming software tool; graphics software tool.
+
+Program Name, Category, Keywords:
+---------------------------------
+
+RIE, utility, RIE EGA VGA ICON EDITOR TCXL
+
+Short Description:
+------------------
+
+   Editor for creating/modifying custom EGA/VGA icons for TCXL.
+
+Long Description:
+-----------------
+
+    Have you ever wanted to dress up the text-based programs you create with 
+    graphic images, without actually going through the hassle of rewriting 
+    your program for a graphics display mode?  With icons created by the 
+    Rimrock Icon Editor (RIE), you can create 'pseudo-graphic' images that can 
+    be displayed on an EGA or VGA display in text mode. 
+
+    RIE allows you to graphically create a 16 bit by 32 bit icon, which is 
+    stored in a C source file.  This information can then be used as 4 
+    characters of 16 lines, which can be loaded as user-defined characters 
+    into the display adapter.
+
+    RIE was created primarily to support version 6 of TCXL, the TesSeRact C 
+    eXtended Library (TCXL is copyright (C) 1987-92 by Innovative Data 
+    Concepts).  However, the included ICONLOAD sample program will show you 
+    how to load icons on your own. 
+
+Registration Information:
+-------------------------
+
+   For your registration fee, you will receive the latest registered version 
+   of RIE, all accompanying files, and a printed user's manual.  The 
+   registered versions of the program does not contain any registration 
+   reminders. 
+
+Author/Publisher Information:
+-----------------------------
+
+Rimrock Software is a small software company owned and operated by Michael 
+Burton, and is located in beautiful North Idaho, the best of the Pacific 
+Northwest.  I have been writing computer programs since 1967 and have been 
+involved with microcomputers since 1974.
+
+Please feel free to contact me (Michael Burton) if you have any questions, 
+comments or suggestions.  I can be reached by mail at the following address: 
+
+        Rimrock Software
+        P.O. Box 2406
+        Hayden, ID  83835
+
+I can also be reached by voice or electronically as follows:
+
+   Voice:        (208) 772-9347 (after 6pm Pacific time)
+
+   CompuServe:   71211,70
+
+   BBS:          Tech Board BBS, (208) 765-0180

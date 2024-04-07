@@ -1,0 +1,49 @@
+
+TC-TSR10.ZIP README FILE
+
+Tc-tsr10.zip contain a group of tsr-related programs written in turbo C.
+These files are intended as examples rather than robust utilities. However,
+having said that, I've been (happily :-)) using them for some time now. In any
+case, if you make any improvements, or fix some bugs please let me (Sherif)
+know.
+
+All the files contained here are public domain, and are not copyrighted. I
+Hope they will be useful, but,
+
+     The author shall not be liable to the user for any direct, indirect or    
+     consequential loss arising from the use of, or inability to use, any    
+     program or file howsoever caused. No warranty is given that the programs
+     will work under all circumstances.
+
+
+Files:
+
+TSR_LIST.C     prints a list of loaded programs/TSRs.
+TSR_LIST.TXT   some documentation on TSR_LIST.C
+
+SAVEINTS.C     saves a picture of the interrupt table to a disk file.
+REMOVE.C       removes a TSR.
+REMOVE.TXT     some documentation on SAVEINTS.C/REMOVE.C.
+
+PRTSC.H,
+PRTSC.C, and
+TSRPRTSC.C     make up an example popup-TSR for saving and printing screens in
+               text mode.
+PRTSC.TXT      some documentation on PRTSC.
+
+PRT2DISK.C     an example TSR which redirects printer output (lpt1) to a disk
+               file.
+FLUSH.COM      for flushing data left in prt2disk's buffer (should be used to
+               ensure that all data is written to the disk file).
+FLUSH.DBG      debug script for creating FLUSH.COM. Enter 'debug < FLUSH.DBG'
+               to create FLUSH.COM.
+
+
+/*--------------------------------------------------------------------------*
+ | Sherif El-Kassas        .       :.                                       |
+ | EB dept           \_____o__/ __________                                  |
+ | Eindhoven U of Tec       .. /                                            |
+ | The Netherlands            /             Email: elkassas@eb.ele.tue.nl   |
+ *--------------------------------------------------------------------------*/
+
+

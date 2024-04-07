@@ -1,0 +1,4282 @@
+
+
+
+
+
+
+
+
+
+
+
+
+			    Chapter 1
+
+			    OVERVIEW
+
+
+1.1  FEATURES
+
+
+The LiteComm ToolBox(TM) is a set of powerful routines designed to
+provide easy access to the full capabilities of the PC's asynchronous
+communications ports. The LiteComm ToolBox provides interrupt-driven,
+buffered communications support on COM1 through COM4 simultaneously.
+Now you can quickly incorporate sophisticated communications support
+in your applications without having in-depth knowledge of how the
+hardware functions.
+
+The ToolBox was developed as the result of a need to provide just this
+type of support in CAD/CAM applications created for a client company.
+Each version of the LiteComm ToolBox is heavily integrated with its
+respective host compiler.
+
+The 'Lite' in LiteComm refers to the high granularity of the product.
+A typical, simple application of LiteComm to a problem will add less
+than 4.5 kbytes to the program's code, yet provides a highly reliable
+base on which to build.
+
+
+1.2  THE SHAREWARE CONCEPT
+
+
+Shareware is a "try before you buy" means of software distribution. If
+you find a shareware product useful, pay the registration fee, and let
+the authors know that you support their efforts.
+
+Information Technology is a member of the Association of Shareware
+Professionals (ASP).  ASP wants to make sure that the shareware
+principle works for you.  If you are unable to resolve a shareware-
+related problem with an ASP member by contacting the member directly,
+ASP may be able to help.  The ASP Ombudsman can help you resolve a
+dispute or problem with an ASP member, but does not provide technical
+support for members' products.  Please write to the ASP Ombudsman at
+P.O.  Box 5786, Bellevue, WA 98006 or send a Compuserve message via
+easyplex to ASP Ombudsman 70007,3536.
+
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 2
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      Chapter 2
+
+		  LICENSE, WARRANTY AND REGISTRATION
+
+
+2.1  LICENSE
+
+
+The LiteComm ToolBox, small model library only, is distributed as a
+shareware product. To receive all model libraries and/or the source
+code for the product, register your copy today. See the registration
+form at the end of this manual.  Under the povisions of the license,
+you must register the LiteComm ToolBox if you intended to use it in a
+commercially distributed application
+
+Information Technology, Ltd, grants to registered users a
+nonexclusive, perpetual license to the LiteComm ToolBox, subject to
+these terms and conditions:
+
+   1.	You must treat your copy of the LiteComm ToolBox as you would a
+	book.  You may install the LiteComm ToolBox on more than one
+	machine, but you may use only one copy at a time.  If you
+	desire, site licenses are available at a reduced cost.  You may
+	make as many copies of the LiteComm ToolBox as you require for
+	the sole purpose of backup.
+
+   2.	You may incorporate portions of the LiteComm ToolBox in
+	products that you develop without the payment of additional
+	royalties or license fees.  We request that you include the
+	statement 'Portions Copyright 1987, 88, 89, Information
+	Technology, Ltd' in your product's documentation.
+
+   3.	You may copy and redistribute the shareware portion of the
+	LiteComm ToolBox, commonly known as MCOMM.ARC and TCOMM.ARC,
+	but you may not modify in any way, the contents of the
+	shareware package.
+
+   4.	Information Technology grants to ASP-approved vendors only the
+	right to charge a duplication fee, not to exceed $8.00 for
+	providing a copy of the shareware version of the product.  No
+	other individual or vendor is permitted to charge a fee for
+	providing such a copy without the express, written consent of
+	Information Technology, Ltd,
+
+   5.	You may not redistribute, in any form, the source code for the
+	LiteComm ToolBox.  Further, you may not translate the source
+	code for the LiteComm ToolBox into any other programming
+
+
+
+
+			     Page 3
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+	language without the express, written consent of Information
+	Technology, Ltd.
+
+   6.	Information Technology reserves the right to change the
+	LiteComm ToolBox, its documentation and specifications without
+	prior notice, and with no obligation to you, the licensee.
+
+   7.	You agree that any disputes arising from this license will be
+	subject to the laws of the state of Rhode Island.
+
+   8.	You agree to hold the developer and distributors of the
+	LiteComm ToolBox harmless for any damages, either direct or
+	consequential, that might arise from the use of this product,
+	even if you inform the developer and distributors in advance of
+	the possibility of such damage.
+
+   9.	You acknowledge that the LiteComm ToolBox libraries, source
+	code, and documentation are licensed material and the
+	copyrighted property of Information Technology, Ltd.
+
+  10.	By your use of the LiteComm ToolBox in any way, you acknowledge
+	that you have read, and understand the terms and conditions of
+	this license.
+
+
+2.2  WARRANTY
+
+
+The LiteComm ToolBox is distributed as-is and without warranty,
+including, but not limited to, the implied warranties of
+merchantability and fitness for a particular purpose.
+
+Information Technology, Ltd does warrant the distribution media for a
+period of 30 days.  During that period, Information Technology, Ltd
+will replace the distribution media or provide a refund at its option.
+
+
+2.3  REGISTERING YOUR COPY
+
+
+Registration of your copy of the LiteComm ToolBox provides you with
+several benefits:
+
+   1.	Puts you on our mailing list for low-cost updates,
+	enhancements, and alert bulletins when they occur.
+
+   2.	Gives you access to telephone support. Sorry, but we cannot
+	provide support by telephone to unregistered user's of the
+	ToolBox. Unregistered users can leave EMAIL on Compuserve to
+	70166,1152; or on GEnie to I.TECH. We will respond to EMAIL on
+	an as-available basis.
+
+   3.	Helps to further the shareware concept.
+
+
+
+
+			     Page 4
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+You can order directly from us or from the Public (Software) Library
+1-800-2424-PSL (for orders only. For information call 1-713-665-7017)
+or by writing PSL; P.O.Box 35705; Houston, TX 77235-5705.  MC/Visa
+Accepted.
+
+If you want to order directly from us, print the file REG.FRM and
+follow the instructions there.
+
+
+2.4  NOTE
+
+
+LiteComm is a package undergoing continuing development.  We are
+constantly reviewing the product in an effort to make it smaller,
+faster, more reliable, and easier to use.  Since its introduction in
+mid 1987, we have made significant changes to the LiteComm kernel, the
+'heart' of the ToolBox to improve efficiency and reliability.  We have
+also delivered to registered users protocol engines, LXM - the XMODEM
+engine, which supports Xmodem and Xmodem-1K; and LWXM - the Windowed
+Xmode,m engine.  We also provide a version of the Compuserve QUICKB
+protocol, specially adapted for use with the LiteComm ToolBox.
+
+Implementations of other protocol engines are under development. We
+plan to follow these with similar engines for YModem, ZModem, SeaLink,
+and Telink. These engines, as they are released, will only be made
+available to registered ToolBox users. The small model library, as
+enhanced but without the protocol engines, will continue to be offered
+as a shareware product.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 5
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 6
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      Chapter 3
+
+			Serial Port Fundamentals
+
+
+3.1  The 8250 UART family
+
+
+This portion of the manual provides you with some details about the
+working of the 8250 (and related) UART'S, the basic component of your
+system's serial port.  Some close compatibles use enhanced versions of
+this chip, such as the Intel 16450.  LiteComm is known to work
+successfully with such devices.  If you have questions about the kind
+of serial port you are using, refer to the manufacturer's
+documentation.  If your serial port does not use an 8250 or similar
+chip, LiteComm will not function.
+
+
+3.2  Purpose of the port
+
+
+The purpose of the serial port is to convert information from the form
+in which it is used within your system, to a form that can be easily
+used outside your system.  Modern computers, by design, are parallel
+in nature.  By this we mean that information travels through the
+computer's circuitry as whole units or as multiples of whole units. In
+the IBM PC and related systems, information travels as bytes (8 bits
+at a time), as words (16 bits at a time), or, on 80386 based systems,
+as double words (32 bits at a time).
+
+Within the computer, such arrangements are convenient and fast. But
+when the computer must transfer information to an external device, the
+problem of data path width is introduced.  To provide a true, parallel
+path between the computer and external devices, there would have to
+be, at a minimum, enough data lines or circuits between the two to
+satisfy the data path.  For most modern computer systems, this would
+mean a minimum of 8 data lines, not counting any additional control
+information that might also be required.  For certain newer systems,
+the requirement might be for as many as 32 data lines.  In effect, it
+might be necessary to have several different versions of a device,
+dependent upon the data path width of the computer to which it is
+connected.
+
+The purpose of a serial port is to convert the information from its
+internal, parallel form, to a more common, external form and back
+again.  By using such an approach, we simplify the interconnection of
+devices, reducing information to its lowest common denominator, the
+bit. And it allows us to transfer information 1 bit at a time, using a
+
+
+
+			     Page 7
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+single data path, between devices. The real beauty of this approach is
+that, by 'agreeing' on how this external form appears, each device can
+hide the details of how it works, and still accomplish the required
+task.
+
+
+3.3  Internal Details
+
+
+In this section we discuss the fundamental working of serial ports as
+they are implemented of the IBM PC and close compatible systems.  It
+is not essential that you understand this material thoroughly to be
+successful with LiteComm. However, it may help to answer some of the
+more important questions that may arise as you proceed with your
+development.
+
+3.3.1  The Interrupt Connection
+
+The PC is an interrupt driven system. This is a sophisticated way of
+saying that the PC can 'pay attention' to a number of internal devices
+without the necessity of having to check on them periodically.
+
+When we describe interrupts to clients, we use the school room as a
+metaphor. Think of a teacher lecturing to a group of students during a
+class.  The teacher knows that, on occasion, one or more students may
+not understand the material that is being presented.  So the teacher
+has the choice of either asking each student periodically if they
+understand or permitting the students to raise a hand to ask a
+question.  As you can imagine, stopping the class to 'poll' each
+student will waste valuable time, particularly if no one wants to ask
+a question. Not only is it wasteful of time, but the last student
+polled may have forgotten the question he or she wanted to ask by the
+time the teacher gets to him.  If the teacher permits students to
+'interrupt' his lecture by raising a hand, much less time is wasted,
+but the teacher has to be careful to identify each raised hand by name
+and answer the question quickly and accurately, lest some student
+forget his question or looses interest altogether.
+
+The internal working of most modern computers is identical to the
+teacher that permits hand raising.  The computer focuses on the task
+at hand, stopping only to identify and pay attention to devices when
+they signal that they require this attention.  So much for the
+hardware end of things.  The PC has this same capability.  But at
+least some of the work that has to be done requires software in a
+general purpose computer, otherwise the computer wouldn't be general
+purpose.
+
+The serial port on the PC is no less capable of asking for attention
+from the computer, at least from the standpoint of hardware.  But, for
+whatever the reason, MS-DOS and PC-DOS do not provide the needed
+software to exploit the full capabilities of the serial port. OS/2
+does provide such support, we are told, but, at least for the
+foreseeable future, its an MS-DOS world. On PC's and true compatibles,
+the only support for the serial port that is provided is through the
+
+
+
+			     Page 8
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+system's ROM BIOS.  And that support is only for the polled mode of
+operation.
+
+The method by which 80x86 family systems, of which the PC is a part,
+is elegant in its simplicity.  When a device needs the attention of
+the system, its asserts a control signal and identifies itself with a
+number ranging from 0 to 255. On the basic PC, the numbers used
+actually range from 8 through 15 decimal.  The identification is
+translated to a memory location by multiplying the identification by
+4, and the system simulates a special form of a call to the routine
+whose address is stored at that location.  Since it is impossible to
+predict when a device will require attention, the full address of the
+routine is stored, both segment and offset, hence the 4.
+
+Once the routine, called the Interrupt Service Routine or ISR is
+invoked, it has a duty to save the state of the system when the
+interrupt occurred, take care of the interrupt as quickly as possible,
+and return control to the interrupted process.  But it must also be
+aware that, while it is doing its work, other, more important devices
+may require attention, too.
+
+One such device that is likely to require attention is the system
+clock which ticks roughly 18 times per second.  In part, the PC makes
+provision for this by prioritizing the interrupt scheme.  The ISR must
+allow for this by re- enabling the interrupt control system as rapidly
+as it is practical to do so.  The PC's interrupt structure, if left
+undisturbed, will prevent interrupts of the same or lower priority
+from occurring. To help your organize your thoughts, the standard
+identification for the first two serial ports on the system are 12
+(0C) and 11 (0B) for ports 1 and 2 respectively.
+
+As you can see, dealing with the PC's interrupt structure is not for
+the faint of heart.  It requires a significant amount of knowledge,
+and close attention to detail.  With LiteComm, these details have
+already been taken care of for you.  You are free to focus on your
+application, treating the serial port in much the same way that you
+would any DOS file.
+
+3.3.2  The Programmable Port Registers
+
+The 8250 port, and its close relatives, are fully programmable.  You
+are fortunate that LiteComm has already taken care of the intricacies
+of this programming. But some additional information about each of the
+registers used in the serial port may be of use when you are
+attempting to communicate with an external device. For the sake of
+this discussion, we use the basic register numbers, although the
+register number that is employed in programming is actually the
+register number referenced below used as an offset to a base port
+number. In the case of COM1 (port 1), this base is 3F8(hexadecimal).
+
+
+
+
+
+
+
+
+			     Page 9
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+3.3.2.1  register 0 - transmit/receive
+
+In normal operation, individual characters are read from register 0
+when the become available, and are written to register 0 when the
+transmitter portion of the 8250 is ready to accept a character.
+
+3.3.2.2  register 0 - baud rate selection
+
+During initialization, register 0 is used as part of the mechanism
+that sets baud rate.  During this process, register 0 and its
+companion register 1 are used to specify the baud rate divisor (not
+the actual baud rate). The baud rate divisor is a value which, when
+divided into a given, preset constant, yields the desired baud rate.
+To use registers 0 and 1 to set the baud rate, access to this mode
+must be first enabled by writing a value of 80H to register 3, the
+line control register.  Once access is enabled, the least significant
+byte (LSB) of the divisor is written to register 0; the most
+significant byte is written to register 1.  Access to the normal modes
+of registers 0 and 1 are re- enabled by writing any value less than
+80H to the line control register.  Of course, only certain values less
+than 80H would be meaningful (see the line control register
+description below).
+
+3.3.2.3  register 1 - interrupt enable
+
+Values written to register 1 control which conditions will cause the
+8250 to interrupt the system. There are four possible conditions that
+can cause interrupts:
+
+   1.	A character has been received (RDI)
+
+   2.	The transmitter is ready to send a character (TDI)
+
+   3.	An error or BREAK signal has been detected (ERI)
+
+   4.	A modem status  signal has changed (MSI)
+
+The designations, in parentheses, are for our purposes only. They are
+not 'standard' designations. To enable a particular type of interrupt,
+you must set the corresponding bit in a byte to a 1, then write the
+byte to register 1.  To reset (ignore) the condition, set the
+corresponding bit to 0.  The diagram that follows shows the bit
+positions the correspond to the various conditions described above.
+
++------+------+------+------+------+------+------+------+
+|      |      |      |      |	   |	  |	 |	|
+|  N/A |  N/A |  N/A |  N/A |Modem |Error/| Xmit | Recv |
+|      |      |      |      |Status|Break |Ready | Char |
++------+------+------+------+------+------+------+------+
+    7	  6	 5	4	3      2      1      0
+		Figure 3.1: Register 1 Bit Definitions
+
+
+
+
+
+
+			     Page 10
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+3.3.2.4  register 1 - baud rate selection
+
+See the description under register 0, baud rate selection.
+
+3.3.2.5  register 2 - interrupt identification
+
+Register 2, in normal operation, acts as a companion to register 1.
+Register 1 determines the conditions that can cause an interrupt.
+Register 2 is used to determine which condition actually caused the
+interrupt, when more than one condition has been enabled.  Only least
+significant 3 bits of the register are actually employed.  See the
+diagram of register 2 below.
+
++------+------+------+------+------+------+------+------+
+|      |      |      |      |	   |	  |	 |	|
+|  N/A |  N/A |  N/A |  N/A |  N/A |  see |below |  Int |
+|      |      |      |      |	   |	  |	 | pend |
++------+------+------+------+------+------+------+------+
+    7	   6	  5	 4	3      2      1      0
+		Figure 3.2: Register 2 Bit Definitions
+
+Since it is possible, even likely, that more than one condition may
+occur at the same time, bit 0 is used to determine whether all
+conditions that currently exist have been handled.  When bit 0 has a
+value of 0 (yes zero), there are conditions waiting to be handled.
+When bit 0 has a value of 1, all outstanding conditions have been
+handled.  Bits 2 and 1 taken together identify the actual cause of the
+interrupt.
+
+Again, because of the multiple conditions which may occur, the 8250
+presents the conditions in a prioritized order.  When bits 2 and 1
+have a value of 3 (the most important), an ERI condition has been
+identified. The actual error is determined by reading the line status
+register(register 5). Reading this register also clears the condition.
+
+When a value of 2 is present, an RDI condition has occurred, and a
+character should be read. from port 0. If the character is not read
+quickly enough, a data overrun error may occur, indicating that a
+character was lost.
+
+When bits 2 and 1 have a value of 1, a TDI condition has occurred and
+a character may be written to register 0.
+
+A value of zero in bits 2 and 1(least important) indicates that one or
+more of the modem status lines (so called) have changed. The condition
+is cleared by reading the contents of the modem status register,
+register 6.
+
+3.3.2.6  register 3 - line control
+
+The line control register provides the means for setting those values
+that affect the way in which the serial port appears to the outside
+world.  It is through this register that character length, parity, and
+other significant values are established. Indirectly, register 3 also
+
+
+
+			     Page 11
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+plays a role in setting the speed (baud rate) of the port. (See the
+description of registers 0 and 1 above.)
+
++------+------+------+------+------+------+------+------+
+| Baud |      |      |      |	   |	  |	 |	|
+|  Div | Send |Force |Parity|Enable| Stop |  Character  |
+|Enable|Break |Parity| Type |Parity| Bits |    Length	|
++------+------+------+------+------+------+------+------+
+    7	  6	 5	4	3      2      1      0
+		Figure 3.3: Register 3 Bit Definitions
+
+3.3.2.7  register 4 - modem control
+
+The modem control register permits control of the two modem- related
+signals that the serial port generates as an output.  The signals are
+RTS and DTR.
+
+These two signals are called 'handshaking' signals, since they, in
+part, help a connected device determine the state of the connection.
+You should be aware that although these signals were originally
+designated to be used in a specific fashion, manufacturers of specific
+devices have used them to meet their own needs. Your success or
+failure in dealing with any specific device may depend, in part, on
+your understanding of how the device's manufacturer uses these
+signals. LiteComm provides you the means for manipulating these
+signals in a variety of ways.
+
+You will notice in the register 4 diagram, below that some additional
+positions are identified.
+
++------+------+------+------+------+------+------+------+
+|      |      |      |      |	   |	  |	 |	|
+|  N/A |  N/A |  N/A |Enable| OUT2 |  N/A |Enable|Enable|
+|      |      |      |Loopbk|(reqd)|	  | RTS  | DTR  |
++------+------+------+------+------+------+------+------+
+    7	  6	  5	4      3       2      1      0
+		Figure 3.4: Register 4 Bit Definitions
+
+LiteComm controls all of these additional positions for your benefit.
+Only one deserves mention, the position labeled OUT2.  It is necessary
+for this position to have a value of 1 for the serial port to function
+as an interrupting device. Since LiteComm relies on interrupts to
+perform it's job, it insures that this position is always set
+correctly.
+
+3.3.2.8  register 5 - line status
+
+The line status register is read normally when an ERI condition
+occurs.  Each bit of the character returned when the port is read has
+significance, as shown in the accompanying diagram. Using the
+appropriate functions in LiteComm, you can interrogate the value in
+this register, and test for the various conditions using the LiteComm-
+provided definitions. Note that, due to the special nature of the
+BREAK signal, LiteComm treats this one condition as a separate entity.
+
+
+
+			     Page 12
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
++------+------+------+------+------+------+------+------+
+|      |Shift | Hold |      |	   |	  |	 |	|
+| Time |Reg   | Reg  | Recd |Frame |Parity| Data | Char |
+| Out  |Empty |Empty |Break |Error |Error |OvrRun| Recd |
++------+------+------+------+------+------+------+------+
+    7	  6	 5	4      3       2      1      0
+		Figure 3.5: Register 5 Bit Definitions
+
+3.3.2.9  register 6 - modem status
+
+Just as the serial port can generate certain 'handshaking' signals, it
+can also read, and report on the status of similar signals that are
+generated by an external device.  In their original form, these
+signals had special significance when a terminal was connected to a
+modem. We refer you to our comments, above, about present day use of
+the handshaking signals.
+
+One special note is appropriate here.  The modem status register
+actually provides two types of information.  The most significant 4
+bits (see the diagram) show the current state of the 4 covered
+signals.  The least significant 4 bits indicate which, if any, of the
+signals have changed state (from zero to one, or vice-versa), since
+the last time the register was interrogated.  LiteComm updates its
+internal tables with this value in real-time, and reports the results
+when asked to do so.  You can test the signals individually or in
+combination using the LiteComm-provided definitions.
+
++------+------+------+------+------+------+------+------+
+|  DCD |  RI  |  DSR |  CTS |	   |	  |	 |	|
+| carr | ring |data  |clr to|DELTA |DELTA |DELTA |DELTA |
+|detect|indic |set rd| send | DCD  |  RI  | DSR  | CTS  |
++------+------+------+------+------+------+------+------+
+    7	   6	  5	 4     3       2      1      0
+
+
+3.4  The LiteComm Connection
+
+
+		Figure 3.6: Register 6 Bit Definitions
+
+In the design of LiteComm, we have purposely 'hidden' many of the
+underlying details we presented above. In many cases, you will have
+little use for this additional information. This is particularly true
+of most of the applications with which come into contact.  In fact, in
+the majority of applications, you will probably open the port or
+ports, set the necessary parameters and modem control signals, and do
+nothing more than read and write characters using one or more of the
+LiteComm functions.  The beauty of LiteComm's design is that its high
+degree of granularity doesn't force you to pay the price of dragging
+along functions that you are not using.
+
+The information that we presented above will help you when  it is
+necessary to communicate with a device that requires special
+handshaking considerations, such as a cash drawer.  You may also need
+
+
+
+			     Page 13
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+some of the information we presented if you intend to use serial ports
+beyond COM2 (serial port 2).
+
+Finally, by presenting the information that we have supplied, we hope
+to gain a more informed user.  Communications programming is not the
+black art that some would have you believe, although it can easily
+seem that way at times.  Of all of the calls we receive who need
+questions answered, more than 75 per cent could have been answered by
+the caller himself with a more thorough understanding of the
+underlying concepts and rules.
+
+
+3.5  ToolBox NOTES AND WARNINGS
+
+
+Before you can send or receive information on a serial port using the
+ToolBox, you must use the open function to enable the line. This
+function initializes the 8250 UART with the correct parameters, and
+introduces the UART into the interrupt structure of the PC. The
+ToolBox will detect, and report, any errors that you may make in
+selecting the port or specifying the initial parameters. The ToolBox
+will not detect an attempt to open a nonexistent serial port.
+
+The ToolBox interfaces directly with the interrupt structure of the
+PC. It is critical before exiting a program that has opened a serial
+port that the serial port is closed with the close function. Since it
+is possible for a program to terminate abnormally, the open function
+installs an exit routine that will automatically close any open ports.
+Good programming practice demands, however, the your program should
+close the ports explicitly.  By so doing, you may avoid problems in
+the future if we find it necessary to remove the auto-close
+functionality. Further, the auto-close functionality drops all modem
+handshaking signals absolutely, while an explicit close can decide
+whether or not to drop these signals. If you are unaware of exit
+functions, check your compiler's documentation for the atexit()
+function for a complete explanation. And review the description of the
+comm_close() function, as well.
+
+Failure of the open function can be the result of either improper
+parameters to the open function, or insufficient memory available to
+allocate the requested buffers and related control structures for the
+port, or both. Memory for the transmit and receive buffers as well as
+the port control block are allocated from free memory. It is your
+responsibility to insure that adequate memory is available for this
+purpose.  In general, this requires no particular action on your part,
+but if you use LiteComm in combination with other packages, the other
+packages may place specific restrictions on your use of free memory.
+
+The 8250 serial chip and its descendants will not transmit information
+until, at a minimum, the DTR (Data Terminal Ready) signal is asserted.
+The ToolBox will, at your option, assert both the DTR and RTS signals
+when you open the port.  If you do not select this option  you must
+use the lc_setmdm function to assert (raise) this signal.  In
+addition, some modems and other devices may require you to assert the
+
+
+
+			     Page 14
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+RTS (Request To Send) signal before they will respond to data.  The
+use of this, and other handshaking signals is HIGHLY hardware-
+dependant.  The ToolBox provides all the functionality necessary for
+you to implement virtually any handshaking scheme that might be
+required.
+
+Due to the use of all available interrupt modes of the 8250, one user
+has discovered an unusual set of circumstances that can be
+troublesome.  If the 8250 chip detects an error condition, such as a
+parity error, framing error, or data overrun error, it causes an
+interrupt to which the ToolBox will respond.  If these errors occur
+frequently enough, the ToolBox code will spend too much time handling
+the errors, and lose characters as a result, causing additional
+errors.  If you encounter a situation in which your application
+appears to behave erratically, especially at higher speeds,
+investigate the following table.
+
+		 Table 3.1: Possible Error Conditions
+
+    -	Is the cabling to the other device sound and solidly connected.
+
+    -	Are any of the signals in the cable 'floating' or are they all
+	properly terminated.
+
+    -	Is the other device known to be functioning properly. We have
+	encountered situations in which a serial port on some devices
+	tend to be sloppy in terms of voltage levels, bit timings, and
+	similar problems.  Any or all of these situations can cause the
+	erratic operation to which we referred.
+
+Unless you are very familiar with the interrupt structure of the PC,
+do not attempt to manipulate the interrupt enable flag outside of the
+ToolBox. The ToolBox sets and clears the interrupt enable flag at
+appropriate times and assumes that it has sole control over the flag.
+
+Unless otherwise specified, all library functions have been compiled
+with byte structure alignment. This alignment is made necessary by the
+way in which the interrupt handler was developed in assembly language.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 15
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 16
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      Chapter 4
+
+			    RECENT CHANGES
+
+
+4.1  NEW IN VERSION 5.00
+
+
+In version 5.0, we have improved on the assembly language interrupt
+handlers, further tightening the code.  In addition, significant
+changes have been made in the supporting functions to tighten the
+code.  The result is smaller applications, in most cases, able to
+operate at higher baud rates than before.
+
+We have also removed support for the lc_insclock and lc_clrclock
+functions.  The protocol engines now rely on event timers, introduced
+in version 4.0 of LiteComm.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 17
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 18
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      Chapter 5
+
+			     BEYOND COM2
+
+
+5.1  THE ToolBox METHODOLOGY
+
+
+In the design of the original PC, and in subsequent variations such as
+the PC/AT, there were only provision for two serial ports. Many
+manufacturers of add-in products, both serial ports and internal
+modems have added the capability to support 1 or more additional ports
+beyond the COM2 limit. Generally, this can cause problems in the PC
+since there is no room in the interrupt request scheme for additional
+levels of interrupts, and there are no designated interrupt vector for
+other additional ports.
+
+The ToolBox approach to resolving these issues is to permit the
+programmer a degree of control over the parameters that govern the
+interrupt mechanism for COM3 and COM4. Specifically, these parameters
+are:
+
+   1.	The interrupt request (IRQ) bit that is used to mask the 8259
+	interrupt controller.
+
+   2.	The interrupt vector number (not address) to which the port is
+	attached.
+
+   3.	The base i/o register for the port itself. Of course, it is
+	assumed that the port is based upon the 8250 UART or compatible
+	device.  Again, the LiteComm ToolBox will not function with
+	non-8250 type devices.
+
+Before you attempt to use COM3 and/or COM4, you must determine from
+the port's documentation, the appropriate values for these three
+parameters. As distributed, the ToolBox assumes the following:
+
+
+	      Table 5.1: COM3 and COM4 Default Settings
+
+				COM3		COM4
+
+IRQ Bit				4		3
+Vector #			0Ch		0Bh
+Base Reg			3E8h		2E8h
+
+You may change any or all of these values by using the _portchg
+function described below, but only before you open the port with
+
+
+
+			     Page 19
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+comm_opn. Once the port has been opened, _portchg is ineffective, and
+_portchg will not work on COM1 or COM2.
+
+At present, LiteComm is not compatible with multiport boards such as
+the Digiboard.  The structure of these boards generally require
+additional programming to be used effectively.  If you want to use
+such a board with LiteComm, please contact us directly for information
+on custom modifications to LiteComm.  We have performed such
+modifications for other LiteComm users.
+
+
+5.2  CAUTIONS
+
+
+There is an intimate relationship between the IRQ setting and the
+interrupt vector to which it relates. In the PC, this relationship is
+controlled, in part, by the 8259 interrupt controller that is set
+during BIOS initialization.
+
+In brief, the BIOS settings for the PC (and most close compatibles)
+establish IRQ0 as being vector number 08h, and subsequent IRQ levels
+at increasing vector numbers. These vector numbers (or types in INTEL
+terms) act as a cpu- directed call table to locations in the lowest 1K
+of system memory. We can alter how the system responds to a given
+interrupt by replacing or changing the values in the associated vector
+position to point to a routine which we supply.
+
+Judging from the questions asked by some users of LiteComm, there is
+evidently some misunderstanding about using ports beyond COM2, and how
+this all relates to your hardware. Before you can successfully use
+COM3 or COM4, you must consider the following:
+
+   1.	Does the hardware permit a change to the base port and/or the
+	interrupt vector to which the port responds.  Some expansion
+	cards will support changing one and not the other, giving rise
+	to potential hardware conflicts and lost data.
+
+   2.	Does the hardware permit  reassignment of the IRQ priority.
+	Some expansion cards permit you to alter the IRQ priority, some
+	won't. Suffice it to say from the previous discussion the any
+	change to the IRQ priority must allow a corresponding change to
+	the interrupt vector number. Without this capability,
+	reprogramming of the 8259 chip would be required.
+
+   3.	In fact, many add-on cards permit this dual change simply by
+	making a single switch or jumper setting. Unfortunately, the
+	documentation for these cards  generally assume that you are
+	aware of the dual nature of the IRQ vector relationship, and
+	may leave you with the impression that you are changing one and
+	not the other. In most circumstances, this is not the case.
+
+The point to all of this is that LiteComm can only provide as much
+support as the hardware permits, or is capable of responding to. If
+you wish to use other than the default base port, interrupt vector, or
+
+
+
+			     Page 20
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+irq priority for COM3 or COM4, then your expansion card must be
+capable of supporting the new values; in other words, these values are
+all hardware-provided, and are recognized by the LiteComm software. If
+your hardware does not permit changing a value, LiteComm cannot
+improve the situation.
+
+We should, at this point, add one final caution about how interrupt
+priorities function, and their relationship to the irq bit the you may
+select. The standard PC permits 8 interrupt priority levels, with the
+programmable timer having the highest priority, and the parallel
+printer port having the lowest priority. When an interrupt occurs, the
+interrupt controller (8259 chip) masks out all other interrupts from
+the priority of the interrupting device and all lower priority
+devices.
+
+As an aid to making COM3 and COM4 "fit", LiteComm supports interrupt
+chaining for the COM3 and COM4 ports. If you use COM3 or COM4, when an
+interrupt occurs, the kernel will attempt to determine if the
+interrupt was caused by the supported port or from some other source.
+
+If the kernel determines that the supported port did not cause the
+interrupt, an automatic chain to the original interrupt handler for
+that interrupt level (IRQ level) will take place, allowing you to
+"patch in" or share the available interrupt vectors.
+
+If you intend to use other than the library-provided defaults, be sure
+that you understand the interrupt mechanism. The use of the automatic
+chaining described above can be particularly troublesome under some
+circumstances, resulting in loss of interrupts and, potentially, a
+system crash.
+
+DO NOT attempt to mix the ToolBox functions with other seemingly-
+related functions (such as the serial port BIOS calls provided in both
+Turbo and Microsoft C).  At least two users have attempted to only use
+the receive portions of LiteComm, while resorting to the BIOS
+functions to send characters or adjust port parameters such as baud
+rate. The results, at best, have been failure of the user's
+application to function, and, at worst, total system lockup.  This mix
+of functions is NOT supported and must not be used.  If you attempt
+such a mix, we cannot help you.
+
+If you chose to 'share' the interrupt vectors for COM1 or COM2, you
+must be certain to open COM1 (COM2) last.  The interrupt chaining
+mechanism only works with COM3 and COM4.  Failure to follow this
+caution will result in a total loss of function of COM3 (COM4).  In
+addition, the ports should be opened in ascending order of the planned
+baud rate, i.e. the slower port should be opened first, the faster
+port should be opened last.  Whenever possible or practical, you will
+obtain best results by using the same baud rate on both ports.
+
+One final caution is in order.  One or two users have attempted to
+trace through the interrupts as they occur using debuggers.  This is a
+risky proposition at best since most debuggers work by tapping into,
+and disturbing, the interrupt mechanism.  If you feel you must use a
+
+
+
+			     Page 21
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+debugger, try to stay away from the kernel routines of LiteComm, or
+use a hardware-based debugger such as Periscope.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 22
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      Chapter 6
+
+			   PACKAGE CONTENTS
+
+
+Your distribution diskette contains several files that are important
+to you. All diskettes, at a minimum, include the following files in
+the diskette's root directory:
+
+		  Table 6.1: Basic Diskette Contents
+
+READ.ME			LATEST LITECOMM INFORMATION
+
+TCOMM.ARC		SHAREWARE VERSION - TURBO C
+
+- OR -
+
+MCOMM.ARC		SHAREWARE VERSION - MICROSOFT
+
+TCLIB.ARC		LIBRARIES, TURBO C
+
+- OR -
+
+MSCLIB.ARC		LIBRARIES, MICROSOFT
+
+The diskette contains a sub directory called SOURCE.  The SOURCE
+directory contains 2 source code archives, as well as compiler
+specific archives, to help you build or rebuild the libraries for
+either of the supported compilers.
+
+
+		   Table 6.2: Optional Source Code
+
+LITECOMM SOURCE CODE		LCSRC.ARC
+
+XMODEM ENGINE SOURCE CODE	LXMSRC.ARC
+COMPILER SPECIFIC FILES		MSC.ARC
+				TURBOC.ARC
+
+
+6.1  COMPILER-SPECIFIC INSTRUCTIONS
+
+
+6.1.1  INSTALLING THE TURBO C VERSION
+
+In the following discussion, we assume that your regular Turbo header
+files are contained in a directory called \TC\INCLUDE, and that your
+
+
+
+
+			     Page 23
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+Turbo libraries are in a directory called \TC\LIB, as recommended by
+Borland.
+
+To install the header files used with LiteComm, perform the following
+steps:
+
+    o	CD \TC\INCLUDE
+
+    o	ARC E A:TCOMM *.H
+
+    o	ARC E A:TCLIB *.H
+
+To install the library files, perform the following steps:
+
+    o	CD \TC\LIB
+
+    o	ARC E A:TCLIB *.LIB
+
+If you are installing only the libraries, this completes the
+installation procedure for Turbo C. To install the package's source
+code, we recommend that you create a subdirectory named COMM to hold
+the LiteComm and Xmodem source code. To install the LiteComm source
+code, do the following:
+
+    o	MD \COMM
+
+    o	CD \COMM
+
+    o	ARC E A:LCSRC *.*
+
+    o	ARC E A:LXMSRC *.*
+
+We strongly urge that you use the recommended approach in handling the
+source code to avoid naming conflicts that might arise.
+
+6.1.2  MAKING NEW TURBO-C LIBRARIES
+
+It is important to source code registrants to be aware that to
+successfully rebuild the LiteComm or Xmodem libraries, the supplied
+make files assume that you are using Turbo-C version 1.5 or greater,
+and therefore have access to the TLIB program that is a part of
+version 1.5 or greater.  If you are using a version of Turbo-C earlier
+than 1.5, you must have access to LIB.EXE, the Microsoft Librarian
+program, or a suitable replacement. To use the make files included in
+the package under these circumstances, you will have to change the
+make files accordingly to refer to LIB rather than TLIB.
+
+In addition, to reassemble the interrupt handlers, you must have
+available Borland's TASM that is a part of the Turbo-C Professional
+package or Microsoft's MASM, available as a separate product. The use
+of MASM will require you to make changes to the provided make files.
+Object versions of these handlers have been included for those users
+who do not have TASM available.
+
+
+
+
+
+			     Page 24
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+When you specify the use of the LiteComm and Xmodem Engine libraries
+in Turbo C, you may have to fully qualify the library name in your
+.PRJ file, depending upon the version of Turbo-C that you are using,
+even if you have specified the default library directory in the TC
+Options. In earlier versions, the library option tells TC how to look
+for the standard Turbo C libraries, but not any user-provided
+libraries.
+
+6.1.3  INSTALLING THE MICROSOFT C VERSION
+
+In the following discussion, we assume that your regular header files
+are contained in a subdirectory called INCLUDE, and that your
+libraries are in a subdirectory called LIB, as recommended by
+Microsoft. These instructions pertain to both Microsoft QuickC and
+standard C.
+
+To install the header files used with LiteComm, perform the following
+steps:
+
+    o	CD INCLUDE
+
+    o	ARC E A:MCOMM *.H
+
+    o	ARC E A:MCLIB *.H
+
+To install the library files, perform the following steps:
+
+    o	CD LIB
+
+    o	ARC E A:MCLIB *.LIB
+
+If you are installing only the libraries, this completes the
+installation procedure for Microsoft C. To install the package's
+source code, we recommend that you create a subdirectory named COMM to
+hold the LiteComm and Xmodem source code. To install the LiteComm
+source code, do the following:
+
+    o	MD COMM
+
+    o	CD COMM
+
+    o	ARC E A:LCSRC *.*
+
+    o	ARC E A:LXMSRC *.*
+
+We strongly urge that you use the recommended approach in handling the
+source code to avoid naming conflicts that might arise.
+
+6.1.4  MAKING NEW MICROSOFT C LIBRARIES
+
+It is important to source code registrants to be aware that to
+successfully rebuild the LiteComm or Xmodem libraries, you must have
+access to a copy of LIB.EXE, the Microsoft Librarian program, or a
+suitable replacement. To use the make files included in the package,
+
+
+
+			     Page 25
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+LIB.EXE must either be in your current working directory, or in a
+directory specified in the DOS PATH variable. For additional
+information on setting the PATH variable, consult your DOS manual.
+
+Microsoft C users need to know that the Microsoft C  version is
+written in, and intended to support Microsoft C version 5.XX and
+QuickC.  The package has not been tested with earlier versions of
+Microsoft C, although we believe that it should function properly with
+version 4.X, although some adjustments may be necessary.
+
+QuickC users should also note that we have NOT provided a QLB version
+of the libraries.  If you wish to create a QLB version of the
+libraries for use in the QuickC environment, follow the procedures
+outlined on pages 237-ff of the QuickC Programmer's Guide.  Remember,
+the QuickC version 1.0 environment requires the MEDIUM memory model.
+Therefore, unregistered users cannot create a usable QLB library
+following this procedure.  Alternatively, you can use the supplied
+medium model library within the QuickC environment by specifying the
+library as part of a program list.
+
+Unregistered QuickC users can still use QCL to create usable programs
+with the supplied small model library.  Be sure to use the /AS switch
+when compiling.
+
+
+6.2  GENERAL NOTES
+
+
+The LiteComm and related libraries make extensive use of parameters
+defined in the included header files. Where appropriate, your programs
+should always use the same header file parameters. While every effort
+will be made in future releases of LiteComm to preserve the values as
+currently provided, we cannot guarantee that changes will never
+occur.The safest way to safeguard your efforts is to use the defined
+parameters. In this way, a simple recompile and relink will insure
+consistency from one release of LiteComm to the next.
+
+In the discussion of the various functions which follow, you should
+assume that any references to the port variable refer to a variable or
+constant that may take on a value of from 1 to 4. No other values are
+acceptable, and will be rejected.
+
+While we feel that LiteComm is written in the most efficient way
+possible, commensurate with good programming practice, we cannot be
+responsible for variations caused by hardware configurations or other
+factors beyond our control. LiteComm has been tested, and is known to
+perform on, the IBM PC-AT, IBM PS/2 and several compatible systems
+such as the Zenith and Wyse equivalents. LiteComm has not been tested
+in environments in which other software, most significantly TSR
+(terminate and stay resident) modules exist. Some TSR programs that
+"steal" interrupts for their own purposes present an unfavorable
+environment to other programs that rely on the interrupt structure of
+the computer.
+
+
+
+
+			     Page 26
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+Should you experience erratic behavior with LiteComm in a TSR-type
+situation, try executing your application without the TSR module being
+present. If the problems you have experienced disappear, suspect the
+TSR module.
+
+Conversely, LiteComm provides an excellent vehicle for supporting TSR
+programs that you may write. Since the package is fully re-entrant,
+your only concern need be with those aspects of TSR programs are of
+normal concern, e.g. the non re-entrant nature of DOS. LiteComm never
+uses DOS functions and may therefore be safely used in a TSR
+environment.
+
+6.2.1  USE WITH MULTITASKING ENVIRONMENTS
+
+Some users have made attempts at using LiteComm in conjunction with
+multitasking environments such as Quarterdesk's DesqView.  Use of
+LiteComm in such an environment is certain to be affected by the way
+in which the multitasking behaves with respect to interrupts.
+Although we recognize that DesqView has achieved a certain level of
+popularity among so-called power users, LiteComm was not explicitly
+designed for such environments, and its performance may suffer as a
+result.
+
+6.2.2  NOTES ON RING DETECTION
+
+Several users have reported problems in consistently detecting a
+ringing telephone by checking the state of the RI (Ring Indicator)
+signal.  The problem seems to be highly dependent on the type of modem
+that is being used, since this signal is provided by the modem.  If
+the duration of the signal is too short, the program may miss the
+signal as the modem toggles it on and off.  One workaround that has
+been used successfully is to check the RICHG bit returned from
+lc_mstat, rather than the RI bit.  The RICHG bit will be set when the
+RI bit comes one and again when the RI bit goes off. This is the
+method employed in the check_for_call function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 27
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 28
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      Chapter 7
+
+			  FUNCTION REFERENCE
+
+
+In the following pages, we provide the detailed information about each
+of the available LiteComm ToolBox functions.  Each function definition
+includes, at a minimum, a summary of how the function is referenced, a
+description of what the function does, and an indication of those
+values, if any, that the function might perform.
+
+Where appropriate, we include additional documentation about the
+function.  Some definitions include examples, in the sense of code
+fragments illustrating the function's usage.  More importantly, some
+definitions include additional notes and warnings as well as
+references to other functions within the package.
+
+We have made every effort to insure that the documentation of the
+functions is complete and accurate.  The style and manner of the
+documentation assumes that the reader is thoroughly familiar with the
+elements of C syntax and common conventions.
+
+
+
+
+
+
+				_portchg
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int _portchg(port, base, irq, vector)
+
+     unsigned port;
+     unsigned base;
+     unsigned vector;
+     char irq;
+
+
+DESCRIPTION
+
+
+Changes one or more of the critical parameters for COM3 or COM4. This
+function must be used before the port is opened to be effective. To
+
+
+
+			     Page 29
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+leave any of the parameters at its default value, make the
+corresponding entry 0. Note that vector is a vector number, not an
+address or pointer.
+
+The irq parameter should not be taken to be the irq (interrupt
+request) number, but rather the irq mask. The following lines,
+reproduced from 'litecomm.h' help illustrate this idea.
+
+#define IRQ1 0x10 /* int req mask for port 1 - irq4 */
+#define IRQ2 0x08 /* int req mask for port 2 - irq3 */
+
+Note that the value for irq4 is NOT 4, but a character in which bit 4,
+using INTEL's bit numbering, is set to a value of 1. Thus, to use irq
+priority 1 as the irq for either COM3 or COM4, you would specify 0x02
+as the value of irq when calling _portchg.
+
+The default parameters are shown in the litecomm.h include file.
+
+If you intend to change the default irq settings, you MUST also make a
+corresponding change to the vector number. See the accompanying
+documentation about using COM3 and COM4 for additional details.
+Failure to follow this rule may make the port appear to be
+nonfunctional.
+
+The _portchg function does NOT check to determine that you have
+provided both an IRQ mask AND a new vector number.
+
+
+EXAMPLE
+
+
+     if (_portchg(port, 0x408, 0, 0, 0) == -1)
+     {
+	  printf("Error Changing Port %d\n", port);
+	  exit(1);
+     }
+
+
+RETURN VALUES
+
+
+Returns 0 if the function is successful, -1 if you attempt to change a
+port other that 3 or 4.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 30
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+				comm_opn
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int comm_opn(port, baud, parity, datab, stopb, inbufsz,
+		  outbufsz, raisemdm)
+     unsigned port;
+     unsigned baud;
+     unsigned parity;
+     unsigned datab;
+     unsigned stopb;
+     unsigned inbufsz;
+     unsigned outbufsz;
+
+
+DESCRIPTION
+
+
+Opens the specified port for use and attaches an interrupt handler to
+DOS for the port. Optionally, comm_opn will raise the DTR and RTS
+modem control signals, if the value of raisemdm is TRUE. The function
+allocates, from the heap, space for the CCB (communications control
+block), space for the interrupt handler's stack, and buffers for input
+and output of the specified sizes. The minimum value for inbufsz is
+128; the minimum size for outbufsz is 64.
+
+If sufficient memory is available, and a correct set of parameters has
+been specified, the port will be set to the parameters (baud rate,
+word length, stop bits) used when the function is called.  The memory
+overhead associated with opening a port can be approximated by adding
+about 1.2K bytes to the buffer sizes specified.
+
+comm_opn installs an exit handler using the atexit() function to
+protect DOS from problems that might arise if a program using LiteComm
+fails. However, it is sound practice to close a port opened in this
+manner using comm_close explicitly in your program to gain maximum
+control over the port.
+
+The baud parameter is an unsigned integer that specifies the baud rate
+you intend to use, e.g. 4800. The other parameters passed to the
+function should be from the parameter set in the litecomm.h include
+file.
+
+
+
+
+
+
+			     Page 31
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+EXAMPLE
+
+
+Below are two examples of using comm_opn, the first letting comm_opn
+raise the modem control signals, the second using two function calls
+to accomplish the same end.  The final result of each example is
+exactly the same, an open port on which the DTR and RTS signals have
+been raised.
+
+Example 1
+
+     if (comm_opn(port, 1200, NPARITY, BIT8, STOP1, 256,
+		  256, TRUE) == - 1)
+     {
+	  printf("Error Opening Port %d\n", port);
+	  exit(1);
+     }
+
+
+Example 2
+     if (comm_opn(port, 1200, NPARITY, BIT8, STOP1, 256,
+		  256, FALSE) == - 1)
+     {
+	  printf("Error Opening Port %d\n", port);
+	  exit(1);
+     }
+     lc_setmdm(port, (DTR | RTS));
+
+
+RETURN VALUES
+
+
+Upon successful open, the function returns port. If any error occurs,
+regardless of type, the function returns -1.
+
+
+
+
+
+
+			      comm_close
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+     int comm_close(port, dropmdm)
+     unsigned port;
+
+
+
+
+
+
+
+
+			     Page 32
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+DESCRIPTION
+
+
+This function is the companion to comm_opn and, in effect, performs
+the opposite action. Comm_close detaches the library routines from the
+interrupt handler, and reconnects the previous interrupt handler.
+Comm_close also releases all allocated memory used for the buffering
+and control structures described under comm_opn. If the value of
+dropmdm is non-zero, the port is closed absolutely, and all modem
+control signals are dropped.  If the value of dropmdm is zero, the
+port is closed conditionally, and both the DTR and RTS signals will be
+left in their current state.
+
+Since comm_opn installs an exit handler using the atexit function in
+both Turbo C and Microsoft C, you are not required to explicitly close
+an open port.  However, if you do not explictly close the port, you
+will lose control over the handling of the DTR and RTS signals since
+the built-in exit handler uses the absolute form of the close.
+
+
+EXAMPLES
+
+
+These are two equivalent examples of the comm_close function.  The
+first uses the absolute port close, the second uses two function calls
+to accomplish the same result.
+
+Example 1
+
+     comm_close(port, TRUE);	   /* absolute close */
+
+Example 2
+
+     lc_clrmdm(port, (RTS | DTR)); /* lower modem control */
+     comm_close(port, FALSE);	   /* conditional close */
+
+
+RETURN VALUES
+
+
+If any error occurs, regardless of type, the function returns -1.
+
+
+
+
+
+
+			      comm_setup
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+
+
+			     Page 33
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+     int comm_setup(port,baud,parity,datab,stopb)
+
+     unsigned port;
+     unsigned baud;
+     unsigned parity;
+     unsigned datab;
+     unsigned stopb;
+
+
+DESCRIPTION
+
+
+The comm_setup function is a subset of the comm_opn function and the
+remarks made in the description of comm_opn regarding the port
+parameters apply.
+
+This function is useful if you wish to change the basic communication
+parameters of the specified port that has already been opened without
+comm_close'ing the port.
+
+
+EXAMPLE
+
+
+     if (comm_setup(port, 1200, NPARITY, BIT8, STOP1) == -1)
+     {
+	  printf("Error Changing Port %d\n", port);
+	  exit(1);
+     }
+
+
+RETURN VALUES
+
+
+If any error occurs, regardless of type, the function returns -1.
+
+
+SEE ALSO
+
+
+comm_opn
+
+
+
+
+
+
+				lc_vport
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+
+
+			     Page 34
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+     COMM *lc_vport(port)
+
+
+DESCRIPTION
+
+
+lc_vport is a macro that is used internally to validate that the port
+number specified is correct and has been opened with the comm_opn
+function. It may be of use to you in writing certain applications.
+
+
+RETURN VALUES
+
+
+If the port is valid and has been opened, returns a pointer to the CCB
+(communications control block) for the port. Returns NULL if an error
+occurs;
+
+
+
+
+
+
+				lc_icnt
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_icnt(port)
+     int lc_ocnt(port)
+
+     unsigned port;
+
+
+DESCRIPTION
+
+
+These functions may be used to determine the number of characters
+currently in the input(lc_icnt) or output(lc_ocnt) buffers for the
+port.
+
+
+EXAMPLE
+
+
+     #include <litecomm.h>
+
+     if (lc_icnt(port))		   /* anything received ? */
+	 puts("Characters waiting in input");
+
+
+
+
+
+			     Page 35
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+RETURN VALUES
+
+
+Both functions return -1 if an error occurs (port not open or invalid
+port number). The lc_icnt() function returns the number of characters
+in the input buffer; lc_ocnt() returns the number of characters in the
+transmit buffer that have not yet been sent.
+
+
+
+
+
+
+				lc_mstat
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_mstat(port)
+
+     unsigned port;
+
+
+DESCRIPTION
+
+
+May be used to determine the last known state of the modem- supplied
+handshake signals. These may be tested using the values in the include
+file litecomm.h.
+
+The handshake signals consist of a byte in which the bits 4-7 contain
+the current state of the signals (such as Clear To Send or CTS) and
+bits 0-3 contain information regarding whether or not individual
+signals have changed. lc_mstat always returns the current values of
+the signals in bits 4-7.  Bits 0-3 will reflect which, if any, of the
+signals has changed.
+
+The easiest approach to dealing with the returned value is to test
+bits 0-3 (the DELTA or change bits) for a non-zero value.  If any
+non-zero value is found in bits 0-3, one or more signals have changed
+since the last call to lc_mstat.  PLEASE NOTE: The DELTA bits are
+reset once this function is called.  The value obtained from bits 4-7
+will correctly reflect the current state of the signals.
+
+To examine individual signals, litecomm.h has #defined symbols for the
+change bits (e.g. CTSCHG), and for the signals themselves (e.g. CTS).
+
+
+
+
+
+
+
+
+			     Page 36
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+EXAMPLE
+
+
+     int curstat;
+
+     curstat = lc_mstat(port);		/* get curent values */
+     if (curstat & DCDCHG)		/* DCD changed ? */
+	 if (! (curstat & DCD))		/* carrier still on */
+	      puts("Remote is off-line, carrier lost");
+
+
+RETURN VALUES
+
+
+If the port is valid and has been opened, returns the current modem
+status bits. Returns -1 if an error occurs.
+
+
+
+
+
+
+				lc_estat
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_estat(port)
+
+     unsigned port;
+
+
+DESCRIPTION
+
+
+May be used to determine the last known state of the serial port's
+error status bits. These may be tested using the values in the include
+file litecomm.h.
+
+The errors that are detected and reported include:
+
+   1.  ORUNERR - failure to fetch a character from the port before the
+	next character was received.  Usually a problem in the
+	interrupt handler.
+
+   2.  PARERR - One or more characters were received in which the
+	parity of the character(s) did not match the current parity
+	setting of the port.  Can be caused by line noise, or by other
+	causes.
+
+
+
+
+
+			     Page 37
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+   3.  FRMERR - A framing error has occurred.  A character was
+	received that had too few or (more likely) too many bits.
+	Usually caused by line noise.
+
+
+RETURN VALUES
+
+
+If the port is valid and has been opened, returns the current error
+status bits. Returns -1 if an error occurs.
+
+
+
+
+
+
+				lc_getw
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_getw(port)
+
+     unsigned port;
+
+
+DESCRIPTION
+
+
+Reads a character from the serial port's input buffer. Waits
+indefinitely until a character is available.  If the port is
+disconnected for any reason, this function will cause a system hang if
+called, so its use should be carefully controlled.
+
+
+RETURN VALUES
+
+
+Returns the next available character in the input buffer for the port.
+Returns -1 if the port is not active, or if an invalid port number is
+specified.
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 38
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      lc_setmdm
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_setmdm(port, newset)
+
+     unsigned port;
+     unsigned newset;
+
+
+DESCRIPTION
+
+
+Set one or more of the modem control signals. Because of the need to
+always have OUT2 set for interrupt support, the function always
+provides the correct setting for this bit. Use the symbolic #defines
+found in the litecomm.h file.  Many applications will not require this
+function, if they allow comm_opn to raise these two signals.  More
+sophisticated applications may be required to control either or both
+of the signals to provide handshaking with an external device.
+
+
+EXAMPLE
+
+
+     /* raise the RTS modem control signal */
+	  lc_setmdm(port, RTS);
+
+     /* raise both RTS and DTR */
+	  lc_setmdm(port, (RTS | DTR));
+
+
+RETURN VALUES
+
+
+Returns 0 if the operation was successful, returns -1 otherwise.
+
+
+SEE ALSO
+
+
+     comm_opn, lc_clrmdm, lc_togmdm
+
+
+
+
+
+			     Page 39
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      lc_clrmdm
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_clrmdm(port, newset)
+
+     unsigned port;
+     unsigned newset;
+
+
+DESCRIPTION
+
+
+Companion to the setmdm function. Clears the modem control signals RTS
+or DTR or both . Because of the need to always have OUT2 set for
+interrupt support, the function always provides the correct setting
+for this bit. Use the symbolic #defines found in the litecomm.h file.
+Generally, this function only has value if you trying to implement
+some form of hardware handshaking with another device.  The comm_close
+function will lower both RTS and DTS automatically, if told to do so.
+
+
+EXAMPLE
+
+
+     /* lower the RTS modem control signal */
+	  lc_clrmdm(port, RTS);
+
+     /* lower both RTS and DTR */
+	  lc_clrmdm(port, (RTS | DTR));
+
+
+RETURN VALUES
+
+
+Returns 0 if the operation was successful, returns -1 otherwise.
+
+
+SEE ALSO
+
+
+     comm_close, lc_setmdm, lc_togmdm
+
+
+
+
+
+			     Page 40
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      lc_togmdm
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_togmdm(port, newset)
+
+     unsigned port;
+     unsigned newset;
+
+
+DESCRIPTION
+
+
+Companion to setmdm function. Inverts (flip-flops) the modem control
+signals RTS or DTR or both. Because of the need to always have OUT2
+set for interrupt support, the function always provides the correct
+setting for this bit. Use the symbolic #defines found in the
+litecomm.h file.  This function may have value if you are trying to
+implement hardware handshaking.
+
+
+EXAMPLE
+
+
+     /*
+     ** change the RTS modem control signal to its other
+     ** state (e.g. if raised, lower, and if lowered, raise
+     */
+	  lc_togmdm(port, RTS);
+
+
+RETURN VALUES
+
+
+Returns 0 if the operation was successful, returns -1 otherwise.
+
+
+SEE ALSO
+
+
+lc_setmdm, lc_clrmdm
+
+
+
+
+
+
+			     Page 41
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+				lc_xoff
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_xoff(port, flag)
+
+     unsigned port;
+     int flag;
+
+
+DESCRIPTION
+
+
+If flag is non-zero, the function enables the semiautomatic XON-XOFF
+flow control function. If flag is zero (the default setting),
+automatic flow control is disabled.
+
+When enabled, the LiteComm kernel will automatically transmit an XOFF
+if and when the input buffer is approximately 2/3 full and will
+automatically recognize an XOFF sent by the other device. If the other
+device transmits an XOFF, the kernel will refuse to send any
+characters until the condition is cleared, either by receipt of an
+XON, by calling lc_gotxoff(), or by disabling XON-XOFF altogether.
+The XOFF recognition functionality is implimented in the kernel.  As a
+result, the transmit buffer will continue to accept input from your
+program until the buffer fills completely, even though the information
+will not be sent.  Once the matching XON is received, the contents of
+the transmit buffer will be sent rapidly to the other device.  It is
+possible that the rate with which characters are sent when this occurs
+may cause problems for the other device, depending on its ability to
+handle the data flow.
+
+If the kernel has sent an XOFF, it is the programmer's responsibility
+to transmit XON when conditions warrant. Use the lc_putxoff function
+to tell if an automatic XOFF has been sent by the kernel. Use the
+lc_gotxoff function to determine if the kernel has detected an XOFF.
+
+If you intended to implement a protocol that might include the XON-
+XOFF characters, be sure to disable the automatic flow control.
+Failure to do so may result in a system hang.
+
+
+
+
+
+
+
+			     Page 42
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+RETURN VALUES
+
+
+Returns 0 if the operation was successful, returns -1 otherwise.
+
+
+SEE ALSO
+
+
+lc_gotxoff, lc_putxoff
+
+
+
+
+
+
+			      lc_gotxoff
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_gotxoff(port)
+
+     unsigned port;
+
+
+DESCRIPTION
+
+
+If an XOFF has been received, the port's internal flag will be reset,
+and transmission to the other device will be permitted. If an XON is
+received from the other device, the port's flag will also be reset,
+permitting further transmissions to occur. If you use flow control,
+and the other device never sends an XON after sending an XOFF, a
+system hang is possible. You may wish to call lc_gotxoff periodically
+to test for this condition, and to cause your port to resume
+transmitting characters.
+
+
+RETURN VALUES
+
+
+Returns a nonzero value if an XOFF was detected, zero if an XOFF was
+not detected. Will return -1 in the case of an error.
+
+
+SEE ALSO
+
+
+lc_xoff, lc_putxoff
+
+
+
+
+			     Page 43
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      lc_putxoff
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_putxoff(port)
+
+     unsigned port;
+
+
+DESCRIPTION
+
+
+See below for the values returned. If the LiteComm kernel has sent an
+XOFF, the port's internal flag will be reset. Use this function in
+together with transmission of an XON character to the other device to
+permit transmissions to proceed.
+
+
+RETURN VALUES
+
+
+Returns a nonzero value if XOFF was sent to the other device, zero if
+an XOFF was not sent since the last time the function was called. Will
+return -1 in the case of an error.
+
+
+EXAMPLE
+
+
+     if (lc_putxoff(port))	   /* sent an XOFF ? */
+	  lc_put(port, XON);	   /* send XON to resume */
+
+
+SEE ALSO
+
+
+lc_xoff, lc_putxoff
+
+
+
+
+
+
+
+
+
+
+			     Page 44
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+				lc_get
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+     int lc_get(port)
+
+     unsigned port;
+
+
+DESCRIPTION
+
+
+Read a character from the serial port's input buffer.
+
+
+RETURN VALUES
+
+
+Returns the next available character in the input buffer for the port.
+If you specified other than NO PARITY when the port was opened, you
+may have to remove (make zero), the parity bit before you use the
+character. Returns -1 if the port is not active, or if there are not
+characters in the port's buffer.
+
+
+EXAMPLE
+
+
+     if ((ch = lc_get(port)) != -1)	/* any chars? */
+	  ch &= 0x7f;			/* mask parity */
+
+
+
+
+
+
+				lc_peek
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_peek(port)
+
+
+
+			     Page 45
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+     unsigned port;
+
+
+DESCRIPTION
+
+
+Look at the next character in the serial port's input buffer.
+
+
+RETURN VALUES
+
+
+Returns the next available character in the input buffer for the port,
+but does not remove the character from the buffer. This allows the
+application to look-ahead by one character in a nondestructive
+fashion. See additional comments under lc_get regarding parity.
+Returns -1 if the port is not active, or if there are no characters in
+the port's buffer.
+
+
+
+
+
+
+				lc_put
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_put(port,ch)
+
+     unsigned port;
+     char ch;
+
+
+DESCRIPTION
+
+
+Place a character into the serial port's output buffer.
+
+
+RETURN VALUES
+
+
+Returns 0 if successful. Note that this does not guarantee that the
+character has been sent, only that no errors were detected, and that
+there was room in the transmit buffer for the character. Characters
+are sent from the transmit buffer when the system has time to send
+them, assuming all conditions for transmission are satisified.
+Returns -1 if the port is not active, or if there no room in the
+port's buffer.
+
+
+
+			     Page 46
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+				lc_gets
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_gets(port, buff, cnt)
+
+     unsigned port;
+     char *buff;
+     int cnt;
+
+
+DESCRIPTION
+
+
+Read a stream of, at most, cnt characters from the serial port's input
+buffer into the buff location. This function is not sensitive to the
+NULL character. Any parity that is set by the other device may have to
+be removed on a character by character basis. See lc_get for
+additional information.
+
+
+RETURN VALUES
+
+
+Returns the count of characters actually transferred into buff, or -1
+if an error occurs.
+
+
+
+
+
+
+				lc_puts
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+     int lc_puts(port, buff, cnt)
+
+     unsigned port;
+     char *buff;
+     int cnt;
+
+
+
+			     Page 47
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+DESCRIPTION
+
+
+Place a stream of, at most, cnt characters into the serial port's
+output buffer. Any required parity will be supplied by the serial port
+itself.
+
+
+RETURN VALUES
+
+
+Returns the number of characters actually placed into the buffer. Note
+that this does not guarantee that the characters have been sent, and
+the number of characters transferred to the into the output buffer may
+be less than the actual request. Returns 0 if any error occurs, or if
+there no room in the port's buffer.
+
+
+
+
+
+
+				lc_flush
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_tflush(port)
+
+     int lc_rflush(port)
+
+     int lc_flshtrue(port, ch)
+
+     int lc_nflush(port, cnt)
+
+     unsigned port;
+     char ch;
+     int cnt;
+
+
+DESCRIPTION
+
+
+The lc_<x>flush functions remove characters from the specified buffer
+and discard them; untransmitted characters in the transmit buffer are
+NEVER sent; unprocessed characters in the receive buffer are lost.  Do
+not try to use the lc_tflush to force characters to be transmitted.
+The tflush function unconditionally empties the transmit buffer,
+discarding any unsent characters.
+
+    o  lc_tflush empties the port's transmit buffer immediately.
+
+
+
+			     Page 48
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+    o	lc_rflush empties the port's receive buffer immediately.
+
+    o	lc_flshtrue will continually dispose of received characters
+	until the character ch is received. Use caution with this one
+	since it does not detect port number errors, and will appear to
+	seize the system until the demanded character is received.
+
+    o	lc_nflush flushes, at most, cnt characters from the port's
+	receive buffer.
+
+
+RETURN VALUES
+
+
+lc_flshtrue returns no values. lc_tflush and lc_rflush return 0 if
+successful and -1 if an error occurs. lc_nflush returns the number of
+characters actually flushed from the receive buffer or 0 in the case
+of no characters to flush, or if an error was detected.
+
+
+
+
+
+
+				lc_sbrk
+
+
+SUMMARY
+
+
+     #include <litecomm.h>
+
+     int lc_sbrk(port)
+
+     lc_gotbrk(port)
+
+     unsigned port;
+
+
+DESCRIPTION
+
+
+lc_sbrk() generates a BREAK signal using a particular characteristic
+of the 8250 UART family to generate an accurate BREAK at any baud
+rate.  BREAKs generated in this manner are timed based upon the baud
+rate at which the 8250 is currently initialized.  This function may or
+may not work correctly with other than the actual 8250 UART or its
+relatives.
+
+
+
+
+
+
+
+
+
+			     Page 49
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+RETURN VALUES
+
+
+lc_gotbrk returns a nonzero value if a break signal has been received
+on the specified port.  It returns zero otherwise.
+
+lc_sbrk Returns 0 if successful. Returns -1 if the port is not active.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 50
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      Chapter 8
+
+			BBS SUPPORT FUNCTIONS
+
+
+8.1  INTRODUCTION
+
+
+In this chapter, we discuss a set of utility functions that were
+originally developed as a part of a new, and as yet unannounced BBS
+package in conjunction with one of our registered users.  Not only are
+they useful, in and of themselves, but they also act as examples of
+using the LiteComm ToolBox in situations that puzzle some users.
+
+
+8.2  ADDITIONAL NOTES
+
+
+The use of any of the functions that follow in this section require
+that you define, in your code, three modem setup strings with the
+names MODEMSET0, MODEMSET1, and MODEMSET2, and must be pointers to
+characters.  In addition, they must be defined as global variables,
+and must be public (i.e. not static). One way to accomplish this is
+shown below.
+
+     char istrng0[] = "ATZ\r";
+     char istrng1] = "ATT E0 V0 X1 M1\r";
+     char istrng2[] = "ATS0=1\r";
+
+     char *MODEMSET0;
+     char *MODEMSET1;
+     char *MODEMSET2;
+
+     void main(void)
+     {
+	...
+	MODEMSET0 = &istrng0[0];
+	MODEMSET1 = &istrng1[0];
+	MODEMSET2 = &istrng2[0];
+	...
+     }
+
+Experienced C programmers will readily recognize that this is not
+necessarily the best approach.  But it does serve to clearly
+illustrate the concepts involved.  Be certain that MODEMSET0, 1, and 2
+are defined as pointers to characters as shown above, and NOT as
+arrays.  It is a fine destinction in C, but an important one.
+
+
+
+
+			     Page 51
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      new_event
+
+
+SUMMARY
+
+
+     include "lcbbs.h";
+
+     long new_event(sec);
+     int check_event(evtimer);
+
+     unsinged sec;
+     long evtimer;
+
+
+DESCRIPTION
+
+
+The new_event function creates an 'event timer' that will expire in
+sec seconds.  This function relies upon the calculation of an absolute
+time value, based upon current date and time, and does not tie into
+any system interrupt, permitting as many independent timeout timers as
+required by your application.
+
+The check_event function examines the contents of an event timer
+created by new_event with respect to the current date and time, and
+indicates whether or not the timer has expired.
+
+Do not attempt to use check_event against a variable that was not set
+by new_event.  If you do so, the results are unpredictable and may
+result in a seeming system hang.
+
+
+RETURN VALUES
+
+
+The new_event function returns a value that represents a point in time
+sec seconds from the time that new_event was called. The check_event
+function returns a nonzero value if the specified event timer has
+expired, a value of zero otherwise.
+
+
+EXAMPLE
+
+
+     long cdtimer;
+
+     cdtimer = new_event(30); /* 30 second timer */
+
+
+
+			     Page 52
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+     while( ! check_event(cdtimer))
+	  if (check_for_call(port) > 0)
+	  {
+		cprintf("Incoming call\r\n");
+		return(1);
+	  }
+
+     cprintf("No calls in 30 seconds\r\n");
+     return(0);
+
+
+
+
+
+
+			    check_for_call
+
+
+SUMMARY
+
+
+     include "lcbbs.h";
+
+     int check_for_call(port)
+     unsigned port;
+
+
+DESCRIPTION
+
+
+This function checks the status of the specified port to determine
+whether or not 1) there is an incoming call and 2) waits for up to 30
+seconds for carrier to be established with the caller if the phone
+rang.  Please note that this function relies upon, in part, the HAYES
+command set.  Use with other than HAYES-compatible modems may result
+in unexpected hangs or other, unpredictable results.  The function
+assumes that the modem parameters have been set in the manner
+described in the reset_modem function.
+
+In the event that a wrong number call is received, check_for_call will
+automatically disconnect by lowering  the DTR(Data Terminal Ready)
+signal momentarily, then automatically call the reset_modem function.
+See the notes at the beginning of this chapter, and in the discussion
+of the reset_modem function.  This disconnect method, while absolute,
+will only work correctly if you HAVE NOT set your modem to ignore the
+DTR signals, as is possible with some modems.  Please consult your
+modem's documentation for additional detail.
+
+
+RETURN VALUES
+
+
+If the phone was not ringing, the function return a value of zero.  If
+a ring was detected, but carrier was not detected within 30 seconds,,
+
+
+
+			     Page 53
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+the function will return a value of -1 after forcing a disconnect and
+resetting the modem.  Otherwise, the numeric result code, in integer
+form, is returned.  It is the programmer's responsibility to interpret
+and act upon the result code.  For the function to work properly, the
+modem must be set to return numeric result codes rather than word
+result codes.
+
+
+
+
+
+
+			   get_modem_reply
+
+
+SUMMARY
+
+
+     include "lcbbs.h"
+
+     int get_modem_reply(port)
+     unsigned port;
+
+
+DESCRIPTION
+
+
+The get_modem_reply function is intended for use after a command has
+been issued to a HAYES compatible modem.  To operate properly, the
+modem must be set to return numeric responses rather than word
+responses.  The function returns to the caller when one of the
+following occurs:
+
+   1.	no response from the modem within 1 second.
+
+   2.	more than 2 response characters received before a <CR> is
+	detected.
+
+   3.	a <CR> is received from the modem.
+
+Due to the internal logic employed, the programmer should call this
+function, or purge the receive buffer, after each command sent to the
+modem.  Failure to do so will result in improper interpretation of the
+result codes returned.
+
+
+RETURN VALUES
+
+
+Returns a value of -1 if no response from the modem is detected within
+1 second.  Otherwise returns the integer result code.  If the modem
+has not been set to return numeric result codes, the results are
+unpredictable.
+
+
+
+
+			     Page 54
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			     reset_modem
+
+
+SUMMARY
+
+
+     include "lcbbs.h"
+
+     int reset_modem(port)
+     unsigned port;
+
+
+DESCRIPTION
+
+
+The reset_modem function initializes the modem to a known state,
+suitable for use with the other bbs functions, and based upon a set of
+initialization strings provided by the user's program.  See the notes
+at the beginning of this chapter for additional information regarding
+the way that this must be done.
+
+Because the modem-related functions in this section make certain
+assumptions about the modem, your initialization strings should
+include, at a minimum, the following:
+
+    o	no command echo
+
+    o	detect carrier
+
+    o	return numeric result codes
+
+    o	answer the phone on the first ring (if you need to use the
+	check_for_call function)
+
+A sample set of initialization strings is shown at the start of this
+chapter. If you require any additional information on these or related
+options, please consult your modem's documentation.
+
+
+RETURN VALUES
+
+
+The reset_modem function returns the same result code as those
+specified for get_modem_reply.
+
+
+
+
+
+
+
+			     Page 55
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      disconnect
+
+
+SUMMARY
+
+
+     include "lcbbs.h"
+
+     void disconnect(port)
+     unsigned port;
+
+
+DESCRIPTION
+
+
+The disconnect forcibly disconnects the modem from the telephone line
+by lowering the DTR signal momentarily.  You must be certain that your
+modem IS NOT set to ignore the DTR signal for the function to work
+properly.
+
+
+RETURN VALUES
+
+
+disconnect returns no values.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 56
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+
+
+
+
+
+
+			      Chapter 9
+
+			HAYES MODEM FUNCTIONS
+
+
+Note - When using the following functions, you must include the file
+litehcm.h in your program. litehcm.h automatically includes the
+litecomm.h header file.
+
+
+9.1  FUNCTIONS
+
+
+	lch_codeset
+	lch_dial
+	lch_fduplex
+	lch_hduplex
+	lch_greg
+	lch_sreg
+	lch_offcarr
+	lch_oncarr
+	lch_offecho
+	lch_onecho
+	lch_hook
+	lch_redo
+	lch_numres
+	lch_wrdres
+	lch_codesoff
+	lch_codeson
+	lch_pulse
+	lch_tone
+	lch_speaker
+	_retset
+	_rettype
+
+
+SUMMARY
+
+
+	#include <litehcm.h>
+
+	int lch_codeset(port,mode)
+
+	int lch_dial(port,dstr)
+
+	int lch_fduplex(port)
+
+	int lch_hduplex(port)
+
+
+
+			     Page 57
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+	int lch_greg(port,reg)
+
+	int lch_sreg(port,reg,value)
+
+	int lch_offcarr(port)
+
+	int lch_oncarr(port)
+
+	int lch_offecho(port)
+
+	int lch_onecho(port)
+
+	int lch_hook(port,hmode)
+
+	int lch_redo(port)
+
+	int lch_numres(port)
+
+	int lch_wrdres(port)
+
+	int lch_codesoff(port)
+
+	int lch_codeson(port)
+
+	int lch_pulse(port)
+
+	int lch_tone(port)
+
+	int lch_speaker(port,spkmode)
+
+	int _retset()
+
+	int _rettype()
+
+	unsigned port;
+	unsigned mode;
+	char *dstr;
+	unsigned reg;
+	int value;
+	unsigned hmode;
+	unsigned spkmode;
+
+
+DESCRIPTION
+
+
+The values to be used in conjunction with mode, hmode, and spkmode are
+defined symbolically in the #include file, litehcm.h.
+
+The lch_codeset function allows you to change the set of codes that
+are returned by the modem when an action is specified.
+
+lch_dial instructs the modem to dial the number contained in dstr. Do
+not include the dialing (ATD) prefix, or the trailing <\r>. These are
+
+
+
+			     Page 58
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+provided by the function. You may include non-numeric characters that
+are acceptable to your modem, since the contents of dstr are not
+checked. The dialing is done in the last known mode, either pulse or
+tone. If you use the lch_pulse or lch_tone functions, then dialing
+will be done in the mode that was last correctly enabled. If you have
+not exercised these functions, then dialing occurs in the modems
+default or power-up mode.
+
+The lch_hduplex and lch_fduplex functions place the modem into local
+echo and remote echo modes respectively.
+
+The lch_greg function requests that the modem report the current value
+of S-register reg. Reg must be in the range 0 to 13. Use the lch_gets,
+or similar function, to retrieve the modem's response. Specifying a
+register outside the 0 to 13 range will cause a return of -1.
+
+lch_sreg is the companion to lch_greg, with the same restrictions.
+Sets the S-register reg to the value contained in value. If value
+contains -1, then the register is reset to its default (power-up)
+value. The function checks the value to be certain that it is within
+the limits specified for the particular register, and returns a value
+of -1 if the value is outside the predefined limits.
+
+lch_offcarr enables modem carrier detect, but disables the modem's
+carrier signal. The lch_oncarr companion enables both carrier detect
+and the modems carrier signal. When lch_offcarr is used the modem will
+receive data but will be unable to send data.
+
+The lch_offecho and lch_onecho functions determine whether commands
+sent to the modem are echoed back to the sending program. With echo
+turned off, the modem will continue to accept commands, but will not
+try to redisplay the command's characters.
+
+lch_hook allows you to control the current status of the modem's
+telephone line connection. See your modem's documentation and the
+include file for additional information.
+
+The lch_redo function instructs the modem to repeat the last command
+sequence executed. Generally, this function is of greatest value in
+redialing numbers that are busy, although its use is not restricted to
+that.
+
+The way in which your modem responds to commands is determined, in
+part, by the lch_wrdres and lch_numres functions. If you call
+lch_wrdres, then modem responses use the English language response
+codes, e.g. CONNECT or OK. Calling lch_numres instructs the modem to
+respond with code numbers only from the currently selected response
+set, see the lch_codeset function above.
+
+You may use the functions lch_codeson and lch_codesoff to specify
+whether you want your modem to send back response codes when it
+receives a command string. In a sense, these act as companions to the
+lch_xxxecho functions above.
+
+
+
+
+			     Page 59
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+Use the lch_speaker function to control the modem's internal speaker,
+if it has one. See litehcm.h for the applicable codes.
+
+The _retset and _rettype functions return, respectively, the last
+known command set (lch_codeset) and last known result type
+(lch_wrdres, lch_numres). These functions (_retset, _rettype) are only
+of value when used in conjunction with the companion functions.
+
+
+9.2  GENERAL REMARKS
+
+
+Several considerations are in order if you intend to use the Hayes
+ToolBox functions.
+
+   1.	You are responsible for checking the return codes from the
+	modem once you have given modem a command. To make the task
+	easier, we suggest that you turn OFF command echo (so that you
+	don't have to worry about separating commands from responses)
+	and turn ON numeric responses (to make the interpretation of
+	result codes easier and faster).
+
+   2.	Be sure that you allow  adequate time between commands for the
+	modem to process the command and respond. Failure to observe
+	this rule may result in commands being misinterpreted or
+	"lost". You can monitor the number of characters in the receive
+	buffer to help you with the timing. Or alternatively, check the
+	response after each command. The latter approach is more in
+	line with what we believe to be good programming practice.
+
+RETURN VALUES
+All functions return a value of -1 if a port or other error is
+detected, zero otherwise.
+
+
+
+
+
+
+			      Index
+
+
+	8250 7			BIOS functions 21
+	8259 19			bit number 30
+	_portchg 19		BREAK 12, 49
+				buffers 14, 31
+	A
+	ASP 1			C
+	atexit 14, 33		CCB 31, 35
+				character length 11
+	B			COM3 30
+	base port 9		COM4 30
+	baud rate 10		control block 14
+	BIOS 20			CTS 36
+
+
+
+			     Page 60
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+	      LITECOMM (TM) COMMUNICATIONS TOOLBOX
+		    for Microsoft and Turbo C
+
+
+
+	D			N
+	data overrun error 15	numeric result code 54
+	data path 7
+	Data Terminal Ready	O
+	  See: DTR		OUT2 12
+	DesqView 27
+	dialing 58		P
+	DTR 12, 14, 53, 56	parallel 7
+				parity 11, 45, 46, 47,
+	E			   48
+	event timer 52		parity error 15
+				poll 8
+	F			port 26
+	flow control 42
+	framing error 15		Q
+				QLB 26
+	H			QuickC 26
+	handshake 36
+	handshaking 12, 13	R
+	HAYES 53, 54		Request To Send See:
+				   RTS
+	I			RTS 12, 14
+	interrupt 8
+	interrupt enable flag	S
+	  15			S-register 59
+	interrupt request 19	serial port 7
+	Interrupt Service	stack 31
+	  Routine 9		structure alignment 15
+	interrupt vector 19
+	IRQ 20			T
+	ISR 9			TSR 26
+
+	M			U
+	make 24			UART 7
+	Memory 14
+	modem control 12		X
+	modem status 13		XOFF 42, 43, 44
+	multitasking 27		XON 42, 43, 44
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			     Page 61
+     Copyright (c) 1987, 88, 89 Information Technology, Ltd.
+
+
+
+
+
+
+
+
+
+
+
+			  Contents
+
+
+
+     Chapter 1  OVERVIEW				   1
+	1.1  FEATURES  . . . . . . . . . . . . . . . . . . 1
+	1.2  THE SHAREWARE CONCEPT . . . . . . . . . . . . 1
+
+     Chapter 2  LICENSE, WARRANTY AND REGISTRATION	   3
+	2.1  LICENSE . . . . . . . . . . . . . . . . . . . 3
+	2.2  WARRANTY  . . . . . . . . . . . . . . . . . . 4
+	2.3  REGISTERING YOUR COPY . . . . . . . . . . . . 4
+	2.4  NOTE  . . . . . . . . . . . . . . . . . . . . 5
+
+     Chapter 3  Serial Port Fundamentals		   7
+	3.1  The 8250 UART family  . . . . . . . . . . . . 7
+	3.2  Purpose of the port . . . . . . . . . . . . . 7
+	3.3  Internal Details  . . . . . . . . . . . . . . 8
+	   3.3.1  The Interrupt Connection . . . . . . . . 8
+	   3.3.2  The Programmable Port Registers  . . . . 9
+	      3.3.2.1  register 0 - transmit/receive . .  10
+	      3.3.2.2  register 0 - baud rate selection . 10
+	      3.3.2.3  register 1 - interrupt enable . .  10
+	      3.3.2.4  register 1 - baud rate selection . 11
+	      3.3.2.5  register 2 - interrupt
+			identification . . . . . . . . .  11
+	      3.3.2.6  register 3 - line control . . . .  11
+	      3.3.2.7  register 4 - modem control  . . .  12
+	      3.3.2.8  register 5 - line status  . . . .  12
+	      3.3.2.9  register 6 - modem status . . . .  13
+	3.4  The LiteComm Connection . . . . . . . . . .  13
+	3.5  ToolBox NOTES AND WARNINGS  . . . . . . . .  14
+
+     Chapter 4  RECENT CHANGES				  17
+	4.1  NEW IN VERSION 5.00 . . . . . . . . . . . .  17
+
+     Chapter 5  BEYOND COM2				  19
+	5.1  THE ToolBox METHODOLOGY . . . . . . . . . .  19
+	5.2  CAUTIONS  . . . . . . . . . . . . . . . . .  20
+
+     Chapter 6  PACKAGE CONTENTS			  23
+	6.1  COMPILER-SPECIFIC INSTRUCTIONS  . . . . . .  23
+	   6.1.1  INSTALLING THE TURBO C VERSION . . . .  23
+	   6.1.2  MAKING NEW TURBO-C LIBRARIES . . . . .  24
+	   6.1.3  INSTALLING THE MICROSOFT C VERSION . .  25
+	   6.1.4  MAKING NEW MICROSOFT C LIBRARIES . . .  25
+	6.2  GENERAL NOTES . . . . . . . . . . . . . . .  26
+	   6.2.1  USE WITH MULTITASKING ENVIRONMENTS . .  27
+
+
+
+				i
+
+
+
+
+
+
+	   6.2.2  NOTES ON RING DETECTION  . . . . . .  27
+
+     Chapter 7  FUNCTION REFERENCE			29
+
+     _portchg						29
+
+     comm_opn						31
+
+     comm_close						32
+
+     comm_setup						33
+
+     lc_vport						34
+
+     lc_icnt						35
+
+     lc_mstat						36
+
+     lc_estat						37
+
+     lc_getw						38
+
+     lc_setmdm						39
+
+     lc_clrmdm						40
+
+     lc_togmdm						41
+
+     lc_xoff						42
+
+     lc_gotxoff						43
+
+     lc_putxoff						44
+
+     lc_get						45
+
+     lc_peek						45
+
+     lc_put						46
+
+     lc_gets						47
+
+     lc_puts						47
+
+     lc_flush						48
+
+     lc_sbrk						49
+
+     Chapter 8  BBS SUPPORT FUNCTIONS			51
+	8.1  INTRODUCTION  . . . . . . . . . . . . . .  51
+	8.2  ADDITIONAL NOTES  . . . . . . . . . . . .  51
+
+     new_event						52
+
+
+
+
+				ii
+
+
+
+
+
+
+     check_for_call					53
+
+     get_modem_reply					54
+
+     reset_modem					55
+
+     disconnect						56
+
+     Chapter 9  HAYES MODEM FUNCTIONS			57
+	9.1  FUNCTIONS . . . . . . . . . . . . . . . .  57
+	9.2  GENERAL REMARKS . . . . . . . . . . . . .  60
+
+     Index						61
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				iii
+
+
+
+
+
+
+
+
+
+
+
+
+			  Figures
+
+
+     Figure 3.1: Register 1 Bit Definitions  . . . . . . .10
+     Figure 3.2: Register 2 Bit Definitions  . . . . . . .11
+     Figure 3.3: Register 3 Bit Definitions  . . . . . . .12
+     Figure 3.4: Register 4 Bit Definitions  . . . . . . .12
+     Figure 3.5: Register 5 Bit Definitions  . . . . . . .13
+     Figure 3.6: Register 6 Bit Definitions  . . . . . . .13
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				v
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				vi
+
+
+
+
+
+
+
+
+
+
+
+
+			   Tables
+
+
+     Table 3.1: Possible Error Conditions  . . . . . . . .15
+     Table 5.1: COM3 and COM4 Default Settings . . . . . .19
+     Table 6.1: Basic Diskette Contents  . . . . . . . . .23
+     Table 6.2: Optional Source Code . . . . . . . . . . .23
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				vii
+

@@ -1,0 +1,153 @@
+Blit, copyright 1988, Russell Nelson
+
+Use it; pass it on; but don't make any money off of it.
+
+Blit is a routine to copy a rectangle of bits from one location to
+another.  The only language binding is Turbo C, however, MS-C ought to
+work, since it's largely Turbo C compatible.  The algorithm was inspired
+by Rob Pike's implementation of blit documented in Software-Practice and
+Experience, Vol. 15(2), 131-151 (February 1985)].  If you want to know
+more about how blit operates then see Byte Magazine, August 1981, p.
+168-194.  See the example code, bt.c, for a sample way to call blit.
+
+-russ
+
+Internet:   nelson@clutx.clarkson.edu
+BITNET:     NELSON@CLUTX
+Compuspend: 70441,205
+GEnie:      BH01
+Fido:       Russ Nelson@260/360
+Snail:      Clarkson University, Potsdam, NY 13676
+AT&T:       (315) 268-6591
+
+
+Interpreting the verbs:
+
+The following charts show how the various verbs combine the src and dest
+bits.  Obviously, there are sixteen possibilities, only seven of which
+are implemented.  The rest are easy to do, I just never bothered.
+
+
+or1_verb (not implemented) - or the source with the not of the destination.
+
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 1   0
+		     1 | 1   1
+
+
+xnor_verb (not implemented) - exclusive nor the source and destination together.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 1   0
+		     1 | 0   1
+
+
+nor_verb (not implemented) - nor the source and the destination together.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 1   1
+		     1 | 1   0
+
+
+and1_verb (not implemented) - and the source with the not of the destination.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 0   0
+		     1 | 1   0
+
+
+nand_verb (not implemented) - nand the source and the destination together.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 1   0
+		     1 | 0   0
+
+
+zeroes_verb (not implemented) - zeroes the destination bitmap.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 0   0
+		     1 | 0   0
+
+
+ones_verb (not implemented) - sets the destination bitmap to ones.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 1   1
+		     1 | 1   1
+
+
+nop_verb (not implemented) - do nothing.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 0   1
+		     1 | 0   1
+
+
+invert_verb (not implemented) - invert the destination bitmap.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 1   0
+		     1 | 1   0
+
+
+pset_verb - copy the source to the destination.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 0   0
+		     1 | 1   1
+
+
+preset_verb - copy the inverse of the source to the destination.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 1   1
+		     1 | 0   0
+
+
+and_verb - and the source and destination together.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 0   0
+		     1 | 0   1
+
+
+and_not_verb - and the destination with the not of the source.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 0   1
+		     1 | 0   0
+
+
+or_verb - or the source and destination together.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 0   1
+		     1 | 1   1
+or_not_verb - or the destination with the not of the source.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 1   1
+		     1 | 0   1
+xor_verb - exclusive or the source and destination together.
+		         dest
+		       | 0   1
+		   -----------
+		src  0 | 0   1
+		     1 | 1   0

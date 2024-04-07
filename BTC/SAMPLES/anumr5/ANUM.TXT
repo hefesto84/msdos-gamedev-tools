@@ -1,0 +1,471 @@
+
+           DISCLAIMER - LICENCING AND SUPPORT POLICY
+
+
+
+   This documentation is dated as of November 26, 1991.
+
+
+      ** PLEASE DO NOT SEND MONEY FOR THIS PACKAGE **
+
+
+   This is  NOT shareware! ANUM is good old fashioned Public
+Domain Software.  Source code,  totally written with Borland
+C++ 2.0  is not  included with  this archive for the reasons
+developped in the next section.
+
+
+   With release  5 here  are the Borland C++ 2.0 and Turbo C
+1.5 ANUM  library files.  Actually, tests  have shown so far
+the application  code could  link with no major problem with
+TC++ standard  libraries. However,  for an  unknown  reason,
+execution time seems to be increased by nearly 10%.
+
+
+   Turbo C  2.0 version is again delivered back with release
+4 of ANUM. I had to remove TC 2.0 from my previous hard disk
+to gain space. But as I have also changed of disk since them
+(from 40 Mbyte  to 334 Mbyte)  I am  able  to  support  both
+versions. I  have not  forgotten the  (not so  far ago) time
+when I was a student not earning a single coin, and for whom
+the buying  of a  compiler meant months of restrictions. The
+TC 1.5  version is  planned to be supported until the end of
+the year  while the TC 2.0 is until the end of 1993 and TC++
+version until  the end  of 1995.  (I presume that after five
+years of  existence, these  products may  be  considered  as
+obsolete).
+
+
+   While the  provided  functions  have  been  passed  to  a
+minimal test,  I will  have no liability or responsibilty to
+the user  or any  other person or entity with respect to any
+liability, loss  or damage  caused, or  alleged to be caused
+directly or  indirectly by  this library, including, but not
+limited to,  any interruption  of service, loss of business,
+anticipatory profits or consequential damages resulting from
+the use of this program.
+
+
+   Furthermore, although  this program  has been placed into
+the public  domain, I  retain all copyrights to this library
+around the  world. Pursuant to this, this library MAY NOT BE
+SOLD BY  ANY PARTY  unless specifically  authorized  by  the
+author, Jean-Marie  de Montarby,  in writing  prior  to  the
+first copy  being sold.  As well,  this program  MAY NOT  BE
+INCLUDED IN  OR USED  TO PRODUCE  ANY OTHER PACKAGE FOR SALE
+even if  this program  is indicated  as being 'in the public
+domain'. All  of the  above applies  to both the original as
+well as  derived or  modified copies  of the  original.  Any
+modified  copies   of  this   library  MUST  NOT  have  this
+documentation -including  its  copyright  notice-  violated,
+changed or altered.
+
+
+   Occasionally, if you want to use ANUM, or a port of it to
+some other  computers, in a commercial product, take contact
+with me first. We will perhaps find a deal.
+
+
+   Thus this  library, as  delivered here,  may only be used
+for personal and/or research and/or educational purposes.
+
+
+   Comments, bug  reports and  improvement  suggestions  are
+welcome and  should be adressed only to me. I can be reached
+at the following adresses:
+
+Electronic mail: JMM…FRESTP11.BITNET (until... ?)
+
+Normal mail : M. Jean-Marie de Montarby
+               40 avenue des Tilleuls
+               75016 PARIS
+               FRANCE
+
+
+   Do not  try to  phone me  at home. I am not registered in
+the phone listings and due to the possible jet lags I am not
+much happy when waked up in the middle of the night.
+
+
+   However during  working hours in France (UTC+1, UTC+2), I
+might be reached at my employer's:
+
+
+   DATAID SystŠmes Techniques et Industriels
+Voice : +33 (1) 40.99.19.19.
+
+
+   Better use FAX, however : +33 (1) 40.99.06.85.
+
+
+   If you  wish to  do so,  you may  send me  in case  of  a
+presumed  bug,  a  copy  of  your  code.  However  I  cannot
+guarantee neither  a quick  response nor  the return of your
+media if a postal shipment.
+   Anum is  a yet (see next section) non-profitable piece of
+software and  I prefer  to work  harder on a paid job rather
+than on Anum.
+
+
+   As I  work since  Nov 5  1990, besides  my  current  very
+partial time job as teacher in the E.S.T.P, I cannot foresee
+yet any availability delays for the next release of Anum.
+                       GENERAL OVERVIEW
+
+
+
+   I  have   since  July  1990  the  diploma  of  "Ing‚nieur
+G‚omŠtre" from  the "Ecole  Sp‚ciale des Travaux Publics, du
+Bƒtiment et  de l'Industrie"  (E.S.T.P.). I  have planned to
+release in  three years  a major piece of software for micro
+computers which  will be  a commercial product. Do'nt ask me
+neither what  it is nor why this software will be, according
+to me,  somewhat revolutionnary. It could be compared to the
+introduction  of   Turbo Pascal  on   the  micro   computers
+programming  languages   market,  either   by  its   planned
+efficiency and financial impact.
+
+
+   This major  piece of  software requires several different
+fields of  the so-called  "art of  programming". One  of its
+aspect is  that it  will  extensively  use  mathematics  and
+scientific  number  crunching  algorithms.  I  am  currently
+developping  the   corresponding  functions   on  a  IBM  PC
+compatible under  MS-DOS which allows low-cost developpement
+at home.  For the  reasons  explained  at  the  end  of  the
+disclaimer section  I  cannot  spend  much  time  thoroughly
+testing those  functions. This  is why  I  decided  to  make
+public the  first functions  already  done.  More  functions
+should come  in the  future as this mathematical subroutines
+package is not yet complete.
+
+
+   ANUM is  a library  for use  with one  of the following C
+compilers:  Turbo C 2.0,  Turbo C++ 1.0  or  Borland C++ 2.0
+from Borland International. It provides several routines for
+use by  any programmer  interested  in  Numerical  Analysis.
+These routines  are thoroughly  explained further  in one of
+the following sections of this documentation.
+
+
+   A few  of these  routines are only of interest for Anum's
+own routines  but have  been left  as public as their use is
+shared by several functions in several modules. However they
+will remain  marked as  reserved  in  this  file.  Usage  of
+functions  with  similar  names  can  be  of  some  problem,
+especially if  the "warn duplicate symbol" toggle is not set
+active at link edit time.
+
+
+   To use the ANUM.LIB file, you should either.
+- specify its name in one of the line of your project file.
+- append it at the end of the command line if you use TCC or
+   BCC or  BCCX. Do not forget then to include the MATHL.LIB
+   file and  the coprocessor  chip or  emulator library file
+   depending on your system configuration.
+   Please refer  to Turbo  C manuals for more information on
+that topic.
+
+
+   ANUM code  is compiled  with word  data alignement  and a
+default signed  char type.  Consequently you  should  ensure
+your compiler  settings will  correspond to  this. Otherwise
+the result could be undefined.
+
+
+   ANUM  code   is  compiled   without  the   VROOM  overlay
+facilities (for  the TC++  and BC++ versions, of course). If
+you want a special copy of ANUM with them, send me a notice.
+
+
+   The ANUM.LIB file was created using Borland International
+library utility  TLIB. Its  version number  is 4.0  for BC++
+version, 3.0 for TC++ version and 2.0 for TC 2.0 version.
+
+
+   It is highly recommended ANSI prototyping be used in your
+programs making  use of  Anum. This is why, two header files
+are also  provided to  include in  your  own  routines.  The
+SYSIO.H file contains declarations for the error and warning
+messages interface,  whilst the  ANUM.H file  contains those
+relevant to  numerical codification  of errors  and warnings
+and of the other routines.
+
+
+   A special  effort has been made to keep the interface for
+parameters  passings   quite  close   to  the  one  used  by
+Borland International Turbo Pascal Numerical Toolbox to help
+those of  you who  would like to port their already existing
+applications from  Pascal to  C. In  fact, most  of the high
+level functions  of Anum  use the  same algorithm  than  the
+Numerical Toolbox.  This is  due to the fact that they offer
+quite a  wide coverage  of usual  numerical analysis  within
+quite a  few routines,  and it  is quite  important when one
+starts writing its own numerical toolbox.
+                          CONVENTIONS
+
+
+
+   The following conventions are applied:
+All of  the functions  present in  the  library,  which  are
+   documented  here,   follow  the   C   parameter   calling
+   conventions and have been provided for use with the LARGE
+   memory  model   exclusively.  The   only  near  functions
+   provided here  are of  the static  class and then totally
+   hidden to the application programmer.
+No function  returns any  pointers allocated. Some functions
+   may allocate  space for  temporary  items.  But  this  is
+   hidden to  the application  programmer and space is freed
+   at the  end of  the routine.  It  is  hereby  up  to  the
+   programmer to  allocate the  necessary amount of space by
+   using the  farcalloc function before calling any function
+   of the  present library.  Rows and  columns are  numbered
+   from 1 unless explicitely stated.
+Polynomial indexation  strictly follows  the following rule:
+   The degree  is always  increasing i.e.  *poly  points  to
+   poly[0], *(poly+1) points to poly[1] and so on.
+Matrices are  indexed as follows: the first index is the row
+   index, the second is the column one just as the classical
+   way C handles arrays.
+The typedef'ed  COMPLEX type  is required to use some of the
+   provided routines  dealing with complex arithmetic. It is
+   defined in the ANUM.H header file.
+All real values in the Anum library are of the type double.
+All Anum  error codes  take negative  values. A  zero  value
+   indicates there is no error.
+                       PROVIDED ROUTINES
+
+
+
+   For each provided routine, you will find:
+the function prototype,
+a short description of what it performs,
+its input and output parameters,
+a list of its possible error code values,
+its value on return if any.
+
+
+   To ensure  coherence and  because prior releases suffered
+poor documentation,  this part of the documentation has been
+transferred to the header files (ANUM.H and SYSIO.H).
+                    ERROR AND WARNING CODES
+
+
+
+   Here are  a few  of the  possible returnes error codes. A
+more complete  list is given in the "anum.h" file. I promise
+I will  include it in the next release of ANUM documentation
+:-). It  is sometimes  no joke working until 2 a.m. on a non
+paid job ;-).
+
+
+
+ ETOLLE0
+
+Class : Error
+Cause :  The called  routine was  given a  nil  or  negative
+   tolerance value.
+User's Response  : Correct the 'tol' parameter to a strictly
+   positive value.
+
+
+ EOVERMAXITER
+
+Class : Error
+Cause :  An iterative  function could  not find the solution
+   within 'maxiter' iterations.
+User's Response  : Set  the 'maxiter' parameter to a greater
+   value or check the algorithm will converge with the given
+   approximate values  of the solution or assume there is no
+   solution.
+
+
+ ENULLSLOPE
+
+Class : Error
+Cause  :  The  user  function  attempted  to  use  a  Newton
+   algorithm with a point, the slope of the function is zero
+   at which.
+User's  Response   :  Choose  another  parameter  value  for
+   approximate value of the root.
+
+
+ WCPLXROOTS
+
+Class : Warning
+Cause :  A function  solving real polynomes could not find a
+   number of  real roots  equal to its degree. This polynome
+   could possibly have one or more complex roots.
+User's Response  : Use  a routine giving al so complex roots
+   or set the 'maxiter' parameter to a greater value.
+
+
+ EYSAMESIGN
+
+Class : Error
+Cause :  The bisection  algorithm was  given two  bounds the
+   values of which are of the same sign.
+User's Response  : Correct one of the bounds. Check if there
+   is at  least one  root between the bounds or assume there
+   is no solution.
+
+
+ EMAXITERLT0
+
+Class : Error
+Cause :  An iterative routine was given a negative value for
+   the maximum number of iterations as parameter.
+User's Response  :  Input  a  positive  value  as  'maxiter'
+   parameter. A  nil value will only be suitable if you want
+   to treat  only cases  for  which  a  trivial  and  direct
+   solution exists.
+
+
+ ENOPXINTERSECT
+
+Class : Error
+Cause : The computed parabola does not intersect the X axis.
+
+
+ EDIMLT0
+
+Class : Error
+Cause : A function attempted to use a negative length vector
+   or a negative order square matrix.
+User's Response  : Change  the dim  parameter or  check your
+   polynome is not totally deflated.
+
+
+ EMATSING
+
+Class : Error
+Cause : A routine attempted to invert a singular matrix.
+
+
+ EDIMLE0
+
+Class : Error
+Cause :  A function  attempted to  use a  negative  or  zero
+   length vector or a negative or zero order square matrix.
+User's Response  : Change  the dim  parameter or  check your
+   polynome is not totally deflated.
+
+
+ E0DIVIDE
+
+Class : Error
+Cause : A function attempted to do a division by zero.
+
+ EDEGLT2
+
+Class : Error
+Cause :  The selected  algorithm  requires  a  polynome  the
+   degree of which is at least two.
+User's Response  : Check your calling function for errors or
+   try to use a direct solving method.
+
+
+ ENOWCORE
+
+Class : Error
+Cause :  There is  not enough  working core  for one  of the
+   routine to allocate its working arrays.
+User's  Response   :  Try  to  free  some  main  storage  by
+   eliminating  Terminate-and-Stay-Resident   programs.  Use
+   overlays if  your compilers  allows them. Check your code
+   for unused stuff.
+
+
+ EDEGLE0
+
+Class : Error
+Cause :  A function  attempted to  use a  negative  or  zero
+   degree polynomial.
+User's Response  : Check passed arguments or try to directly
+   solve a  trivial case  (if degree  is nil  or  polynomial
+   equals 0).
+
+
+ ENUMINTLE0
+
+Class : Error
+Cause : The given number of arguments passed to a routine is
+   lower than or equal to 0.
+                 HISTORY LOG - CHANGES TO COME
+
+   From first to second release
+Fixed a bug concerning a hardwire coded error in the Newton-
+   Raphson algorithm.
+
+Added :
+   steffensen function
+   laguerre function
+   ena_beep function
+   ena_warn function
+   ena_err function
+   ena_m_beep
+   disa_m_beep
+
+
+   The five  last functions allow or disable sytem generated
+warning or messages and the audible tone associated to it.
+
+
+   Not  to   cause  some   "vapourware"  announces   and  as
+programming generates  unexpected delays,  no date  is given
+for the next release of Anum.
+
+
+   From second to third release
+Fixed severe  bug in  swap_rows function  giving some random
+   results with inverse and determinant functions.
+Added : a whole bunch of new functions.
+
+
+   From third to fourth release
+Fixed severe  bug in  swap_rows function  giving some random
+   results with inverse and determinant functions.
+Added  :  (lsq,  eigen_vector,  householder_givens,  jacobi,
+   le_verrier).
+Added :  C/C++ support,  ANUM release 4 routines should link
+   without problem  with C++  modules. This  is achieved  by
+   suppressing automatically type checking at link edit time
+   (See the  #ifdef compilation  directives  in  ANUM.H  and
+   SYSIO.H).
+In release  4.1, fixed  a bug affecting the inverse function
+   and the jacobi method due to a wrong parameter passing in
+   row_mat_div.  Solved   an  ambiguity  in  the  eigen_vect
+   routine. fixed a (very minor) bug in testlib.bat.
+
+
+   In the next release of this package:
+Changes  of  the  interface  to  support  Turbo  Pascal  are
+   considered. This  would primarily  affect  the  parameter
+   calling conventions.
+Microsoft compilers  are too slow, require too much space on
+   the secondary  storage, are  too user  unfriendly and too
+   expansive for me to forecast any support yet.
+More functions are to come out, of course. Especially in the
+   differential equations  solving and interpolation fields.
+   A better  documentation will  also arise, especially from
+   your comments.
+
+
+   Thanks to :
+CFGROP at WEIZMANN.BITNET
+ROSSBACH at DMRHRZ11.BITNET
+C3DOUTRE at FRECCL11.BITNET
+m_rives at paris.paris.ingr.com
+USERGB3W at UMICHUM.BITNET
+
+
+   for support and/or suggestions.
+
+
+                          Contents
+
+
+   
+
+
+   

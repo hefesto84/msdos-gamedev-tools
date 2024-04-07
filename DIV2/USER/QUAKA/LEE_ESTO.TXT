@@ -1,0 +1,17 @@
+	¿que es esto?, ¿como lo utilizo?
+
+	He aqui preview de como sera la primera fase del juego que 
+tengo en proyecto: quaka.
+	Por lo pronto tu mision es tener el combustible al maximo, 
+ya que empiezas con este algo gastadillo (barra verde), claro que
+si se te gasta perderas.
+	Uso:
+	raton para moverse 
+	boton izquierdo del raton para protección (barra azul)
+	boton derecho para usar el limpiaparabrisas (moscas)
+
+	La barra color carne indica la vida que te queda.
+	Cuidado con los wateres, las pantallas, las moscas y no 
+pierdas de vista los botes de combustible o las protecciones extra.
+_____________________________________________________________________
+

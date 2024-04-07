@@ -1,0 +1,103 @@
+                      FIRST PRINCIPLES.
+                      ßßßßßßßßßßßßßßßßß
+
+Turbo C is a general-purpose programming language. It is structured and
+typed and uses a free format (ALGOL-like).  It features an economy of
+expression and has a rich set of operators.  C is not a big language,
+but by using functions, which are stored in library and header files for
+inclusion in the user program, it becomes as effective as many
+supposedly more powerful languages.
+
+To appreciate these opening statements, a brief historical review of
+high-level languages is helpful.
+
+  1957   FORTRAN        numerically orientated - fixed format.
+
+  1960   ALGOL          numerically orientated - structured and typed.
+
+  1965   BASIC          simple for teaching in schools and colleges.
+
+  1971   Pascal         for teaching program concepts and allowing
+                        efficient implementation of large programs.
+                        ALGOL-like.
+
+  1972   C              a small but flexible language developed at the
+                        Bell Laboratories.
+
+  1980   Ada            designed for US Dept. of Defense. Pascal-like.
+
+  1983   Turbo Pascal   an enhanced version of Pascal.
+
+FORTRAN and BASIC have fixed format, such that each statement is located
+at a (fixed) point on a line after a line number, obligatory in BASIC,
+optional in FORTRAN.  ALGOL introduced free format, which allows the
+statements to be indented by varying amounts, so making programs more
+readable.
+
+ALGOL also introduced 'compound statements', such that several
+statements can form the body of a 'for loop' provided that they are
+surrounded in 'begin-end' brackets.
+
+ALGOL also uses a hierarchical structure (nesting), whereby compound
+statements can be executed repeatedly under the control of the 'for
+loop', which itself is embedded or nested within other statements.
+
+Whereas with FORTRAN and BASIC, 'if' statements require the use of GOTO,
+ALGOL eliminates the need for the GOTO-statement, by its implementation
+of compound statements.  The 'if-then-else' statement can be similarly
+accommodated and with suitable use of free format can produce a very
+readable program structure, as shown below.
+
+  IF condition THEN
+    BEGIN
+       statement 1;
+       ......
+       statement m
+    END
+  ELSE
+    BEGIN
+       statement n;
+       ......
+       statement r
+    END;
+
+To quote Edsger Dijkstra (1968), 'The difficulty in reading programs,
+which make much use of GOTO statements is a result of the "conceptual
+gap" between the static structure of the program (spread out on the
+page) and the dynamic structure of the corresponding compuations
+(spread out in time)'.
+
+From this observation, the Structure Principle was defined as:
+
+  'The static structure of the program should correspond in a simple way
+    with the dynamic structure of the corresponding computations'.
+
+Whereas ALGOL introduced the concept of separate data types such as
+integer, real and Boolean, C is even more strongly typed, including
+character and pointer types, etc.  Integer and real data types are
+further subdivided by size and range.  The purpose of data typing is to
+avoid errors and ambiguities at run-time, when for example 5.999 should
+really be 6 for correct decision making within the program.
+
+It follows that all variables must be declared and typed at the start of
+the program.  In fact, all constants, user-defined types and variables
+must be predeclared.
+
+In C, variable names can be of any length up to 32 characters and are
+chosen to be meaningful to the reader.  An assignment (i.e. giving a
+value to a memory location defined by a variable name) is indicated by =
+All statements are separated by a semi-colon (;).  The text of the
+program is 'case' sensitive, lower case being used in most instances.
+
+All implementations of C should conform to the ANSI standard.
+
+Syntactic errors are found at compile time, semantic errors at run
+time and logical errors are detected in Turbo C by using the 'watch'
+window and 'tracing', facilities which are available in the 'Integrated
+Development Environment', which is one of the most helpful features of
+Turbo C.
+
+
+PRINCIPS.TXT
+27.8.90
+

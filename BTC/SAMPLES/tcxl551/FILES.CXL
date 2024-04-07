@@ -1,0 +1,15 @@
+The following files should be in your \TCXL55 directory:
+
+copr.055          148  10-01-90        ___A
+files.cxl         510  10-01-90        ___A
+getyn.com          85  10-01-90        ___A
+install.cxl      3761  10-01-90        ___A
+start.bat        2104  10-01-90        ___A
+tcxl_doc.exe   148507  10-01-90        ___A
+tcxl_inc.exe    47265  10-01-90        ___A
+tcxl_lib.exe   254428  10-01-90        ___A
+tcxldemo.exe    81318  10-01-90        ___A
+
+Run START.BAT to extract the archives.
+
+

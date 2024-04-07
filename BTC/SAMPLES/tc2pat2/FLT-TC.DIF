@@ -1,0 +1,12 @@
+;
+; TC.EXE patch for the "floating point formats not linked" problem.
+;
+    3526:  C4 5E 0A 26 C4 5F 02 26 8A 47 04 3C 0C 7C 09 3C 
+           90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 
+    3536:  0E 7F 05 C6 06 45 BE 01 C4 5E 0A CF
+           90 90 90 90 90 90 90 90 90 90 90 90
+    3624:  26 01
+           90 90
+   13660:  CD 18 00
+           C4 5E 0A
+

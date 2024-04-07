@@ -1,0 +1,22 @@
+## Makefile for mouse object files
+CC      = tcc                           # Command-line compiler (tcc/bcc)
+LIB     = c:\tc\src\lib                  # Library directory
+INCLUDE = c:\tc\src\include              # Include directory
+
+all: mouse_s.obj mouse_m.obj mouse_l.obj mouse_h.obj
+
+mouse_s.obj: mouse.c 
+	$(CC) -c -O -Z -omouse_s.obj -d -f- -G \
+	-L$(LIB) -I$(INCLUDE) -ms mouse.c
+
+mouse_m.obj: mouse.c 
+	$(CC) -c -O -Z -omouse_m.obj -d -f- -G \
+	-L$(LIB) -I$(INCLUDE) -mm mouse.c
+
+mouse_l.obj: mouse.c 
+	$(CC) -c -O -Z -omouse_l.obj -d -f- -G \
+	-L$(LIB) -I$(INCLUDE) -ml mouse.c
+
+mouse_h.obj: mouse.c 
+	$(CC) -c -O -Z -omouse_h.obj -d -f- -G \
+	-L$(LIB) -I$(INCLUDE) -mh mouse.c

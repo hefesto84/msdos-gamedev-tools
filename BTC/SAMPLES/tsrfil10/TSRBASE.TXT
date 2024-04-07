@@ -1,0 +1,47 @@
+Greeting for Columbia, Missouri, USA...
+
+The software contained here is freeware/public domain.  I am the author,
+and I really couldn't care less what you do with it as long as you don't
+do anything illegal with it.  
+
+Anyway, this is a shell for a tsr that can handle file i/o.  I have it 
+set up so that you can use either the print screen key or a function 
+key to start the interrupt.  This was written on a machine that has 
+ms-dos 6.2 with Borland C++ 3.1.  It should work on dos 5.0+, but I 
+haven't tested it, and since I don't have dos 5.0 anymore, it's kind of  
+hard to test.
+
+The origin behind this a senior capstone project that involved a caller 
+id card that generated an interrupt, then sent the data serially.  The 
+software worked great, but the hardware really didn't.  Anyway, this 
+base is designed to be rock solid in dos, and to accept an interrupt 
+anytime but wait for dos to become inactive if necessary.  Serial data
+transmission isn't any different in tsrs than it is for DOS, so you can
+pick those routines up about anywhere.  
+
+Anyway, it would be prudent to delete any functions that you aren't 
+using, because they still take up memory.
+
+Included is an example program that redirects the print screen button 
+to a program that captures the screen and appends it to a file.  All
+source code is included.  Re-write, re-compile, re-distribute to your
+hearts content.  
+
+Looking for good source books with tsrs?  try the following:
+
+C: Power Users guide by Herbert Schildt.  1988.  ISBN 0-07-881307-7
+There is a second edition of this book available as well.
+
+Born to Code in C by Herbert Schildt.  1989. ISBN 0-07-881468-5
+
+Both are published by McGraw Hill.  I'd recommend getting the first 
+book before the Born to Code book because it refers back to the 
+C: Power Users book on a frequent basis.  Actually, I'd recommend just  
+about any Schildt book.  
+
+                                Scott Hall
+                                U. of Missouri-Columbia
+                                Electrical & Computer Engineering
+                                shall01@bigcat.missouri.edu
+                                12/8/94
+

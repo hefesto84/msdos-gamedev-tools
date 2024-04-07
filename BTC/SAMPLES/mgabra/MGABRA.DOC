@@ -1,0 +1,1557 @@
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    SECTION 1 INTRODUCTION
+
+    Welcome to Magic Software's Instant Resident Utility Maker
+    ABRACADABRA. Hopefully in no time at all we will be having you
+    create some amazing TSR programs with a simplicity BEFORE NOW
+    unheard of. We have also here at Magic coined a new term TCR
+    meaning Terminate but Continue Running which describes programs
+    which continue to run concurrently even while you are using the
+    pc to run a main program. These are just as easy to create with
+    ABRACADABRA.
+
+    For me, writing TSRs used to be like first learning to program.
+    Without a library to facilitate me or even the know how to build
+    one I was somewhat in the dark. There wasn't even a book on the
+    subject. I was later to learn why. The secrets of this activity
+    were being guarded heavily by the few who knew them. I thought
+    this was completely at odds with the hacker ethic but what could
+    I do? Well after a few years of hobnobbing with these nuts,
+    geniuses and boneheads, each of whom had a piece of the puzzle I
+    was able to gather them all together and modularize them into
+    ABRACADABRA.
+
+    For most of you, the fact that you were even interested in this
+    library guarantees you will have a fascinating time of it as
+    these secrets are revealed.
+
+    If you are already familiar with these internals you can skip
+    right to the section describing the library primitives otherwise
+    read on.
+
+    SECRETS OF TSR PROGRAMMING
+
+    What makes a TSR a TSR? Certainly NOT just the fact that it
+    remains resident. Device drivers loaded in your CONFIG.SYS file
+    remain resident but they are not generally considered a TSR. A
+    TSR has several distinct qualities that define it.
+
+    1. It remains in memory after initial loading from disk and can
+    be instantly invoked from memory.
+
+    2. The invocation of a TSR must be able to occur WITHIN another
+    program. That's what gives them their utility value.
+
+    3. The interrupted program can resume running after the TSR is
+    switched out.
+
+    4. An additional quality we will add for a TCR (Terminate
+    Continue Running) is that it can continue to execute even after
+    it has been switched out.
+
+
+
+
+
+                                    1
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    When you are writing TSRs you are engaging in a limited degree of
+    multitasking. ABRACADABRA lets you take it to a full program swap
+    which means the ENTIRE program is switched, stack, data and all
+    INCLUDING screen and any disk access related memory items.
+
+    It is no small feat to program but all this work has been
+    modularized for you in ABRACADABRA. If you have purchased the
+    source code then you can follow along in the next section,
+    otherwise you can skip right to the description of the
+    ABRACADABRA library functions and how to use them.
+
+    What makes it so difficult? Why isn't it easy to write TSRs?
+
+    Actually the program which swaps programs while complex, is not
+    the hardest part of this whole scenario. While complex, it is
+    quite abstract and orderly because it is a transaction that
+    occurs entirely between the CPU and memory. The 8086 has always
+    been somewhat friendly in those terms.
+
+    The difficulties occur as you get further into the real world
+    away from the protected confines of the CPU and into the program
+    jungle called MS-DOS. DOS is essentially hostile toward attempts
+    at making it a multitasking program manager. So we have to do all
+    kinds of greasy kid stuff to make it comply with our wishes.
+    While the problem is complex, it is finite.
+
+    The core of the problem, switching programs, is handled by simply
+    saving the swapped out programs complete register set and
+    replacing it with the swapped in programs registers. You can
+    examine this in more detail in the source listing of the macros
+    SAVPRC (save process) and RESPRC (restore process). When a
+    process is put to sleep it's registers are stored in a special
+    area loosely called the TASK CONTROL BLOCK (TCB). Other relevant
+    data is also stored here and we'll cover that next.
+
+    Besides the registers, there is other baggage that each program
+    has attached that must also be switched. This consists of special
+    data areas DOS sets up for disk access, screen contents, video
+    modes, cursor position, and special interrupt addresses each
+    program uses for critical error handling and control-c break
+    checking.
+
+    The unfriendly attitude DOS has regarding multitasking is very
+    deeply rooted in it's structure. A quick summary of what DOS is,
+    is simply a set of functions that a program can call to do
+    things. In this manner it is no different than a function library
+    you get with compiler type languages. It is designed however to
+    be called from anywhere. You don't have to know the actual
+    address of each function, you just load up your parameters and
+    execute a software interrupt 21h. This gives control of the
+    machine to DOS with the parameters you pass. It executes your
+    desire and returns control to your program when it is done.
+    However, DOS routines, like some languages, cannot handle
+
+                                    2
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    overlapping calls. You must finish one before another is
+    undertaken. This is because when you make a call, DOS switches
+    from your program's stack to it's own internal set. Whatever is
+    pushed here must be fully popped. If you try to call DOS before
+    it has finished a previous cycle everything goes fine but when
+    the previous cycle tries to complete it finds it's stack data has
+    been trashed. This is unfortunate because in a multitasking
+    environment you have programs which are all requesting DOS
+    assistance at roughly the same time.
+
+    The way around this is to check if DOS is currently executing an
+    internal routine and have our programs wait until it is done
+    before requesting a subsequent service. A good solution would be
+    to latch onto the interrupt 21h and set a semaphore (flag)
+    whenever someone went through there and turn it off when they
+    came back out. That way we'd know when DOS was occupied.
+    Surprisingly DOS itself does just this and that flag is available
+    to our programs. There is an undocumented DOS feature which most
+    programmers call "The Dos Busy Flag" or "The Dos Critical Flag".
+    This flag exists at an address we can get by calling DOS function
+    34h. You won't find this in any Microsoft documentation. It is
+    simply listed as "Used Internally By Dos". So we get that address
+    and check that flag whenever we want to access DOS and if it's
+    busy we wait until it isn't.
+
+    Because DOS is so finicky about when it can be called we cannot
+    simply invoke our TSR whenever someone asks. We must be polite
+    and wait until any DOS services are complete before we take over.
+    To do this we have to know whether DOS is busy or not.
+
+    Now there is another set of routines called the BIOS (BASIC INPUT
+    OUTPUT SYSTEM) which is like DOS's DOS. DOS calls the BIOS when
+    it needs a nice prepackaged routine to access peripheral devices.
+    The BIOS has routines which are solely designed to organize
+    access to various devices on the PC such as disk drives, monitors
+    and clocks. The BIOS is actually stored in a chip on your pc and
+    each machine manufacturer supplies a BIOS (or should) when you
+    buy the machine. DOS is aptly named because it is a DISK
+    OPERATING SYSTEM. It's routines are very strong in handling disk
+    access but very weak in other areas. These weaknesses have made
+    programming the BIOS as common as using DOS. Something that
+    wasn't intended but has come about. Sort of like TSRs.
+
+    The BIOS is particularly strong in video routines. It can also be
+    accessed directly by our programs if need be. Of course the
+    reason for all these layers of routines is to have each layer
+    present an identical appearance to our programs no matter what
+    machine we are running on from Hewlett Packard to real IBM. By
+    bypassing DOS it would seem we sacrifice a small degree of
+    compatibility from manufacturer to manufacturer but in fact an
+    IBM compatible must have a compatible BIOS these days since just
+    about every program written bypasses DOS in some way or another
+
+
+                                    3
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    especially for video display which DOS has hideously poor
+    provision for. There doesn't even exist DOS functions to change
+    colors on the monitor it's so deficient.
+
+    Thankfully the BIOS which is pretty compatible from machine to
+    machine is really only routines and no substitute stack areas.
+    When you call the BIOS it simply assumes your program's stack has
+    enough room to accommodate whatever it needs and doesn't bother
+    to swap at all. Thus it can be called and interrupted any number
+    of times. ABRACADABRA uses the BIOS a lot to "get around" DOS.
+    When a routine can be called again before it is finished it is
+    said to be re-entrant. You can RE ENTER it before it is finished.
+    Smartly written this BIOS.
+
+    Now what do we want to accomplish with a TSR? Mainly we want that
+    facility instantly available. Ok, so that means we need to keep
+    the TSR in memory right? Ok so we need have a module which
+    handles the terminate aspect and the necessary memory allocation
+    associated with that. What else? Yes you ... That's right, we
+    want to be able to access it with a keystroke so we will have to
+    be tinkering with the way the PC accepts keystrokes. We need to
+    be able to program HOTKEYS. Oh yes, and because our programs can
+    optionally continue to run "in background" we will be looking at
+    something called TIMER TICK which we will use to control how long
+    each program gets control before is is forced to swap out in
+    order to share CPU time. And of course because we are possibly
+    using ABRACADABRA in conjunction with a compiled language we will
+    need to know a little bit about run time memory architecture of
+    compiled languages. Also, because we need to be able to control
+    the screen behavior when programs swap we will be delving into
+    that.
+
+    COMPILED LANGUAGE ARCHITECTURE
+
+    Modern compiled languages like BASIC, C and PASCAL share common
+    in memory organization. This is called RUN TIME ARCHITECTURE.
+    When your program is running it's memory is divided into these
+    areas. Some or all of these divisions exist in all languages but
+    the order they appear in memory may differ. The manual that came
+    with your language most likely has the details (in highly
+    technical terms) but below is a general synopsis of the area so
+    that you can understand some of the issues which follow.
+
+
+
+
+
+
+
+
+
+
+
+
+                                    4
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    Figure 1
+
+    GENERIC RUNTIME ARCHITURE - (Memory addresses increase down the page)
+
+    ∫                     ∫ Whatever was in memory when you loaded, your
+    ∫ OTHER PROGRAMS      ∫ program loads on top of it
+    »ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº
+    …ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª CS Register
+    ∫ PSP                 ∫
+    ÃÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕπ Your Program Starts Here
+    ∫                     ∫
+    ∫ CODE                ∫ What Goes Here Examples: Goto, Gosub, Print etc.
+    ∫                     ∫
+    ÃÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕπ DS Register - Data Starts Here
+    ∫ CONSTANT DATA       ∫ What Goes Here Example: "Copyright 1987" etc.
+    «ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ∂
+    ∫ UNITIALIZED DATA    ∫ What Goes Here Examples: NAME$, INT%, VARIABLE$
+    ÃÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕπ
+    ∫ STACK               ∫
+    ÃÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕπ SS Register - Stack Starts Here Growing Downward
+    ∫                     ∫
+    ∫ HEAP                ∫ DYNAMIC MEMORY ALLOCATION Comes From Here
+    ∫                     ∫
+    »ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº
+    …ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª
+    ∫ REST OF MEMORY      ∫ Rest of Memory, sometimes this is also used
+    ∫                     ∫ As a HEAP
+
+
+    At the lowest point in memory is the PROGRAM SEGMENT PREFIX
+    (PSP). This is an area that DOS constructs when your program
+    loads that contains various information about your program. The
+    PSP sometimes exists at offset 0 from the CS register but this
+    cannot be counted upon. It is always 100 hex bytes long. Next
+    above the PSP at offset 100h into the program space comes the
+    program CODE. The actual instructions to the microprocessor.
+    Above the CODE comes various segments of data storage and the
+    programs DS register is usually set to the base of this area, the
+    first of which is usually INITIALIZED DATA, sometimes called
+    CONSTANT data or CONST internally. This is information such as
+    string literals that will not change as the program executes.
+    Next storage space for variables whose values may change but
+    whose memory allocation size remains constant. Internally this is
+    usually called DATA. Next usually comes STACK. Here is the space
+    where the stack is kept and most languages default to a stack
+    size of 256 bytes although this does differ radically depending
+
+                                    5
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    on the type of language. Above the stack comes an area called the
+    HEAP (Sometimes STACK is above HEAP). The heap is a resevoir of
+    memory that the program can call on if it needs more memory
+    during execution. This is called DYNAMIC MEMORY ALLOCATION.
+    Remember rarely does a language fit this description exactly so
+    check your manuals for the specifics.
+
+    TSRSET - THE GATEWAY TO TSR PROGRAMMING
+
+    ABRACADABRA's features can all be accessed by it's one main
+    function, TSRSET. In fact TSRSET is the only function most
+    programs will ever need to turn them into TSR's. TSRSET is coded
+    into your program by you and the parameters you give it determine
+    the operating characteristics of your TSR. Let's take each
+    parameter, what it does and why and how. That is, HOTKEYS, TIME
+    SWAPPING, TERMINATE AND STAY RESIDENT, SCREEN HANDLING and
+    INTERRUPT 28H COMPATIBILITY.
+
+    Let's start with parameter 4 just to be difficult. Parameter 4
+    defines how your program deals with memory when it terminates and
+    stays resident. You basically have 3 choices. Either let
+    ABRACADABRA figure out how much memory you need, tell it
+    absolutely how many paragraphs of memory to reserve for your
+    program, or have it set the top of memory at a convenient
+    location for most languages, the stack floor. That address from
+    which the program's stack grows downward.
+
+    If you put a zero you are telling ABRA to figure it out itself. A
+    well behaved, modern language does some house-cleaning
+    immediately upon loading. One of the things it does it turn over
+    any memory it isn't going to be using back to DOS. So what we
+    have TSRSET do is request more memory. DOS tells us the address
+    of the next block of unused memory and we assume that our program
+    lies safely below this so we truncate at this location.
+
+    If you decide to put a -1 TSRSET will use the stack, which
+    usually but not always delineates top of program, to determine
+    where to truncate. If you are using what is called a SMALL MEMORY
+    MODEL, TSRSET knows that the stack and stack pointer always point
+    to the top of the programs initial memory allocation so it
+    determines where the stack is, adds a couple paragraphs for
+    insurance and Terminates leaving your program resident.
+
+    If you give TSRSET any value besides 0 or -1 it uses this an an
+    absolute value of the number of paragraphs you want to remain in
+    memory OF THE PROGRAM DATA SEGMENT. Most languages have their
+    main data segment defined largely by the location of the DS
+    register, and almost always ABOVE the code area, it counts the
+    number of paragraphs you passed it and truncates your program
+    there plus a few insurance paragraphs. It then moves the stack
+    down into this area so its current and future values are
+    preserved.
+
+
+                                    6
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    To do all these terminations TSRSET uses DOS function 31h which
+    is the DOS Terminate and Stay Resident function.
+
+    Figure 2
+
+    TERMINATE AND STAY RESIDENT OPTIONS
+
+    ∫                     ∫
+    ∫ OTHER PROGRAMS      ∫
+    »ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº
+    …ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª
+    ∫ PSP                 ∫
+    ÃÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕπ
+    ∫                     ∫
+    ∫ CODE                ∫
+    ∫                     ∫
+    ÃÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕπ
+    ∫ CONSTANT DATA       ∫ ^
+    «ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ∂ ≥
+    ∫ UNITIALIZED DATA    ∫ ≥
+    ÃÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕπ ≥
+    ∫ STACK               ∫ ≥ Other Options Truncate Anywhere and Move Stack
+    ÃÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕπ Option -1 Truncates Here
+    ∫                     ∫
+    ∫ HEAP                ∫
+    ∫                     ∫
+    »ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº
+    …ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª Option 0 Truncates Here
+    ∫ REST OF MEMORY      ∫ Sometimes language still thinks this area is
+    ∫ OTHER PROGRAMS      ∫ Available for HEAP Allocation
+
+
+    Now, most languages, whether or not they make if accessible to
+    you the programmer or not, keep a large chunk of memory reserved
+    for what is called DYNAMIC MEMORY ALLOCATION. This workspace is
+    commonly referred to as THE HEAP. It is workspace memory that the
+    main program can use if it needs. For example in a language like
+    BASIC if you were to concatenate two strings the resulting string
+    has to go somewhere. The memory for it has to be requisitioned on
+    the fly. Languages have functions that allocate memory
+    DYNAMICALLY, while the program is running so everything does not
+    have to be preset allowing much more flexibility. Languages like
+    PASCAL and C have functions that the programmer can call in order
+    to request a piece of workspace. In C this duty is handled by the
+    ALLOC function family.
+
+    In programming TSRs the HEAP is somewhat a nuisance. It is this
+    large piece of unused memory that you sometimes wish wasn't there
+    since in most cases you are trying to keep the program as small
+    as possible. On top of this sometimes, in what is called the
+    LARGE MEMORY MODELS, the compiler assumes that all the memory
+
+                                    7
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    past the program up to the end of physical memory is THE HEAP.
+    This means if your TSR has another program on top of it and the
+    TSR requests more memory it will simply go ahead and carve out a
+    chunk of the other program's space and use it (A problem we have
+    to live with until a PROTECTED MODE DOS becomes available) OR
+    think they have no HEAP space left because DOS says there is no
+    more memory left (Because another program is loaded therein).
+    Needless to say this does an effective job of killing the
+    computer right there. The LARGE memory models actually create
+    smaller programs because they keep the HEAP above the stack.
+    Since the HEAP is something that can or cannot be used according
+    to the programmer's discretion it is better that essential
+    program items like code and stack are kept as low in possible in
+    memory so that when you terminate you can amputate the HEAP
+    without losing that stack.
+
+    Using other than option 0 is really butchering up the compiled
+    language. It's not pretty but it works.
+
+    There are several solutions to this problem. Sometimes your
+    language has a function to adjust the size of the HEAP in which
+    case you should definitely go ahead and use it to size down this
+    monster. You can also avoid doing dynamic memory allocation
+    altogether which is not that difficult and in some cases, your
+    TSR is a full blown program in it's own right, not just a
+    utility, so HEAP allocation is necessary and not a nuisance.
+
+    Ok, so now we have your program in memory and if it successfully
+    loads, that is, you didn't set your allocation too low, it is now
+    installed. The qualities it has now are dependent on the 2nd and
+    3rd parameters you gave the TSRSET function. If either are zero
+    then the following does not apply. If non-zero, each number
+    determines the number of timer clock ticks each program will
+    receive in turn. The first parameter is the number of ticks the
+    normal DOS program running in the foreground gets. The second
+    number is the number of ticks the TCR gets. Remember, if your
+    program is using this feature it is a TCR (Terminate Continue
+    Running).
+
+    In order to perform the switching between tasks the ABRACADABRA
+    library has grafted itself into a hardware interrupt commonly
+    known as timer tick, or interrupt 1ch. When DOS comes up
+    interrupt 1CH is constantly firing about every 18th of a second.
+    In a virgin state that interrupt simply points to an interrupt
+    return (IRET) instruction,  however if you are running other TSRs
+    they usually use this one also as it is very convenient. Now
+    every 18th of a second or so we receive control and can do as we
+    please. Each of the swapping programs (DOS normal and TSR) has
+    stored in it's TASK CONTROL BLOCK the number of ticks it is
+    allowed to execute. When a program gets swapped in we load up a
+    variable called PERIOD (see source code) with the tick value.
+    Then each time timer tick gets control it decrements this value
+    by 1 and checks to see if 0 has been reached (See stime procedure
+
+                                    8
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    in source code). When 0 is reached we begin steps to switch out
+    the current program and switch in the other because this program
+    has used up it's time slice. Now there is more to our INT 1CH
+    handler than that but we will take that up in a minute.
+
+    So let's assume our timer tick has counted down to zero and it is
+    time to swap. We don't directly swap, we simply set a variable
+    called doswap to 1 and wait until the necessary conditions for a
+    polite interruption are in existence. Timer tick is also the main
+    function responsible for checking these conditions. You'll notice
+    as you enter it that it checks several conditions before actually
+    invoking the SWPPRC (Swap Process) function (see source code).
+
+    So every 18th of a second or so timer tick is checking to see if
+    we are ready to invoke our TSR. Sometimes DOS can be busy for
+    quite a while so our program may not have the rhythm we would
+    hope. It may take several seconds from the moment it's timer
+    ticks have run out to the time it is swapped if something like a
+    disk service is in progress.
+
+    In addition to not interrupting DOS we must also beware of not
+    interrupting an external block device in the process of doing
+    something. Mainly a disk drive. We must let a disk drive complete
+    its request because if we in our TSR move the read/write head in
+    the middle of a read the interrupted program will finish off the
+    read or write with the head in the wrong place. Potentially very
+    disastrous. So we have the disk check interrupt which sits on top
+    of the bios disk service interrupt 13h and tells us when someone
+    is in there and prevents timer tick from actually invoking the
+    TSR.
+
+    We also do the same thing with the video interrupt 10h to avoid
+    interrupting a program with a half loaded set of video card
+    registers.
+
+    Now lets assume our TSR is not invoked by timer ticks but by the
+    keyboard. This is what the first parameter of TSRSET defines.
+    What the HOTKEY is. The detail section on TSRSET has all the
+    details on how to choose which key. Keyboard actions whenever
+    they occur cause an interrupt 9 and the CPU hands over temporary
+    control to whatever routine is there to handle interrupt 9.
+    Normally it is the BIOS but with todays TSRs which all use
+    HOTKEYS there can be 5 or 6 programs all waiting in line
+    salivating over the latest keystroke. Our interrupt 9 handler
+    just does a little bit of checking for the identity of the key.
+    If it is the key we defined as our HOTKEY is sets the doswap flag
+    to 1 and exits. It is now once again up to timer tick to actually
+    invoke our TSR when conditions are right.
+
+    Now you may have been wondering what the int28 function does. It
+    looks very similar to timer tick and indeed it is a timer tick
+    function also. There are actually 3 timer interrupts going in the
+    pc when it is running. interrupt 28 is an auxiliary interrupt
+
+                                    9
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    that was apparently installed so that PRINT.COM could run
+    multitasking. You see, DOS has a function INPUT LINE which
+    accepts a whole line of input from the keyboard. All the while
+    this is going on the DOS busy flag is set so timer tick cannot
+    interrupt the program if a doswap is triggered. It is unfortunate
+    that COMMAND.COM uses this function to accept command lines. IF
+    we had to rely solely on timer tick we could never invoke a TSR
+    from the DOS command line. The way to circumvent this is to use
+    INT28h. DOS can actually be divided into 3 separate subprograms
+    somewhat reflecting release versions. When one section is busy it
+    is possible to access another section without causing the
+    non-reentrancy problems outlined at the beginning of this
+    chapter.
+
+    When an interrupt 28 is active it means DOS is active on INPUT
+    LINE (function 0AH ) and so only functions 0CH and below are non
+    usable. You can use any of the functions above this without
+    crashing the system. Since functions 0CH and below deal only with
+    display output and keyboard input and are in general crummy
+    anyway, can design our TSRs not to use DOS for console I/O. In
+    fact, the BIOS itself is quite friendly when it comes to these
+    services. ABRACADABRA includes several functions that allow you
+    to do screen I/O and keyboard input without using DOS. You should
+    use these as opposed to language statements like PRINTF, PRINT,
+    INPUT, INKEY etc.
+
+    Of course if you must use these you can. However you won't be
+    able to invoke the TSR during INPUT LINE. The sixth parameter in
+    TSRSET determines this. If it is a 1 it means your TSR does not
+    use any DOS functions below 0CH. If it is a zero it means it does
+    use them and not to allow a pop up in the middle of one of these
+    functions.
+
+    There are some other non-minor but easily handled details to
+    cover.
+
+    Whenever DOS is doing disk I/O there is a 128 byte area of memory
+    that all the data passes through on its way to your program. It
+    is called the DISK TRANSFER AREA, or DTA for short. If we
+    interrupt a program and are going to be doing any disk I/O we
+    must switch that area to our own program's DTA since DOS normally
+    only keeps one DTA for the entire system. Otherwise we will
+    scramble the interrupted programs last data transfer. When we
+    switch our TSR out we must restore the interrupted programs
+    former DTA.
+
+    Whenever a critical error occurs like trying to access an open
+    floppy drive, DOS invokes an interrupt 24h. This is the notorious
+    Abort, Retry or Ignore prompt that comes up. Now we can't let a
+    user choose the Abort option or else we will exit the TSR and
+    crash the system so ABRACADABRA sets up it's own interrupt 24h
+    handler and tells DOS to ignore the error.
+
+
+                                   10
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    When console I/O is going on the user is allowed to press
+    CONTROL-C or CONTROL-BREAK to abort the program. We don't want
+    this to happen either. Whenever CONTROL-C is pressed DOS invokes
+    interrupt 23h. ABRACADABRA sets up interrupt 23h to ignore
+    CONTROL-C and CONTROL-BREAK. Thus the only way for the user to
+    exit the TSR is with your, the programmer's, permission and that
+    would only be by an actual TSR removal, a complex procedure to
+    politely release all the strings the TSR pulled to be where it
+    got to be.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   11
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+
+    SUMMARY
+
+    TSRSET causes your program to ride important interrupt jumps and
+    monitor them in order to do TSR.
+
+    Figure 3
+
+        DOS                              TSR                    OTHER PROGRAMS
+  …ÕÕÕÕÕÕÕÕÕÕª     …ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª     …ÕÕÕÕÕÕÕÕÕÕª
+  ∫        <ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒø    ∫
+  ∫Int 9h    ∫     ∫ Monitors Keyboard Waiting For Hotkey   ∫     ∫     ≥    ∫
+  ∫         ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒŸ    ∫
+  ∫        <ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒø    ∫    
+  ∫Int 10h   ∫     ∫ Monitors Video Usage                   ∫     ∫     ≥    ∫    
+  ∫         ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒŸ    ∫
+  ∫        <ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒø    ∫
+  ∫Int 13h   ∫     ∫ Monitors Disk Usage                    ∫     ∫     ≥    ∫
+  ∫         ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒŸ    ∫
+  ∫        <ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø        ∫     ∫          ∫
+  ∫Int 23h   ∫     ∫ Blocks Control-C Aborting     ≥        ∫     ∫          ∫
+  ∫         ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ        ∫     ∫          ∫
+  ∫        <ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø        ∫     ∫          ∫
+  ∫Int 24h   ∫     ∫ Blocks Critical Error         ≥        ∫     ∫          ∫
+  ∫         ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ        ∫     ∫          ∫
+  ∫        <ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒø    ∫
+  ∫Int 1Ch   ∫     ∫ Monitors Auxilliary Timer Tick         ∫     ∫     ≥    ∫
+  ∫         ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒŸ    ∫   
+  ∫        <ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒø    ∫
+  ∫Int 28h   ∫     ∫ Monitors Timer Tick                    ∫     ∫     ≥    ∫
+  ∫         ƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ◊ƒƒƒƒƒ◊ƒƒƒƒƒŸ    ∫
+  »ÕÕÕÕÕÕÕÕÕÕº     »ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº     »ÕÕÕÕÕÕÕÕÕÕº
+
+				       12	
+                                   
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    SECTION 2 MGABRA.OBJ LIBRARY FUNCTIONS
+
+    There are two files which contain the library functions.
+    MGABRA.OBJ contains the actual TSR functions and is all that you
+    really need MGUN.OBJ contains functions that deal will
+    uninstalling TSRs and polling them for information about their
+    status.
+
+    All the functions below are far functions meaning they are called
+    from your program with a far call. Simply including the external
+    declaration file (MGABRA.H) in your source code will take care of
+    telling your compiler this. The primary and only absolutely
+    essential function to use is TSRSET. The others are there to help
+    you polish your TSR. Because they are in assembly language their
+    parameter passing is set thus the cdecl in case you are compiling
+    your other functions with PASCAL conventions.
+
+    TSRSET(hotkey, tsrticks, dosticks, memory, screen, int28)
+
+    PROTOTYPE:
+    int far cdecl tsrset(int key, int dosticks, int tsrticks, int
+    mem, int scswap, int int28);
+
+    All the above parameters are 16 bit integer values.
+
+    The HOTKEY is passed as a word value, high byte is shift key bit
+    number and the low byte is the normal scan key status. So the
+    value 0x0201 hex would mean the HOTKEY was left shift escape
+    because 02 is the bit the left shift key activates when pressed
+    and 01 is the scan code of the escape key. APPENDIX 1 is a table
+    of the values associated with each key. As another NOTE your TSRs
+    in native state use the same HOTKEY for pop up as well as pop
+    out. Although once your TSR is active you can use any key combo
+    combined with the SWAP function (covered later) to swap out the
+    TSR.
+
+    Remember, these are NOT THE ASCII codes. They are a hardware
+    value sent by the keyboard whenever it is pressed. So you see the
+    Z key has only one value. This is because upper or lower case is
+    determined by the state of the shift keys, not solely by which
+    key is pressed.
+
+    The next parameter, memory is the size of memory to reserve for
+    the program when it terminates. This is the most complex and
+    maddening part of TSR programming and is covered more thoroughly
+    above. Bascially If you put a zero ABRACADABRA will determine
+    memory by asking DOS where the first area of free memory is and
+    truncating your program beneath that. If you put a -1 ABRACADABRA
+    will truncate your program at the base of it's stack and if you
+    put any other value ABRACADABRA will leave that many paragraphs
+    above the program's DS register (DATA SPACE) in memory and
+    relocate the stack safely within that area.
+
+
+                                   14
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    The tsrticks and dosticks parameters determine how many timer
+    ticks each process will get. The first parameter is how many
+    ticks the DOS program will get and the second is how many ticks
+    the TSR gets. This can be used to have a program continue to run
+    when it is swapped out. Remember that the timer tick occurs 18.2
+    times a second so if you want this value to be in seconds you
+    must multiply by 18.2.
+
+    The next parameter controls the manner in which the TSR will
+    manage screen when it is swapped. Each bit in this word has a
+    special function. If one, the corresponding function is enabled.
+    See APPENDIX 2 for a table of the specific values you can use
+    with this function.
+
+    The reason for the "swap by key" parameters is so you can have
+    your TCR running in background and if the user wants it full
+    blown into foreground only then will the screens swap. You
+    wouldn't want the screen swapping every 1/2 second if you were
+    running the TCR on the timer ticks. Your TCR can poll the
+    function SWPING and if it's true (1) then don't have it write to
+    the screen. If it's false (0) then that means your TCR has the
+    full screen so it's ok to write to it. Even better is to have
+    your TCR (Terminate Continue Running) write all it's output to a
+    video page other than 1. Then when you swap it in all the video
+    output it has created is live on that page. The function PUTCHR
+    has been provided for this purpose.
+
+    The INT28 is an option. If your TSR program uses DOS services
+    under 0CH you will not be able to invoke it under certain
+    circumstances. That is, whenever DOS is using those services.
+    They are all services that deal with screen I/O and keyboard
+    input. For greater versatility you should write your own screen
+    and keyboard I/O and never use language statements like PRINT and
+    INPUT (basic) but if you must, set this parameter to 0. You will
+    not be able to invoke the TSR from the COMMAND.COM prompt. If
+    your program does not use DOS services less than 0CH you can set
+    this flag to 1 which will allow you to invoke it in a greater
+    number of circumstances. The functions PUTCHR, CONOUT and INKEY
+    have been provided for you to go around DOS to do console I/O.
+    You can use them as primitives to construct your own console I/O
+    that does not use DOS.
+
+    Examples:
+
+    tsrset(0x083B, 5, 1, 0, 56, 1);
+
+    Set the HOTKEY to ALT-F1 (0x083B), have the program multitask
+    with 5 timer ticks of the DOS program for every 1 tick of the TCR
+    program. Have it figure out itself how much memory to retain (0).
+    Have it swap the entire screen content only when the hot key is
+    used (56) and it does not use any DOS functions below 0CH (1).
+
+    tsrset(0x78, 0, 0, 1000, 0, 0);
+
+                                   15
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+
+    Have the hotkey set to the gray plus (+) key, no timer tick
+    multitasking enables, have it save 1000 paragraphs of memory when
+    it initially loads and terminates. No inherent screen control
+    active and it uses DOS functions less than 0CH so don't let it
+    come up
+    when DOS is inputting a line of text.
+
+    SWPSCR(mode)
+
+    PROTOTYPE:
+    int far cdecl swpscr(int mode);
+
+    SWPSCR allows you to change the swapscreen parameter that you
+    originally set with TSRSET. Your TSR can dynamically change the
+    way it treats the screen by resetting the screen swap mode with
+    this function. The values of mode are the same as those used by
+    the TSRSET function. Sometimes your TSR will pop up a window and
+    you don't want to switch the whole screen, just the cursor, so
+    you can put a 1 here. If you want to whole screen swapped those
+    options are also available. In it's default state ABRACADABRA
+    ensures that no ugly snow appears on the screen when using the
+    Color Graphics Adapter. This slows down screen swapping so if
+    snow isn't a problem you can set the 256 bit on and it will skip
+    checking for snow.
+
+    HOTKEY(key)
+
+    PROTOTYPE:
+    int far cdecl hotkey(int keyval);
+
+    The HOTKEY function lets your TSR dynamically change the key
+    which activates it. The value of key is the same as that used in
+    TSRSET to initially set the hotkey. You can disable the hotkey by
+    assigning key the value 0.
+
+    Example:
+
+    hotkey(0);
+
+    disables HOTKEY action altogether.
+
+    hotkey(0x0839);
+
+    Sets the HOTKEY to ALT SPACE because 08 is the bit pattern for
+    Alt key press and 39h is the scan code of the space bar. Remember
+    this parameter takes a 16 bit integer so passing it in hex makes
+    it easier to see because the high byte is the first two hex
+    digits and the low byte is the second two.
+
+    TIMER(tsrticks, dosticks)
+
+    PROTOTYPE:
+
+                                   16
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    int far cdecl timer(int dosticks, int tsrticks);
+
+    The TIMER function allows your TSR to change the value of the
+    ticks parameters initially set with TSRSET. You can disable the
+    timer altogether by the statement timer(0, 0);.
+
+    Example:
+
+    timer(10, 1);
+
+    This gives the TSR 1 timer tick for every 10 of the foreground
+    DOS program.
+
+    SWAP
+
+    PROTOTYPE:
+    int far cdecl swap(void);
+
+    The swap function takes no parameters. It is used by your TSR to
+    exit and swap back in the program that was interrupted. So a TSR
+    can tell itself to swap out and this doesn't have to be
+    determined by a hot key only.
+
+    Example:
+    if (time == 012099) swap();
+
+    SWPING
+
+    PROTOTYPE:
+    int far cdecl swping(void);
+
+    SWPING is a function that sets nothing but returns a non-zero
+    value if the timer tick activation is currently on (meaning
+    multi-tasking is occurring) and 0 if the timer is disabled. If
+    you want your TSR to base some of it's activity on whether it is
+    multitasking or not you can use this function to determine that.
+
+    Example:
+
+    if (!swping()) conout("Hello There!");
+
+    Will ensure that your TCR won't print to the screen while another
+    program is running. It will only print this if the TCR is
+    switched in fully.
+
+    SWAPNO, SWAPYES
+
+    PROTOTYPES:
+    int far cdecl swapno(void);
+    int far cdecl swapyes(void);
+
+
+
+
+                                   17
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    SWAPNO enables or disables swapping entirely. Sometimes there may
+    be a critical function happening and you don't want swapping to
+    occur so you call SWAPNO. To re-enable swapping call SWAPYES.
+
+    Example:
+
+    swapno();
+
+    Would disable swapping entirely. The only way to re-enable it is
+    for the TSR to execute
+
+    swapyes();
+
+    STATUS(value)
+
+    PROTOTYPE:
+    int far cdecl status(int val);
+
+    STATUS is a way for you to set a value which tells other MAGIC
+    tsrs when they ask, what the status is of this TSR. For example
+    if you want to remove a TSR you ask it first if it is OK (It may
+    have files open or other non-interruptable procedures). You
+    determine what the values mean, status just sets a value from 0
+    to 65535.
+
+    Example:
+
+    status(12)
+
+    Now when any program asks PROCST(<tsr address>); it would receive
+    a 12 in return. You can have the numbers mean whatever you want
+    and supposedly your collection of TSRs would share a common set
+    of status codes.
+
+    ID(number)
+
+    PROTOTYPE:
+    int far cdecl id(int id);
+
+    ID is like status except it allows you to have the TSR set a
+    number for an identification. If you write multiple TSRs and have
+    a collection each should call ID with it's own unique number.
+    That way programs which poll the TSRs know which one they are
+    talking to.
+
+    INKEY
+
+    PROTOTYPE:
+    int far cdecl inkey(void);
+
+    Inkey waits for the next keystroke and returns an int value
+    representing it. It is talking directly to the BIOS so bypasses
+    DOS. This way you don't have to worry about the interrupt 28h
+
+                                   18
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    problem. The returned integer value has to be broken down. The
+    high byte is the ASCII code of the character typed. If it is a
+    zero it means a special key was typed, like F1 or PGUP. The low
+    byte is the scan code of the key that was typed. You can do
+    whatever you want with this information. Remember that INKEY does
+    not echo to the screen. YOU have to write that in.
+
+    Example:
+
+    int k;
+    char h;
+    char *s;
+    conout("Enter Your Name");
+    k = inkey();
+    h = k/256;
+    while(h <> "\015"){
+       *s++ = h;
+       k = inkey();
+       h = k/256;
+    }
+
+    CONOUT(string)
+
+    PROTOTYPE:
+    int far cdecl conout(char far *s);
+
+    You pass conout the address of the null terminated string and it
+    outputs the string on the console. It bypasses DOS and thus gets
+    around the interrupt 28 problem. It is possible to use printf
+    like functions. You have to use SPRINTF which sends the formatted
+    string to memory and then use conout to send that memory block to
+    the console. Cursor position is automatically updated to the end
+    of the string. CONOUT uses BIOS video function 14.
+
+    Example:
+    conout("Hey dude! Your TSR is working! Let's Party!");
+
+    PUTCHR(cursor row, column, video page, attribute, character)
+
+    PROTOTYPE:
+    int far cdecl putchr(int row, int col, int page, int att, char
+    c);
+
+    Putchr allows a pin point placement of a character anywhere in
+    the pc's video pages with whatever attribute you want. You pass
+    it all this information. With this service however the cursor
+    position is not automatically updated. You have to handle that
+    yourself.
+
+    Example:
+
+    putchr(12, 40, 2, 16, 'X');
+
+
+                                   19
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    Would put an X in the middle of video page 2 with color attribute
+    16.
+
+    MGUN FUNCTIONS
+
+    The functions in MGUN deal with de-installing TSRS.
+
+    TSRS
+
+    PROTOTYPE:
+    int far cdecl tsrs(void);
+
+    TSRS returns non-zero if any MAGIC TSR's are in memory and 0 if
+    not.
+
+    FIRSTSR
+
+    PROTOTYPE:
+    int far * cdecl far firstsr(void);
+
+    FIRSTSR returns a 32 bit pointer to the first TSR in the chain of
+    TSR's in memory. Note: it does not point to the TSRs PSP or base,
+    only to it's external access function CLEAR. This is so other
+    routines, now knowing this address, can call it and get
+    information about the TSR. If FIRSTSR returns a 0 there are no
+    MAGIC TSRs in memory.
+
+    You don't have to treat this pointer as other than a 4 byte value
+    as you will only use it as a parameter to the other functions in
+    this section. i.e. don't get muddled about what how you are going
+    to manipulate a 4 byte pointer, just declare the pointer variable
+    as such and use it. The internals are taken care of.
+
+    PROCID(tsr address)
+
+    PROTOTYPE:
+    int far cdecl procid(int far *f);
+
+    PROCID when passed the address of a TSR (Determined with FIRSTSR
+    or NEXTSR) will return the integer value set with ID by the TSR.
+    You can tell which TSR is which by using this function.
+
+    PROCST(tsr address)
+
+    PROTOTYPE:
+    int far cdecl procst(int far *f);
+
+    PROCST when given the address of a TSR will return the status
+    code set with the STATUS function. You can tell what a TSR is up
+    to
+    if it sets this appropriately with STATUS. Remember, the status
+    is just a number. You determine what it means and your collection
+    of TSRs should all share a common set of status meanings.
+
+                                   20
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+
+    NEXTSR(tsr address)
+
+    PROTOTYPE:
+    int far * cdecl far nextsr();
+
+    Given the address of one TSR NEXTSR will return the address of
+    the next one. If it returns a 0 there is no next one.
+
+    UN(tsr address)
+
+    PROTOTYPE:
+    int far cdecl un(int far *f);
+
+    UN when passed a TSR address will uninstall it and return to DOS
+    any memory it was using. A TSR cannot UN itself when it is in
+    residency. TSR's MUST be uninstalled in reverse order they were
+    installed. This may seem inconvenient but in reality MS-DOS does
+    not deallocate memory until memory above is deallocated so it
+    doesn't do any good to de-install a TSR below another one.
+
+    CHECK(id)
+
+    PROTOTYPE:
+    int far * cdecl far check(int id);
+
+    If you give check an id it will return a far (32 bit) pointer the
+    tsr with that id is in memory or a zero if it isn't. You can use
+    it in the beginning of a program load and give a message like
+    "Program Already Loaded" so they don't load a duplicate of the
+    thing.
+
+    SUMMING IT ALL UP
+
+    Now that we have looked at all the theory behind what goes on
+    lets run down step by step what you have to do to create your
+    TSR.
+
+    1. Write your program as a normal DOS program BUT use the special
+    MGABRA console I/O functions, CONOUT, PUTCHR and INKEY. Debug it
+    thoroughly. Remember a TSR crashing will crash the whole system.
+    Also put in STATUS functions with appropriate values wherever the
+    program is doing something that makes it dangerous to remove from
+    memory.
+
+    2. Decide where your program is going to put it's video output.
+    If it will run concurrently with the foreground DOS program you
+    can't have it printing to video page 0 ALL the time.
+
+    3. Remove any code that lets the program terminate. A TSR can
+    NEVER terminate like a normal program. It must be uninstalled.
+    You can leave CONTROL-BREAK active for now though because the
+    next step will seal that one up.
+
+                                   21
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+
+    4. Add the TSRSET function near the beginning of the program,
+    preferably immediately after you have set up the screen mode for
+    your program. Also call the ID function with a number for program
+    identification just before you call TSRSET.
+
+    5. Use 0 for parameter 4 of TSRSET. Compile, link and execute. If
+    the system crashes you should experiment with non-zero values for
+    this until the program loads without crashing. Sometimes it is
+    better to make all the TSRSET parameters command line changeable
+    so you can rapidly get the best combination before you hard code
+    them in.
+
+    6. Run your TSR and fine tune it with the other MGABRA and MGUN
+    functions.
+
+    PROBLEMS
+
+    Here are some common problems and their solutions:
+
+    WHEN TSR/TCR IS INVOKED THE SYSTEM CRASHES
+
+    Ok. Before you make your program a TSR, run it as a normal
+    program. If it runs ok only then have it call TSRSET. If it then
+    crashes the problem is most likely that the stack has been moved
+    into the code and scrambled the interrupt handlers. Just give
+    your TSR more resident space. Always start with parameter 4 at
+    zero as this is the safest route.
+
+    TSR LOADS FINE BUT SYSTEM CRASHES AS SOON AS NEXT PROGRAM IS
+    LOADED
+
+    The problem is the same as the above except in this case the next
+    program load is loading into the TSR's interrupt vector code and
+    scrambling it. The TSR has simply been truncated too short.
+    Increase the value of the fourth parameter in TSRSET.
+
+    TSR LOADS UP BUT DATA IS SCRAMBLED WHEN I RUN IT OR IT GOES OFF
+    INTO NEVER NEVER LAND AND THE SCREEN IS FULL OF GARBAGE.
+
+    Some run time architecture puts the stack beneath the data at
+    runtime. You have to manually experiment with the proper value
+    for the 4th parameter in TSRSET. Set it quite large, say 10,000
+    and work down getting the lowest possible value you can without
+    crashing it. That 4th parameter basically relocates the stack.
+    You want to make sure it goes above all your CONSTANT DATA and
+    HEAP.
+
+    TSR LOADS AND EXECUTES BUT SYSTEM CRASHES AFTER I RETURN TO
+    INTERRUPTED PROGRAM.
+
+
+
+
+                                   22
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    There is a good possibility that the TSR courrupted the other
+    program's memory. Remember if you are using a large memory model
+    runtime architecture with your compiled language that using
+    dynamic memory allocation will cause the TSR to allocate memory
+    from possibly already in use areas. Very nasty as it could be
+    eating the interrupted program. Try a small memory model and see
+    if it's ok then.
+
+    TSR LOADS UP BUT SYSTEM GIVES FATAL: INTERNAL STACK ERROR AFTER I
+    INVOKE THE TSR AND RETURN TO THE INTERRUPTED PROGRAM.
+
+    Some of your code is using DOS functions 0CH or less to do
+    console I/O. You are probably using WRITELN, WRITE, PRINTF,
+    PRINT, INKEY, INPUT, SCANF or something like that. Instead use
+    our provided functions for this or else put a 0 in the sixth
+    parameter of TSRSET.
+
+    TSR LOADS UP BUT SYSTEM CRASHES WHEN I TRY TO INVOKE IT
+
+    Almost always a stack problem as outlined above. Experiment with
+    different values for the 4th TSRSET parameter.
+
+    IMPORTANT TIPS ON WRITING TSRS
+
+    Remember your TSR is running somewhat in violation of the laws of
+    DOS so there are some things you can't do.
+
+    Don't have your program terminate normally. If you do DOS returns
+    to COMMAND.COM and you'll have two COMMAND.COMs operating side by
+    side and not for long either. Any second the system will go
+    splat. Of course this could be interesting but unless that is the
+    intent of your program the user will get very confused. The only
+    way to remove your TSR gracefully from memory is with the UN
+    function. If you terminate that way your interrupt handlers are
+    still live and DOS will de-allocate them at which point your
+    machine will go bye bye.
+
+    If you have a TCR like a modem program that runs in background
+    remember not to have it write to the console because it will
+    overwrite the foreground program. While not fatal it is messy.
+    You can have your TCR (with CGA or EGA) write to a separate video
+    page. That way when you invoke it with the HOTKEY all the data
+    that has been scrolling by will be there. Or you could use the
+    SWPING function and only allow it to write when it isn't
+    multitasking. Of course this way you lose any screen output
+    occurring during that time. There are ways around this and
+    ABRACADABRA gives you the primitives to implement it. You have to
+    use your imagination. But then, that's why you are a programmer
+    isn't it?
+
+    In general since TSR's are meant to be utilities you want them to
+    be as small as possible. If you are using a compiled language you
+    will run into the problem that most of them allocate minimally
+
+                                   23
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    64k to data ON TOP OF CODE. Some of the languages provide
+    functions to size down that area so use those before you call
+    TSRSET. Using the default of 0 for parameter 4 is not always the
+    best thing to do. You may have to manually experiment with the
+    best value here. For C we have found the COMPACT model to create
+    the smallest TSRs, not the SMALL or TINY models.
+
+    In all our endeavors here at MAGIC we have found that the context
+    switching is the most robust section of ABRACADABRA. Swapping
+    processes is NEVER the problem. 95% of the problems are caused by
+    the initial Terminate and Stay Resident phase and how much data
+    and stack space remains. Once you get by that hassle you are home
+    free.  The other 5% are non-fatal and are caused by screen,
+    cursor and keyboard conflicts. For example, some programs do not
+    use the BIOS to position the cursor so when we get their cursor
+    position to save it prior to swapping it is inaccurate and thus
+    restores to a funny position when they swap back in. Non-Fatal of
+    course but messy. It usually re-positions on the first keystroke.
+    Some machines like the Compaqs give an electronic POP and blank
+    out noticeably when you swap screens. You can also hear little
+    electronic chatter from the box when they are writing to other
+    than video page 0. There's nothing to be done about that for now,
+    it's a hardware problem!
+
+    You can't have two or more multitasking TCRs running at once.
+    When they swap they start choking each other by restoring a half
+    swapped foreground process. You end up with just one in control
+    of the entire machine unable to swap out.
+
+    Remember to have your TSR's set status codes appropriate to their
+    conditions. If you open files make sure the user doesn't
+    un-install it without closing them first or else he'll lose that
+    data. You use the STATUS function for that.
+
+    Call TSRSET early on because once it is used you cannot return to
+    any code prior to it's calling. Because it has possibly truncated
+    any stack returns prior to it's calling.
+
+    Run your programs as NON-TSR's first to make sure they are fully
+    debugged. A TSR crashing usually crashes the whole system, not
+    just itself.
+
+    You may have custom needs for which the default ABRACADABRA
+    library is not suited. For that you will need to also purchase
+    the source code. It is easy to modify and well documented.
+
+    If you are working in the TURBO C integrated environment don't
+    RUN your TSR from within it. Otherwise you are loading as a child
+    process of TURBO C and when you exit TURBO C your TSR will be
+    removed from memory which means all the interrupts you were
+    orchestrating will be going nowhere and the system will
+    immediately crash.
+
+
+                                   24
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    If you have the source code remember when you assemble it to use
+    the /mx option to preserve case sensitivity. Otherwise when you
+    link, all the ABRACADABRA externals will not resolve.
+
+    All the ABRACADABRA functions are FAR FUNCTIONS so you can use
+    them with any of the memory models. We have found that the
+    smallest TSRs result when using the compact model but on occasion
+    they don't work at all with that memory model.
+
+    We here at MAGIC like to consider ourselves hackers in the
+    lowliest sense of the word and we are here to support what we
+    hope is an upcoming generation of youngsters who consider the
+    ability to program as a prerequisite to life.
+
+    Happy Hacking!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   25
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    ~B~APPENDIX 1 Key Scan Code Values
+    ~LH8~
+    ~G~SHIFT KEY VALUES (high byte)
+
+        0 = normal
+        1 = right shift
+        2 = left shift
+        4 = control
+        8 = alt
+       16 = scroll lock
+       32 = num lock
+      128 = insert
+
+    ~G~NORMAL KEY SCAN CODES (low byte)
+
+    KEY  SCAN CODE    KEY  SCAN CODE    KEY  SCAN CODE  KEY  SCAN
+    CODE
+    ===  =========    ===  =========    ===  =========  ===
+    =========
+    1         2       K         37      ;         39    BACKARROW 14
+    2         3       L         38      '         40    RETURN    28
+    3         4       M         50      `         41    GREY -    74
+    4         5       N         49      \         43    GREY +    78
+    5         6       O         24      ,         51    HOME      71
+    6         7       P         25      /         53    PGUP      73
+    7         8       Q         16      *         55    PGDN      81
+    8         9       R         19      SPACE     57    END       79
+    9         10      S         31      ESCAPE    1     UP        72
+    0         11      T         20      F1        59    DOWN      80
+    A         30      U         22      F2        60    RIGHT     77
+    B         48      V         47      F3        61    LEFT      75
+    C         46      W         17      F4        62
+    D         32      X         45      F5        63
+    E         18      Y         21      F6        64
+    F         33      Z         44      F7        65
+    G         34      -         12      F8        66
+    H         35      =         13      F9        67
+    I         23      [         26      F10       68
+    J         36      ]         27      .         52
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   26
+
+
+
+    ABRACADABRA! For Turbo C by Walt Howard Jr. 213-477-4151
+
+
+    ~B~APPENDIX 2 Screen Swap Parameter Values
+    ~G~
+
+        1 = swap cursor whenever programs swap
+        2 = save screen whenever programs swap
+        4 = restore screen whenever programs swap
+        8 = swap cursor only if TSR swap by key
+       16 = save screen only if TSR swap by key
+       32 = restore screen only if TSR swap by key
+      256 = don't take any precautions to avoid "snow" on screen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   27
+

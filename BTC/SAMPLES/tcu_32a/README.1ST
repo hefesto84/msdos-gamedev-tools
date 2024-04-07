@@ -1,0 +1,70 @@
+
+============================================================================
+                       NOTES TO TCU 3.2 DELIVERY
+============================================================================
+
+
+
+Naming Convention
+-----------------
+
+In order to provide a safer naming convention, all services now
+have the prefix 'tcu_'.  For example, 'load_form' is now called
+'tcu_load_form'.  Furthermore, all upper-case constants and types
+defined in TCU.H are prefixed with 'TCU_', e.g. TCU_MENU. By
+defining the symbol '__TCUPRE32__' the old naming conventions may
+still be used though this will be discontinued at some future stage.
+All new code should use the 'tcu_' & 'TCU_' prefixes, and existing
+code should, in time, be modified to conform to the new names. The
+definition of the symbol __TCUPRE32__ may be done either in the
+integrated environment, with the command line compiler option
+-D__TCUPRE32__ or by explicitly defining it in the code as:
+
+   #define __TCUPRE32__
+   #include <usr\tcu.h>
+
+Note that the new services added with version 3.2 have no old
+style naming convention.  'tcu_write_formrec' may not be specified
+as 'write_formrec'.
+
+
+
+Installation Program
+--------------------
+
+Version 3.2 comes complete with an installation procedure to make
+installation of the system simpler.  The installation does nothing
+other than to copy files and merge libraries if requested.  There
+are no nasty surprises!  The installation program source code is
+supplied as an additional demonstration.
+
+In order to install the system, unpack the COMPLETE distribution
+file, TCU_32.ZIP, into a temporary directory, move into this
+directory and type 'tcuinst'.  After installation the complete
+directory may be deleted as any files required will have been
+copied to the final destinations.  An example installation session
+is shown below:
+
+C:\> md tcu_tmp
+C:\> cd tcu_tmp
+C:\TCU_TMP> pkunzip a:tcu_32
+
+    :         :        :
+    :         :        :
+
+C:\TCU_TMP> tcuinst
+C:\TCU_TMP> del *.*
+Are you sure? y
+
+C:\TCU_TMP> cd ..
+C:\> rd tcu_tmp
+C:\>
+
+The system will now have been installed (provided you completed the
+procedure within TCUINST).
+
+Please be sure to read AA-READ.ME! and TCU.DOC for full information
+on changes since the last version and a reference guide to this
+version.
+
+============================================================================
