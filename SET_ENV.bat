@@ -1,2 +1,2 @@
-set PATH=H:\DJGPP\bin;H:\DIV2;H:\BTC\TC\;H:\ASM\;%PATH%
-set DJGPP=H:\DJGPP\djgpp.env
+set PATH=C:\DJGPP\bin;C:\DIV2;C:\BTC\TC\;C:\ASM\;%PATH%
+set DJGPP=C:\DJGPP\djgpp.env
